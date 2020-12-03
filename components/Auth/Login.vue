@@ -1,40 +1,57 @@
 <template>
-  <div class="app center content-inputs">
-    <Logo />
-    <vs-input color="#6e00ff" v-model="username" placeholder="Username">
-      <template #icon>
-        <i class="bx bx-user"></i>
-      </template>
-    </vs-input>
-    <vs-input
-      type="password"
-      color="#6e00ff"
-      v-model="password"
-      placeholder="Password"
-      :progress="getProgress"
-      :visiblePassword="hasVisiblePassword"
-      icon-after
-      @click-icon="hasVisiblePassword = !hasVisiblePassword"
-    >
-      <template #icon>
-        <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
-        <i v-else class="bx bx-hide"></i>
-      </template>
+  <div class="container m-auto min-h-screen">
+    <div class="grid grid-cols-3 gap-4">
+      <div></div>
+      <div>
+        <Logo />
+        <vs-input
+          color="#6e00ff"
+          v-model="username"
+          placeholder="Username"
+          class="my-5"
+        >
+          <template #icon>
+            <i class="bx bx-user"></i>
+          </template>
+        </vs-input>
+        <vs-input
+          type="password"
+          color="#6e00ff"
+          v-model="password"
+          placeholder="Password"
+          :progress="getProgress"
+          :visiblePassword="hasVisiblePassword"
+          icon-after
+          @click-icon="hasVisiblePassword = !hasVisiblePassword"
+        >
+          <template #icon>
+            <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
+            <i v-else class="bx bx-hide"></i>
+          </template>
 
-      <template v-if="getProgress >= 100" #message-success>
-        Secure password
-      </template>
-    </vs-input>
-    <div class="flex">
-      <vs-checkbox v-model="remember">Remember me</vs-checkbox>
-      <a href="#">Forgot Password?</a>
+          <template v-if="getProgress >= 100" #message-success>
+            Secure password
+          </template>
+        </vs-input>
+        <div
+          class="flex justify-between items-center text-sm my-3 text-gray-700"
+        >
+          <vs-checkbox v-model="remember">Remember me</vs-checkbox>
+          <a href="#">Forgot Password?</a>
+        </div>
+        <vs-button block gradient size="large" animation-type="vertical">
+          Sign In
+          <template #animate>
+            <i class="bx bxs-game"></i>
+          </template>
+        </vs-button>
+        <div class="flex justify-center text-sm mt-3">
+          <span class="text-gray-700">New Here?</span>
+          <a class="ml-3 text-purple-600" href="#">Create New Account</a>
+        </div>
+      </div>
+      <div></div>
     </div>
-    <vs-button>
-      Login
-      <template #animate>
-        <i class="bx bx-home-alt"></i>
-      </template>
-    </vs-button>
   </div>
 </template>
 <script>
@@ -88,10 +105,3 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-</style>
