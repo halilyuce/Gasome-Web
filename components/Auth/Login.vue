@@ -1,13 +1,17 @@
 <template>
-  <div class="container m-auto min-h-screen">
-    <div class="grid grid-cols-3 gap-4">
-      <div></div>
-      <div class="mt-10">
+  <div class="container m-auto">
+    <div class="grid grid-cols-6 lg:grid-cols-5 gap-4 min-h-screen">
+      <div class="p-10 lg:p-20 my-auto col-span-6 md:col-span-3 lg:col-span-2">
+        <div class="flex justify-start my-5">
+          <Logo />
+        </div>
         <div class="flex justify-between items-center">
-          <vs-button shadow size="large" :active="true" animation-type="scale">
-            <b class="mx-5 text-gray-500">Sign Up</b>
+          <vs-button shadow border animation-type="scale">
+            <b class="mx-5">Sign Up</b>
 
-            <template #animate> <i class="bx bxs-game"></i> </template>
+            <template #animate>
+              <i class="bx bxs-face"></i>
+            </template>
           </vs-button>
           <vs-switch v-model="isDark">
             <template #circle>
@@ -64,48 +68,35 @@
           >
         </div>
         <div class="my-5 separator">or continue with</div>
-        <div class="grid grid-cols-3 gap-8">
-          <vs-button
-            shadow
-            border
-            color="#a0aec0"
-            size="xl"
-            animation-type="scale"
-          >
+        <div class="grid grid-cols-3 gap-2">
+          <vs-button shadow size="xl" animation-type="scale">
             <i class="bx bxl-google"></i>
             <template #animate> Google </template>
           </vs-button>
-          <vs-button
-            shadow
-            color="#a0aec0"
-            border
-            size="xl"
-            animation-type="scale"
-          >
+          <vs-button shadow size="xl" animation-type="scale">
             <i class="bx bxl-apple"></i>
             <template #animate> Apple </template>
           </vs-button>
-          <vs-button
-            border
-            color="#a0aec0"
-            shadow
-            size="xl"
-            animation-type="scale"
-          >
+          <vs-button shadow size="xl" animation-type="scale">
             <i class="bx bxl-facebook"></i>
             <template #animate> Facebook </template>
           </vs-button>
         </div>
       </div>
-      <div></div>
+      <div class="col-span-3 hidden md:flex">
+        <lottie :options="lottieOptions" v-on:animCreated="handleAnimation" />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Logo from '~/components/Logo.vue'
+import lottie from 'vue-lottie/src/lottie.vue'
+import * as animationData from '~/assets/lottie/login.json'
 export default {
   components: {
     Logo,
+    lottie,
   },
   data: () => ({
     username: '',
@@ -113,6 +104,8 @@ export default {
     remember: false,
     hasVisiblePassword: false,
     isDark: false,
+    anim: null,
+    lottieOptions: { animationData: animationData.default },
   }),
   watch: {
     isDark(val) {
@@ -129,6 +122,11 @@ export default {
   },
   mounted() {
     this.isDark = localStorage.getItem('mode') === 'light' ? true : false
+  },
+  methods: {
+    handleAnimation: function (anim) {
+      this.anim = anim
+    },
   },
   computed: {
     getProgress() {
