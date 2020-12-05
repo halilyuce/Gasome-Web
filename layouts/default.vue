@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <sidebar />
+  <div class="bg-white dark:bg-black dark:text-white">
     <Nuxt />
   </div>
 </template>
 <script>
-import Sidebar from '../components/Layout/Sidebar.vue'
 export default {
-  components: { Sidebar },
+  name: 'default',
+  mounted() {
+    this.$store.dispatch(`getSettings`)
+    const mode = localStorage.getItem('mode')
+    if (mode && mode === 'light') {
+      this.$vs.setTheme('light')
+    } else {
+      this.$vs.setTheme('dark')
+    }
+  },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden">
+  <div>
     <vs-sidebar absolute v-model="active" open>
       <template #logo>
         <Logo />
