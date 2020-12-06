@@ -6,9 +6,9 @@
           <Logo />
         </div>
         <div class="flex justify-between items-center">
-          <n-link :to="'/register'">
+          <n-link :to="'/login'">
             <vs-button shadow border animation-type="scale">
-              <b class="mx-5">Sign Up</b>
+              <b class="mx-5">Sign In</b>
 
               <template #animate>
                 <i class="bx bxs-face"></i>
@@ -24,6 +24,16 @@
         </div>
         <vs-input
           color="#6e00ff"
+          v-model="fullname"
+          placeholder="Full Name"
+          class="my-5"
+        >
+          <template #icon>
+            <i class="bx bxs-face"></i>
+          </template>
+        </vs-input>
+        <vs-input
+          color="#6e00ff"
           v-model="username"
           placeholder="Username"
           class="my-5"
@@ -33,9 +43,20 @@
           </template>
         </vs-input>
         <vs-input
+          color="#6e00ff"
+          v-model="email"
+          placeholder="E-mail Adress"
+          class="my-5"
+        >
+          <template #icon>
+            <i class="bx bx-mail-send"></i>
+          </template>
+        </vs-input>
+        <vs-input
           type="password"
           color="#6e00ff"
           v-model="password"
+          class="my-5"
           placeholder="Password"
           :progress="getProgress"
           :visiblePassword="hasVisiblePassword"
@@ -51,23 +72,15 @@
             Secure password
           </template>
         </vs-input>
-        <div
-          class="flex justify-between items-center text-sm my-3 text-gray-700"
-        >
-          <vs-checkbox v-model="remember">Remember me</vs-checkbox>
-          <a href="#">Forgot Password?</a>
-        </div>
         <vs-button block size="large" animation-type="vertical">
-          <b>Sign In</b>
+          <b>Register</b>
           <template #animate>
             <i class="bx bxs-game"></i>
           </template>
         </vs-button>
         <div class="flex justify-center text-sm my-5">
-          <span class="text-gray-700">New Here?</span>
-          <a class="ml-3 text-purple-600 font-bold" href="#"
-            >Create New Account</a
-          >
+          <span class="text-gray-700">Already have an account?</span>
+          <a class="ml-3 text-purple-600 font-bold" href="#">Login</a>
         </div>
         <div class="my-5 separator">or continue with</div>
         <div class="grid grid-cols-3 gap-2">
@@ -94,13 +107,15 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import lottie from 'vue-lottie/src/lottie.vue'
-import * as animationData from '~/assets/lottie/login.json'
+import * as animationData from '~/assets/lottie/register.json'
 export default {
   components: {
     Logo,
     lottie,
   },
   data: () => ({
+    fullname: '',
+    email: '',
     username: '',
     password: '',
     remember: false,
