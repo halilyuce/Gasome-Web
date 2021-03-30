@@ -7,6 +7,7 @@
 export default {
   name: 'default',
   mounted() {
+    this.$vs.setColor('primary', '#6e00ff')
     this.$store.dispatch(`getSettings`)
     const mode = localStorage.getItem('mode')
     if (mode && mode === 'light') {
