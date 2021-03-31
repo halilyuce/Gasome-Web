@@ -8,6 +8,7 @@
   .separator {
     color: $gray-700;
   }
+
   .separator::before,
   .separator::after {
     border-bottom: 1px solid $gray-700;
@@ -20,6 +21,7 @@
   text-align: center;
   color: $gray-500;
 }
+
 .separator::before,
 .separator::after {
   content: '';
@@ -30,6 +32,17 @@
 .separator::before {
   margin-right: 1em;
 }
+
 .separator::after {
   margin-left: 1em;
+}
+
+.vs-sidebar-content {
+  .vs-sidebar {
+    justify-content: center;
+  }
+
+  .vs-sidebar__logo {
+    padding: 0
+  }
 }

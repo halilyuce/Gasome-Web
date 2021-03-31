@@ -49,6 +49,11 @@ export default {
           ...theme('colors'),
           black: '#1e2023',
         }),
+        extend: {
+          colors: {
+            'content-bg': '#161719',
+          },
+        },
       },
       corePlugins: {
         preflight: false,
@@ -80,7 +85,7 @@ export default {
 
   colorMode: {
     preference: 'system',
-    fallback: 'light',
+    fallback: 'dark',
     storageKey: 'mode',
   },
 

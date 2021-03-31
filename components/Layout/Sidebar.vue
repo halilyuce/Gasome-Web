@@ -1,6 +1,13 @@
 <template>
   <div>
-    <vs-sidebar absolute v-model="active" open>
+    <vs-sidebar
+      relative
+      reduce
+      v-model="active"
+      :textWhite="false"
+      open
+      class="min-h-screen"
+    >
       <template #logo>
         <Logo />
       </template>
@@ -22,12 +29,6 @@
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item id="notifications">
-        <template #icon>
-          <i class="bx bxs-bell"></i>
-        </template>
-        Notifications
-      </vs-sidebar-item>
       <vs-sidebar-item id="chat">
         <template #icon>
           <i class="bx bxs-chat"></i>
@@ -36,27 +37,38 @@
       </vs-sidebar-item>
 
       <template #footer>
-        <vs-row justify="space-between">
-          <vs-avatar>
-            <img src="~assets/img/avatar.jpeg" alt="Avatar" />
-          </vs-avatar>
+        <vs-avatar
+          badge-color="danger"
+          badge-position="top-right"
+          class="ml-1"
+          @click="openNotificationUser"
+        >
+          <i class="bx bx-bell"></i>
 
-          <vs-avatar badge-color="danger" badge-position="top-right">
-            <i class="bx bx-bell"></i>
-
-            <template #badge> 28 </template>
-          </vs-avatar>
-        </vs-row>
+          <template #badge>
+            <span class="dark:text-white">28</span>
+          </template>
+        </vs-avatar>
       </template>
     </vs-sidebar>
   </div>
 </template>
 <script>
 import Logo from '../Logo.vue'
+import likeNotification from '../Notifications/Like.vue'
 export default {
-  components: { Logo },
+  components: { Logo, likeNotification },
   data: () => ({
     active: 'home',
   }),
+  methods: {
+    openNotificationUser() {
+      const noti = this.$vs.notification({
+        duration: 'none',
+        width: 'auto',
+        content: likeNotification,
+      })
+    },
+  },
 }
 </script>
