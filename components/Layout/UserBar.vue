@@ -26,35 +26,38 @@
         </div>
       </div>
 
-      <vs-button gradient block size="small" :active="true">
+      <vs-button block>
         <span @click="openNotificationCookie">Edit Profile</span>
       </vs-button>
 
-      <div class="grid grid-cols-6 gap-5 mt-10">
-        <div
-          class="bg-gray-50 dark:bg-black rounded-xl shadow-xl py-3 col-span-3"
-        >
+      <div class="grid grid-cols-6 gap-2 mt-10">
+        <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
           <div class="flex flex-col items-center">
             <h2>39</h2>
             <span class="text-gray-400 text-xs">Swaps</span>
           </div>
-        </div>
-        <div
-          class="bg-gray-50 dark:bg-black rounded-xl shadow-xl py-3 col-span-3"
-        >
+          <template #animate>
+            <i class="bx bxs-hand-up text-3xl"></i>
+          </template>
+        </vs-button>
+        <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
           <div class="flex flex-col items-center">
-            <h2>52</h2>
+            <h2>91</h2>
             <span class="text-gray-400 text-xs">Wishes</span>
           </div>
-        </div>
-        <div
-          class="bg-gray-50 dark:bg-black rounded-xl shadow-xl py-3 col-span-6"
-        >
+          <template #animate>
+            <i class="bx bx-library text-3xl"></i>
+          </template>
+        </vs-button>
+        <vs-button shadow size="xl" animation-type="scale" class="col-span-6">
           <div class="flex flex-col items-center">
-            <h2>120</h2>
+            <h2>124</h2>
             <span class="text-gray-400 text-xs">Played Games</span>
           </div>
-        </div>
+          <template #animate>
+            <i class="bx bx-time text-3xl"></i>
+          </template>
+        </vs-button>
       </div>
     </div>
   </div>

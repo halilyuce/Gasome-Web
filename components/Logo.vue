@@ -4,13 +4,13 @@
       class="NuxtLogo"
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      width="28pt"
-      height="40pt"
-      viewBox="0 0 28 40"
+      width="22pt"
+      height="36pt"
+      viewBox="0 0 24 36"
       preserveAspectRatio="xMidYMid meet"
     >
       <g
-        transform="translate(0,40) scale(0.0040,-0.0040)"
+        transform="translate(0,35) scale(0.0035,-0.0035)"
         fill="#7850ff"
         stroke="none"
       >

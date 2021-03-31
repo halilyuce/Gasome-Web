@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white dark:bg-content-bg dark:text-white grid grid-cols-12 gap-0"
+    class="bg-gray-100 dark:bg-content-bg dark:text-white grid grid-cols-12 gap-0"
   >
     <div class="col-span-3 flex">
       <sidebar />

@@ -240,7 +240,9 @@
 
     <p>We use cookies to make your experience on this website better.</p>
 
-    <vs-button @click="accept" block dark> I Like Cookies </vs-button>
+    <vs-button @click="accept" block dark>
+      <span class="text-white"> I Like Cookies</span>
+    </vs-button>
   </div>
 </template>
 <script>

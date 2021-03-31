@@ -37,38 +37,19 @@
       </vs-sidebar-item>
 
       <template #footer>
-        <vs-avatar
-          badge-color="danger"
-          badge-position="top-right"
-          class="ml-1"
-          @click="openNotificationUser"
-        >
-          <i class="bx bx-bell"></i>
-
-          <template #badge>
-            <span class="dark:text-white">28</span>
-          </template>
-        </vs-avatar>
+        <vs-button danger icon>
+          <i class="bx bx-power-off"></i>
+        </vs-button>
       </template>
     </vs-sidebar>
   </div>
 </template>
 <script>
 import Logo from '../Logo.vue'
-import likeNotification from '../Notifications/Like.vue'
 export default {
-  components: { Logo, likeNotification },
+  components: { Logo },
   data: () => ({
     active: 'home',
   }),
-  methods: {
-    openNotificationUser() {
-      const noti = this.$vs.notification({
-        duration: 'none',
-        width: 'auto',
-        content: likeNotification,
-      })
-    },
-  },
 }
 </script>
