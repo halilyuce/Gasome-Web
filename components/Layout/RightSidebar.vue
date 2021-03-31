@@ -13,7 +13,7 @@
           <i class="bx bx-cog text-xl"></i>
         </vs-button>
         <vs-avatar
-          size="35"
+          size="36"
           primary
           badge-color="danger"
           badge-position="top-right"
@@ -28,6 +28,7 @@
         </vs-avatar>
       </div>
     </div>
+
     <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-4">
       <h3>Most Spoken</h3>
       <ul
@@ -52,6 +53,11 @@
           </vs-button>
         </li>
       </ul>
+    </div>
+
+    <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-8">
+      <h3>User Suggestions</h3>
+      <div class="flex justify-start mt-3"></div>
     </div>
   </div>
 </template>

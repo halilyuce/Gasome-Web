@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col items-center w-full mt-6">
-    <div class="mx-10">
-      <div class="flex flex-row">
-        <vs-avatar size="60" history badge badge-color="success">
+  <div class="flex flex-col items-center w-full my-5">
+    <div class="flex flex-col mx-7 h-full">
+      <div class="flex flex-row items-center">
+        <vs-avatar size="52" badge badge-color="success">
           <img src="~assets/img/avatar.jpeg" alt="Avatar" />
         </vs-avatar>
         <div class="flex flex-col ml-3">
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-3 gap-5 mb-4">
+      <div class="flex justify-between ml-1 mb-4">
         <div class="flex flex-col items-center">
           <h3>19</h3>
           <span class="text-gray-400 text-xs">Posts</span>
@@ -59,14 +59,23 @@
           </template>
         </vs-button>
       </div>
+
+      <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-auto">
+        <h3>Last Notification</h3>
+        <div class="flex justify-start mt-3">
+          <like-notification />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import cookieNotification from '../Notifications/Cookie.vue'
+import likeNotification from '../Notifications/Like.vue'
 export default {
   components: {
     cookieNotification,
+    likeNotification,
   },
   methods: {
     openNotificationCookie() {

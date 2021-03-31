@@ -1,40 +1,35 @@
 <template>
   <div class="con-user-example">
     <header>
-      <vs-avatar>
-        <img src="https://vuesax.com/avatars/avatar-5.png" alt="" />
-      </vs-avatar>
-      <p>Esila Su</p>
-
       <vs-avatar-group max="7">
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-1.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-6.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-2.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-7.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-3.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-8.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-4.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-9.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-5.png" alt="" />
         </vs-avatar>
-        <vs-avatar>
+        <vs-avatar size="36">
           <img src="https://vuesax.com/avatars/avatar-10.png" alt="" />
         </vs-avatar>
       </vs-avatar-group>
@@ -56,9 +51,8 @@ export default {}
   header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     p {
-      min-width: 100px;
       margin-left: 10px;
       font-size: 0.9rem;
     }

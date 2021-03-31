@@ -15,10 +15,10 @@
           </template>
         </vs-input>
         <vs-button :active="true">
-          <span class="px-3">Create Post</span>
+          <i class="bx bx-edit text-xl"></i>
 
           <template #animate>
-            <i class="bx bx-edit text-xl"></i>
+            <span class="px-6">Post</span>
           </template>
         </vs-button>
       </div>
