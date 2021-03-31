@@ -6,7 +6,7 @@
       <sidebar />
       <user-bar />
     </div>
-    <Nuxt class="col-span-6" />
+    <Nuxt class="col-span-5" />
     <right-sidebar class="col-span-3" />
   </div>
 </template>
