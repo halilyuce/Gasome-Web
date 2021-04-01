@@ -30,7 +30,8 @@
         <span @click="openNotificationCookie">Edit Profile</span>
       </vs-button>
 
-      <div class="grid grid-cols-6 gap-2 mt-10">
+      <h2 class="mt-10 text-center">Statistics</h2>
+      <div class="grid grid-cols-6 gap-0">
         <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
           <div class="flex flex-col items-center">
             <h2>39</h2>

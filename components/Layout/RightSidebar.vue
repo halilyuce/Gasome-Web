@@ -1,5 +1,5 @@
 <template>
-  <div class="m-5">
+  <div class="flex flex-col py-5 px-8 h-full">
     <div class="flex justify-between items-center">
       <vs-switch v-model="isDark">
         <template #circle>
@@ -47,6 +47,18 @@
           </vs-button>
         </li>
         <li class="flex justify-between items-center text-sm text-purple-500">
+          #Hitman3
+          <vs-button transparent shadow size="small"
+            ><span class="text-gray-500">559</span>
+          </vs-button>
+        </li>
+        <li class="flex justify-between items-center text-sm text-purple-500">
+          #DiscordDown
+          <vs-button transparent shadow size="small"
+            ><span class="text-gray-500">404</span>
+          </vs-button>
+        </li>
+        <li class="flex justify-between items-center text-sm text-purple-500">
           #GasomeEvent2021
           <vs-button transparent shadow size="small"
             ><span class="text-gray-500">301</span>
@@ -55,9 +67,69 @@
       </ul>
     </div>
 
-    <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-8">
-      <h3>User Suggestions</h3>
-      <div class="flex justify-start mt-3"></div>
+    <div class="bg-white dark:bg-black rounded-xl mt-8">
+      <h3 class="pt-3 pl-5">User Suggestions</h3>
+      <ul
+        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+      >
+        <li class="flex flex-row justify-between items-center py-2">
+          <div class="flex flex-row items-center">
+            <vs-avatar size="40">
+              <img src="https://vuesax.com/avatars/avatar-3.png" alt="Avatar" />
+            </vs-avatar>
+            <div class="flex flex-col ml-2">
+              <h5>Chen</h5>
+              <span class="text-gray-400 text-xs">@excalibur</span>
+            </div>
+          </div>
+          <vs-button
+            shadow
+            border
+            size="small"
+            :active="active"
+            @click="active = !active"
+          >
+            <span class="px-3">{{ active ? 'Following' : 'Follow' }}</span>
+          </vs-button>
+        </li>
+        <li class="flex flex-row justify-between items-center py-2">
+          <div class="flex flex-row items-center">
+            <vs-avatar size="40">
+              <img src="https://vuesax.com/avatars/avatar-6.png" alt="Avatar" />
+            </vs-avatar>
+            <div class="flex flex-col ml-2">
+              <h5>Andy Gamerson</h5>
+              <span class="text-gray-400 text-xs">@andy</span>
+            </div>
+          </div>
+          <vs-button shadow border size="small">
+            <span class="px-3">Follow</span>
+          </vs-button>
+        </li>
+        <li class="flex flex-row justify-between items-center py-2">
+          <div class="flex flex-row items-center">
+            <vs-avatar size="40">
+              <img
+                src="https://vuesax.com/avatars/avatar-10.png"
+                alt="Avatar"
+              />
+            </vs-avatar>
+            <div class="flex flex-col ml-2">
+              <h5>John Doe</h5>
+              <span class="text-gray-400 text-xs">@doe</span>
+            </div>
+          </div>
+          <vs-button shadow border size="small">
+            <span class="px-3">Follow</span>
+          </vs-button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-row justify-between mt-auto">
+      <a href="#" class="text-gray-500 text-sm">Privacy Policy</a>
+      <a href="#" class="text-gray-500 text-sm">Support</a>
+      <a href="#" class="text-gray-500 text-sm">© 2021 Gasome</a>
     </div>
   </div>
 </template>
@@ -70,6 +142,7 @@ export default {
   data() {
     return {
       isDark: true,
+      active: false,
     }
   },
   watch: {
