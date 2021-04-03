@@ -57,7 +57,7 @@
           <vs-checkbox v-model="remember">Remember me</vs-checkbox>
           <a href="#">Forgot Password?</a>
         </div>
-        <vs-button block size="large" animation-type="vertical">
+        <vs-button block size="large" animation-type="vertical" @click="login">
           <b>Sign In</b>
           <template #animate>
             <i class="bx bxs-game"></i>
@@ -128,6 +128,19 @@ export default {
   methods: {
     handleAnimation: function (anim) {
       this.anim = anim
+    },
+    async login() {
+      const form = {
+        username: this.username,
+        password: this.password,
+        grant_type: 'password',
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,
+      }
+
+      await this.$auth
+        .loginWith('local', { data: form })
+        .then(() => this.$router.push('/'))
     },
   },
   computed: {

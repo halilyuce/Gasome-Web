@@ -3,7 +3,15 @@ export const state = () => ({
   loading: false,
   mode: 'dark',
 })
-export const getters = {}
+export const getters = {
+  isAuthenticated(state) {
+    return state.auth.loggedIn
+  },
+
+  loggedInUser(state) {
+    return state.auth.user
+  },
+}
 export const mutations = {
   setLoading(state, payload) {
     state.loading = payload

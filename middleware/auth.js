@@ -1,5 +1,5 @@
-export default (context) => {
-  if (!context.app.context.app.$cookies.get('token')) {
-    return context.redirect('/login')
+export default ({ store, redirect }) => {
+  if (!store.state.auth.loggedIn) {
+    return redirect('/login')
   }
 }

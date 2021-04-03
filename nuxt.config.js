@@ -1,6 +1,8 @@
+require('dotenv').config()
 export default {
   router: {
     base: '/',
+    middleware: ['auth'],
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -34,7 +36,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
+  buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@nuxtjs/dotenv'],
 
   tailwindcss: {
     config: {
@@ -93,16 +95,59 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxtjs/auth-next',
     '@nuxtjs/style-resources',
     'cookie-universal-nuxt',
   ],
 
-  styleResources: {
-    scss: ['./assets/scss/*.scss'],
+  // runtime config
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL,
+  },
+  privateRuntimeConfig: {
+    apiId: process.env.CLIENT_ID,
+    apiSecret: process.env.CLIENT_SECRET,
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    proxy: true,
+    baseURL: process.env.API_URL,
+  },
+
+  proxy: {
+    '/api/': {
+      target: process.env.API_URL,
+      pathRewrite: { '^/api/': '' },
+      secure: false,
+      changeOrigin: true,
+    },
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'access_token',
+          required: true,
+          type: 'Bearer',
+        },
+        user: {
+          property: 'data',
+        },
+        endpoints: {
+          login: { url: '/api/oauth/token', method: 'post' },
+          logout: false,
+          user: { url: '/api/user', method: 'get' },
+        },
+      },
+    },
+  },
+
+  styleResources: {
+    scss: ['./assets/scss/*.scss'],
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},

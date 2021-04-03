@@ -6,8 +6,8 @@
           <img src="~assets/img/avatar.jpeg" alt="Avatar" />
         </vs-avatar>
         <div class="flex flex-col ml-3">
-          <h3 class="mt-2">Halil Yüce</h3>
-          <p class="text-gray-400 mb-2">@halil</p>
+          <h3 class="mt-2">{{ loggedInUser.name }}</h3>
+          <p class="text-gray-400 mb-2">{{ '@' + loggedInUser.username }}</p>
         </div>
       </div>
 
@@ -71,12 +71,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import cookieNotification from '../Notifications/Cookie.vue'
 import likeNotification from '../Notifications/Like.vue'
 export default {
   components: {
     cookieNotification,
     likeNotification,
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
   },
   methods: {
     openNotificationCookie() {

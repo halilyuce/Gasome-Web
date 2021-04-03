@@ -5,7 +5,7 @@
 <script>
 import Login from '~/components/Auth/Login.vue'
 export default {
-  middleware: 'guest',
+  auth: 'guest',
   components: {
     Login,
   },

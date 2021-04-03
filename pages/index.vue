@@ -317,7 +317,6 @@
 
 <script>
 export default {
-  middleware: 'auth',
   layout: 'sidebars',
   data() {
     return {
