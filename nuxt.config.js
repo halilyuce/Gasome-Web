@@ -1,5 +1,6 @@
 require('dotenv').config()
 export default {
+  ssr: false,
   router: {
     base: '/',
     middleware: ['auth'],
@@ -36,7 +37,16 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', '@nuxtjs/dotenv'],
+  buildModules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
+    '@nuxtjs/dotenv',
+    '@nuxtjs/moment',
+  ],
+
+  moment: {
+    timezone: true,
+  },
 
   tailwindcss: {
     config: {
@@ -126,7 +136,13 @@ export default {
   },
 
   auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/',
+    },
     strategies: {
+      cookie: false,
       local: {
         token: {
           property: 'access_token',
@@ -135,6 +151,7 @@ export default {
         },
         user: {
           property: 'data',
+          // autoFetch: false,
         },
         endpoints: {
           login: { url: '/api/oauth/token', method: 'post' },

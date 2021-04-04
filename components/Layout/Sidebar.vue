@@ -37,7 +37,7 @@
       </vs-sidebar-item>
 
       <template #footer>
-        <vs-button danger icon>
+        <vs-button @click="logOut" danger icon>
           <i class="bx bx-power-off"></i>
         </vs-button>
       </template>
@@ -51,5 +51,10 @@ export default {
   data: () => ({
     active: 'home',
   }),
+  methods: {
+    async logOut() {
+      await this.$auth.logout()
+    },
+  },
 }
 </script>

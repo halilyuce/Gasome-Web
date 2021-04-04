@@ -37,7 +37,6 @@
           color="#6e00ff"
           v-model="password"
           placeholder="Password"
-          :progress="getProgress"
           :visiblePassword="hasVisiblePassword"
           icon-after
           @click-icon="hasVisiblePassword = !hasVisiblePassword"
@@ -45,10 +44,6 @@
           <template #icon>
             <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
-          </template>
-
-          <template v-if="getProgress >= 100" #message-success>
-            Secure password
           </template>
         </vs-input>
         <div
@@ -141,43 +136,6 @@ export default {
       await this.$auth
         .loginWith('local', { data: form })
         .then(() => this.$router.push('/'))
-    },
-  },
-  computed: {
-    getProgress() {
-      let progress = 0
-
-      // at least one number
-
-      if (/\d/.test(this.password)) {
-        progress += 20
-      }
-
-      // at least one capital letter
-
-      if (/(.*[A-Z].*)/.test(this.password)) {
-        progress += 20
-      }
-
-      // at menons a lowercase
-
-      if (/(.*[a-z].*)/.test(this.password)) {
-        progress += 20
-      }
-
-      // more than 5 digits
-
-      if (this.password.length >= 6) {
-        progress += 20
-      }
-
-      // at least one special character
-
-      if (/[^A-Za-z0-9]/.test(this.password)) {
-        progress += 20
-      }
-
-      return progress
     },
   },
 }

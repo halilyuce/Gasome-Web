@@ -3,25 +3,31 @@
     <div class="flex flex-col mx-7 h-full">
       <div class="flex flex-row items-center">
         <vs-avatar size="52" badge badge-color="success">
-          <img src="~assets/img/avatar.jpeg" alt="Avatar" />
+          <img
+            v-if="loggedInUser"
+            :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
+            alt="Avatar"
+          />
         </vs-avatar>
         <div class="flex flex-col ml-3">
-          <h3 class="mt-2">{{ loggedInUser.name }}</h3>
-          <p class="text-gray-400 mb-2">{{ '@' + loggedInUser.username }}</p>
+          <h3 class="mt-2">{{ loggedInUser ? loggedInUser.name : '' }}</h3>
+          <p class="text-gray-400 mb-2">
+            {{ loggedInUser ? '@' + loggedInUser.username : '' }}
+          </p>
         </div>
       </div>
 
-      <div class="flex justify-between ml-1 mb-4">
+      <div class="flex justify-between ml-1 mb-2">
         <div class="flex flex-col items-center">
-          <h3>19</h3>
-          <span class="text-gray-400 text-xs">Posts</span>
+          <h3>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h3>
+          <span class="text-gray-400 text-xs">Swaps</span>
         </div>
         <div class="flex flex-col items-center">
-          <h3>76</h3>
+          <h3>{{ loggedInUser ? loggedInUser.follows : '' }}</h3>
           <span class="text-gray-400 text-xs">Follows</span>
         </div>
         <div class="flex flex-col items-center">
-          <h3>1.2k</h3>
+          <h3>{{ loggedInUser ? loggedInUser.followers : '' }}</h3>
           <span class="text-gray-400 text-xs">Followers</span>
         </div>
       </div>
@@ -34,7 +40,7 @@
       <div class="grid grid-cols-6 gap-0">
         <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
           <div class="flex flex-col items-center">
-            <h2>39</h2>
+            <h2>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h2>
             <span class="text-gray-400 text-xs">Swaps</span>
           </div>
           <template #animate>
@@ -43,7 +49,7 @@
         </vs-button>
         <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
           <div class="flex flex-col items-center">
-            <h2>91</h2>
+            <h2>0</h2>
             <span class="text-gray-400 text-xs">Wishes</span>
           </div>
           <template #animate>
@@ -52,7 +58,7 @@
         </vs-button>
         <vs-button shadow size="xl" animation-type="scale" class="col-span-6">
           <div class="flex flex-col items-center">
-            <h2>124</h2>
+            <h2>0</h2>
             <span class="text-gray-400 text-xs">Played Games</span>
           </div>
           <template #animate>
@@ -81,6 +87,11 @@ export default {
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
+  },
+  data() {
+    return {
+      smallAvatar: process.env.AVATAR_SMALL,
+    }
   },
   methods: {
     openNotificationCookie() {

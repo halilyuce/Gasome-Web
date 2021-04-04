@@ -67,19 +67,28 @@
       </ul>
     </div>
 
-    <div class="bg-white dark:bg-black rounded-xl mt-8">
+    <div
+      v-if="recommendedUsers && recommendedUsers.length > 0"
+      class="bg-white dark:bg-black rounded-xl mt-8"
+    >
       <h3 class="pt-3 pl-5">User Suggestions</h3>
       <ul
         class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
       >
-        <li class="flex flex-row justify-between items-center py-2">
+        <li
+          v-for="user in recommendedUsers.slice(0, 3)"
+          :key="user.id"
+          class="flex flex-row justify-between items-center py-2"
+        >
           <div class="flex flex-row items-center">
             <vs-avatar size="40">
-              <img src="https://vuesax.com/avatars/avatar-3.png" alt="Avatar" />
+              <img :src="`${smallAvatar + user.avatar}.jpg`" alt="Avatar" />
             </vs-avatar>
             <div class="flex flex-col ml-2">
-              <h5>Chen</h5>
-              <span class="text-gray-400 text-xs">@excalibur</span>
+              <h5>{{ user.name }}</h5>
+              <span class="text-gray-400 text-xs">{{
+                '@' + user.username
+              }}</span>
             </div>
           </div>
           <vs-button
@@ -90,37 +99,6 @@
             @click="active = !active"
           >
             <span class="px-3">{{ active ? 'Following' : 'Follow' }}</span>
-          </vs-button>
-        </li>
-        <li class="flex flex-row justify-between items-center py-2">
-          <div class="flex flex-row items-center">
-            <vs-avatar size="40">
-              <img src="https://vuesax.com/avatars/avatar-6.png" alt="Avatar" />
-            </vs-avatar>
-            <div class="flex flex-col ml-2">
-              <h5>Andy Gamerson</h5>
-              <span class="text-gray-400 text-xs">@andy</span>
-            </div>
-          </div>
-          <vs-button shadow border size="small">
-            <span class="px-3">Follow</span>
-          </vs-button>
-        </li>
-        <li class="flex flex-row justify-between items-center py-2">
-          <div class="flex flex-row items-center">
-            <vs-avatar size="40">
-              <img
-                src="https://vuesax.com/avatars/avatar-10.png"
-                alt="Avatar"
-              />
-            </vs-avatar>
-            <div class="flex flex-col ml-2">
-              <h5>John Doe</h5>
-              <span class="text-gray-400 text-xs">@doe</span>
-            </div>
-          </div>
-          <vs-button shadow border size="small">
-            <span class="px-3">Follow</span>
           </vs-button>
         </li>
       </ul>
@@ -134,15 +112,24 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 import likeNotification from '../Notifications/Like.vue'
 export default {
   components: {
     likeNotification,
   },
+  computed: {
+    ...mapState({
+      alert: (state) => state.alert,
+      recommendedUsers: (state) => state.sidebar.recommendedUsers,
+      loading: (state) => state.sidebar.loading,
+    }),
+  },
   data() {
     return {
       isDark: true,
       active: false,
+      smallAvatar: process.env.AVATAR_SMALL,
     }
   },
   watch: {
@@ -160,9 +147,16 @@ export default {
   },
   mounted() {
     this.isDark = localStorage.getItem('mode') === 'light' ? true : false
+    if (!this.recommendedUsers) {
+      this.getRecommendedUsers()
+    }
   },
 
   methods: {
+    ...mapActions({
+      getRecommendedUsers: 'sidebar/getRecommendedUsers',
+      clearAlert: 'alert/clear',
+    }),
     openNotificationUser() {
       const noti = this.$vs.notification({
         duration: 'none',
