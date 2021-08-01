@@ -1,6 +1,13 @@
 <template>
   <ul
-    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid mt-2 border-t border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+    class="
+      divide-y divide-gray-100
+      dark:divide-gray-600 dark:divide-opacity-20
+      divide-solid
+      mt-2
+      border-t border-gray-100
+      dark:border-gray-600 dark:border-opacity-20
+    "
   >
     <li v-for="post in posts" :key="post.id" class="pt-5 px-5 pb-2">
       <div
@@ -12,12 +19,14 @@
       </div>
       <div v-if="post.only_boost" class="flex flex-row">
         <div class="user">
-          <vs-avatar size="50">
-            <img
-              :src="`${smallAvatar + post.quoted_post[0].user.avatar}.jpg`"
-              alt="Avatar"
-            />
-          </vs-avatar>
+          <n-link :to="`/u/${post.quoted_post[0].user.username}`">
+            <vs-avatar size="50">
+              <img
+                :src="`${smallAvatar + post.quoted_post[0].user.avatar}.jpg`"
+                alt="Avatar"
+              />
+            </vs-avatar>
+          </n-link>
         </div>
         <div class="ml-4 w-full">
           <div class="flex justify-between">
@@ -73,9 +82,14 @@
       </div>
       <div v-else class="flex flex-row">
         <div class="user">
-          <vs-avatar size="50">
-            <img :src="`${smallAvatar + post.user.avatar}.jpg`" alt="Avatar" />
-          </vs-avatar>
+          <n-link :to="`/u/${post.user.username}`">
+            <vs-avatar size="50">
+              <img
+                :src="`${smallAvatar + post.user.avatar}.jpg`"
+                alt="Avatar"
+              />
+            </vs-avatar>
+          </n-link>
         </div>
         <div class="ml-4 w-full">
           <div class="flex justify-between">

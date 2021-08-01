@@ -12,7 +12,7 @@ export const mutations = {
   },
 }
 export const actions = {
-  async getRecommendedUsers({ commit }) {
+  async getRecommendedUsers({ commit, dispatch }) {
     try {
       const response = await this.$axios.get('/api/recommendedUsers')
       await commit('setRecommendedUsers', response.data.data)
