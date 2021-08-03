@@ -32,18 +32,51 @@
             >
           </div>
           <div>
-            <p v-html="post.quoted_post[0].text" />
-            <img
+            <p class="dark:text-gray-300" v-html="post.quoted_post[0].text" />
+            <div
+              class="aspect-w-16 aspect-h-9 mt-2"
               v-if="
                 post.quoted_post[0].image &&
                 post.quoted_post[0].image.length > 0
               "
-              :src="`${
-                mediumImagePath + post.quoted_post[0].image[0].image
-              }.jpg`"
-              class="mt-3 rounded-xl"
-              alt=""
-            />
+            >
+              <img
+                :src="`${
+                  mediumImagePath + post.quoted_post[0].image[0].image
+                }.jpg`"
+                class="rounded-xl object-cover"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="relative mt-2 aspect-w-16 aspect-h-9"
+              v-if="post.quoted_post[0].video"
+            >
+              <div
+                class="absolute w-full h-full flex justify-center items-center"
+              >
+                <vs-button
+                  color="#ff3e4e"
+                  size="xl"
+                  circle
+                  floating
+                  @click.stop=""
+                >
+                  <i class="bx bx-play text-xl"></i>
+                </vs-button>
+              </div>
+              <img
+                class="rounded-xl object-cover"
+                :src="
+                  'https://img.youtube.com/vi/' +
+                  post.quoted_post[0].video +
+                  '/0.jpg'
+                "
+                :alt="post.quoted_post[0].video"
+              />
+            </div>
+
             <quoted-post
               v-if="
                 post.quoted_post[0].quoted_post &&
@@ -57,11 +90,21 @@
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
               {{ post.quoted_post[0].comments_count }}
             </div>
-            <div class="flex items-center">
+            <div
+              class="flex items-center"
+              :class="{
+                'text-purple-600': post.quoted_post[0].is_boosted_count,
+              }"
+            >
               <i class="bx bxs-zap text-lg mr-3"></i
               >{{ post.quoted_post[0].boosts_count }}
             </div>
-            <div class="flex items-center text-yellow-500">
+            <div
+              class="flex items-center"
+              :class="{
+                'text-yellow-500': post.quoted_post[0].is_favorited_count,
+              }"
+            >
               <i class="bx bxs-star text-lg mr-3"></i
               >{{ post.quoted_post[0].likes_count }}
             </div>
@@ -90,13 +133,39 @@
             >
           </div>
           <div>
-            <p v-html="post.text" />
-            <img
+            <p class="dark:text-gray-300" v-html="post.text" />
+            <div
               v-if="post.image && post.image.length > 0"
-              :src="`${mediumImagePath + post.image[0].image}.jpg`"
-              class="mt-3 rounded-xl"
-              alt=""
-            />
+              class="aspect-w-16 aspect-h-9 mt-2"
+            >
+              <img
+                :src="`${mediumImagePath + post.image[0].image}.jpg`"
+                class="rounded-xl object-cover"
+                alt=""
+              />
+            </div>
+
+            <div class="relative mt-2 aspect-w-16 aspect-h-9" v-if="post.video">
+              <div
+                class="absolute w-full h-full flex justify-center items-center"
+              >
+                <vs-button
+                  color="#ff3e4e"
+                  size="xl"
+                  circle
+                  floating
+                  @click.stop=""
+                >
+                  <i class="bx bx-play text-xl"></i>
+                </vs-button>
+              </div>
+              <img
+                class="rounded-xl object-cover"
+                :src="'https://img.youtube.com/vi/' + post.video + '/0.jpg'"
+                :alt="post.video"
+              />
+            </div>
+
             <quoted-post
               v-if="post.quoted_post && post.quoted_post.length > 0"
               :post="post.quoted_post[0]"
@@ -107,10 +176,18 @@
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
               {{ post.comments_count }}
             </div>
-            <div class="flex items-center">
+            <div
+              class="flex items-center"
+              :class="{
+                'text-purple-600': post.is_boosted_count,
+              }"
+            >
               <i class="bx bxs-zap text-lg mr-3"></i>{{ post.boosts_count }}
             </div>
-            <div class="flex items-center text-yellow-500">
+            <div
+              class="flex items-center"
+              :class="{ 'text-yellow-500': post.is_favorited_count }"
+            >
               <i class="bx bxs-star text-lg mr-3"></i>{{ post.likes_count }}
             </div>
             <div class="flex items-center">
