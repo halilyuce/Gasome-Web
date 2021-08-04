@@ -50,7 +50,10 @@ export default {
 
   tailwindcss: {
     config: {
-      plugins: [require('tailwindcss-dark-mode')()],
+      plugins: [
+        require('tailwindcss-dark-mode')(),
+        require('@tailwindcss/aspect-ratio'),
+      ],
       darkMode: 'class',
       colorMode: {
         classSuffix: '',
@@ -142,7 +145,6 @@ export default {
       home: '/',
     },
     strategies: {
-      cookie: false,
       local: {
         token: {
           property: 'access_token',
