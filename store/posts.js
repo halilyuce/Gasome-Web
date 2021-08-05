@@ -11,6 +11,9 @@ export const mutations = {
   addPost(state, payload) {
     state.posts.unshift(payload)
   },
+  insertPosts(state, payload) {
+    state.posts = [...state.posts, ...payload]
+  },
   setLoading(state, payload) {
     state.loading = payload
   },
@@ -30,6 +33,16 @@ export const actions = {
         root: true,
       })
       commit('setLoading', false)
+    }
+  },
+  async loadMorePosts({ commit }, page) {
+    try {
+      const response = await this.$axios.get('/api/getPosts?page=' + page)
+      await commit('insertPosts', response.data.data.data)
+    } catch (error) {
+      await dispatch('alert/error', error.response, {
+        root: true,
+      })
     }
   },
   async newPost({ commit }, payload) {

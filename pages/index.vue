@@ -1,5 +1,11 @@
 <template>
-  <div ref="target" class="bg-white dark:bg-black max-h-screen overflow-y-auto">
+  <div
+    ref="target"
+    v-infinite-scroll="loadMore"
+    infinite-scroll-distance="5"
+    infinite-scroll-throttle-delay="1000"
+    class="bg-white dark:bg-black max-h-screen overflow-y-auto"
+  >
     <div class="my-5">
       <div class="flex justify-between items-center px-5">
         <vs-input
@@ -176,6 +182,7 @@ import axios from 'axios'
 import { mapState, mapActions } from 'vuex'
 import Posts from '../components/Posts/Posts.vue'
 import EmojiPicker from 'vue-emoji-picker'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
   layout: 'sidebars',
   components: {
@@ -210,6 +217,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       search: '',
       emojiSearch: '',
       text: '',
@@ -227,9 +235,14 @@ export default {
   methods: {
     ...mapActions({
       getPosts: 'posts/getPosts',
+      loadMorePosts: 'posts/loadMorePosts',
       clearAlert: 'alert/clear',
       newPost: 'posts/newPost',
     }),
+    async loadMore() {
+      this.currentPage += 1
+      this.loadMorePosts(this.currentPage)
+    },
     append(emoji) {
       this.text += emoji
     },
@@ -276,6 +289,7 @@ export default {
         el.focus()
       },
     },
+    infiniteScroll,
   },
 }
 </script>

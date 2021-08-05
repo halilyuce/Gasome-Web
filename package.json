@@ -23,6 +23,7 @@
     "stylus": "^0.54.8",
     "stylus-loader": "^5.0.0",
     "vue-emoji-picker": "^1.0.3",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-lottie": "^0.2.1",
     "vuesax": "^4.0.1-alpha.25"
   },
