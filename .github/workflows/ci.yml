@@ -36,6 +36,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install NPM
+        run: npm install
+        
       - name: Install dependencies 👨🏻‍💻
         run: npm ci
 
