@@ -2,13 +2,15 @@
   <div class="flex flex-col items-center w-full my-5">
     <div class="flex flex-col mx-7 h-full">
       <div class="flex flex-row items-center">
-        <vs-avatar size="52" badge badge-color="success">
-          <img
-            v-if="loggedInUser"
-            :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
-            alt="Avatar"
-          />
-        </vs-avatar>
+        <n-link :to="`/u/${loggedInUser.username}`">
+          <vs-avatar size="52" badge badge-color="success">
+            <img
+              v-if="loggedInUser"
+              :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
+              alt="Avatar"
+            />
+          </vs-avatar>
+        </n-link>
         <div class="flex flex-col ml-3">
           <h3 class="mt-2">{{ loggedInUser ? loggedInUser.name : '' }}</h3>
           <p class="text-gray-400 mb-2">
