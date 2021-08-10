@@ -1,9 +1,14 @@
 export const state = () => ({
   posts: null,
   loading: false,
+  composer: false,
   shareLoading: false,
 })
-export const getters = {}
+export const getters = {
+  composer: (state) => {
+    return state.composer
+  },
+}
 export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
@@ -19,6 +24,9 @@ export const mutations = {
   },
   setShareLoading(state, payload) {
     state.shareLoading = payload
+  },
+  setComposer(state, payload) {
+    state.composer = payload
   },
 }
 export const actions = {
@@ -57,5 +65,11 @@ export const actions = {
       })
       commit('setShareLoading', false)
     }
+  },
+  async toggleComposer({ commit }, payload) {
+    await commit('setComposer', payload)
+  },
+  async toggleShareLoading({ commit }, payload) {
+    await commit('setShareLoading', payload)
   },
 }

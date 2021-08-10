@@ -15,8 +15,8 @@ export default {
   layout: 'sidebars',
   computed: {
     ...mapState({
-      user: (state) => state.user.user,
-      loading: (state) => state.user.loading,
+      user: (state) => state.profile.user,
+      loading: (state) => state.profile.loading,
     }),
   },
   asyncData({ params }) {
@@ -29,13 +29,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUserProfile: 'user/getUserProfile',
+      getUserProfile: 'profile/getUserProfile',
     }),
   },
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .box-loading {
   width: 120px;
   height: 120px;
