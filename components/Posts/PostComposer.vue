@@ -25,11 +25,11 @@
 
         <div slot="emoji-picker" slot-scope="{ emojis }">
           <div
-            class="absolute z-10 border-none w-64 h-96 overflow-scroll p-4 rounded bg-white shadow-xl top-0.5 -r-64"
+            class="absolute z-10 border-none w-64 h-96 overflow-scroll p-4 rounded bg-white dark:bg-content-bg shadow-xl top-0.5 -r-64"
           >
             <div class="flex">
               <input
-                class="rounded-full border border-gray-300 py-2 px-4 outline-none focus:shadow-outline w-full"
+                class="rounded-full dark:bg-content-bg dark:text-gray-400 border dark:border-gray-600 border-gray-300 py-2 px-4 outline-none focus:shadow-outline w-full"
                 type="text"
                 placeholder="Start to type emoji name"
                 v-model="emojiSearch"
@@ -45,7 +45,7 @@
                 </h5>
                 <div class="flex flex-wrap justify-between emojis">
                   <button
-                    class="p-1 cursor-pointer rounded bg-white focus:outline-none focus:shadow-outline text-xl flex items-center justify-center h-8 w-8"
+                    class="p-1 cursor-pointer rounded bg-white dark:bg-content-bg focus:outline-none focus:shadow-outline text-xl flex items-center justify-center h-8 w-8"
                     v-for="(emoji, emojiName) in emojiGroup"
                     :key="emojiName"
                     @click="append(emoji)"
@@ -77,7 +77,7 @@
           />
           <button
             class="absolute bg-gray-900 hover:bg-red-600 text-white font-bold text-lg h-6 w-6 rounded-full top-1 right-1"
-            @click="removePhoto(index)"
+            @click.stop="removePhoto(index)"
           >
             <i class="bx bx-x"></i>
           </button>
@@ -134,7 +134,7 @@
       <div class="flex justify-between">
         <div class="flex items-center">
           <vs-button
-            @click="$refs.photo_upload.click()"
+            @click.stop="$refs.photo_upload.click()"
             shadow
             active
             :disabled="photos.length > 3"
@@ -143,7 +143,7 @@
           </vs-button>
 
           <vs-button
-            @click="showYoutube = !showYoutube"
+            @click.stop="showYoutube = !showYoutube"
             shadow
             active
             :loading="youtubeLoad"
@@ -152,11 +152,11 @@
           </vs-button>
         </div>
         <div class="flex items-center">
-          <vs-button @click="toggleComposer(false)" danger transparent>
+          <vs-button @click.stop="toggleComposer(false)" danger transparent>
             Cancel
           </vs-button>
           <vs-button
-            @click="sendNewPost()"
+            @click.stop="sendNewPost()"
             :loading="shareLoading"
             :disabled="text == '' && youtubeURL == '' && photos.length == 0"
           >
@@ -268,7 +268,7 @@ export default {
         let file = element.file
 
         reader.onloadend = () => {
-          encodedImages.push(reader.result)
+          encodedImages.push(btoa(reader.result))
         }
         reader.readAsDataURL(file)
       })
@@ -306,6 +306,14 @@ export default {
       } else {
         return null
       }
+    },
+  },
+
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus()
+      },
     },
   },
 }
