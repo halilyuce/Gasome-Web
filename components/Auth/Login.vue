@@ -22,49 +22,58 @@
             </template>
           </vs-switch>
         </div>
-        <vs-input
-          color="#6e00ff"
-          v-model="username"
-          placeholder="Username"
-          class="my-5"
-        >
-          <template #icon>
-            <i class="bx bx-user"></i>
-          </template>
-        </vs-input>
-        <vs-input
-          type="password"
-          color="#6e00ff"
-          v-model="password"
-          placeholder="Password"
-          :visiblePassword="hasVisiblePassword"
-          icon-after
-          @click-icon="hasVisiblePassword = !hasVisiblePassword"
-        >
-          <template #icon>
-            <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
-            <i v-else class="bx bx-hide"></i>
-          </template>
-        </vs-input>
-        <div
-          class="flex justify-between items-center text-sm my-3 text-gray-700"
-        >
-          <vs-checkbox v-model="remember">Remember me</vs-checkbox>
-          <a href="#">Forgot Password?</a>
-        </div>
-        <vs-button block size="large" animation-type="vertical" @click="login">
-          <b>Sign In</b>
-          <template #animate>
-            <i class="bx bxs-game"></i>
-          </template>
-        </vs-button>
+        <form v-on:submit.prevent="login">
+          <vs-input
+            color="#6e00ff"
+            v-model="username"
+            placeholder="Username"
+            class="my-5"
+          >
+            <template #icon>
+              <i class="bx bx-user"></i>
+            </template>
+          </vs-input>
+          <vs-input
+            type="password"
+            color="#6e00ff"
+            v-model="password"
+            placeholder="Password"
+            :visiblePassword="hasVisiblePassword"
+            icon-after
+            @click-icon="hasVisiblePassword = !hasVisiblePassword"
+          >
+            <template #icon>
+              <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
+              <i v-else class="bx bx-hide"></i>
+            </template>
+          </vs-input>
+          <div
+            class="flex justify-between items-center text-sm my-3 text-gray-700"
+          >
+            <vs-checkbox v-model="remember">Remember me</vs-checkbox>
+            <n-link :to="'/forgot-password'">Forgot Password?</n-link>
+          </div>
+          <vs-button
+            block
+            type="submit"
+            size="large"
+            animation-type="vertical"
+            v-on:keyup.enter="login"
+            :loading="loading"
+          >
+            <b>Sign In</b>
+            <template #animate>
+              <i class="bx bxs-game"></i>
+            </template>
+          </vs-button>
+        </form>
         <div class="flex justify-center text-sm my-5">
           <span class="text-gray-700">New Here?</span>
-          <a class="ml-3 text-purple-600 font-bold" href="#"
-            >Create New Account</a
+          <n-link class="ml-3 text-purple-600 font-bold" :to="'/register'"
+            >Create New Account</n-link
           >
         </div>
-        <div class="my-5 separator">or continue with</div>
+        <!-- <div class="my-5 separator">or continue with</div>
         <div class="grid grid-cols-3 gap-2">
           <vs-button shadow size="xl" animation-type="scale">
             <i class="bx bxl-google"></i>
@@ -78,7 +87,7 @@
             <i class="bx bxl-facebook"></i>
             <template #animate> Facebook </template>
           </vs-button>
-        </div>
+        </div> -->
       </div>
       <div class="col-span-3 hidden md:flex">
         <lottie :options="lottieOptions" v-on:animCreated="handleAnimation" />
@@ -99,6 +108,7 @@ export default {
     username: '',
     password: '',
     remember: false,
+    loading: false,
     hasVisiblePassword: false,
     isDark: false,
     anim: null,
@@ -125,6 +135,8 @@ export default {
       this.anim = anim
     },
     async login() {
+      this.loading = true
+      const self = this
       const form = {
         username: this.username,
         password: this.password,
@@ -133,9 +145,9 @@ export default {
         client_secret: process.env.CLIENT_SECRET,
       }
 
-      await this.$auth
-        .loginWith('local', { data: form })
-        .then(() => this.$router.push('/'))
+      await this.$auth.loginWith('local', { data: form }).then(function () {
+        self.loading = false
+      })
     },
   },
 }

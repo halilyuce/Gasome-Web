@@ -30,7 +30,7 @@ export const mutations = {
   },
 }
 export const actions = {
-  async getPosts({ commit }) {
+  async getPosts({ dispatch, commit }) {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get('/api/getPosts')
@@ -43,7 +43,7 @@ export const actions = {
       commit('setLoading', false)
     }
   },
-  async loadMorePosts({ commit }, page) {
+  async loadMorePosts({ dispatch, commit }, page) {
     try {
       const response = await this.$axios.get('/api/getPosts?page=' + page)
       await commit('insertPosts', response.data.data.data)
@@ -53,7 +53,7 @@ export const actions = {
       })
     }
   },
-  async newPost({ commit }, payload) {
+  async newPost({ dispatch, commit }, payload) {
     commit('setShareLoading', true)
     try {
       const response = await this.$axios.post('/api/newPost', payload)
