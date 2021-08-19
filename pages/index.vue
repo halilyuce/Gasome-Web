@@ -28,11 +28,12 @@
           </template>
         </vs-button>
       </div>
-      <Posts
+      <PostsBody
         class="relative"
         :class="{ 'h-screen': loading }"
         ref="posts"
-        :posts="posts"
+        v-bind:posts="posts"
+        @favorite-post="favorite"
       />
       <post-composer />
     </div>
@@ -41,13 +42,13 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import Posts from '../components/Posts/Posts.vue'
+import PostsBody from '../components/Posts/PostsBody.vue'
 import infiniteScroll from 'vue-infinite-scroll'
 import PostComposer from '../components/Posts/PostComposer.vue'
 export default {
   layout: 'sidebars',
   components: {
-    Posts,
+    PostsBody,
     PostComposer,
   },
   computed: {
@@ -85,10 +86,14 @@ export default {
       loadMorePosts: 'posts/loadMorePosts',
       toggleComposer: 'posts/toggleComposer',
       clearAlert: 'alert/clear',
+      favoritePost: 'posts/favoritePost',
     }),
     async loadMore() {
       this.currentPage += 1
       this.loadMorePosts(this.currentPage)
+    },
+    async favorite(id) {
+      this.favoritePost(id)
     },
   },
   directives: {

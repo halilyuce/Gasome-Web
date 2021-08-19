@@ -1,5 +1,5 @@
 export const state = () => ({
-  posts: null,
+  posts: [],
   loading: false,
   composer: false,
   shareLoading: false,
@@ -28,16 +28,22 @@ export const mutations = {
   setComposer(state, payload) {
     state.composer = payload
   },
+  setFavorite(state, payload) {
+    const item = state.posts.find((post) => post.id === payload.id)
+    Object.assign(item, payload)
+    const quote = state.posts.find((post) => post.quote_id === payload.id)
+    Object.assign(quote.quoted_post[0], payload)
+  },
 }
 export const actions = {
   async getPosts({ dispatch, commit }) {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get('/api/getPosts')
-      await commit('setPosts', response.data.data.data)
+      commit('setPosts', response.data.data.data)
       commit('setLoading', false)
     } catch (error) {
-      await dispatch('alert/error', error.response, {
+      dispatch('alert/error', error.response, {
         root: true,
       })
       commit('setLoading', false)
@@ -46,9 +52,9 @@ export const actions = {
   async loadMorePosts({ dispatch, commit }, page) {
     try {
       const response = await this.$axios.get('/api/getPosts?page=' + page)
-      await commit('insertPosts', response.data.data.data)
+      commit('insertPosts', response.data.data.data)
     } catch (error) {
-      await dispatch('alert/error', error.response, {
+      dispatch('alert/error', error.response, {
         root: true,
       })
     }
@@ -57,19 +63,33 @@ export const actions = {
     commit('setShareLoading', true)
     try {
       const response = await this.$axios.post('/api/newPost', payload)
-      await commit('addPost', response.data.data)
+      commit('addPost', response.data.data)
       commit('setShareLoading', false)
     } catch (error) {
-      await dispatch('alert/error', error.response, {
+      dispatch('alert/error', error.response, {
         root: true,
       })
       commit('setShareLoading', false)
     }
   },
+  async favoritePost({ dispatch, commit }, id) {
+    try {
+      const response = await this.$axios.post('/api/postLike', {
+        postId: id,
+      })
+      commit('setFavorite', response.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw 'Unable to favorite this post'
+    }
+  },
   async toggleComposer({ commit }, payload) {
-    await commit('setComposer', payload)
+    commit('setComposer', payload)
   },
   async toggleShareLoading({ commit }, payload) {
-    await commit('setShareLoading', payload)
+    commit('setShareLoading', payload)
   },
 }

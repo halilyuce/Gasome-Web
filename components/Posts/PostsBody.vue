@@ -1,15 +1,13 @@
 <template>
   <ul
-    class="
-      divide-y divide-gray-100
-      dark:divide-gray-600 dark:divide-opacity-20
-      divide-solid
-      mt-2
-      border-t border-gray-100
-      dark:border-gray-600 dark:border-opacity-20
-    "
+    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid mt-2 border-t border-gray-100 dark:border-gray-600 dark:border-opacity-20"
   >
-    <li v-for="post in posts" :key="post.id" class="pt-5 px-5 pb-2">
+    <li
+      :v-if="posts.length > 0"
+      v-for="post in posts"
+      v-bind:key="post.id"
+      class="pt-5 px-5 pb-2"
+    >
       <div
         v-if="post.only_boost"
         class="flex flex-row items-center text-gray-400 ml-10 mb-1"
@@ -186,25 +184,26 @@
             />
           </div>
           <div class="flex justify-between mt-3 text-gray-500">
-            <div class="flex items-center">
+            <div class="flex items-center cursor-pointer">
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
               {{ post.comments_count }}
             </div>
             <div
-              class="flex items-center"
+              class="flex items-center cursor-pointer"
               :class="{
                 'text-purple-600': post.is_boosted_count,
               }"
             >
               <i class="bx bxs-zap text-lg mr-3"></i>{{ post.boosts_count }}
             </div>
-            <div
-              class="flex items-center"
+            <a
+              class="flex items-center cursor-pointer"
               :class="{ 'text-yellow-500': post.is_favorited_count }"
+              @click.prevent="favorite(post.id)"
             >
               <i class="bx bxs-star text-lg mr-3"></i>{{ post.likes_count }}
-            </div>
-            <div class="flex items-center">
+            </a>
+            <div class="flex items-center cursor-pointer">
               <i class="bx bx-share-alt text-lg"></i>
             </div>
           </div>
@@ -218,13 +217,22 @@ import QuotedPost from './QuotedPost.vue'
 export default {
   components: { QuotedPost },
   props: {
-    posts: null,
+    posts: {
+      type: Array,
+      defult: [],
+      required: true,
+    },
   },
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
     }
+  },
+  methods: {
+    favorite(id) {
+      this.$emit('favorite-post', id)
+    },
   },
 }
 </script>
