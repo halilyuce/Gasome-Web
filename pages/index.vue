@@ -34,6 +34,7 @@
         ref="posts"
         v-bind:posts="posts"
         @favorite-post="favorite"
+        @boost-post="boost"
       />
       <post-composer />
     </div>
@@ -87,6 +88,7 @@ export default {
       toggleComposer: 'posts/toggleComposer',
       clearAlert: 'alert/clear',
       favoritePost: 'posts/favoritePost',
+      boostPost: 'posts/boostPost',
     }),
     async loadMore() {
       this.currentPage += 1
@@ -94,6 +96,9 @@ export default {
     },
     async favorite(id) {
       this.favoritePost(id)
+    },
+    async boost(post) {
+      this.boostPost(post)
     },
   },
   directives: {

@@ -111,6 +111,7 @@
               :class="{
                 'text-yellow-500': post.quoted_post[0].is_favorited_count,
               }"
+              @click.prevent="favorite(post.quoted_post[0].id)"
             >
               <i class="bx bxs-star text-lg mr-3"></i
               >{{ post.quoted_post[0].likes_count }}
@@ -188,14 +189,41 @@
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
               {{ post.comments_count }}
             </div>
-            <div
-              class="flex items-center cursor-pointer"
-              :class="{
-                'text-purple-600': post.is_boosted_count,
-              }"
-            >
-              <i class="bx bxs-zap text-lg mr-3"></i>{{ post.boosts_count }}
+            <div ref="boost" class="relative">
+              <a
+                class="flex items-center cursor-pointer boost"
+                :class="{
+                  'text-purple-600': post.is_boosted_count,
+                }"
+                @click.prevent="showQuote(post.id)"
+              >
+                <i class="bx bxs-zap text-lg mr-3 boost"></i
+                >{{ post.boosts_count }}
+              </a>
+              <ul
+                class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                v-if="askQuote === post.id"
+              >
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click="boost(post)"
+                  >
+                    <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                  >
+                    <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                  </a>
+                </li>
+              </ul>
             </div>
+
             <a
               class="flex items-center cursor-pointer"
               :class="{ 'text-yellow-500': post.is_favorited_count }"
@@ -227,11 +255,36 @@ export default {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
+      askQuote: null,
     }
+  },
+  mounted() {
+    document.addEventListener('click', this.clickHandler)
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.clickHandler)
   },
   methods: {
     favorite(id) {
       this.$emit('favorite-post', id)
+    },
+    boost(post) {
+      this.$emit('boost-post', post)
+    },
+    showQuote(id) {
+      if (this.askQuote && this.askQuote === id) {
+        this.askQuote = null
+      } else {
+        this.askQuote = id
+      }
+    },
+    clickHandler(event) {
+      const { target } = event
+      if (!target.classList.contains('boost')) {
+        if (this.askQuote) {
+          this.askQuote = null
+        }
+      }
     },
   },
 }
