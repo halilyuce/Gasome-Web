@@ -36,6 +36,13 @@ export const mutations = {
   },
   setBoost(state, payload) {
     if (payload.response.success) {
+      const index = state.posts.findIndex(
+        (post) =>
+          post.quote_id === payload.sent.id &&
+          post.user_id === this.state.auth.user.id
+      )
+      state.posts.splice(index, 1)
+
       const posts = state.posts.filter(
         (post) =>
           post.quote_id ===
@@ -49,22 +56,31 @@ export const mutations = {
       )
       posts.forEach((postItem) => {
         const item = state.posts.find((post) => post.id === postItem.id)
-        item.is_boosted_count = false
-        item.boosts_count -= 1
-        const quote = state.posts.find((post) => post.quote_id === postItem.id)
-        quote.quoted_post[0].is_boosted_count = false
-        quote.quoted_post[0].boosts_count -= 1
+        if (item.id === payload.sent.id) {
+          item.is_boosted_count = false
+          item.boosts_count -= 1
+        } else {
+          item.quoted_post[0].is_boosted_count = false
+          item.quoted_post[0].boosts_count -= 1
+        }
       })
     } else {
       state.posts.unshift(payload.response)
-      const item = state.posts.find(
-        (post) => post.id === payload.response.quote_id
+
+      const posts = state.posts.filter(
+        (post) =>
+          (post.quote_id === payload.response.quote_id && post.only_boost) ||
+          post.id === payload.response.quote_id
       )
-      Object.assign(item, payload.response.quoted_post[0])
-      const quote = state.posts.find(
-        (post) => post.quote_id === payload.response.quote_id
-      )
-      Object.assign(quote.quoted_post[0], payload.response.quoted_post[0])
+
+      posts.forEach((postItem) => {
+        const item = state.posts.find((post) => post.id === postItem.id)
+        if (item.id === payload.response.quote_id) {
+          Object.assign(item, payload.response.quoted_post[0])
+        } else {
+          Object.assign(item.quoted_post[0], payload.response.quoted_post[0])
+        }
+      })
     }
   },
 }
