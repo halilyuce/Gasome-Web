@@ -195,7 +195,7 @@
                 :class="{
                   'text-purple-600': post.is_boosted_count,
                 }"
-                @click.prevent="showQuote(post.id)"
+                @click.prevent="showQuote(post)"
               >
                 <i class="bx bxs-zap text-lg mr-3 boost"></i
                 >{{ post.boosts_count }}
@@ -271,11 +271,15 @@ export default {
     boost(post) {
       this.$emit('boost-post', post)
     },
-    showQuote(id) {
-      if (this.askQuote && this.askQuote === id) {
-        this.askQuote = null
+    showQuote(post) {
+      if (post.is_boosted_count) {
+        this.boost(post)
       } else {
-        this.askQuote = id
+        if (this.askQuote && this.askQuote === post.id) {
+          this.askQuote = null
+        } else {
+          this.askQuote = post.id
+        }
       }
     },
     clickHandler(event) {
