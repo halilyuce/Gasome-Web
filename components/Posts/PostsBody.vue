@@ -2,6 +2,15 @@
   <ul
     class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid mt-2 border-t border-gray-100 dark:border-gray-600 dark:border-opacity-20"
   >
+    <CoolLightBox
+      :items="images"
+      :index="index"
+      :useZoomBar="true"
+      :fullScreen="true"
+      :closeOnClickOutsideMobile="true"
+      :effect="'fade'"
+      @close="closeImageViewer()"
+    />
     <li
       :v-if="posts.length > 0"
       v-for="post in posts"
@@ -40,36 +49,40 @@
           </div>
           <div>
             <p class="dark:text-gray-300" v-html="post.quoted_post[0].text" />
+
             <div
-              class="aspect-w-16 aspect-h-9 mt-2"
               v-if="
                 post.quoted_post[0].image &&
                 post.quoted_post[0].image.length > 0
               "
             >
-              <img
-                :src="`${
-                  mediumImagePath + post.quoted_post[0].image[0].image
-                }.jpg`"
-                class="rounded-xl object-cover"
-                alt=""
-              />
+              <div
+                class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
+                v-for="(image, index) in post.quoted_post[0].image"
+                :key="image.id"
+                @click="
+                  showImageViewer({
+                    post: post.quoted_post[0],
+                    index: index,
+                  })
+                "
+              >
+                <img
+                  :src="`${mediumImagePath + image.image}.jpg`"
+                  class="rounded-xl object-cover"
+                  alt=""
+                />
+              </div>
             </div>
-
             <div
-              class="relative mt-2 aspect-w-16 aspect-h-9"
+              class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
+              @click.stop="showVideoViewer(post.quoted_post[0].vide)"
               v-if="post.quoted_post[0].video"
             >
               <div
                 class="absolute w-full h-full flex justify-center items-center"
               >
-                <vs-button
-                  color="#ff3e4e"
-                  size="xl"
-                  circle
-                  floating
-                  @click.stop=""
-                >
+                <vs-button color="#ff3e4e" size="xl" circle floating>
                   <i class="bx bx-play text-xl"></i>
                 </vs-button>
               </div>
@@ -174,28 +187,40 @@
           </div>
           <div>
             <p class="dark:text-gray-300" v-html="post.text" />
+
             <div
+              class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+              :class="{ 'grid-cols-2': post.image.length > 1 }"
               v-if="post.image && post.image.length > 0"
-              class="aspect-w-16 aspect-h-9 mt-2"
             >
-              <img
-                :src="`${mediumImagePath + post.image[0].image}.jpg`"
-                class="rounded-xl object-cover"
-                alt=""
-              />
+              <div
+                class="aspect-w-16 aspect-h-9 cursor-pointer"
+                v-for="(image, index) in post.image"
+                :key="image.id"
+                @click="
+                  showImageViewer({
+                    post: post,
+                    index: index,
+                  })
+                "
+              >
+                <img
+                  :src="`${mediumImagePath + image.image}.jpg`"
+                  class="rounded-xl object-cover"
+                  alt=""
+                />
+              </div>
             </div>
 
-            <div class="relative mt-2 aspect-w-16 aspect-h-9" v-if="post.video">
+            <div
+              class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
+              @click.stop="showVideoViewer(post.video)"
+              v-if="post.video"
+            >
               <div
                 class="absolute w-full h-full flex justify-center items-center"
               >
-                <vs-button
-                  color="#ff3e4e"
-                  size="xl"
-                  circle
-                  floating
-                  @click.stop=""
-                >
+                <vs-button color="#ff3e4e" size="xl" circle floating>
                   <i class="bx bx-play text-xl"></i>
                 </vs-button>
               </div>
@@ -283,7 +308,10 @@ export default {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
+      largeImagePath: process.env.POSTIMAGE_LARGE,
       askQuote: null,
+      index: null,
+      images: [],
     }
   },
   mounted() {
@@ -301,6 +329,23 @@ export default {
     },
     quote(post) {
       this.$emit('quote-post', post)
+    },
+    async showVideoViewer(video) {
+      await this.images.push({
+        src: `https://www.youtube.com/watch?v=${video}`,
+      })
+      this.index = 0
+    },
+    async showImageViewer(payload) {
+      await payload.post.image.forEach((image) => {
+        this.images.push(`${this.largeImagePath + image.image}.jpg`)
+      })
+      console.warn(this.images)
+      this.index = payload.index
+    },
+    async closeImageViewer() {
+      this.index = null
+      this.images = []
     },
     showQuote(post) {
       if (post.is_boosted_count) {
