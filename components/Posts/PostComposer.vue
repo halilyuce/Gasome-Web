@@ -131,6 +131,8 @@
         </vs-button>
       </div>
 
+      <quoted-post v-if="quote" :post="quote" />
+
       <div class="flex justify-between">
         <div class="flex items-center">
           <vs-button
@@ -172,9 +174,14 @@
 import axios from 'axios'
 import { mapState, mapActions } from 'vuex'
 import EmojiPicker from 'vue-emoji-picker'
+import QuotedPost from './QuotedPost.vue'
 export default {
   components: {
     EmojiPicker,
+    QuotedPost,
+  },
+  props: {
+    quote: null,
   },
   computed: {
     ...mapState({
@@ -283,6 +290,9 @@ export default {
           text: this.text,
           image: await this.convertImages(),
         }
+        if (this.quote) {
+          payload['quoteId'] = this.quote.id
+        }
         setTimeout(function () {
           self.newPost(payload).then(() => {
             self.toggleComposer(false)
@@ -292,6 +302,9 @@ export default {
         const payload = {
           text: this.text,
           video: this.getYoutubeID(this.youtubeURL),
+        }
+        if (this.quote) {
+          payload['quoteId'] = this.quote.id
         }
         this.newPost(payload).then(() => {
           this.toggleComposer(false)

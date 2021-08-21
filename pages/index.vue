@@ -20,7 +20,7 @@
             <i class="bx bx-search"></i>
           </template>
         </vs-input>
-        <vs-button :active="true" @click="toggleComposer(true)">
+        <vs-button :active="true" @click="openComposer()">
           <i class="bx bx-edit text-xl"></i>
 
           <template #animate>
@@ -35,8 +35,9 @@
         v-bind:posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
+        @quote-post="quote"
       />
-      <post-composer />
+      <post-composer :quote="quotedPost" />
     </div>
   </div>
 </template>
@@ -76,6 +77,7 @@ export default {
     return {
       currentPage: 1,
       search: '',
+      quotedPost: null,
     }
   },
   mounted() {
@@ -90,6 +92,10 @@ export default {
       favoritePost: 'posts/favoritePost',
       boostPost: 'posts/boostPost',
     }),
+    openComposer() {
+      this.quotedPost = null
+      this.toggleComposer(true)
+    },
     async loadMore() {
       this.currentPage += 1
       this.loadMorePosts(this.currentPage)
@@ -99,6 +105,10 @@ export default {
     },
     async boost(post) {
       this.boostPost(post)
+    },
+    async quote(post) {
+      this.quotedPost = post
+      this.toggleComposer(true)
     },
   },
   directives: {

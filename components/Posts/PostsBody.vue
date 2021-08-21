@@ -97,25 +97,52 @@
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
               {{ post.quoted_post[0].comments_count }}
             </div>
-            <div
-              class="flex items-center"
-              :class="{
-                'text-purple-600': post.quoted_post[0].is_boosted_count,
-              }"
-            >
-              <i class="bx bxs-zap text-lg mr-3"></i
-              >{{ post.quoted_post[0].boosts_count }}
+
+            <div ref="boost" class="relative">
+              <a
+                class="flex items-center cursor-pointer boost"
+                :class="{
+                  'text-purple-600': post.quoted_post[0].is_boosted_count,
+                }"
+                @click.prevent="showQuote(post)"
+              >
+                <i class="bx bxs-zap text-lg mr-3 boost"></i
+                >{{ post.quoted_post[0].boosts_count }}
+              </a>
+              <ul
+                class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                v-if="askQuote === post.id"
+              >
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click="boost(post.quoted_post[0])"
+                  >
+                    <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click="quote(post.quoted_post[0])"
+                  >
+                    <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                  </a>
+                </li>
+              </ul>
             </div>
-            <div
-              class="flex items-center"
+
+            <a
+              class="flex items-center cursor-pointer"
               :class="{
                 'text-yellow-500': post.quoted_post[0].is_favorited_count,
               }"
               @click.prevent="favorite(post.quoted_post[0].id)"
             >
-              <i class="bx bxs-star text-lg mr-3"></i
-              >{{ post.quoted_post[0].likes_count }}
-            </div>
+              <i class="bx bxs-star text-lg mr-3"></i>{{ post.likes_count }}
+            </a>
             <div class="flex items-center">
               <i class="bx bx-share-alt text-lg"></i>
             </div>
@@ -217,6 +244,7 @@
                   <a
                     href="javascript:void(0)"
                     class="dark:text-gray-300 hover:text-purple-500"
+                    @click="quote(post)"
                   >
                     <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
                   </a>
@@ -270,6 +298,9 @@ export default {
     },
     boost(post) {
       this.$emit('boost-post', post)
+    },
+    quote(post) {
+      this.$emit('quote-post', post)
     },
     showQuote(post) {
       if (post.is_boosted_count) {
