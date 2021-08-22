@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid mt-2 border-t border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
   >
     <CoolLightBox
       :items="images"
@@ -8,7 +8,6 @@
       :useZoomBar="true"
       :fullScreen="true"
       :closeOnClickOutsideMobile="true"
-      :effect="'fade'"
       @close="closeImageViewer()"
     />
     <li
@@ -55,6 +54,8 @@
                 post.quoted_post[0].image &&
                 post.quoted_post[0].image.length > 0
               "
+              class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+              :class="{ 'grid-cols-2': post.quoted_post[0].image.length > 1 }"
             >
               <div
                 class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
@@ -234,6 +235,7 @@
             <quoted-post
               v-if="post.quoted_post && post.quoted_post.length > 0"
               :post="post.quoted_post[0]"
+              @show-viewer="showImageViewer"
             />
           </div>
           <div class="flex justify-between mt-3 text-gray-500">
@@ -340,7 +342,6 @@ export default {
       await payload.post.image.forEach((image) => {
         this.images.push(`${this.largeImagePath + image.image}.jpg`)
       })
-      console.warn(this.images)
       this.index = payload.index
     },
     async closeImageViewer() {

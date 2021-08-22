@@ -17,19 +17,25 @@
         </template>
         Home
       </vs-sidebar-item>
-      <vs-sidebar-item id="swaps">
+      <vs-sidebar-item id="swaps" disabled>
         <template #icon>
           <i class="bx bxs-hand-up"></i>
         </template>
         Swaps
       </vs-sidebar-item>
-      <vs-sidebar-item id="discover">
+      <vs-sidebar-item id="discover" disabled>
         <template #icon>
           <i class="bx bxs-game"></i>
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item id="chat">
+      <vs-sidebar-item id="notification" disabled>
+        <template #icon>
+          <i class="bx bxs-bell"></i>
+        </template>
+        Notifications
+      </vs-sidebar-item>
+      <vs-sidebar-item id="chat" disabled>
         <template #icon>
           <i class="bx bxs-chat"></i>
         </template>

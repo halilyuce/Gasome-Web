@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col py-5 px-8 h-full">
+  <div class="flex flex-col pt-3 pb-5 px-8 h-full">
     <div class="flex justify-between items-center">
       <vs-switch v-model="isDark">
         <template #circle>

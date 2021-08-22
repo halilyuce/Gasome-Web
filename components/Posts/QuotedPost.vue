@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col border rounded-xl px-3 py-2 border-gray-300 dark:border-gray-700 mt-1"
+    class="flex flex-col border rounded-xl px-3 py-2 border-gray-200 dark:border-gray-700 mt-1"
   >
     <div class="flex justify-between">
       <div class="flex flex-row items-center">
@@ -18,14 +18,27 @@
     <p v-html="post.text" />
 
     <div
+      class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+      :class="{ 'grid-cols-2': post.image.length > 1 }"
       v-if="post.image && post.image.length > 0"
-      class="aspect-w-16 aspect-h-9 mt-3"
     >
-      <img
-        :src="`${mediumImagePath + post.image[0].image}.jpg`"
-        class="rounded-xl object-cover"
-        alt=""
-      />
+      <div
+        class="aspect-w-16 aspect-h-9 cursor-pointer"
+        v-for="(image, index) in post.image"
+        :key="image.id"
+        @click="
+          showViewer({
+            post: post,
+            index: index,
+          })
+        "
+      >
+        <img
+          :src="`${mediumImagePath + image.image}.jpg`"
+          class="rounded-xl object-cover"
+          alt=""
+        />
+      </div>
     </div>
 
     <div class="relative mt-2 aspect-w-16 aspect-h-9" v-if="post.video">
@@ -44,6 +57,7 @@
     <quoted-post
       v-if="post.quoted_post && post.quoted_post.length > 0"
       :post="post.quoted_post[0]"
+      @show-viewer="showViewer"
     />
   </div>
 </template>
@@ -58,6 +72,11 @@ export default {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
     }
+  },
+  methods: {
+    async showViewer(payload) {
+      this.$emit('show-viewer', payload)
+    },
   },
 }
 </script>

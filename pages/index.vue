@@ -6,26 +6,26 @@
     infinite-scroll-throttle-delay="1000"
     class="bg-white dark:bg-black max-h-screen overflow-y-auto"
   >
-    <div class="my-5">
-      <div class="flex justify-between items-center px-5">
+    <div class="my-3">
+      <div
+        class="flex justify-between items-center px-5 pb-3 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+      >
         <vs-input
           color="#7d33ff"
           type="search"
           v-model="search"
           icon-after
           placeholder="Search A Game or User"
-          class="mb-3 w-72"
+          class="w-72"
         >
           <template #icon>
             <i class="bx bx-search"></i>
           </template>
         </vs-input>
-        <vs-button :active="true" @click="openComposer()">
-          <i class="bx bx-edit text-xl"></i>
+        <vs-button @click="openComposer()">
+          <i class="bx bx-edit text-lg"></i>
 
-          <template #animate>
-            <span class="px-6">Post</span>
-          </template>
+          <span class="px-2">New Post</span>
         </vs-button>
       </div>
       <PostsBody

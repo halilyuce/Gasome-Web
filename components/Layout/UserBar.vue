@@ -1,42 +1,44 @@
 <template>
   <div class="flex flex-col items-center w-full my-5">
     <div class="flex flex-col mx-7 h-full">
-      <div class="flex flex-row items-center">
-        <n-link :to="`/u/${loggedInUser.username}`">
-          <vs-avatar size="52" badge badge-color="success">
-            <img
-              v-if="loggedInUser"
-              :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
-              alt="Avatar"
-            />
-          </vs-avatar>
-        </n-link>
-        <div class="flex flex-col ml-3">
-          <h3 class="mt-2">{{ loggedInUser ? loggedInUser.name : '' }}</h3>
-          <p class="text-gray-400 mb-2">
-            {{ loggedInUser ? '@' + loggedInUser.username : '' }}
-          </p>
+      <div class="bg-white dark:bg-black py-5 pl-5 pr-7 rounded-xl">
+        <div class="flex flex-row items-center">
+          <n-link :to="`/u/${loggedInUser.username}`">
+            <vs-avatar size="52" badge badge-color="success">
+              <img
+                v-if="loggedInUser"
+                :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
+                alt="Avatar"
+              />
+            </vs-avatar>
+          </n-link>
+          <div class="flex flex-col ml-3">
+            <h3>{{ loggedInUser ? loggedInUser.name : '' }}</h3>
+            <p class="text-gray-400">
+              {{ loggedInUser ? '@' + loggedInUser.username : '' }}
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex justify-between ml-1 mb-2">
-        <div class="flex flex-col items-center">
-          <h3>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h3>
-          <span class="text-gray-400 text-xs">Swaps</span>
+        <div class="flex justify-between my-3">
+          <div class="flex flex-col items-center">
+            <h3>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h3>
+            <span class="text-gray-400 text-xs">Swaps</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <h3>{{ loggedInUser ? loggedInUser.follows : '' }}</h3>
+            <span class="text-gray-400 text-xs">Follows</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <h3>{{ loggedInUser ? loggedInUser.followers : '' }}</h3>
+            <span class="text-gray-400 text-xs">Followers</span>
+          </div>
         </div>
-        <div class="flex flex-col items-center">
-          <h3>{{ loggedInUser ? loggedInUser.follows : '' }}</h3>
-          <span class="text-gray-400 text-xs">Follows</span>
-        </div>
-        <div class="flex flex-col items-center">
-          <h3>{{ loggedInUser ? loggedInUser.followers : '' }}</h3>
-          <span class="text-gray-400 text-xs">Followers</span>
-        </div>
-      </div>
 
-      <vs-button block>
-        <span @click="openNotificationCookie">Edit Profile</span>
-      </vs-button>
+        <vs-button @click="openNotificationCookie" block>
+          Edit Profile
+        </vs-button>
+      </div>
 
       <h2 class="mt-10 text-center">Statistics</h2>
       <div class="grid grid-cols-6 gap-0">
