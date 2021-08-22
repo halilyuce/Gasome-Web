@@ -105,8 +105,8 @@ export default {
   methods: {
     ...mapActions({
       getUserProfile: 'profile/getUserProfile',
-      favoritePost: 'posts/favoritePost',
-      boostPost: 'posts/boostPost',
+      favoritePost: 'profile/favoritePost',
+      boostPost: 'profile/boostPost',
       toggleComposer: 'posts/toggleComposer',
     }),
     openComposer() {

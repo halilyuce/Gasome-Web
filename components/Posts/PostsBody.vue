@@ -14,7 +14,7 @@
       :v-if="posts.length > 0"
       v-for="post in posts"
       v-bind:key="post.id"
-      class="pt-5 px-5 pb-2"
+      class="pt-4 px-5 pb-3"
     >
       <div
         v-if="post.only_boost"
