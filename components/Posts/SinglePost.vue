@@ -1,7 +1,5 @@
 <template>
-  <ul
-    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
-  >
+  <div class="border-b border-gray-200 dark:border-gray-700">
     <CoolLightBox
       :items="images"
       :index="index"
@@ -10,13 +8,7 @@
       :closeOnClickOutsideMobile="true"
       @close="closeImageViewer()"
     />
-
-    <li
-      v-for="post in posts"
-      v-bind:key="post.id"
-      class="pt-4 px-5 pb-3 hover-bg"
-    >
-      <!-- <n-link :to="`/p/${post.id}`"> -->
+    <div :v-if="post" class="py-3">
       <div
         v-if="post.only_boost"
         class="flex flex-row items-center text-gray-400 ml-9 mb-2"
@@ -24,8 +16,8 @@
         <i class="bx bxs-zap mr-1"></i>
         <span>{{ post.user.name + ' ' + 'Boosted' }} </span>
       </div>
-      <div v-if="post.only_boost" class="flex flex-row">
-        <div class="user">
+      <div v-if="post.only_boost" class="flex flex-col">
+        <div class="user flex flex-row mb-3 px-5">
           <n-link :to="`/u/${post.quoted_post[0].user.username}`">
             <vs-avatar size="50">
               <img
@@ -34,35 +26,35 @@
               />
             </vs-avatar>
           </n-link>
-        </div>
-        <div class="ml-4 w-full">
-          <div class="flex justify-between">
-            <div class="flex flex-row items-center">
-              <h4 class="">{{ post.quoted_post[0].user.name }}</h4>
-              <span class="text-gray-400 ml-1">{{
-                '@' + post.quoted_post[0].user.username
-              }}</span>
-            </div>
-            <span class="text-gray-500 text-sm">
-              {{ $moment(post.quoted_post[0].created_at).fromNow(true) }}</span
-            >
+
+          <div class="flex flex-col ml-3">
+            <h4 class="">{{ post.quoted_post[0].user.name }}</h4>
+            <span class="text-gray-400">{{
+              '@' + post.quoted_post[0].user.username
+            }}</span>
           </div>
+        </div>
+
+        <div class="w-full">
           <div>
-            <p class="dark:text-gray-300" v-html="post.quoted_post[0].text" />
+            <p
+              class="dark:text-gray-300 text-lg px-5"
+              v-html="post.quoted_post[0].text"
+            />
 
             <div
               v-if="
                 post.quoted_post[0].image &&
                 post.quoted_post[0].image.length > 0
               "
-              class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+              class="grid grid-cols-1 gap-2 auto-cols-max px-5 mt-2"
               :class="{ 'grid-cols-2': post.quoted_post[0].image.length > 1 }"
             >
               <div
                 class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
                 v-for="(image, index) in post.quoted_post[0].image"
                 :key="image.id"
-                @click.prevent="
+                @click="
                   showImageViewer({
                     post: post.quoted_post[0],
                     index: index,
@@ -76,8 +68,9 @@
                 />
               </div>
             </div>
+
             <div
-              class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
+              class="relative mt-2 aspect-w-16 aspect-h-9 px-5 cursor-pointer"
               @click.stop="showVideoViewer(post.quoted_post[0].vide)"
               v-if="post.quoted_post[0].video"
             >
@@ -99,18 +92,43 @@
               />
             </div>
 
-            <quoted-post
-              v-if="
-                post.quoted_post[0].quoted_post &&
-                post.quoted_post[0].quoted_post.length > 0
-              "
-              :post="post.quoted_post[0].quoted_post[0]"
-            />
+            <div class="px-5">
+              <quoted-post
+                v-if="
+                  post.quoted_post[0].quoted_post &&
+                  post.quoted_post[0].quoted_post.length > 0
+                "
+                :post="post.quoted_post[0].quoted_post[0]"
+              />
+            </div>
+
+            <p class="text-gray-500 px-5 mt-3 text-sm">
+              {{ $moment(post.quoted_post[0].created_at).format('lll') }}
+            </p>
           </div>
-          <div class="flex justify-between mt-3 text-gray-500">
+
+          <div
+            class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
+          >
+            <div class="flex items-center mr-5">
+              <b>{{ post.quoted_post[0].boosts_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.quoted_post[0].boosts_count > 1 ? 'Boosts' : 'Boost'
+              }}</span>
+            </div>
+            <div class="flex items-center">
+              <b>{{ post.quoted_post[0].likes_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.quoted_post[0].likes_count > 1 ? 'Favorites' : 'Favorite'
+              }}</span>
+            </div>
+          </div>
+
+          <div
+            class="flex justify-between mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700 text-gray-500"
+          >
             <div class="flex items-center">
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
-              {{ post.quoted_post[0].comments_count }}
             </div>
 
             <div ref="boost" class="relative">
@@ -121,8 +139,7 @@
                 }"
                 @click.prevent="showQuote(post)"
               >
-                <i class="bx bxs-zap text-lg mr-3 boost"></i
-                >{{ post.quoted_post[0].boosts_count }}
+                <i class="bx bxs-zap text-lg mr-3 boost"></i>
               </a>
               <ul
                 class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
@@ -156,7 +173,7 @@
               }"
               @click.prevent="favorite(post.quoted_post[0].id)"
             >
-              <i class="bx bxs-star text-lg mr-3"></i>{{ post.likes_count }}
+              <i class="bx bxs-star text-lg mr-3"></i>
             </a>
             <div class="flex items-center">
               <i class="bx bx-share-alt text-lg"></i>
@@ -164,8 +181,8 @@
           </div>
         </div>
       </div>
-      <div v-else class="flex flex-row">
-        <div class="user">
+      <div v-else class="flex flex-col">
+        <div class="user flex flex-row mb-3 px-5">
           <n-link :to="`/u/${post.user.username}`">
             <vs-avatar size="50">
               <img
@@ -174,24 +191,18 @@
               />
             </vs-avatar>
           </n-link>
-        </div>
-        <div class="ml-4 w-full">
-          <div class="flex justify-between">
-            <div class="flex flex-row items-center">
-              <h4 class="">{{ post.user.name }}</h4>
-              <span class="text-gray-400 ml-1">{{
-                '@' + post.user.username
-              }}</span>
-            </div>
-            <span class="text-gray-500 text-sm">
-              {{ $moment(post.created_at).fromNow(true) }}</span
-            >
+
+          <div class="flex flex-col ml-3">
+            <h4 class="">{{ post.user.name }}</h4>
+            <span class="text-gray-400">{{ '@' + post.user.username }}</span>
           </div>
+        </div>
+        <div class="w-full">
           <div>
-            <p class="dark:text-gray-300" v-html="post.text" />
+            <p class="dark:text-gray-300 text-lg px-5" v-html="post.text" />
 
             <div
-              class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+              class="grid grid-cols-1 gap-2 auto-cols-max px-5 mt-2"
               :class="{ 'grid-cols-2': post.image.length > 1 }"
               v-if="post.image && post.image.length > 0"
             >
@@ -199,7 +210,7 @@
                 class="aspect-w-16 aspect-h-9 cursor-pointer"
                 v-for="(image, index) in post.image"
                 :key="image.id"
-                @click.prevent="
+                @click="
                   showImageViewer({
                     post: post,
                     index: index,
@@ -215,7 +226,7 @@
             </div>
 
             <div
-              class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
+              class="relative mt-2 aspect-w-16 aspect-h-9 px-5 cursor-pointer"
               @click.stop="showVideoViewer(post.video)"
               v-if="post.video"
             >
@@ -233,16 +244,41 @@
               />
             </div>
 
-            <quoted-post
-              v-if="post.quoted_post && post.quoted_post.length > 0"
-              :post="post.quoted_post[0]"
-              @show-viewer="showImageViewer"
-            />
+            <div class="px-5">
+              <quoted-post
+                v-if="post.quoted_post && post.quoted_post.length > 0"
+                :post="post.quoted_post[0]"
+                @show-viewer="showImageViewer"
+              />
+            </div>
           </div>
-          <div class="flex justify-between mt-3 text-gray-500">
+
+          <p class="text-gray-500 px-5 mt-3 text-sm">
+            {{ $moment(post.created_at).format('lll') }}
+          </p>
+
+          <div
+            class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
+          >
+            <div class="flex items-center mr-5">
+              <b>{{ post.boosts_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.boosts_count > 1 ? 'Boosts' : 'Boost'
+              }}</span>
+            </div>
+            <div class="flex items-center">
+              <b>{{ post.likes_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.likes_count > 1 ? 'Favorites' : 'Favorite'
+              }}</span>
+            </div>
+          </div>
+
+          <div
+            class="flex justify-between mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700 text-gray-500"
+          >
             <div class="flex items-center cursor-pointer">
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
-              {{ post.comments_count }}
             </div>
             <div ref="boost" class="relative">
               <a
@@ -252,8 +288,7 @@
                 }"
                 @click.prevent="showQuote(post)"
               >
-                <i class="bx bxs-zap text-lg mr-3 boost"></i
-                >{{ post.boosts_count }}
+                <i class="bx bxs-zap text-lg mr-3 boost"></i>
               </a>
               <ul
                 class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
@@ -285,7 +320,7 @@
               :class="{ 'text-yellow-500': post.is_favorited_count }"
               @click.prevent="favorite(post.id)"
             >
-              <i class="bx bxs-star text-lg mr-3"></i>{{ post.likes_count }}
+              <i class="bx bxs-star text-lg mr-3"></i>
             </a>
             <div class="flex items-center cursor-pointer">
               <i class="bx bx-share-alt text-lg"></i>
@@ -293,18 +328,17 @@
           </div>
         </div>
       </div>
-      <!-- </n-link> -->
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 <script>
 import QuotedPost from './QuotedPost.vue'
 export default {
   components: { QuotedPost },
   props: {
-    posts: {
-      type: Array,
-      defult: [],
+    post: {
+      type: Object,
+      defult: null,
       required: true,
     },
   },

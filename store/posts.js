@@ -1,8 +1,12 @@
 export const state = () => ({
   posts: [],
+  post: null,
+  comments: [],
   loading: false,
   composer: false,
   shareLoading: false,
+  detailLoading: false,
+  commentsLoading: false,
 })
 export const getters = {
   composer: (state) => {
@@ -12,6 +16,12 @@ export const getters = {
 export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
+  },
+  setPost(state, payload) {
+    state.post = payload
+  },
+  setComments(state, payload) {
+    state.comments = payload
   },
   addPost(state, payload) {
     state.posts.unshift(payload)
@@ -24,6 +34,12 @@ export const mutations = {
   },
   setShareLoading(state, payload) {
     state.shareLoading = payload
+  },
+  setDetailLoading(state, payload) {
+    state.detailLoading = payload
+  },
+  setCommentsLoading(state, payload) {
+    state.commentsLoading = payload
   },
   setComposer(state, payload) {
     state.composer = payload
@@ -97,6 +113,38 @@ export const actions = {
       })
       commit('setLoading', false)
     }
+  },
+  async getPostById({ dispatch, commit }, id) {
+    commit('setDetailLoading', true)
+    try {
+      const response = await this.$axios.get('/api/getPostById?postId=' + id)
+      commit('setPost', response.data.data)
+      commit('setDetailLoading', false)
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setDetailLoading', false)
+    }
+  },
+  async getCommentsById({ dispatch, commit }, id) {
+    commit('setCommentsLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/getCommentsById?postId=' + id
+      )
+      commit('setComments', response.data.data.data)
+      commit('setCommentsLoading', false)
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setCommentsLoading', false)
+    }
+  },
+  async getPostDetail({ dispatch }, slug) {
+    await dispatch('getPostById', slug)
+    await dispatch('getCommentsById', slug)
   },
   async loadMorePosts({ dispatch, commit }, page) {
     try {
