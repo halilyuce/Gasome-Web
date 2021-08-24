@@ -17,6 +17,7 @@
           icon-after
           placeholder="Search A Game or User"
           class="w-72"
+          disabled
         >
           <template #icon>
             <i class="bx bx-search"></i>

@@ -54,11 +54,11 @@
       />
     </div>
 
-    <quoted-post
-      v-if="post.quoted_post && post.quoted_post.length > 0"
-      :post="post.quoted_post[0]"
-      @show-viewer="showViewer"
-    />
+    <div v-if="post.quoted_post && post.quoted_post.length > 0">
+      <n-link :to="`/p/${post.quoted_post[0].id}`">
+        <quoted-post :post="post.quoted_post[0]" @show-viewer="showViewer" />
+      </n-link>
+    </div>
   </div>
 </template>
 <script>
