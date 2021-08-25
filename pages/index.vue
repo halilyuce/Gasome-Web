@@ -4,7 +4,7 @@
     v-infinite-scroll="loadMore"
     infinite-scroll-distance="5"
     infinite-scroll-throttle-delay="1000"
-    class="bg-white dark:bg-black max-h-screen overflow-y-auto"
+    class="bg-white dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
   >
     <div class="my-3">
       <div
