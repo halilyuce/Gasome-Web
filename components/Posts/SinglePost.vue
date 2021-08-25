@@ -70,7 +70,7 @@
             </div>
 
             <div
-              class="relative mt-2 aspect-w-16 aspect-h-9 px-5 cursor-pointer"
+              class="relative mt-2 aspect-w-16 aspect-h-9 mx-5 cursor-pointer"
               @click.stop="showVideoViewer(post.quoted_post[0].vide)"
               v-if="post.quoted_post[0].video"
             >
@@ -175,8 +175,37 @@
             >
               <i class="bx bxs-star text-lg mr-3"></i>
             </a>
-            <div class="flex items-center">
-              <i class="bx bx-share-alt text-lg"></i>
+            <div ref="share" class="flex items-center relative">
+              <a
+                class="share"
+                href="javascript:void(0)"
+                @click.prevent="showShareList(post)"
+              >
+                <i class="bx bx-share-alt text-lg share"></i
+              ></a>
+              <ul
+                class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                v-if="showShare === post.id"
+              >
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click.prevent="copyLink(post)"
+                  >
+                    <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post Link
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click.prevent="shareTwitter(post)"
+                  >
+                    <i class="bx bxl-twitter text-lg mr-3"></i> Share on Twitter
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -226,7 +255,7 @@
             </div>
 
             <div
-              class="relative mt-2 aspect-w-16 aspect-h-9 px-5 cursor-pointer"
+              class="relative mt-2 aspect-w-16 aspect-h-9 mx-5 cursor-pointer"
               @click.stop="showVideoViewer(post.video)"
               v-if="post.video"
             >
@@ -322,8 +351,37 @@
             >
               <i class="bx bxs-star text-lg mr-3"></i>
             </a>
-            <div class="flex items-center cursor-pointer">
-              <i class="bx bx-share-alt text-lg"></i>
+            <div ref="share" class="flex items-center relative">
+              <a
+                class="share"
+                href="javascript:void(0)"
+                @click.prevent="showShareList(post)"
+              >
+                <i class="bx bx-share-alt text-lg share"></i
+              ></a>
+              <ul
+                class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                v-if="showShare === post.id"
+              >
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click.prevent="copyLink(post)"
+                  >
+                    <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post Link
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="javascript:void(0)"
+                    class="dark:text-gray-300 hover:text-purple-500"
+                    @click.prevent="shareTwitter(post)"
+                  >
+                    <i class="bx bxl-twitter text-lg mr-3"></i> Share on Twitter
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -348,6 +406,7 @@ export default {
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
       largeImagePath: process.env.POSTIMAGE_LARGE,
       askQuote: null,
+      showShare: null,
       index: null,
       images: [],
     }
@@ -357,6 +416,7 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener('click', this.clickHandler)
+    this.$emit('null', true)
   },
   methods: {
     favorite(id) {
@@ -395,11 +455,44 @@ export default {
         }
       }
     },
+    showShareList(post) {
+      if (this.showShare && this.showShare === post.id) {
+        this.showShare = null
+      } else {
+        this.showShare = post.id
+      }
+    },
+    shareTwitter(post) {
+      // Opens a pop-up with twitter sharing dialog
+      var shareURL = 'http://twitter.com/share?' //url base
+      //params
+      var params = {
+        url: `https://gasome.com/p/${post.id}`,
+        // text: 'Replace this with your text',
+        via: 'gasomecom',
+        hashtags: 'gasome',
+      }
+      for (var prop in params)
+        shareURL += '&' + prop + '=' + encodeURIComponent(params[prop])
+      window.open(
+        shareURL,
+        '',
+        'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0'
+      )
+    },
+    copyLink(post) {
+      navigator.clipboard.writeText(`https://gasome.com/p/${post.id}`)
+    },
     clickHandler(event) {
       const { target } = event
       if (!target.classList.contains('boost')) {
         if (this.askQuote) {
           this.askQuote = null
+        }
+      }
+      if (!target.classList.contains('share')) {
+        if (this.showShare) {
+          this.showShare = null
         }
       }
     },

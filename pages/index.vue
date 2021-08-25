@@ -82,7 +82,9 @@ export default {
     }
   },
   mounted() {
-    this.getPosts()
+    if (this.posts.length < 1) {
+      this.getPosts()
+    }
   },
   methods: {
     ...mapActions({

@@ -5,7 +5,7 @@
     <div
       class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
     >
-      <vs-button active @click="$router.go(-1)" size="small" transparent>
+      <vs-button active @click="$router.back()" size="small" transparent>
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">

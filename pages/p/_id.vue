@@ -8,7 +8,7 @@
     <div
       class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
     >
-      <vs-button active @click="$router.go(-1)" size="small" transparent>
+      <vs-button active @click="$router.back()" size="small" transparent>
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
@@ -24,6 +24,7 @@
       @favorite-post="favorite"
       @boost-post="boost"
       @quote-post="quote"
+      @null="makeNull"
     />
 
     <PostsBody
@@ -94,6 +95,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      setPostNull: 'posts/setPostNull',
       favoritePost: 'posts/favoritePost',
       boostPost: 'posts/boostPost',
       getPostDetail: 'posts/getPostDetail',
@@ -112,6 +114,9 @@ export default {
     async quote(post) {
       this.quotedPost = post
       this.toggleComposer(true)
+    },
+    async makeNull() {
+      this.setPostNull()
     },
   },
 }

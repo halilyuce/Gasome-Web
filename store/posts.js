@@ -20,6 +20,12 @@ export const mutations = {
   setPost(state, payload) {
     state.post = payload
   },
+  setPostNull(state) {
+    state.post = null
+  },
+  setCommentsNull(state) {
+    state.comments = []
+  },
   setComments(state, payload) {
     state.comments = payload
   },
@@ -200,6 +206,10 @@ export const actions = {
       })
       throw 'Unable to boost this post'
     }
+  },
+  async setPostNull({ commit }) {
+    commit('setPostNull')
+    commit('setCommentsNull')
   },
   async toggleComposer({ commit }, payload) {
     commit('setComposer', payload)
