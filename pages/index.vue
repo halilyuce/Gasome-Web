@@ -82,7 +82,7 @@ export default {
     }
   },
   mounted() {
-    if (this.posts.length < 1) {
+    if (this.posts.length === 0) {
       this.getPosts()
     }
   },

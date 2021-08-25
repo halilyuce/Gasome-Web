@@ -16,19 +16,20 @@
       </div>
     </div>
 
-    <single-post
-      v-if="post"
-      class="relative"
-      ref="post"
-      v-bind:post="post"
-      @favorite-post="favorite"
-      @boost-post="boost"
-      @quote-post="quote"
-      @null="makeNull"
-    />
+    <div ref="post" class="relative" :class="{ 'h-72': !post }">
+      <single-post
+        v-if="post"
+        v-bind:post="post"
+        @favorite-post="favorite"
+        @boost-post="boost"
+        @quote-post="quote"
+        @null="makeNull"
+      />
+    </div>
 
     <PostsBody
       class="relative"
+      :class="{ 'h-32': !!comments }"
       ref="comments"
       v-bind:posts="comments"
       @favorite-post="favorite"
