@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center w-full my-5">
+  <div class="flex flex-col items-center 2xl:items-end w-full my-5">
     <div class="flex flex-col mx-7 h-full">
       <div class="bg-white dark:bg-black py-5 pl-5 pr-7 rounded-xl">
         <div class="flex flex-row items-center">

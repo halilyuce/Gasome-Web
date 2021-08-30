@@ -2,12 +2,14 @@
   <div
     class="bg-gray-100 dark:bg-content-bg dark:text-white grid grid-cols-12 gap-0"
   >
-    <div class="col-span-1 lg:col-span-4 xl:col-span-3 flex">
+    <div class="col-span-1 lg:col-span-4 xl:col-span-3 2xl:col-span-4 flex">
       <sidebar class="hidden md:flex" />
       <user-bar class="hidden lg:flex" />
     </div>
-    <Nuxt class="col-span-12 md:col-span-7 lg:col-span-5" />
-    <right-sidebar class="hidden md:flex md:col-span-4 lg:col-span-3" />
+    <Nuxt class="col-span-12 md:col-span-7 lg:col-span-5 2xl:col-span-3" />
+    <right-sidebar
+      class="hidden md:flex md:col-span-4 lg:col-span-3 2xl:col-span-2"
+    />
   </div>
 </template>
 <script>
