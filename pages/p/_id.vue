@@ -27,6 +27,8 @@
       />
     </div>
 
+    <comment-composer v-bind:post="post" />
+
     <PostsBody
       class="relative"
       :class="{ 'h-32': !!comments }"
@@ -46,9 +48,10 @@ import { mapState, mapActions } from 'vuex'
 import PostComposer from '~/components/Posts/PostComposer.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import SinglePost from '~/components/Posts/SinglePost.vue'
+import CommentComposer from '~/components/Posts/CommentComposer.vue'
 export default {
   layout: 'sidebars',
-  components: { PostComposer, PostsBody, SinglePost },
+  components: { PostComposer, PostsBody, SinglePost, CommentComposer },
   computed: {
     ...mapState({
       post: (state) => state.posts.post,

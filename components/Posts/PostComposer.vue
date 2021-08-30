@@ -4,7 +4,7 @@
       <h4 class="not-margin">A penny for your <b>thoughts</b></h4>
     </template>
 
-    <div class="con-content relative">
+    <div class="relative">
       <textarea
         class="w-full px-3 py-2 text-gray-700 dark:text-gray-300 dark:bg-content-bg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
         v-model="text"
@@ -15,6 +15,7 @@
       <emoji-picker :search="emojiSearch">
         <vs-button
           shadow
+          size="small"
           slot="emoji-invoker"
           slot-scope="{ events: { click: clickEvent } }"
           @click.stop="clickEvent"
@@ -332,46 +333,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.con-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .vs-button__content {
-    padding: 8px 20px;
-  }
-
-  ~ .vs-button {
-    margin-left: 10px;
-  }
-}
-.not-margin {
-  margin: 0px;
-  font-weight: normal;
-  padding: 10px;
-  padding-bottom: 0px;
-}
-.emoji-invoker {
-  transition: all 0.2s;
-}
-.emoji-invoker:hover {
-  transform: scale(1.1);
-}
-
-.emojis:after {
-  content: '';
-  flex: auto;
-}
-
-.absolute-important {
-  position: absolute !important;
-}
-
-.t-4 {
-  top: 1rem;
-}
-.-r-64 {
-  right: -17.5rem;
-}
-</style>
+<style lang="scss"></style>

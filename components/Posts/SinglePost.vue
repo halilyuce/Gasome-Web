@@ -111,11 +111,19 @@
             class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
           >
             <div class="flex items-center mr-5">
+              <b>{{ post.quoted_post[0].comments_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.quoted_post[0].comments_count > 1 ? 'Comments' : 'Comment'
+              }}</span>
+            </div>
+
+            <div class="flex items-center mr-5">
               <b>{{ post.quoted_post[0].boosts_count }}</b>
               <span class="text-gray-400 ml-2">{{
                 post.quoted_post[0].boosts_count > 1 ? 'Boosts' : 'Boost'
               }}</span>
             </div>
+
             <div class="flex items-center">
               <b>{{ post.quoted_post[0].likes_count }}</b>
               <span class="text-gray-400 ml-2">{{
@@ -290,11 +298,19 @@
             class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
           >
             <div class="flex items-center mr-5">
+              <b>{{ post.comments_count }}</b>
+              <span class="text-gray-400 ml-2">{{
+                post.comments_count > 1 ? 'Comments' : 'Comment'
+              }}</span>
+            </div>
+
+            <div class="flex items-center mr-5">
               <b>{{ post.boosts_count }}</b>
               <span class="text-gray-400 ml-2">{{
                 post.boosts_count > 1 ? 'Boosts' : 'Boost'
               }}</span>
             </div>
+
             <div class="flex items-center">
               <b>{{ post.likes_count }}</b>
               <span class="text-gray-400 ml-2">{{

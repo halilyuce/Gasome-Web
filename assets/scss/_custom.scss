@@ -110,3 +110,50 @@
     /* Chrome/Safari/Webkit */
   }
 }
+
+
+.con-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .vs-button__content {
+    padding: 8px 20px;
+  }
+
+  ~.vs-button {
+    margin-left: 10px;
+  }
+}
+
+.not-margin {
+  margin: 0px;
+  font-weight: normal;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.emoji-invoker {
+  transition: all 0.2s;
+}
+
+.emoji-invoker:hover {
+  transform: scale(1.1);
+}
+
+.emojis:after {
+  content: '';
+  flex: auto;
+}
+
+.absolute-important {
+  position: absolute !important;
+}
+
+.t-4 {
+  top: 1rem;
+}
+
+.-r-64 {
+  right: -17.5rem;
+}

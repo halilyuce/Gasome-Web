@@ -32,6 +32,9 @@ export const mutations = {
   addPost(state, payload) {
     state.posts.unshift(payload)
   },
+  addComment(state, payload) {
+    state.comments.unshift(payload)
+  },
   insertPosts(state, payload) {
     state.posts = [...state.posts, ...payload]
   },
@@ -167,6 +170,19 @@ export const actions = {
     try {
       const response = await this.$axios.post('/api/newPost', payload)
       commit('addPost', response.data.data)
+      commit('setShareLoading', false)
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setShareLoading', false)
+    }
+  },
+  async newComment({ dispatch, commit }, payload) {
+    commit('setShareLoading', true)
+    try {
+      const response = await this.$axios.post('/api/newPost', payload)
+      commit('addComment', response.data.data)
       commit('setShareLoading', false)
     } catch (error) {
       dispatch('alert/error', error.response, {
