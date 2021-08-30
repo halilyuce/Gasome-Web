@@ -2,6 +2,9 @@ export const state = () => ({
   user: null,
   loading: false,
   mode: 'dark',
+  tab: 'home',
+  notificationBadge: 0,
+  messagesBadge: 0,
   registerLoading: false,
 })
 export const getters = {
@@ -17,11 +20,18 @@ export const mutations = {
   setLoading(state, payload) {
     state.loading = payload
   },
+  setTab(state, payload) {
+    state.tab = payload
+  },
   setRegisterLoading(state, payload) {
     state.registerLoading = payload
   },
   setMode(state, payload) {
     state.mode = payload
+  },
+  setBadges(state, payload) {
+    state.notificationBadge = payload.notifications
+    state.messagesBadge = payload.messages
   },
 }
 export const actions = {
@@ -29,6 +39,16 @@ export const actions = {
     const mode = localStorage.getItem('mode') || null
     if (mode) {
       await commit('setMode', mode)
+    }
+  },
+  async getBadges({ commit }) {
+    try {
+      const response = await this.$axios.get('/api/getBadgeCount')
+      await commit('setBadges', response.data.data)
+    } catch (error) {
+      await dispatch('alert/error', error.response, {
+        root: true,
+      })
     }
   },
   async register({ dispatch, commit }, payload) {
@@ -47,5 +67,8 @@ export const actions = {
   },
   async toggleRegisterLoading({ commit }, payload) {
     await commit('setRegisterLoading', payload)
+  },
+  async setTab({ commit }, payload) {
+    await commit('setTab', payload)
   },
 }

@@ -12,20 +12,21 @@
         <vs-button>
           <i class="bx bx-cog text-xl"></i>
         </vs-button>
-        <vs-avatar
-          size="36"
-          primary
-          badge-color="danger"
-          badge-position="top-right"
-          class="ml-2"
-          @click="openNotificationUser"
-        >
-          <i class="bx bx-bell dark:text-white"></i>
+        <n-link :to="'/notifications'">
+          <vs-avatar
+            size="36"
+            primary
+            badge-color="danger"
+            badge-position="top-right"
+            class="ml-2"
+          >
+            <i class="bx bx-bell dark:text-white"></i>
 
-          <template #badge>
-            <span class="dark:text-white">28</span>
-          </template>
-        </vs-avatar>
+            <template v-if="notificationBadge && notificationBadge > 0" #badge>
+              <span class="dark:text-white">{{ notificationBadge }}</span>
+            </template>
+          </vs-avatar>
+        </n-link>
       </div>
     </div>
 
@@ -122,6 +123,7 @@ export default {
     ...mapState({
       alert: (state) => state.alert,
       recommendedUsers: (state) => state.sidebar.recommendedUsers,
+      notificationBadge: (state) => state.notificationBadge,
       loading: (state) => state.sidebar.loading,
     }),
   },
@@ -147,6 +149,7 @@ export default {
   },
   mounted() {
     this.isDark = localStorage.getItem('mode') === 'light' ? true : false
+    this.getBadges()
     if (!this.recommendedUsers) {
       this.getRecommendedUsers()
     }
@@ -155,6 +158,7 @@ export default {
   methods: {
     ...mapActions({
       getRecommendedUsers: 'sidebar/getRecommendedUsers',
+      getBadges: 'getBadges',
       clearAlert: 'alert/clear',
     }),
     openNotificationUser() {

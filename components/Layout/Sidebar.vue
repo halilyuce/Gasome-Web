@@ -11,7 +11,7 @@
       <template #logo>
         <Logo />
       </template>
-      <vs-sidebar-item id="home">
+      <vs-sidebar-item to="/" id="home">
         <template #icon>
           <i class="bx bxs-home-circle"></i>
         </template>
@@ -29,7 +29,7 @@
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item id="notification" disabled>
+      <vs-sidebar-item to="/notifications" id="notifications">
         <template #icon>
           <i class="bx bxs-bell"></i>
         </template>
@@ -51,13 +51,27 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 import Logo from '../Logo.vue'
 export default {
   components: { Logo },
-  data: () => ({
-    active: 'home',
-  }),
+  computed: {
+    ...mapState({
+      tab: (state) => state.tab,
+    }),
+    active: {
+      get() {
+        return this.tab
+      },
+      set(value) {
+        this.setTab(value)
+      },
+    },
+  },
   methods: {
+    ...mapActions({
+      setTab: 'setTab',
+    }),
     async logOut() {
       await this.$auth.logout()
     },
