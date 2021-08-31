@@ -39,7 +39,7 @@
           <div>
             <p
               class="dark:text-gray-300 text-lg px-5"
-              v-html="post.quoted_post[0].text"
+              v-html="hyperlinkString(post.quoted_post[0].text)"
             />
 
             <div
@@ -236,7 +236,10 @@
         </div>
         <div class="w-full">
           <div>
-            <p class="dark:text-gray-300 text-lg px-5" v-html="post.text" />
+            <p
+              class="dark:text-gray-300 text-lg px-5"
+              v-html="hyperlinkString(post.text)"
+            />
 
             <div
               class="grid grid-cols-1 gap-2 auto-cols-max px-5 mt-2"
@@ -407,6 +410,7 @@
 </template>
 <script>
 import QuotedPost from './QuotedPost.vue'
+import linkClickRouting from '../../helpers/mixins/linkClickRouting'
 export default {
   components: { QuotedPost },
   props: {
@@ -416,6 +420,7 @@ export default {
       required: true,
     },
   },
+  mixins: [linkClickRouting],
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,

@@ -15,7 +15,7 @@
       }}</span>
     </div>
 
-    <p v-html="post.text" />
+    <p v-html="hyperlinkString(post.text)" />
 
     <div
       class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
