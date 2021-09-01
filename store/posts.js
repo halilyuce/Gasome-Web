@@ -38,6 +38,9 @@ export const mutations = {
   insertPosts(state, payload) {
     state.posts = [...state.posts, ...payload]
   },
+  insertComments(state, payload) {
+    state.comments = [...state.comments, ...payload]
+  },
   setLoading(state, payload) {
     state.loading = payload
   },
@@ -136,33 +139,36 @@ export const actions = {
       commit('setDetailLoading', false)
     }
   },
-  async getCommentsById({ dispatch, commit }, id) {
-    commit('setCommentsLoading', true)
+  async getCommentsById({ dispatch, commit }, payload) {
     try {
       const response = await this.$axios.get(
-        '/api/getCommentsById?postId=' + id
+        '/api/getCommentsById?postId=' + payload.id + '&page=' + payload.page
       )
-      commit('setComments', response.data.data.data)
+      commit('insertComments', response.data.data.data)
       commit('setCommentsLoading', false)
+      return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
       commit('setCommentsLoading', false)
+      throw 'Unable to fetch comments'
     }
   },
   async getPostDetail({ dispatch }, slug) {
     await dispatch('getPostById', slug)
-    await dispatch('getCommentsById', slug)
+    // await dispatch('getCommentsById', slug)
   },
   async loadMorePosts({ dispatch, commit }, page) {
     try {
       const response = await this.$axios.get('/api/getPosts?page=' + page)
       commit('insertPosts', response.data.data.data)
+      return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
+      throw 'Unable to get posts'
     }
   },
   async newPost({ dispatch, commit }, payload) {
@@ -232,5 +238,11 @@ export const actions = {
   },
   async toggleShareLoading({ commit }, payload) {
     commit('setShareLoading', payload)
+  },
+  async toggleLoading({ commit }, payload) {
+    commit('setLoading', payload)
+  },
+  async toggleCommentsLoading({ commit }, payload) {
+    commit('setCommentsLoading', payload)
   },
 }

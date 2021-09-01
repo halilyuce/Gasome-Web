@@ -29,15 +29,21 @@
 
     <comment-composer v-bind:post="post" />
 
-    <PostsBody
+    <div
       class="relative"
-      :class="{ 'h-32': !!comments }"
       ref="comments"
-      v-bind:posts="comments"
-      @favorite-post="favorite"
-      @boost-post="boost"
-      @quote-post="quote"
-    />
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="1000"
+      infinite-scroll-throttle-delay="1000"
+    >
+      <PostsBody
+        :class="{ 'h-32': !!comments }"
+        v-bind:posts="comments"
+        @favorite-post="favorite"
+        @boost-post="boost"
+        @quote-post="quote"
+      />
+    </div>
 
     <post-composer :quote="quotedPost" />
   </div>
@@ -49,6 +55,7 @@ import PostComposer from '~/components/Posts/PostComposer.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import SinglePost from '~/components/Posts/SinglePost.vue'
 import CommentComposer from '~/components/Posts/CommentComposer.vue'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
   layout: 'sidebars',
   components: { PostComposer, PostsBody, SinglePost, CommentComposer },
@@ -66,6 +73,8 @@ export default {
   data() {
     return {
       quotedPost: null,
+      currentPage: 0,
+      enough: false,
     }
   },
   asyncData({ params }) {
@@ -103,8 +112,27 @@ export default {
       favoritePost: 'posts/favoritePost',
       boostPost: 'posts/boostPost',
       getPostDetail: 'posts/getPostDetail',
+      getCommentsById: 'posts/getCommentsById',
       toggleComposer: 'posts/toggleComposer',
+      toggleCommentsLoading: 'posts/toggleCommentsLoading',
     }),
+    async loadMore() {
+      const self = this
+      if (this.currentPage === 0) {
+        this.toggleCommentsLoading(true)
+      }
+      if (!this.enough) {
+        this.currentPage += 1
+        this.getCommentsById({
+          page: this.currentPage,
+          id: this.slug,
+        }).then(function (res) {
+          if (res.data.length < 10) {
+            self.enough = true
+          }
+        })
+      }
+    },
     openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
@@ -122,6 +150,9 @@ export default {
     async makeNull() {
       this.setPostNull()
     },
+  },
+  directives: {
+    infiniteScroll,
   },
 }
 </script>

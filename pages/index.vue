@@ -2,7 +2,7 @@
   <div
     ref="target"
     v-infinite-scroll="loadMore"
-    infinite-scroll-distance="5"
+    infinite-scroll-distance="1000"
     infinite-scroll-throttle-delay="1000"
     class="bg-white dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
   >
@@ -76,32 +76,39 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
+      currentPage: 0,
+      enough: false,
       search: '',
       quotedPost: null,
     }
   },
-  mounted() {
-    if (this.posts.length === 0) {
-      this.getPosts()
-    }
-  },
   methods: {
     ...mapActions({
-      getPosts: 'posts/getPosts',
       loadMorePosts: 'posts/loadMorePosts',
       toggleComposer: 'posts/toggleComposer',
       clearAlert: 'alert/clear',
       favoritePost: 'posts/favoritePost',
       boostPost: 'posts/boostPost',
+      toggleLoading: 'posts/toggleLoading',
     }),
     openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
     },
     async loadMore() {
-      this.currentPage += 1
-      this.loadMorePosts(this.currentPage)
+      const self = this
+      if (this.currentPage === 0) {
+        this.toggleLoading(true)
+      }
+      if (!this.enough) {
+        this.currentPage += 1
+        this.loadMorePosts(this.currentPage).then(function (res) {
+          if (res.data.length < 10) {
+            self.enough = true
+          }
+          self.toggleLoading(false)
+        })
+      }
     },
     async favorite(id) {
       this.favoritePost(id)
