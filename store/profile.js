@@ -15,6 +15,9 @@ export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
   },
+  insertPosts(state, payload) {
+    state.posts = [...state.posts, ...payload]
+  },
   setUserInfo(state, payload) {
     state.user = payload
   },
@@ -72,7 +75,6 @@ export const actions = {
       const response = await this.$axios.get('/api/info', {
         params: { selected_user: username },
       })
-      await dispatch('getPosts', response.data.data.id)
       commit('setUserInfo', response.data)
       commit('setLoading', false)
     } catch (error) {
@@ -82,17 +84,23 @@ export const actions = {
       commit('setLoading', false)
     }
   },
-  async getPosts({ dispatch, commit }, id) {
-    commit('setPostLoading', true)
+  async getPosts({ dispatch, commit }, payload) {
     try {
-      const response = await this.$axios.get('/api/getPostsByUser?userId=' + id)
-      commit('setPosts', response.data.data.data)
+      const response = await this.$axios.get(
+        '/api/getPostsByUser?username=' +
+          payload.username +
+          '&page=' +
+          payload.page
+      )
+      commit('insertPosts', response.data.data.data)
       commit('setPostLoading', false)
+      return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
       commit('setPostLoading', false)
+      throw 'Unable to fetch posts'
     }
   },
   async favoritePost({ dispatch, commit }, id) {
@@ -126,5 +134,8 @@ export const actions = {
       })
       throw 'Unable to boost this post'
     }
+  },
+  async togglePostLoading({ commit }, payload) {
+    commit('setPostLoading', payload)
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative bg-white dark:bg-black container overflow-y-auto"
+    class="relative bg-white dark:bg-black container overflow-y-auto disable-scrollbars"
     :class="post ? 'max-h-screen' : 'min-h-screen'"
   >
     <!-- User Breadcrumb -->

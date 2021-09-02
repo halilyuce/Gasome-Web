@@ -1,42 +1,45 @@
 <template>
   <div
     ref="user"
-    class="relative bg-white dark:bg-black container overflow-y-auto"
+    class="relative bg-white dark:bg-black container overflow-y-auto disable-scrollbars"
     :class="posts.length > 0 ? 'max-h-screen' : 'min-h-screen'"
   >
-    <div v-if="user">
-      <!-- Profile Header -->
-      <UserHeader :user="user.data" />
+    <!-- Profile Header -->
+    <UserHeader v-if="user" :user="user.data" />
 
-      <!-- Profile Tabs -->
-      <ul
-        class="grid grid-cols-4 border-b border-gray-200 dark:border-gray-700 text-sm"
+    <!-- Profile Tabs -->
+    <ul
+      class="grid grid-cols-4 border-b border-gray-200 dark:border-gray-700 text-sm"
+    >
+      <li
+        class="py-3 flex transition duration-300 ease-in-out justify-center cursor-pointer hover-bg"
+        :class="{ 'border-b-4 border-purple-500': activeTab === tab.value }"
+        v-for="tab in tabs"
+        :key="tab.value"
+        @click="activeTab = tab.value"
       >
-        <li
-          class="py-3 flex transition duration-300 ease-in-out justify-center cursor-pointer hover-bg"
-          :class="{ 'border-b-4 border-purple-500': activeTab === tab.value }"
-          v-for="tab in tabs"
-          :key="tab.value"
-          @click="activeTab = tab.value"
-        >
-          <b>{{ tab.title }}</b>
-        </li>
-      </ul>
+        <b>{{ tab.title }}</b>
+      </li>
+    </ul>
 
-      <!-- Profile Tabs Content -->
+    <!-- Profile Tabs Content -->
 
-      <div v-if="activeTab === 'posts'">
-        <PostsBody
-          v-bind:posts="posts"
-          @favorite-post="favorite"
-          @boost-post="boost"
-          @quote-post="quote"
-        />
-      </div>
-      <div class="p-5" v-if="activeTab === 'swaps'">Swap List Tab</div>
-      <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
-      <div class="p-5" v-if="activeTab === 'medias'">Medias Tab</div>
+    <div
+      v-if="activeTab === 'posts'"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="1000"
+      infinite-scroll-throttle-delay="1000"
+    >
+      <PostsBody
+        v-bind:posts="posts"
+        @favorite-post="favorite"
+        @boost-post="boost"
+        @quote-post="quote"
+      />
     </div>
+    <div class="p-5" v-if="activeTab === 'swaps'">Swap List Tab</div>
+    <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
+    <div class="p-5" v-if="activeTab === 'medias'">Medias Tab</div>
 
     <post-composer :quote="quotedPost" />
   </div>
@@ -47,6 +50,7 @@ import { mapState, mapActions } from 'vuex'
 import UserHeader from '~/components/UserProfile/UserProfileHeader.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import PostComposer from '~/components/Posts/PostComposer.vue'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
   components: { UserHeader, PostsBody, PostComposer },
   layout: 'sidebars',
@@ -60,6 +64,8 @@ export default {
   data() {
     return {
       quotedPost: null,
+      currentPage: 0,
+      enough: false,
       activeTab: 'posts',
       tabs: [
         {
@@ -104,12 +110,31 @@ export default {
   },
   methods: {
     ...mapActions({
+      getPosts: 'profile/getPosts',
       getUserProfile: 'profile/getUserProfile',
       favoritePost: 'profile/favoritePost',
       boostPost: 'profile/boostPost',
       toggleComposer: 'posts/toggleComposer',
+      togglePostLoading: 'profile/togglePostLoading',
     }),
-    openComposer() {
+    async loadMore() {
+      const self = this
+      if (this.currentPage === 0) {
+        this.togglePostLoading(true)
+      }
+      if (!this.enough) {
+        this.currentPage += 1
+        this.getPosts({
+          page: this.currentPage,
+          username: this.slug,
+        }).then(function (res) {
+          if (res.data.length < 10) {
+            self.enough = true
+          }
+        })
+      }
+    },
+    async openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
     },
@@ -123,6 +148,9 @@ export default {
       this.quotedPost = post
       this.toggleComposer(true)
     },
+  },
+  directives: {
+    infiniteScroll,
   },
 }
 </script>
