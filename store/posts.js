@@ -1,6 +1,7 @@
 export const state = () => ({
   posts: [],
   post: null,
+  page: 0,
   comments: [],
   loading: false,
   composer: false,
@@ -52,6 +53,9 @@ export const mutations = {
   },
   setCommentsLoading(state, payload) {
     state.commentsLoading = payload
+  },
+  setPage(state, payload) {
+    state.page = payload
   },
   setComposer(state, payload) {
     state.composer = payload
@@ -157,14 +161,15 @@ export const actions = {
   },
   async getPostDetail({ dispatch }, slug) {
     await dispatch('getPostById', slug)
-    // await dispatch('getCommentsById', slug)
   },
-  async loadMorePosts({ dispatch, commit }, page) {
+  async loadMorePosts({ dispatch, state, commit }) {
     try {
-      const response = await this.$axios.get('/api/getPosts?page=' + page)
+      const response = await this.$axios.get('/api/getPosts?page=' + state.page)
       commit('insertPosts', response.data.data.data)
+      commit('setLoading', false)
       return response.data.data
     } catch (error) {
+      commit('setLoading', false)
       dispatch('alert/error', error.response, {
         root: true,
       })
@@ -244,5 +249,8 @@ export const actions = {
   },
   async toggleCommentsLoading({ commit }, payload) {
     commit('setCommentsLoading', payload)
+  },
+  async setCurrentPage({ commit }, page) {
+    await commit('setPage', page)
   },
 }

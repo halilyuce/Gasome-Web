@@ -1,6 +1,6 @@
 export const state = () => ({
   notifications: [],
-  page: 1,
+  page: 0,
   loading: false,
 })
 
@@ -20,32 +20,26 @@ export const mutations = {
 }
 
 export const actions = {
-  async getNotifications({ dispatch, commit }) {
-    commit('setLoading', true)
-    try {
-      const response = await this.$axios.get('/api/notifications')
-      commit('setNotifications', response.data.data.data)
-      commit('setLoading', false)
-    } catch (error) {
-      dispatch('alert/error', error.response, {
-        root: true,
-      })
-      commit('setLoading', false)
-    }
-  },
   async loadMoreNotifications({ dispatch, state, commit }) {
     try {
       const response = await this.$axios.get(
         '/api/notifications?page=' + state.page
       )
+      commit('setLoading', false)
       commit('insertNotifications', response.data.data.data)
+      return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
+      commit('setLoading', false)
+      throw 'Unable to fetch notifications'
     }
   },
   async setCurrentPage({ commit }, page) {
     await commit('setPage', page)
+  },
+  async toggleLoading({ commit }, payload) {
+    commit('setLoading', payload)
   },
 }

@@ -2,7 +2,7 @@
   <div
     ref="notifications"
     v-infinite-scroll="loadMore"
-    infinite-scroll-distance="5"
+    infinite-scroll-distance="1000"
     infinite-scroll-throttle-delay="1000"
     class="bg-white relative dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
   >
@@ -75,11 +75,7 @@ export default {
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
-    }
-  },
-  mounted() {
-    if (this.notifications.length === 0) {
-      this.getNotifications()
+      enough: false,
     }
   },
 
@@ -90,14 +86,24 @@ export default {
   },
   methods: {
     ...mapActions({
-      getNotifications: 'notifications/getNotifications',
+      toggleLoading: 'notifications/toggleLoading',
       loadMoreNotifications: 'notifications/loadMoreNotifications',
       setCurrentPage: 'notifications/setCurrentPage',
       clearAlert: 'alert/clear',
     }),
     async loadMore() {
-      this.page += 1
-      await this.loadMoreNotifications()
+      const self = this
+      if (this.page === 0) {
+        this.toggleLoading(true)
+      }
+      if (!this.enough) {
+        this.page += 1
+        this.loadMoreNotifications().then(function (res) {
+          if (res.data.length < 10) {
+            self.enough = true
+          }
+        })
+      }
     },
   },
   directives: {

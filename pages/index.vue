@@ -59,7 +59,16 @@ export default {
       alert: (state) => state.alert,
       posts: (state) => state.posts.posts,
       loading: (state) => state.posts.loading,
+      pageState: (state) => state.posts.page,
     }),
+    page: {
+      get() {
+        return this.pageState
+      },
+      set(value) {
+        this.setCurrentPage(value)
+      },
+    },
   },
   watch: {
     loading(newVal, oldVal) {
@@ -76,7 +85,6 @@ export default {
   },
   data() {
     return {
-      currentPage: 0,
       enough: false,
       search: '',
       quotedPost: null,
@@ -90,6 +98,7 @@ export default {
       favoritePost: 'posts/favoritePost',
       boostPost: 'posts/boostPost',
       toggleLoading: 'posts/toggleLoading',
+      setCurrentPage: 'posts/setCurrentPage',
     }),
     openComposer() {
       this.quotedPost = null
@@ -97,16 +106,15 @@ export default {
     },
     async loadMore() {
       const self = this
-      if (this.currentPage === 0) {
+      if (this.page === 0) {
         this.toggleLoading(true)
       }
       if (!this.enough) {
-        this.currentPage += 1
-        this.loadMorePosts(this.currentPage).then(function (res) {
+        this.page += 1
+        this.loadMorePosts().then(function (res) {
           if (res.data.length < 10) {
             self.enough = true
           }
-          self.toggleLoading(false)
         })
       }
     },
