@@ -62,14 +62,14 @@
 
       <!-- User Bio -->
 
-      <p class="mt-2 mb-1 text-sm" v-html="user.bio" />
+      <p class="mt-2 mb-1 text-sm" v-if="user.bio" v-html="user.bio" />
 
       <!-- User Links & Dates -->
 
       <div
         class="flex flex-col text-gray-600 dark:text-gray-400 md:flex-row text-sm"
       >
-        <div class="flex items-center mb-1 md:mr-3">
+        <div v-if="user.weblink" class="flex items-center mb-1 md:mr-3">
           <i class="bx bx-link"></i>
           <a
             :href="
@@ -83,11 +83,11 @@
             {{ user.weblink }}
           </a>
         </div>
-        <div class="flex items-center mb-1 md:mr-3">
+        <div v-if="user.birthday" class="flex items-center mb-1 md:mr-3">
           <i class="bx bx-cake"></i>
           <span class="ml-1">{{ $moment(user.birthday).format('LL') }}</span>
         </div>
-        <div class="flex items-center mb-1 md:mr-3">
+        <div v-if="user.created_at" class="flex items-center mb-1 md:mr-3">
           <i class="bx bx-calendar"></i>
           <span class="ml-1">{{ $moment(user.created_at).format('LL') }}</span>
         </div>
