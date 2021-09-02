@@ -37,9 +37,26 @@
         @quote-post="quote"
       />
     </div>
+
     <div class="p-5" v-if="activeTab === 'swaps'">Swap List Tab</div>
+
     <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
-    <div class="p-5" v-if="activeTab === 'medias'">Medias Tab</div>
+
+    <div
+      v-if="activeTab === 'medias'"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="1000"
+      infinite-scroll-throttle-delay="1000"
+    >
+      <PostsBody
+        v-bind:posts="
+          posts.filter((post) => post.image.length > 0 || post.video)
+        "
+        @favorite-post="favorite"
+        @boost-post="boost"
+        @quote-post="quote"
+      />
+    </div>
 
     <post-composer :quote="quotedPost" />
   </div>
@@ -108,9 +125,13 @@ export default {
   mounted() {
     this.getUserProfile(this.slug)
   },
+  beforeDestroy() {
+    this.clearState()
+  },
   methods: {
     ...mapActions({
       getPosts: 'profile/getPosts',
+      clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
       favoritePost: 'profile/favoritePost',
       boostPost: 'profile/boostPost',

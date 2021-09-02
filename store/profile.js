@@ -21,6 +21,10 @@ export const mutations = {
   setUserInfo(state, payload) {
     state.user = payload
   },
+  clearState(state) {
+    state.user = null
+    state.posts = []
+  },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
     Object.assign(item, payload)
@@ -137,5 +141,8 @@ export const actions = {
   },
   async togglePostLoading({ commit }, payload) {
     commit('setPostLoading', payload)
+  },
+  async clearState({ commit }) {
+    commit('clearState')
   },
 }
