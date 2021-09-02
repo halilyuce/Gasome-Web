@@ -1,8 +1,14 @@
 export const state = () => ({
   user: null,
   posts: [],
+  wishes: [],
+  swaps: [],
   loading: false,
   postLoading: false,
+  swapsLoading: false,
+  wishesLoading: false,
+  swapsPage: 0,
+  swapsEnough: false,
 })
 export const getters = {}
 export const mutations = {
@@ -12,11 +18,29 @@ export const mutations = {
   setPostLoading(state, payload) {
     state.postLoading = payload
   },
+  setSwapsLoading(state, payload) {
+    state.swapsLoading = payload
+  },
+  setWishesLoading(state, payload) {
+    state.wishesLoading = payload
+  },
   setPosts(state, payload) {
     state.posts = payload
   },
+  setSwapsPage(state, payload) {
+    state.swapsPage = payload
+  },
+  setSwapsEnough(state, payload) {
+    state.swapsEnough = payload
+  },
   insertPosts(state, payload) {
     state.posts = [...state.posts, ...payload]
+  },
+  insertSwaps(state, payload) {
+    state.swaps = [...state.swaps, ...payload]
+  },
+  insertWishes(state, payload) {
+    state.wishes = [...state.wishes, ...payload]
   },
   setUserInfo(state, payload) {
     state.user = payload
@@ -24,6 +48,8 @@ export const mutations = {
   clearState(state) {
     state.user = null
     state.posts = []
+    state.wishes = []
+    state.swaps = []
   },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
@@ -107,6 +133,22 @@ export const actions = {
       throw 'Unable to fetch posts'
     }
   },
+  async getSwaps({ dispatch, state, commit }, id) {
+    try {
+      const response = await this.$axios.get(
+        '/api/getUserSwapList?userId=' + id + '&page=' + state.swapsPage
+      )
+      commit('insertSwaps', response.data.data.data)
+      commit('setSwapsLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setSwapsLoading', false)
+      throw 'Unable to fetch swaps'
+    }
+  },
   async favoritePost({ dispatch, commit }, id) {
     try {
       const response = await this.$axios.post('/api/postLike', {
@@ -141,6 +183,15 @@ export const actions = {
   },
   async togglePostLoading({ commit }, payload) {
     commit('setPostLoading', payload)
+  },
+  async toggleSwapsLoading({ commit }, payload) {
+    commit('setSwapsLoading', payload)
+  },
+  async toggleSwapsEnough({ commit }, payload) {
+    commit('setSwapsEnough', payload)
+  },
+  async setSwapsPage({ commit }, payload) {
+    commit('setSwapsPage', payload)
   },
   async clearState({ commit }) {
     commit('clearState')

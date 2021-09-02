@@ -38,10 +38,6 @@
       />
     </div>
 
-    <div class="p-5" v-if="activeTab === 'swaps'">Swap List Tab</div>
-
-    <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
-
     <div
       v-if="activeTab === 'medias'"
       v-infinite-scroll="loadMore"
@@ -58,6 +54,12 @@
       />
     </div>
 
+    <div v-if="activeTab === 'swaps'">
+      <swaps-list :id="user.data.id" />
+    </div>
+
+    <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
+
     <post-composer :quote="quotedPost" />
   </div>
 </template>
@@ -68,8 +70,9 @@ import UserHeader from '~/components/UserProfile/UserProfileHeader.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import PostComposer from '~/components/Posts/PostComposer.vue'
 import infiniteScroll from 'vue-infinite-scroll'
+import SwapsList from '~/components/UserProfile/SwapsList.vue'
 export default {
-  components: { UserHeader, PostsBody, PostComposer },
+  components: { UserHeader, PostsBody, PostComposer, SwapsList },
   layout: 'sidebars',
   computed: {
     ...mapState({
@@ -90,16 +93,16 @@ export default {
           value: 'posts',
         },
         {
+          title: 'Medias',
+          value: 'medias',
+        },
+        {
           title: 'Swaps List',
           value: 'swaps',
         },
         {
           title: 'Wishes List',
           value: 'wishes',
-        },
-        {
-          title: 'Medias',
-          value: 'medias',
         },
       ],
     }
