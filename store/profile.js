@@ -5,6 +5,7 @@ export const state = () => ({
   swaps: [],
   loading: false,
   postLoading: false,
+  followLoading: false,
   swapsLoading: false,
   wishesLoading: false,
   swapsPage: 0,
@@ -23,6 +24,9 @@ export const mutations = {
   },
   setWishesLoading(state, payload) {
     state.wishesLoading = payload
+  },
+  setFollowLoading(state, payload) {
+    state.followLoading = payload
   },
   setPosts(state, payload) {
     state.posts = payload
@@ -153,16 +157,19 @@ export const actions = {
     }
   },
   async follow({ dispatch, commit }, username) {
+    commit('setFollowLoading', true)
     try {
       const response = await this.$axios.post('/api/follow', {
         selected_user: username,
       })
       commit('setFollow', response.data.data)
+      commit('setFollowLoading', false)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
+      commit('setFollowLoading', false)
       throw 'Unable to follow/unfollow'
     }
   },

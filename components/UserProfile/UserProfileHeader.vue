@@ -54,7 +54,11 @@
             </div>
           </div>
         </div>
-        <vs-button @click="followAction()" :danger="user.isFollow">
+        <vs-button
+          :loading="followLoading"
+          @click="followAction()"
+          :danger="user.isFollow"
+        >
           <i
             class="bx"
             :class="
@@ -125,12 +129,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   props: {
     user: null,
   },
   computed: {
+    ...mapState({
+      followLoading: (state) => state.profile.followLoading,
+    }),
     ...mapGetters(['loggedInUser']),
   },
   data() {
