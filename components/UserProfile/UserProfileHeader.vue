@@ -54,9 +54,24 @@
             </div>
           </div>
         </div>
-        <vs-button>
-          <i class="bx bxs-user-plus"></i>
-          <b class="mx-5">{{ user.isFollow ? 'Unfollow' : 'Follow' }}</b>
+        <vs-button @click="followAction()" :danger="user.isFollow">
+          <i
+            class="bx"
+            :class="
+              user.id === loggedInUser.id
+                ? 'bxs-edit'
+                : user.isFollow
+                ? 'bxs-user-minus'
+                : 'bxs-user-plus'
+            "
+          ></i>
+          <b class="mx-5">{{
+            user.id === loggedInUser.id
+              ? 'Edit Profile'
+              : user.isFollow
+              ? 'Unfollow'
+              : 'Follow'
+          }}</b>
         </vs-button>
       </div>
 
@@ -110,9 +125,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   props: {
     user: null,
+  },
+  computed: {
+    ...mapGetters(['loggedInUser']),
   },
   data() {
     return {
@@ -123,6 +142,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      follow: 'profile/follow',
+    }),
+    followAction() {
+      if (this.user.id != this.loggedInUser.id) {
+        this.follow(this.user.username)
+      }
+    },
     showAvatar() {
       this.avatar.push(`${this.largeAvatar + this.user.avatar}.jpg`)
       this.index = 0

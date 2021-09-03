@@ -45,6 +45,9 @@ export const mutations = {
   setUserInfo(state, payload) {
     state.user = payload
   },
+  setFollow(state, payload) {
+    state.user.isFollow = payload.state
+  },
   clearState(state) {
     state.user = null
     state.posts = []
@@ -105,7 +108,7 @@ export const actions = {
       const response = await this.$axios.get('/api/info', {
         params: { selected_user: username },
       })
-      commit('setUserInfo', response.data)
+      commit('setUserInfo', response.data.data)
       commit('setLoading', false)
     } catch (error) {
       dispatch('alert/error', error.response, {
@@ -147,6 +150,20 @@ export const actions = {
       })
       commit('setSwapsLoading', false)
       throw 'Unable to fetch swaps'
+    }
+  },
+  async follow({ dispatch, commit }, username) {
+    try {
+      const response = await this.$axios.post('/api/follow', {
+        selected_user: username,
+      })
+      commit('setFollow', response.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw 'Unable to follow/unfollow'
     }
   },
   async favoritePost({ dispatch, commit }, id) {

@@ -5,10 +5,11 @@
     :class="posts.length > 0 ? 'max-h-screen' : 'min-h-screen'"
   >
     <!-- Profile Header -->
-    <UserHeader v-if="user" :user="user.data" />
+    <UserHeader v-if="user" v-bind:user="user" />
 
     <!-- Profile Tabs -->
     <ul
+      v-if="user"
       class="grid grid-cols-4 border-b border-gray-200 dark:border-gray-700 text-sm"
     >
       <li
@@ -55,7 +56,7 @@
     </div>
 
     <div v-if="activeTab === 'swaps'">
-      <swaps-list :id="user.data.id" />
+      <swaps-list :id="user.id" />
     </div>
 
     <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
