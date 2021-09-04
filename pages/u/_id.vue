@@ -56,26 +56,30 @@
     </div>
 
     <div v-if="activeTab === 'swaps'">
-      <swaps-list :id="user.id" />
+      <swaps-list :id="user.id" :same="this.user.id != this.loggedInUser.id" />
     </div>
 
-    <div class="p-5" v-if="activeTab === 'wishes'">Wishes List Tab</div>
+    <div v-if="activeTab === 'wishes'">
+      <wish-list :id="user.id" :same="this.user.id != this.loggedInUser.id" />
+    </div>
 
     <post-composer :quote="quotedPost" />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import UserHeader from '~/components/UserProfile/UserProfileHeader.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import PostComposer from '~/components/Posts/PostComposer.vue'
 import infiniteScroll from 'vue-infinite-scroll'
 import SwapsList from '~/components/UserProfile/SwapsList.vue'
+import WishList from '~/components/UserProfile/WishList.vue'
 export default {
-  components: { UserHeader, PostsBody, PostComposer, SwapsList },
+  components: { UserHeader, PostsBody, PostComposer, SwapsList, WishList },
   layout: 'sidebars',
   computed: {
+    ...mapGetters(['loggedInUser']),
     ...mapState({
       user: (state) => state.profile.user,
       posts: (state) => state.profile.posts,

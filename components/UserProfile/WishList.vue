@@ -1,27 +1,27 @@
 <template>
   <div>
     <ul
-      ref="swaps"
+      ref="wishes"
       v-infinite-scroll="loadMore"
       infinite-scroll-distance="1000"
       infinite-scroll-throttle-delay="1000"
-      :class="{ 'h-72': swaps.length === 0 }"
+      :class="{ 'h-72': wishes.length === 0 }"
       class="relative divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
     >
-      <li v-for="swap in swaps" :key="swap.id">
+      <li v-for="wish in wishes" :key="wish.id">
         <div class="flex flex-row justify-between items-center px-5 py-3">
-          <n-link class="flex flex-row items-center" :to="'/g/' + swap.game.id">
+          <n-link class="flex flex-row items-center" :to="'/g/' + wish.game.id">
             <img
               class="cursor-pointer h-16 w-12 rounded object-cover"
-              :src="`${smallCover + swap.game.image}.jpg`"
+              :src="`${smallCover + wish.game.image}.jpg`"
               alt="Game Cover"
             />
             <div class="flex flex-col ml-3">
               <h4>
-                {{ swap.game.name }}
+                {{ wish.game.name }}
               </h4>
               <span class="text-xs text-gray-700 dark:text-gray-400">
-                {{ swap.platform.name }}
+                {{ wish.platform.name }}
               </span>
             </div>
           </n-link>
@@ -32,7 +32,7 @@
               flat
               :loading="swapListLoading"
               @click="
-                addSwapList({ id: swap.game.id, platform: swap.platform.id })
+                addSwapList({ id: wish.game.id, platform: wish.platform.id })
               "
             >
               <i class="bx bx-shuffle"></i>
@@ -41,7 +41,7 @@
               v-if="same"
               :loading="wishListLoading"
               @click="
-                addWishList({ id: swap.game.id, platform: swap.platform.id })
+                addWishList({ id: wish.game.id, platform: wish.platform.id })
               "
               icon
               flat
@@ -51,7 +51,7 @@
             <vs-button
               v-else
               :loading="removeLoading"
-              @click="openModal(swap)"
+              @click="openModal(wish)"
               danger
               icon
               flat
@@ -67,23 +67,23 @@
         <h4 class="not-margin">Are you sure to <b>Remove?</b></h4>
       </template>
 
-      <div v-if="removedSwap" class="flex flex-col justify-center items-center">
+      <div v-if="removedWish" class="flex flex-col justify-center items-center">
         <img
           class="cursor-pointer h-16 w-12 rounded object-cover"
-          :src="`${smallCover + removedSwap.game.image}.jpg`"
+          :src="`${smallCover + removedWish.game.image}.jpg`"
           alt="Game Cover"
         />
         <h4>
-          {{ removedSwap.game.name }}
+          {{ removedWish.game.name }}
         </h4>
         <span class="text-xs text-gray-700 dark:text-gray-400">
-          {{ removedSwap.platform.name }}
+          {{ removedWish.platform.name }}
         </span>
       </div>
 
       <template #footer>
         <div class="flex flex-col">
-          <vs-button danger @click="removeSwapList(removedSwap.id)" block>
+          <vs-button danger @click="removeWishList(removedWish.id)" block>
             Yes, remove
           </vs-button>
           <vs-button transparent danger @click="showRemove = false" block>
@@ -105,20 +105,20 @@ export default {
   },
   computed: {
     ...mapState({
-      swaps: (state) => state.profile.swaps,
-      loading: (state) => state.profile.swapsLoading,
+      wishes: (state) => state.profile.wishes,
+      loading: (state) => state.profile.wishesLoading,
       swapListLoading: (state) => state.profile.swapListLoading,
       wishListLoading: (state) => state.profile.wishListLoading,
       removeLoading: (state) => state.profile.removeLoading,
-      pageState: (state) => state.profile.swapsPage,
-      enough: (state) => state.profile.swapsEnough,
+      pageState: (state) => state.profile.wishesPage,
+      enough: (state) => state.profile.wishesEnough,
     }),
     page: {
       get() {
         return this.pageState
       },
       set(value) {
-        this.setSwapsPage(value)
+        this.setWishesPage(value)
       },
     },
   },
@@ -126,17 +126,17 @@ export default {
     return {
       smallCover: process.env.GAMECOVER_SMALL,
       showRemove: false,
-      removedSwap: null,
+      removedWish: null,
     }
   },
   watch: {
     loading(newVal, oldVal) {
       if (newVal != oldVal) {
         if (!newVal) {
-          this.swapsLoading.close()
+          this.wishesLoading.close()
         } else {
-          this.swapsLoading = this.$vs.loading({
-            target: this.$refs.swaps,
+          this.wishesLoading = this.$vs.loading({
+            target: this.$refs.wishes,
           })
         }
       }
@@ -144,21 +144,21 @@ export default {
   },
   methods: {
     ...mapActions({
-      getSwaps: 'profile/getSwaps',
-      toggleSwapsLoading: 'profile/toggleSwapsLoading',
+      getWishes: 'profile/getWishes',
+      toggleWishesLoading: 'profile/toggleWishesLoading',
       addToSwapList: 'profile/addToSwapList',
       addToWishList: 'profile/addToWishList',
-      removeFromSwapList: 'profile/removeFromSwapList',
-      setSwapsPage: 'profile/setSwapsPage',
-      toggleSwapsEnough: 'profile/toggleSwapsEnough',
+      removeFromWishList: 'profile/removeFromWishList',
+      setWishesPage: 'profile/setWishesPage',
+      toggleWishesEnough: 'profile/toggleWishesEnough',
     }),
-    openModal(swap) {
-      this.removedSwap = swap
+    openModal(wish) {
+      this.removedWish = wish
       this.showRemove = true
     },
-    removeSwapList(id) {
+    removeWishList(id) {
       this.showRemove = false
-      this.removeFromSwapList(id)
+      this.removeFromWishList(id)
         .then((res) => {
           this.$vs.notification({
             flat: true,
@@ -166,7 +166,7 @@ export default {
             icon: `<i class='bx bx-check' ></i>`,
             position: 'top-center',
             title: 'Successfully Removed',
-            text: 'Game removed successfully from your Swap List',
+            text: 'Game removed successfully from your Wish List',
           })
         })
         .catch((err) => {
@@ -229,13 +229,13 @@ export default {
     async loadMore() {
       const self = this
       if (this.page === 0) {
-        this.toggleSwapsLoading(true)
+        this.toggleWishesLoading(true)
       }
       if (!this.enough) {
         this.page += 1
-        this.getSwaps(this.id).then(function (res) {
+        this.getWishes(this.id).then(function (res) {
           if (res.data.length < 10) {
-            self.toggleSwapsEnough(true)
+            self.toggleWishesEnough(true)
           }
         })
       }

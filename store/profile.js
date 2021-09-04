@@ -8,13 +8,27 @@ export const state = () => ({
   followLoading: false,
   swapsLoading: false,
   wishesLoading: false,
+  swapListLoading: false,
+  wishListLoading: false,
+  removeLoading: false,
   swapsPage: 0,
   swapsEnough: false,
+  wishesPage: 0,
+  wishesEnough: false,
 })
 export const getters = {}
 export const mutations = {
   setLoading(state, payload) {
     state.loading = payload
+  },
+  setRemoveLoading(state, payload) {
+    state.removeLoading = payload
+  },
+  setSwapListLoading(state, payload) {
+    state.swapListLoading = payload
+  },
+  setWishListLoading(state, payload) {
+    state.wishListLoading = payload
   },
   setPostLoading(state, payload) {
     state.postLoading = payload
@@ -37,6 +51,12 @@ export const mutations = {
   setSwapsEnough(state, payload) {
     state.swapsEnough = payload
   },
+  setWishesPage(state, payload) {
+    state.wishesPage = payload
+  },
+  setWishesEnough(state, payload) {
+    state.wishesEnough = payload
+  },
   insertPosts(state, payload) {
     state.posts = [...state.posts, ...payload]
   },
@@ -57,6 +77,18 @@ export const mutations = {
     state.posts = []
     state.wishes = []
     state.swaps = []
+    state.swapsPage = 0
+    state.swapsEnough = false
+    state.wishesPage = 0
+    state.wishesEnough = false
+  },
+  removeFromSwapList(state, payload) {
+    const index = state.swaps.findIndex((swap) => swap.id === payload)
+    state.swaps.splice(index, 1)
+  },
+  removeFromWishList(state, payload) {
+    const index = state.wishes.findIndex((wish) => wish.id === payload)
+    state.wishes.splice(index, 1)
   },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
@@ -156,6 +188,22 @@ export const actions = {
       throw 'Unable to fetch swaps'
     }
   },
+  async getWishes({ dispatch, state, commit }, id) {
+    try {
+      const response = await this.$axios.get(
+        '/api/getUserWishList?userId=' + id + '&page=' + state.wishesPage
+      )
+      commit('insertWishes', response.data.data.data)
+      commit('setWishesLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setWishesLoading', false)
+      throw 'Unable to fetch wishes'
+    }
+  },
   async follow({ dispatch, commit }, username) {
     commit('setFollowLoading', true)
     try {
@@ -171,6 +219,74 @@ export const actions = {
       })
       commit('setFollowLoading', false)
       throw 'Unable to follow/unfollow'
+    }
+  },
+  async removeFromSwapList({ dispatch, commit }, id) {
+    commit('setRemoveLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postDeleteFromSwapList', {
+        swapId: id,
+      })
+      commit('setRemoveLoading', false)
+      commit('removeFromSwapList', id)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setRemoveLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async removeFromWishList({ dispatch, commit }, id) {
+    commit('setRemoveLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postDeleteFromWishList', {
+        wishId: id,
+      })
+      commit('setRemoveLoading', false)
+      commit('removeFromWishList', id)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setRemoveLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async addToSwapList({ dispatch, commit }, payload) {
+    commit('setSwapListLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postSwapList', {
+        gameId: payload.id,
+        platform: payload.platform,
+      })
+      commit('setSwapListLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setSwapListLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async addToWishList({ dispatch, commit }, payload) {
+    commit('setWishListLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postWishList', {
+        gameId: payload.id,
+        platform: payload.platform,
+      })
+      commit('setWishListLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setWishListLoading', false)
+      throw error.response.data.errorMessage[0]
     }
   },
   async favoritePost({ dispatch, commit }, id) {
@@ -211,11 +327,20 @@ export const actions = {
   async toggleSwapsLoading({ commit }, payload) {
     commit('setSwapsLoading', payload)
   },
+  async toggleWishesLoading({ commit }, payload) {
+    commit('setWishesLoading', payload)
+  },
   async toggleSwapsEnough({ commit }, payload) {
     commit('setSwapsEnough', payload)
   },
   async setSwapsPage({ commit }, payload) {
     commit('setSwapsPage', payload)
+  },
+  async toggleWishesEnough({ commit }, payload) {
+    commit('setWishesEnough', payload)
+  },
+  async setWishesPage({ commit }, payload) {
+    commit('setWishesPage', payload)
   },
   async clearState({ commit }) {
     commit('clearState')
