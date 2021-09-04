@@ -33,7 +33,7 @@
     <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-4">
       <h3>Most Spoken</h3>
       <ul
-        class="divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+        class="divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
       >
         <li class="flex justify-between items-center text-sm text-purple-500">
           #CyberMonday
@@ -74,7 +74,7 @@
     >
       <h3 class="pt-3 pl-5">User Suggestions</h3>
       <ul
-        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
       >
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
@@ -82,11 +82,14 @@
           class="flex flex-row justify-between items-center py-2"
         >
           <div class="flex flex-row items-center">
-            <vs-avatar size="40">
-              <img :src="`${smallAvatar + user.avatar}.jpg`" alt="Avatar" />
-            </vs-avatar>
+            <img
+              class="h-10 w-10 object-cover rounded rounded-xl border border-gray-200 dark:border-gray-700"
+              :src="`${smallAvatar + user.avatar}.jpg`"
+              alt="Avatar"
+            />
+
             <div class="flex flex-col ml-2">
-              <h5>{{ user.name }}</h5>
+              <h5 class="truncate w-28 overflow-ellipsis">{{ user.name }}</h5>
               <span class="text-gray-400 text-xs">{{
                 '@' + user.username
               }}</span>
@@ -99,7 +102,7 @@
             :active="active"
             @click="active = !active"
           >
-            <span class="px-3">{{ active ? 'Following' : 'Follow' }}</span>
+            <span class="px-1">{{ active ? 'Following' : 'Follow' }}</span>
           </vs-button>
         </li>
       </ul>
