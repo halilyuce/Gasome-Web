@@ -22,9 +22,13 @@
             <div class="col-span-12 py-3">
               <h2>Gallery</h2>
               <vs-card-group>
-                <vs-card v-for="(ss, index) in game.screenshots" @click="showImageViewer(index)">
+                <vs-card
+                  v-for="(ss, index) in game.screenshots"
+                  :key="index"
+                  @click="showImageViewer(index)"
+                >
                   <template #img>
-                    <img :src="gameSSPath + ss + '.jpg'" alt="">
+                    <img :src="gameSSPath + ss + '.jpg'" alt="" />
                   </template>
                 </vs-card>
               </vs-card-group>
@@ -32,7 +36,11 @@
             <div class="col-span-12">
               <h2>Videos</h2>
               <vs-card-group>
-                <vs-card v-for="(video, index) in game.videos" @click="showVideoViewer(index)">
+                <vs-card
+                  v-for="(video, index) in game.videos"
+                  :key="index"
+                  @click="showVideoViewer(index)"
+                >
                   <template #img>
                     <div
                       class="absolute w-full h-full flex justify-center items-center"
@@ -43,11 +51,7 @@
                     </div>
                     <img
                       class="rounded-xl object-cover"
-                      :src="
-                  'https://img.youtube.com/vi/' +
-                  video +
-                  '/0.jpg'
-                "
+                      :src="'https://img.youtube.com/vi/' + video + '/0.jpg'"
                       :alt="video"
                     />
                   </template>
@@ -60,35 +64,55 @@
           <div class="bg-white dark:bg-black p-6 rounded-lg flex flex-col">
             <div class="col-span-12 leading-8">
               <h2>İnfo</h2>
-              <div v-if="game.company" class="grid grid-cols-12 gap-4 ">
+              <div v-if="game.company" class="grid grid-cols-12 gap-4">
                 <div class="col-span-4">Company</div>
                 <div class="col-span-8">{{ game.company.name }}</div>
               </div>
-              <div v-if="game.release_date" class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30">
+              <div
+                v-if="game.release_date"
+                class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+              >
                 <div class="col-span-4">Release Date</div>
-                <div class="col-span-8">{{ $moment(game.release_date).format('ll') }}</div>
-              </div>
-              <div v-if="game.genres" class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30">
-                <div class="col-span-4">Genre</div>
                 <div class="col-span-8">
-                    <span v-for="(genre, index) in game.genres" :key="index">
-                      {{ genre + (index !== (game.genres.length -1) ? ',' : '') }}
-                    </span>
+                  {{ $moment(game.release_date).format('ll') }}
                 </div>
               </div>
-              <div v-if="game.platforms" class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30">
+              <div
+                v-if="game.genres"
+                class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+              >
+                <div class="col-span-4">Genre</div>
+                <div class="col-span-8">
+                  <span v-for="(genre, index) in game.genres" :key="index">
+                    {{ genre + (index !== game.genres.length - 1 ? ',' : '') }}
+                  </span>
+                </div>
+              </div>
+              <div
+                v-if="game.platforms"
+                class="grid grid-cols-12 gap-4 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-30"
+              >
                 <div class="col-span-4">Platforms</div>
                 <div class="col-span-8">
-                    <span v-for="(platform, index) in game.platforms" :key="index">
-                      {{ platform + (index !== (game.platforms.length -1) ? ',' : '') }}
-                    </span>
+                  <span
+                    v-for="(platform, index) in game.platforms"
+                    :key="index"
+                  >
+                    {{
+                      platform +
+                      (index !== game.platforms.length - 1 ? ',' : '')
+                    }}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="bg-white dark:bg-black p-6 rounded-lg flex flex-col mt-4">
             <h2>Ratings</h2>
-            <StarRate :disabled="false" :point="parseFloat(game.ratings.total_rate)" />
+            <StarRate
+              :disabled="false"
+              :point="parseFloat(game.ratings.total_rate)"
+            />
             <GameComments v-if="comments" :comments="comments" />
           </div>
         </div>
@@ -98,14 +122,14 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
-import GameCard from "~/components/Games/GameCard";
-import StarRate from "~/components/Rating/StarRate";
-import GameComments from "~/components/Games/GameComments";
+import { mapActions, mapState } from 'vuex'
+import GameCard from '~/components/Games/GameCard'
+import StarRate from '~/components/Rating/StarRate'
+import GameComments from '~/components/Games/GameComments'
 
 export default {
-  name: "gameDetail",
-  layout: "game",
+  name: 'gameDetail',
+  layout: 'game',
   components: { GameCard, StarRate, GameComments },
   data() {
     return {
@@ -158,15 +182,18 @@ export default {
       return {
         init() {
           window.addEventListener('scroll', () => {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+            let winScroll =
+              document.body.scrollTop || document.documentElement.scrollTop
+            let height =
+              document.documentElement.scrollHeight -
+              document.documentElement.clientHeight
             this.percent = Math.round((winScroll / height) * 100)
           })
         },
         circumference: 30 * 2 * Math.PI,
         percent: 0,
       }
-    }
+    },
   },
 }
 </script>
