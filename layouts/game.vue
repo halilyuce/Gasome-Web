@@ -1,19 +1,21 @@
 <template>
-  <div
-    class="bg-gray-100 dark:bg-content-bg dark:text-white grid grid-cols-12 gap-4"
-  >
-    <div class="col-span-1 flex h-full">
+  <div class="bg-gray-100 dark:bg-content-bg dark:text-white">
+    <div class="flex h-full">
       <sidebar class="hidden md:flex fixed" />
     </div>
-    <Nuxt class="col-span-12 md:col-span-11 p-3" />
+    <div class="grid grid-cols-12 gap-0 md:ml-20">
+      <Nuxt class="col-span-12 lg:col-span-9 2xl:col-span-8 md:mr-6 lg:mr-0" />
+      <right-sidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
+    </div>
   </div>
 </template>
 
 <script>
-import Sidebar from "~/components/Layout/Sidebar";
+import Sidebar from '~/components/Layout/Sidebar'
+import RightSidebar from '~/components/Layout/RightSidebar.vue'
 export default {
-  name: "game",
-  components: { Sidebar },
+  name: 'game',
+  components: { Sidebar, RightSidebar },
   mounted() {
     this.$vs.setColor('primary', '#7850ff')
     this.$store.dispatch(`getSettings`)

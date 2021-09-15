@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div v-if="point > 0" class="grid grid-cols-12">
+    <div v-if="point > 0" class="flex flex-row justify-between">
       <span
-        class="font-bold col-span-3 flex items-center"
+        class="font-bold flex items-center"
         :class="size === 'sm' ? 'text-md' : 'text-2xl'"
         >{{ point }}/5</span
       >
-      <vs-button-group class="col-span-9 items-center" dark>
+      <vs-button-group dark>
         <vs-button
           v-for="i in 5"
           :key="i"
           transparent
+          warn
           :active-disabled="disabled"
           :size="size === 'sm' ? 'small' : 'default'"
         >
@@ -59,4 +60,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style>
+.vs-button--size-small .vs-button__content {
+  padding: 0 1px !important;
+}
+</style>
