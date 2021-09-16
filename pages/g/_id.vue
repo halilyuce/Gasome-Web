@@ -1,66 +1,59 @@
 <template>
-  <div class="container">
-    <CoolLightBox
-      :items="images"
-      :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
-      @close="closeImageViewer()"
-    />
-    <div class="col-span-12">
-      <GameCard v-if="game" :game="game" />
-    </div>
-    <div v-if="game" class="col-span-12">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 lg:col-span-8">
-          <div class="bg-white dark:bg-black p-6 rounded-lg">
-            <div class="col-span-12">
-              <h2>About</h2>
-              {{ game.summary }}
-            </div>
-            <div class="col-span-12 py-3">
-              <h2>Gallery</h2>
-              <vs-card-group>
-                <vs-card
-                  v-for="(ss, index) in game.screenshots"
-                  :key="index"
-                  @click="showImageViewer(index)"
-                >
-                  <template #img>
-                    <img :src="gameSSPath + ss + '.jpg'" alt="" />
-                  </template>
-                </vs-card>
-              </vs-card-group>
-            </div>
-            <div class="col-span-12">
-              <h2>Videos</h2>
-              <vs-card-group>
-                <vs-card
-                  v-for="(video, index) in game.videos"
-                  :key="index"
-                  @click="showVideoViewer(index)"
-                >
-                  <template #img>
-                    <div
-                      class="absolute w-full h-full flex justify-center items-center"
-                    >
-                      <vs-button color="#ff3e4e" size="xl" circle floating>
-                        <i class="bx bx-play text-xl"></i>
-                      </vs-button>
-                    </div>
-                    <img
-                      class="rounded-xl object-cover"
-                      :src="'https://img.youtube.com/vi/' + video + '/0.jpg'"
-                      :alt="video"
-                    />
-                  </template>
-                </vs-card>
-              </vs-card-group>
-            </div>
+  <div>
+    <div v-if="game" class="grid grid-cols-12 gap-4">
+      <GameCard class="col-span-12 md:col-span-4 mt-8" :game="game" />
+      <div
+        class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
+      >
+        <!-- Breadcrumb -->
+
+        <div
+          class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+        >
+          <vs-button active @click="$router.back()" size="small" transparent>
+            <i class="bx bxs-chevron-left text-xl"></i>
+          </vs-button>
+          <div class="flex flex-col ml-9">
+            <h5>{{ game.name }}</h5>
+            <span class="text-gray-400 text-sm mr-1">{{
+              game.company ? game.company.name : ''
+            }}</span>
           </div>
         </div>
-        <div class="col-span-12 lg:col-span-4">
+
+        <!-- Tabs -->
+        <ul
+          class="grid grid-cols-4 border-b border-b border-gray-200 dark:border-gray-700 mb-5"
+        >
+          <li
+            class="py-5 relative flex ransition duration-300 ease-in-out justify-center cursor-pointer hover-bg"
+            :class="{
+              'active-border': activeTab === tab.value,
+            }"
+            v-for="tab in tabs"
+            :key="tab.value"
+            @click="activeTab = tab.value"
+          >
+            <b>{{ tab.title }}</b>
+          </li>
+        </ul>
+        <div v-if="activeTab === 'info'" class="px-8">
+          <h2>Summary</h2>
+          <p class="my-3" v-html="game.summary" />
+          <h2>Ratings</h2>
+          <StarRate
+            :disabled="false"
+            :point="parseFloat(game.ratings.total_rate)"
+          />
+          <GameComments v-if="comments" :comments="comments" />
+        </div>
+        <div v-if="activeTab === 'medias'" class="px-8">
+          <medias-tab :game="game" />
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-span-12 lg:col-span-4">
           <div class="bg-white dark:bg-black p-6 rounded-lg flex flex-col">
             <div class="col-span-12 leading-8">
               <h2>İnfo</h2>
@@ -115,9 +108,7 @@
             />
             <GameComments v-if="comments" :comments="comments" />
           </div>
-        </div>
-      </div>
-    </div>
+        </div> -->
   </div>
 </template>
 
@@ -126,21 +117,34 @@ import { mapActions, mapState } from 'vuex'
 import GameCard from '~/components/Games/GameCard'
 import StarRate from '~/components/Rating/StarRate'
 import GameComments from '~/components/Games/GameComments'
+import MediasTab from '~/components/Games/MediasTab.vue'
 
 export default {
   name: 'gameDetail',
   layout: 'game',
-  components: { GameCard, StarRate, GameComments },
+  components: { GameCard, StarRate, GameComments, MediasTab },
   data() {
     return {
-      smallImagePath: process.env.GAMEIMAGE_SMALL,
-      mediumImagePath: process.env.GAMEIMAGE_MEDIUM,
-      largeImagePath: process.env.GAMESS_LARGE,
-      companyImagePath: process.env.COMPANYIMAGE_SMALL,
-      gameSSPath: process.env.GAMESS_MEDIUM,
       commentPage: 1,
-      index: null,
-      images: [],
+      activeTab: 'info',
+      tabs: [
+        {
+          title: 'İnformation',
+          value: 'info',
+        },
+        {
+          title: 'Medias',
+          value: 'medias',
+        },
+        {
+          title: 'Swaps List',
+          value: 'swaps',
+        },
+        {
+          title: 'Wishes List',
+          value: 'wishes',
+        },
+      ],
     }
   },
   computed: {
@@ -161,44 +165,22 @@ export default {
       getGameComments: 'game/getGameComments',
       clearAlert: 'alert/clear',
     }),
-    async showVideoViewer(index) {
-      await this.game.videos.forEach((video) => {
-        this.images.push(`https://www.youtube.com/watch?v=${video}`)
-      })
-      this.index = index
-    },
-    async showImageViewer(payload) {
-      await this.game.screenshots.forEach((image) => {
-        this.images.push(`${this.largeImagePath + image}.jpg`)
-      })
-      this.index = payload
-    },
-    async closeImageViewer() {
-      this.index = null
-      this.images = []
-    },
-
-    scrollProgress() {
-      return {
-        init() {
-          window.addEventListener('scroll', () => {
-            let winScroll =
-              document.body.scrollTop || document.documentElement.scrollTop
-            let height =
-              document.documentElement.scrollHeight -
-              document.documentElement.clientHeight
-            this.percent = Math.round((winScroll / height) * 100)
-          })
-        },
-        circumference: 30 * 2 * Math.PI,
-        percent: 0,
-      }
-    },
   },
 }
 </script>
-<style scoped>
-.vs-card-content.type-3 .vs-card__img img {
-  min-width: 0 !important;
+<style lang="scss">
+.active-border::before {
+  content: '';
+  transform: translateX(-50%);
+  border-radius: 6px;
+  position: absolute;
+  background: #6e00ff;
+  bottom: -2px;
+  height: 4px;
+  width: 24px;
+  left: 50%;
+}
+.content-full {
+  height: calc(100vh - 2.5rem);
 }
 </style>
