@@ -4,7 +4,7 @@
       <sidebar class="hidden md:flex fixed" />
     </div>
     <div class="grid grid-cols-12 gap-0 md:ml-20">
-      <Nuxt class="col-span-12 lg:col-span-9 2xl:col-span-8 md:mr-6 lg:mr-0" />
+      <Nuxt class="col-span-12 lg:col-span-8 md:mr-6 lg:mr-0" />
       <right-sidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
     </div>
   </div>
