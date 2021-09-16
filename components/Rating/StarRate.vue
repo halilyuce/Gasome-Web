@@ -59,9 +59,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.vs-button--size-small .vs-button__content {
-  padding: 0 1px !important;
-}
-</style>
