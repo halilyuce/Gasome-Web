@@ -181,14 +181,12 @@ export default {
     EmojiPicker,
     QuotedPost,
   },
-  props: {
-    quote: null,
-  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
       shareLoading: (state) => state.posts.shareLoading,
       composerStore: (state) => state.posts.composer,
+      quote: (state) => state.posts.quotedPost,
     }),
     composer: {
       get() {

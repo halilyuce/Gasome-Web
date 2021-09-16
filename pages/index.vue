@@ -4,10 +4,9 @@
     v-infinite-scroll="loadMore"
     infinite-scroll-distance="1000"
     infinite-scroll-throttle-delay="1000"
-    @scroll="handleScroll"
     class="bg-white dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
   >
-    <div class="my-3">
+    <div class="lg:my-3">
       <div
         class="hidden lg:flex justify-between items-center px-5 pb-3 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
       >
@@ -30,26 +29,7 @@
           <span class="px-2">New Post</span>
         </vs-button>
       </div>
-      <transition name="fade">
-        <div
-          v-show="showHeader"
-          class="sticky top-0 z-20 flex bg-white dark:bg-black lg:hidden justify-between items-center px-5 pb-3 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
-        >
-          <n-link :to="`/u/${loggedInUser.username}`">
-            <vs-avatar size="40">
-              <img
-                v-if="loggedInUser"
-                :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
-                alt="Avatar"
-              />
-            </vs-avatar>
-          </n-link>
-          <img class="h-8" :src="require('~/assets/img/gasome.svg')" alt="gasome">
-          <vs-button @click="openComposer()">
-            <i class="bx bx-edit text-2xl"></i>
-          </vs-button>
-        </div>
-      </transition>
+
       <PostsBody
         class="relative"
         :class="{ 'h-screen': loading }"
@@ -59,29 +39,26 @@
         @boost-post="boost"
         @quote-post="quote"
       />
-      <post-composer :quote="quotedPost" />
     </div>
   </div>
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import PostsBody from '../components/Posts/PostsBody.vue'
 import infiniteScroll from 'vue-infinite-scroll'
-import PostComposer from '../components/Posts/PostComposer.vue'
 export default {
   layout: 'sidebars',
   components: {
     PostsBody,
-    PostComposer,
   },
   computed: {
-    ...mapGetters(['loggedInUser']),
     ...mapState({
       alert: (state) => state.alert,
       posts: (state) => state.posts.posts,
       loading: (state) => state.posts.loading,
       pageState: (state) => state.posts.page,
+      quotedPostState: (state) => state.posts.quotedPost,
     }),
     page: {
       get() {
@@ -89,6 +66,14 @@ export default {
       },
       set(value) {
         this.setCurrentPage(value)
+      },
+    },
+    quotedPost: {
+      get() {
+        return this.quotedPostState
+      },
+      set(value) {
+        this.setQuotedPost(value)
       },
     },
   },
@@ -109,10 +94,7 @@ export default {
     return {
       enough: false,
       search: '',
-      quotedPost: null,
       smallAvatar: process.env.AVATAR_SMALL,
-      scrollValue: 0,
-      showHeader: true,
     }
   },
   methods: {
@@ -124,15 +106,9 @@ export default {
       boostPost: 'posts/boostPost',
       toggleLoading: 'posts/toggleLoading',
       setCurrentPage: 'posts/setCurrentPage',
+      setQuotedPost: 'posts/setQuotedPost',
     }),
-    handleScroll (event) {
-      if (event.target.scrollTop === 0) {
-        this.showHeader = true
-      } else {
-        this.showHeader = (this.scrollValue - event.target.scrollTop) > 50;
-      }
-      this.scrollValue = event.target.scrollTop
-    },
+
     openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
@@ -167,11 +143,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-</style>

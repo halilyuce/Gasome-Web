@@ -1,6 +1,7 @@
 export const state = () => ({
   posts: [],
   post: null,
+  quotedPost: null,
   page: 0,
   comments: [],
   loading: false,
@@ -59,6 +60,9 @@ export const mutations = {
   },
   setComposer(state, payload) {
     state.composer = payload
+  },
+  setQuotedPost(state, payload) {
+    state.quotedPost = payload
   },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
@@ -252,5 +256,8 @@ export const actions = {
   },
   async setCurrentPage({ commit }, page) {
     await commit('setPage', page)
+  },
+  async setQuotedPost({ commit }, post) {
+    await commit('setQuotedPost', post)
   },
 }

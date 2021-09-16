@@ -102,11 +102,11 @@ export default {
           value: 'medias',
         },
         {
-          title: 'Swaps List',
+          title: 'Swaps',
           value: 'swaps',
         },
         {
-          title: 'Wishes List',
+          title: 'Wishes',
           value: 'wishes',
         },
       ],

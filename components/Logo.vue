@@ -6,7 +6,7 @@
       xmlns="http://www.w3.org/2000/svg"
       width="22pt"
       height="36pt"
-      viewBox="0 0 24 36"
+      viewBox="0 0 24 42"
       preserveAspectRatio="xMidYMid meet"
     >
       <g
