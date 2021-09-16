@@ -6,10 +6,8 @@
       <sidebar class="hidden md:flex" />
       <user-bar class="hidden lg:flex" />
     </div>
-    <Nuxt class="col-span-12 md:col-span-7 lg:col-span-5 2xl:col-span-3" />
-    <right-sidebar
-      class="hidden md:flex md:col-span-4 lg:col-span-3 2xl:col-span-2"
-    />
+    <Nuxt class="col-span-12 md:col-span-6 lg:col-span-5 2xl:col-span-4" />
+    <right-sidebar class="hidden md:flex md:col-span-5 lg:col-span-3" />
   </div>
 </template>
 <script>

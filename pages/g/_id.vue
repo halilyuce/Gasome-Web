@@ -3,10 +3,12 @@
     <div v-if="game" class="grid grid-cols-12 gap-4">
       <GameCard class="col-span-12 md:col-span-4 mt-8" :game="game" />
       <div
-        class="bg-purple-600 text-white col-span-12 md:col-span-8 content-full py-1 my-5 overflow-auto rounded-3xl"
+        class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
       >
         <!-- Tabs -->
-        <ul class="grid grid-cols-4 border-b border-purple-700 mb-5">
+        <ul
+          class="grid grid-cols-4 border-b border-b border-gray-200 dark:border-gray-700 mb-5"
+        >
           <li
             class="py-5 relative flex ransition duration-300 ease-in-out justify-center cursor-pointer hover-bg"
             :class="{
@@ -156,7 +158,7 @@ export default {
   transform: translateX(-50%);
   border-radius: 6px;
   position: absolute;
-  background: white;
+  background: #6e00ff;
   bottom: -2px;
   height: 4px;
   width: 24px;

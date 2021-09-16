@@ -16,7 +16,7 @@
           v-model="search"
           icon-after
           placeholder="Search A Game or User"
-          class="w-72"
+          class="w-64 md:w-52 lg:w-64 xl:w-72"
           disabled
         >
           <template #icon>
