@@ -4,7 +4,8 @@
     v-infinite-scroll="loadMore"
     infinite-scroll-distance="1000"
     infinite-scroll-throttle-delay="1000"
-    class="bg-white relative dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
+    class="bg-white relative dark:bg-black overflow-y-auto disable-scrollbars"
+    :class="!loading ? 'max-h-screen' : 'min-h-screen'"
   >
     <h1 class="p-5">Notifications</h1>
     <ul
