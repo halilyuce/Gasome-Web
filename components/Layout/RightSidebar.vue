@@ -1,67 +1,37 @@
 <template>
-  <div class="flex flex-col pt-3 pb-5 px-8 h-full">
-    <div class="flex justify-between items-center">
-      <vs-switch v-model="isDark">
-        <template #circle>
-          <i v-if="!isDark" class="bx bxs-moon"></i>
-          <i v-else class="bx bxs-sun"></i>
-        </template>
-      </vs-switch>
-
-      <div class="flex flex-row items-center">
-        <vs-button>
-          <i class="bx bx-cog text-xl"></i>
-        </vs-button>
-        <n-link :to="'/notifications'">
-          <vs-avatar
-            size="36"
-            primary
-            badge-color="danger"
-            badge-position="top-right"
-            class="ml-2"
-          >
-            <i class="bx bx-bell dark:text-white"></i>
-
-            <template v-if="notificationBadge && notificationBadge > 0" #badge>
-              <span class="dark:text-white">{{ notificationBadge }}</span>
-            </template>
-          </vs-avatar>
-        </n-link>
-      </div>
-    </div>
-
+  <div class="flex flex-col pt-1 pb-5 px-8 h-full">
     <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-4">
       <h3>Most Spoken</h3>
       <ul
-        class="divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
+        class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
         <li class="flex justify-between items-center text-sm text-purple-500">
           #CyberMonday
-          <vs-button transparent shadow size="small"
+          <vs-button transparent size="small"
             ><span class="text-gray-500">1.2K</span>
           </vs-button>
         </li>
         <li class="flex justify-between items-center text-sm text-purple-500">
           #SteamBlackFriday
-          <vs-button transparent shadow size="small"
+          <vs-button transparent size="small"
             ><span class="text-gray-500">691</span>
           </vs-button>
         </li>
         <li class="flex justify-between items-center text-sm text-purple-500">
           #Hitman3
-          <vs-button transparent shadow size="small"
+          <vs-button transparent size="small"
             ><span class="text-gray-500">559</span>
           </vs-button>
         </li>
         <li class="flex justify-between items-center text-sm text-purple-500">
           #DiscordDown
-          <vs-button transparent shadow size="small"
+          <vs-button transparent size="small"
             ><span class="text-gray-500">404</span>
           </vs-button>
         </li>
         <li class="flex justify-between items-center text-sm text-purple-500">
           #GasomeEvent2021
-          <vs-button transparent shadow size="small"
+          <vs-button transparent size="small"
             ><span class="text-gray-500">301</span>
           </vs-button>
         </li>
@@ -74,7 +44,7 @@
     >
       <h3 class="pt-3 pl-5">User Suggestions</h3>
       <ul
-        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
+        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
@@ -126,32 +96,17 @@ export default {
     ...mapState({
       alert: (state) => state.alert,
       recommendedUsers: (state) => state.sidebar.recommendedUsers,
-      notificationBadge: (state) => state.notificationBadge,
       loading: (state) => state.sidebar.loading,
     }),
   },
   data() {
     return {
-      isDark: true,
       active: false,
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
-  watch: {
-    isDark(val) {
-      if (val === true) {
-        localStorage.setItem('mode', 'light')
-        this.$vs.setTheme('light')
-        this.$colorMode.preference = 'light'
-      } else {
-        localStorage.setItem('mode', 'dark')
-        this.$vs.setTheme('dark')
-        this.$colorMode.preference = 'dark'
-      }
-    },
-  },
+
   mounted() {
-    this.isDark = localStorage.getItem('mode') === 'light' ? true : false
     this.getBadges()
     if (!this.recommendedUsers) {
       this.getRecommendedUsers()
@@ -164,13 +119,6 @@ export default {
       getBadges: 'getBadges',
       clearAlert: 'alert/clear',
     }),
-    openNotificationUser() {
-      const noti = this.$vs.notification({
-        duration: 'none',
-        width: 'auto',
-        content: likeNotification,
-      })
-    },
   },
 }
 </script>
