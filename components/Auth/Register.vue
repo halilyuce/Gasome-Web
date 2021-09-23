@@ -24,7 +24,7 @@
         </div>
         <form v-on:submit.prevent="registerUser">
           <vs-input
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="fullname"
             placeholder="Full Name"
             class="my-5"
@@ -34,17 +34,17 @@
             </template>
           </vs-input>
           <vs-input
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="username"
             placeholder="Username"
             class="my-5"
           >
             <template #icon>
-              <i class="bx bx-user"></i>
+              <i class="bx bx-at"></i>
             </template>
           </vs-input>
           <vs-input
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="email"
             placeholder="E-mail Adress"
             class="my-5"
@@ -55,7 +55,7 @@
           </vs-input>
           <vs-input
             type="password"
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="password"
             class="my-5"
             placeholder="Password"
@@ -89,7 +89,7 @@
         </form>
         <div class="flex justify-center text-sm my-5">
           <span class="text-gray-700">Already have an account?</span>
-          <n-link :to="'/login'" class="ml-3 text-purple-600 font-bold"
+          <n-link :to="'/login'" class="ml-3 text-purple-500 font-bold"
             >Login</n-link
           >
         </div>

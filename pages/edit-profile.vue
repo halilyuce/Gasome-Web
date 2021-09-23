@@ -56,7 +56,7 @@
             class="w-full"
           >
             <template #icon>
-              <i class="bx bx-user"></i>
+              <i class="bx bx-at"></i>
             </template>
           </vs-input>
         </div>
