@@ -218,12 +218,32 @@ export default {
             self.upload_avatar = ''
             self.updateProfile(payload).then((res) => {
               self.$auth.setUser(res)
+              self.$vs.notification({
+                duration: 5000,
+                progress: 'auto',
+                flat: true,
+                color: 'success',
+                icon: `<i class='bx bx-user-check' ></i>`,
+                position: 'top-right',
+                title: 'Updated Successfuly',
+                text: 'Your information updated successfuly.',
+              })
             })
           })
         }, 2000)
       } else {
         this.updateProfile(payload).then((res) => {
           self.$auth.setUser(res)
+          self.$vs.notification({
+            duration: 5000,
+            progress: 'auto',
+            flat: true,
+            color: 'success',
+            icon: `<i class='bx bx-user-check' ></i>`,
+            position: 'top-right',
+            title: 'Updated Successfuly',
+            text: 'Your information updated successfuly.',
+          })
         })
       }
     },
