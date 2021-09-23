@@ -24,18 +24,18 @@
         </div>
         <form v-on:submit.prevent="login">
           <vs-input
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="username"
-            placeholder="Username"
+            placeholder="Username or E-mail"
             class="my-5"
           >
             <template #icon>
-              <i class="bx bx-user"></i>
+              <i class="bx bx-at"></i>
             </template>
           </vs-input>
           <vs-input
             type="password"
-            color="#6e00ff"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="password"
             placeholder="Password"
             :visiblePassword="hasVisiblePassword"
@@ -69,7 +69,7 @@
         </form>
         <div class="flex justify-center text-sm my-5">
           <span class="text-gray-700">New Here?</span>
-          <n-link class="ml-3 text-purple-600 font-bold" :to="'/register'"
+          <n-link class="ml-3 text-purple-500 font-bold" :to="'/register'"
             >Create New Account</n-link
           >
         </div>

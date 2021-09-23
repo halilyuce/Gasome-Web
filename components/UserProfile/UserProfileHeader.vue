@@ -155,6 +155,8 @@ export default {
     followAction() {
       if (this.user.id != this.loggedInUser.id) {
         this.follow(this.user.username)
+      } else {
+        this.$router.push('/edit-profile')
       }
     },
     showAvatar() {
