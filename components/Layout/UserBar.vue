@@ -1,9 +1,7 @@
 <template>
   <div class="flex flex-col items-center 2xl:items-end w-full my-5">
     <div class="flex flex-col mx-7 h-full">
-      <div
-        class="flex flex-col bg-white dark:bg-black py-4 pl-4 pr-7 rounded-xl"
-      >
+      <div class="flex flex-col bg-white dark:bg-black py-4 px-4 rounded-xl">
         <div class="flex flex-row mb-3 items-center">
           <n-link :to="`/u/${loggedInUser.username}`">
             <vs-avatar size="48" badge badge-color="success">
@@ -24,7 +22,7 @@
           </div>
         </div>
 
-        <vs-button :to="'/edit-profile'" block> Edit Profile </vs-button>
+        <vs-button :to="'/edit-profile'"> Edit Profile </vs-button>
       </div>
 
       <h2 class="mt-8 text-center">Statistics</h2>
@@ -59,9 +57,14 @@
       </div>
 
       <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-auto">
-        <h3>Last Notification</h3>
-        <div class="flex justify-start mt-3">
-          <like-notification />
+        <h3>Give Feedback</h3>
+        <div class="flex flex-col mt-2">
+          <p class="text-sm text-gray-800 dark:text-gray-200 mb-2">
+            We're in beta and we're waiting for your feedbacks :)
+          </p>
+          <vs-button danger gradient>
+            Send Feedback <i class="bx bxs-flag-checkered ml-2"></i>
+          </vs-button>
         </div>
       </div>
     </div>
@@ -69,11 +72,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import likeNotification from '../Notifications/Like.vue'
 export default {
-  components: {
-    likeNotification,
-  },
   computed: {
     ...mapGetters(['isAuthenticated', 'loggedInUser']),
   },

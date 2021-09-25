@@ -9,15 +9,16 @@
       <ul
         class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
-        <li
-          v-for="trend in trends"
-          :key="trend.id"
-          class="flex justify-between items-center text-sm text-purple-500"
-        >
-          {{ '#' + trend.tag }}
-          <vs-button transparent size="small"
-            ><span class="text-gray-500">{{ trend.topic_weekly_count }}</span>
-          </vs-button>
+        <li v-for="trend in trends" :key="trend.id">
+          <n-link
+            class="flex justify-between items-center text-sm text-purple-500"
+            :to="'/h/' + trend.tag"
+          >
+            {{ '#' + trend.tag }}
+            <vs-button transparent size="small"
+              ><span class="text-gray-500">{{ trend.topic_weekly_count }}</span>
+            </vs-button>
+          </n-link>
         </li>
       </ul>
     </div>
