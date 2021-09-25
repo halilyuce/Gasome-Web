@@ -13,27 +13,12 @@
       v-if="notifications"
     >
       <li
-        class="flex flex-row px-5 py-3"
+        class="px-5 py-3"
         v-for="notification in notifications"
         :key="notification.id"
       >
         <!-- AVATAR  -->
-        <div class="mr-4">
-          <n-link :to="`/u/${notification.sender.username}`">
-            <vs-avatar size="50">
-              <img
-                :src="`${smallAvatar + notification.sender.avatar}.jpg`"
-                alt="Avatar"
-              />
-            </vs-avatar>
-          </n-link>
-        </div>
-        <n-link :to="`/u/${notification.sender.username}`">
-          <strong class="mr-1"> {{ notification.sender.name }}</strong>
-        </n-link>
-        <span class="text-gray-700 dark:text-gray-300">{{
-          notification.message
-        }}</span>
+        <NotificationList :notification='notification' />
       </li>
     </ul>
   </div>
@@ -42,8 +27,10 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import infiniteScroll from 'vue-infinite-scroll'
+import NotificationList from '~/components/Notifications/NotificationList'
 export default {
   layout: 'sidebars',
+  components: { NotificationList },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
