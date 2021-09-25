@@ -1,48 +1,35 @@
 <template>
   <div class="flex flex-col pt-1 pb-5 px-8 h-full">
-    <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-4">
-      <h3>Most Spoken</h3>
+    <div
+      ref="trends"
+      class="relative bg-white dark:bg-black py-3 px-5 rounded-xl mt-4"
+      :class="{ 'h-48': trendsLoading }"
+    >
+      <h3 v-if="!trendsLoading">Most Spoken</h3>
       <ul
         class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #CyberMonday
+        <li
+          v-for="trend in trends"
+          :key="trend.id"
+          class="flex justify-between items-center text-sm text-purple-500"
+        >
+          {{ '#' + trend.tag }}
           <vs-button transparent size="small"
-            ><span class="text-gray-500">1.2K</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #SteamBlackFriday
-          <vs-button transparent size="small"
-            ><span class="text-gray-500">691</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #Hitman3
-          <vs-button transparent size="small"
-            ><span class="text-gray-500">559</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #DiscordDown
-          <vs-button transparent size="small"
-            ><span class="text-gray-500">404</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #GasomeEvent2021
-          <vs-button transparent size="small"
-            ><span class="text-gray-500">301</span>
+            ><span class="text-gray-500">{{ trend.topic_weekly_count }}</span>
           </vs-button>
         </li>
       </ul>
     </div>
 
     <div
-      v-if="recommendedUsers && recommendedUsers.length > 0"
-      class="bg-white dark:bg-black rounded-xl mt-8"
+      ref="recommends"
+      class="relative bg-white dark:bg-black rounded-xl mt-8"
+      :class="{ 'h-48': recommendsLoading }"
     >
-      <h3 class="pt-3 pl-5">User Suggestions</h3>
+      <h3 v-if="recommendedUsers.length > 0" class="pt-3 pl-5">
+        User Suggestions
+      </h3>
       <ul
         class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
@@ -96,7 +83,9 @@ export default {
     ...mapState({
       alert: (state) => state.alert,
       recommendedUsers: (state) => state.sidebar.recommendedUsers,
-      loading: (state) => state.sidebar.loading,
+      trends: (state) => state.sidebar.trends,
+      trendsLoading: (state) => state.sidebar.trendsLoading,
+      recommendsLoading: (state) => state.sidebar.recommendsLoading,
     }),
   },
   data() {
@@ -106,9 +95,34 @@ export default {
     }
   },
 
+  watch: {
+    trendsLoading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.trendsLoad.close()
+        } else {
+          this.trendsLoad = this.$vs.loading({
+            target: this.$refs.trends,
+          })
+        }
+      }
+    },
+    recommendsLoading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.recommendsLoad.close()
+        } else {
+          this.recommendsLoad = this.$vs.loading({
+            target: this.$refs.recommends,
+          })
+        }
+      }
+    },
+  },
+
   mounted() {
-    this.getBadges()
-    if (!this.recommendedUsers) {
+    this.getTrends()
+    if (this.recommendedUsers.length === 0) {
       this.getRecommendedUsers()
     }
   },
@@ -116,7 +130,7 @@ export default {
   methods: {
     ...mapActions({
       getRecommendedUsers: 'sidebar/getRecommendedUsers',
-      getBadges: 'getBadges',
+      getTrends: 'sidebar/getTrends',
       clearAlert: 'alert/clear',
     }),
   },
