@@ -54,7 +54,7 @@
             <div>
               <p
                 class="dark:text-gray-300"
-                v-html="hyperlinkString(post.quoted_post[0].text)"
+                v-html="hyperlinkString(post.quoted_post[0] ? post.quoted_post[0].text : '')"
               />
 
               <div
@@ -231,7 +231,7 @@
             <div>
               <p
                 class="dark:text-gray-300"
-                v-html="hyperlinkString(post.text)"
+                v-html="hyperlinkString(post.text ? post.text : '')"
               />
 
               <div
