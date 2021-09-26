@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'default',
   mounted() {
@@ -15,6 +16,12 @@ export default {
     } else {
       this.$vs.setTheme('dark')
     }
+    this.getBadges()
+  },
+  methods: {
+    ...mapActions({
+      getBadges: 'getBadges',
+    }),
   },
 }
 </script>

@@ -4,6 +4,7 @@ export const state = () => ({
   wishes: [],
   swaps: [],
   loading: false,
+  editLoading: false,
   postLoading: false,
   followLoading: false,
   swapsLoading: false,
@@ -22,6 +23,9 @@ export const getters = {}
 export const mutations = {
   setLoading(state, payload) {
     state.loading = payload
+  },
+  setEditLoading(state, payload) {
+    state.editLoading = payload
   },
   setRemoveLoading(state, payload) {
     state.removeLoading = payload
@@ -328,6 +332,41 @@ export const actions = {
       })
       throw 'Unable to boost this post'
     }
+  },
+  async updateProfile({ dispatch, commit }, payload) {
+    try {
+      const response = await this.$axios.post('/api/postUpdateProfile', {
+        name: payload.name,
+        username: payload.username,
+        email: payload.email,
+        birthday: payload.birthday,
+        website: payload.website,
+        bio: payload.bio,
+      })
+      commit('setEditLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setEditLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async updateAvatar({ dispatch, commit }, payload) {
+    try {
+      const response = await this.$axios.post('/api/postUpdateAvatar', payload)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setEditLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async toggleEditLoading({ commit }, payload) {
+    commit('setEditLoading', payload)
   },
   async togglePostLoading({ commit }, payload) {
     commit('setPostLoading', payload)

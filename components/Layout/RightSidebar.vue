@@ -1,80 +1,38 @@
 <template>
-  <div class="flex flex-col pt-3 pb-5 px-8 h-full">
-    <div class="flex justify-between items-center">
-      <vs-switch v-model="isDark">
-        <template #circle>
-          <i v-if="!isDark" class="bx bxs-moon"></i>
-          <i v-else class="bx bxs-sun"></i>
-        </template>
-      </vs-switch>
-
-      <div class="flex flex-row items-center">
-        <vs-button>
-          <i class="bx bx-cog text-xl"></i>
-        </vs-button>
-        <n-link :to="'/notifications'">
-          <vs-avatar
-            size="36"
-            primary
-            badge-color="danger"
-            badge-position="top-right"
-            class="ml-2"
-          >
-            <i class="bx bx-bell dark:text-white"></i>
-
-            <template v-if="notificationBadge && notificationBadge > 0" #badge>
-              <span class="dark:text-white">{{ notificationBadge }}</span>
-            </template>
-          </vs-avatar>
-        </n-link>
-      </div>
-    </div>
-
-    <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-4">
-      <h3>Most Spoken</h3>
+  <div class="flex flex-col pt-1 pb-5 px-8 h-full">
+    <div
+      ref="trends"
+      class="relative bg-white dark:bg-black py-3 px-5 rounded-xl mt-4"
+      :class="{ 'h-48': trendsLoading }"
+    >
+      <h3 v-if="!trendsLoading">Most Spoken</h3>
       <ul
-        class="divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
+        class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #CyberMonday
-          <vs-button transparent shadow size="small"
-            ><span class="text-gray-500">1.2K</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #SteamBlackFriday
-          <vs-button transparent shadow size="small"
-            ><span class="text-gray-500">691</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #Hitman3
-          <vs-button transparent shadow size="small"
-            ><span class="text-gray-500">559</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #DiscordDown
-          <vs-button transparent shadow size="small"
-            ><span class="text-gray-500">404</span>
-          </vs-button>
-        </li>
-        <li class="flex justify-between items-center text-sm text-purple-500">
-          #GasomeEvent2021
-          <vs-button transparent shadow size="small"
-            ><span class="text-gray-500">301</span>
-          </vs-button>
+        <li v-for="trend in trends" :key="trend.id">
+          <n-link
+            class="flex justify-between items-center text-sm text-purple-500"
+            :to="'/h/' + trend.tag"
+          >
+            {{ '#' + trend.tag }}
+            <vs-button transparent size="small"
+              ><span class="text-gray-500">{{ trend.topic_weekly_count }}</span>
+            </vs-button>
+          </n-link>
         </li>
       </ul>
     </div>
 
     <div
-      v-if="recommendedUsers && recommendedUsers.length > 0"
-      class="bg-white dark:bg-black rounded-xl mt-8"
+      ref="recommends"
+      class="relative bg-white dark:bg-black rounded-xl mt-8"
+      :class="{ 'h-48': recommendsLoading }"
     >
-      <h3 class="pt-3 pl-5">User Suggestions</h3>
+      <h3 v-if="recommendedUsers.length > 0" class="pt-3 pl-5">
+        User Suggestions
+      </h3>
       <ul
-        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-black dark:divide-opacity-25"
+        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
       >
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
@@ -126,34 +84,46 @@ export default {
     ...mapState({
       alert: (state) => state.alert,
       recommendedUsers: (state) => state.sidebar.recommendedUsers,
-      notificationBadge: (state) => state.notificationBadge,
-      loading: (state) => state.sidebar.loading,
+      trends: (state) => state.sidebar.trends,
+      trendsLoading: (state) => state.sidebar.trendsLoading,
+      recommendsLoading: (state) => state.sidebar.recommendsLoading,
     }),
   },
   data() {
     return {
-      isDark: true,
       active: false,
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
+
   watch: {
-    isDark(val) {
-      if (val === true) {
-        localStorage.setItem('mode', 'light')
-        this.$vs.setTheme('light')
-        this.$colorMode.preference = 'light'
-      } else {
-        localStorage.setItem('mode', 'dark')
-        this.$vs.setTheme('dark')
-        this.$colorMode.preference = 'dark'
+    trendsLoading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.trendsLoad.close()
+        } else {
+          this.trendsLoad = this.$vs.loading({
+            target: this.$refs.trends,
+          })
+        }
+      }
+    },
+    recommendsLoading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.recommendsLoad.close()
+        } else {
+          this.recommendsLoad = this.$vs.loading({
+            target: this.$refs.recommends,
+          })
+        }
       }
     },
   },
+
   mounted() {
-    this.isDark = localStorage.getItem('mode') === 'light' ? true : false
-    this.getBadges()
-    if (!this.recommendedUsers) {
+    this.getTrends()
+    if (this.recommendedUsers.length === 0) {
       this.getRecommendedUsers()
     }
   },
@@ -161,16 +131,9 @@ export default {
   methods: {
     ...mapActions({
       getRecommendedUsers: 'sidebar/getRecommendedUsers',
-      getBadges: 'getBadges',
+      getTrends: 'sidebar/getTrends',
       clearAlert: 'alert/clear',
     }),
-    openNotificationUser() {
-      const noti = this.$vs.notification({
-        duration: 'none',
-        width: 'auto',
-        content: likeNotification,
-      })
-    },
   },
 }
 </script>
