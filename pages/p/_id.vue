@@ -58,6 +58,7 @@ import CommentComposer from '~/components/Posts/CommentComposer.vue'
 import infiniteScroll from 'vue-infinite-scroll'
 export default {
   layout: 'sidebars',
+  name: 'PostDetail',
   components: { PostComposer, PostsBody, SinglePost, CommentComposer },
   computed: {
     ...mapState({

@@ -87,6 +87,7 @@
 
       <div
         class="flex flex-col text-gray-600 dark:text-gray-400 md:flex-row text-sm"
+        :class="{ 'mt-2': !user.bio }"
       >
         <div v-if="user.weblink" class="flex items-center mb-1 md:mr-3">
           <i class="bx bx-link"></i>
