@@ -57,10 +57,16 @@
             shadow
             border
             size="small"
-            :active="active"
-            @click="active = !active"
+            :active="followedList.includes(user.username)"
+            :loading="
+              followLoading &&
+              followList[followList.length - 1] === user.username
+            "
+            @click="followUser(user.username)"
           >
-            <span class="px-1">{{ active ? 'Following' : 'Follow' }}</span>
+            <span class="px-1">{{
+              followedList.includes(user.username) ? 'Unfollow' : 'Follow'
+            }}</span>
           </vs-button>
         </li>
       </ul>
@@ -87,12 +93,15 @@ export default {
       trends: (state) => state.sidebar.trends,
       trendsLoading: (state) => state.sidebar.trendsLoading,
       recommendsLoading: (state) => state.sidebar.recommendsLoading,
+      followLoading: (state) => state.sidebar.followLoading,
     }),
   },
   data() {
     return {
       active: false,
       smallAvatar: process.env.AVATAR_SMALL,
+      followList: [],
+      followedList: [],
     }
   },
 
@@ -133,7 +142,20 @@ export default {
       getRecommendedUsers: 'sidebar/getRecommendedUsers',
       getTrends: 'sidebar/getTrends',
       clearAlert: 'alert/clear',
+      follow: 'sidebar/follow',
     }),
+    async followUser(username) {
+      const self = this
+      self.followList.push(username)
+      this.follow(username).then((res) => {
+        if (res.state) {
+          self.followedList.push(username)
+        } else {
+          const index = self.followedList.findIndex((user) => user === username)
+          self.followedList.splice(index, 1)
+        }
+      })
+    },
   },
 }
 </script>
