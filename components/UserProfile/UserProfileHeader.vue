@@ -3,7 +3,14 @@
     <!-- User Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button active @click="$router.back()" size="small" transparent>
         <i class="bx bxs-chevron-left text-xl"></i>
@@ -86,7 +93,13 @@
       <!-- User Links & Dates -->
 
       <div
-        class="flex flex-col text-gray-600 dark:text-gray-400 md:flex-row text-sm"
+        class="
+          flex flex-col
+          text-gray-600
+          dark:text-gray-400
+          md:flex-row
+          text-sm
+        "
       >
         <div v-if="user.weblink" class="flex items-center mb-1 md:mr-3">
           <i class="bx bx-link"></i>
@@ -119,10 +132,12 @@
           <b>{{ user.follows }}</b>
           <span class="text-gray-400 ml-1">Following</span>
         </div>
-        <div class="flex items-center">
-          <b>{{ user.followers }}</b>
-          <span class="text-gray-400 ml-1">Followers</span>
-        </div>
+        <n-link :to="`${user.username}/followers`">
+          <div class="flex items-center">
+            <b>{{ user.followers }}</b>
+            <span class="text-gray-400 ml-1">Followers</span>
+          </div>
+        </n-link>
       </div>
     </div>
   </div>
