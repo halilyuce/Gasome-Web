@@ -13,18 +13,26 @@
   >
     <!-- Followers Header Bar -->
     <FollowersHeader v-if="user" v-bind:user="user" />
+
+    <div
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="1000"
+      infinite-scroll-throttle-delay="1000"
+    >
+      <UserListItem v-if="followers" v-bind:followers="followers"/>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import FollowersHeader from '~/components/UserProfile/FollowersHeader.vue'
+import UserListItem from '~/components/UserProfile/UserListItem.vue'
 import infiniteScroll from 'vue-infinite-scroll'
 export default {
-  components: { FollowersHeader },
+  components: { FollowersHeader, UserListItem },
   layout: 'sidebars',
   computed: {
-    ...mapGetters(['loggedInUser']),
     ...mapState({
       user: (state) => state.profile.user,
       followers: (state) => state.profile.followers,
@@ -57,7 +65,7 @@ export default {
   },
   mounted() {
     this.getUserProfile(this.slug)
-    this.getUserFollowers(1)
+    this.getUserFollowers(1, 1)
   },
   beforeDestroy() {
     this.clearState()
@@ -76,7 +84,7 @@ export default {
       if (!this.enough) {
         this.currentPage += 1
         this.getUserFollowers({
-          page: this.currentPage,
+          pageIndex: this.currentPage,
           userId: this.user.id,
         }).then(function (res) {
           if (res.data.length < 10) {

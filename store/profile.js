@@ -395,13 +395,13 @@ export const actions = {
   async clearState({ commit }) {
     commit('clearState')
   },
-  async getUserFollowers({ commit, dispatch }, userId) {
+  async getUserFollowers({ commit, dispatch }, pageIndex, userId) {
     commit('setLoading', true)
     try {
-      const response = await this.$axios.get('/api/getFollowers', {
-        params: { userId: userId },
-      })
-      commit('setUserFollowers', response.data.data)
+      const response = await this.$axios.get(
+        '/api/getFollowers?userId=' + 1 + '&page=' + pageIndex
+      )
+      commit('setUserFollowers', response.data.data.data)
       commit('setLoading', false)
     } catch (error) {
       dispatch('alert/error', error.response, {
