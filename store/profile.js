@@ -399,7 +399,7 @@ export const actions = {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get(
-        '/api/getFollowers?userId=' + 1 + '&page=' + pageIndex
+        '/api/getFollowers?userId=' + 3 + '&page=' + pageIndex
       )
       commit('setUserFollowers', response.data.data.data)
       commit('setLoading', false)
