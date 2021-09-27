@@ -98,7 +98,7 @@
             class="my-5"
           >
             <template #icon>
-              <i class="bx bx-at"></i>
+              <i class="bx bx-envelope"></i>
             </template>
           </vs-input>
           <vs-alert v-if="!emailSent" class="mb-6 text-xs">

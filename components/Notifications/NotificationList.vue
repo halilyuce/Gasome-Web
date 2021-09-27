@@ -1,57 +1,127 @@
 <template>
-  <div class='grid grid-cols-5'>
-    <div class='flex flex-col' :class="notification.game ? 'col-span-4' : 'col-span-5'">
-      <div class='flex flex-row'>
-        <div class='mr-4'>
-          <n-link :to='`/u/${notification.sender.username}`'>
-            <vs-avatar badge :badge-color='badge()[0]' size='50'>
+  <div class="grid grid-cols-5">
+    <div
+      class="flex flex-col"
+      :class="notification.game ? 'col-span-4' : 'col-span-5'"
+    >
+      <div class="flex flex-row">
+        <div class="mr-4">
+          <n-link :to="`/u/${notification.sender.username}`">
+            <vs-avatar badge :badge-color="badge()[0]" size="50">
               <img
-                :src='`${smallAvatar + notification.sender.avatar}.jpg`'
-                alt='Avatar'
+                :src="`${smallAvatar + notification.sender.avatar}.jpg`"
+                alt="Avatar"
               />
               <template #badge>
-                <div class='py-1 px-0.5 flex'>
-                  <i class='text-white' :class='badge()[1]' style='font-size: 0.8rem'></i>
+                <div class="py-1 px-0.5 flex">
+                  <i
+                    class="text-white"
+                    :class="badge()[1]"
+                    style="font-size: 0.8rem"
+                  ></i>
                 </div>
               </template>
             </vs-avatar>
           </n-link>
         </div>
-        <div class='flex flex-col text-gray-700 dark:text-gray-300 w-full'>
-          <span class='flex flex-row'>
-            <n-link :to='`/u/${notification.sender.username}`'>
-            <strong class='mr-1'> {{ notification.sender.name }}</strong>
-          </n-link>
-          {{ notification.message }}
-          </span>
-          <n-link :to='`/p/${notification.post.id}`' v-if='notification.post' class='mt-2'>
-            <div class='flex flex-col border border-gray-400 dark:border-gray-700 rounded-lg p-2'>
-              <n-link :to='`/u/${notification.post.user.username}`' class='flex items-center space-x-2'>
-                <vs-avatar size='30'>
-                  <img :src="smallAvatar + notification.post.user.avatar + '.jpg'" alt=''>
+        <div class="flex flex-col text-gray-700 dark:text-gray-300 w-full">
+          <span>
+            <b
+              class="cursor-pointer"
+              @click="$router.push(`/u/${notification.sender.username}`)"
+              >{{ notification.sender.name }}</b
+            >
+            {{ notification.message }}</span
+          >
+
+          <n-link
+            :to="`/p/${notification.post.id}`"
+            v-if="notification.post"
+            class="mt-2"
+          >
+            <div
+              class="flex flex-col text-sm border border-gray-200 dark:border-gray-700 rounded-lg p-2"
+            >
+              <n-link
+                :to="`/u/${
+                  notification.post.only_boost
+                    ? notification.post.quote[0].user.username
+                    : notification.post.user.username
+                }`"
+                class="flex items-center space-x-1"
+              >
+                <vs-avatar size="21">
+                  <img
+                    :src="
+                      smallAvatar +
+                      (notification.post.only_boost
+                        ? notification.post.quote[0].user.avatar
+                        : notification.post.user.avatar) +
+                      '.jpg'
+                    "
+                    alt=""
+                  />
                 </vs-avatar>
-                <span class='text-lg font-bold'>{{ notification.post.user.name }}</span>
-                <span class='text-gray-400'>
-                  @{{ notification.post.user.username }}
+                <span class="font-bold">{{
+                  notification.post.only_boost
+                    ? notification.post.quote[0].user.name
+                    : notification.post.user.name
+                }}</span>
+                <span class="text-gray-400 text-xs">
+                  @{{
+                    notification.post.only_boost
+                      ? notification.post.quote[0].user.username
+                      : notification.post.user.username
+                  }}
                 </span>
               </n-link>
-              <div v-if='notification.post.parent.length > 0' class='flex items-center space-x-2'>
-                <span class='text-gray-400'>Response to</span>
-                <n-link :to='`/u/${notification.post.parent[0].user.username}`' class='text-purple-700'>
+              <div
+                v-if="notification.post.parent.length > 0"
+                class="flex items-center space-x-2"
+              >
+                <span class="text-gray-400 mt-1">Response to</span>
+                <n-link
+                  :to="`/u/${notification.post.parent[0].user.username}`"
+                  class="text-purple-500"
+                >
                   @{{ notification.post.parent[0].user.username }}
                 </n-link>
               </div>
-              <span>{{ notification.post.text }}</span>
-              <div v-if='notification.post.quote.length > 0' class='flex items-center space-x-2 m-1'>
-                <div class='flex flex-col border border-gray-400 dark:border-gray-700 rounded-lg p-2'>
-                  <n-link :to='`/u/${notification.post.quote[0].user.username}`' class='flex items-center space-x-2'>
-                    <vs-avatar size='30'>
-                      <img :src="smallAvatar + notification.post.quote[0].user.avatar + '.jpg'" alt=''>
+              <span class="mt-1">{{
+                notification.post.only_boost
+                  ? notification.post.quote[0].text
+                  : notification.post.text
+              }}</span>
+              <div
+                v-if="
+                  notification.post.quote.length > 0 &&
+                  !notification.post.only_boost
+                "
+                class="flex items-center space-x-2 m-1"
+              >
+                <div
+                  class="flex flex-col border border-gray-400 dark:border-gray-700 rounded-lg p-2"
+                >
+                  <n-link
+                    :to="`/u/${notification.post.quote[0].user.username}`"
+                    class="flex items-center space-x-2"
+                  >
+                    <vs-avatar size="30">
+                      <img
+                        :src="
+                          smallAvatar +
+                          notification.post.quote[0].user.avatar +
+                          '.jpg'
+                        "
+                        alt=""
+                      />
                     </vs-avatar>
-                    <span class='text-lg font-bold'>{{ notification.post.quote[0].user.name }}</span>
-                    <span class='text-gray-400'>
-                  @{{ notification.post.quote[0].user.username }}
-                </span>
+                    <span class="text-lg font-bold">{{
+                      notification.post.quote[0].user.name
+                    }}</span>
+                    <span class="text-gray-400">
+                      @{{ notification.post.quote[0].user.username }}
+                    </span>
                   </n-link>
                   <span>{{ notification.post.quote[0].text }}</span>
                 </div>
@@ -59,11 +129,15 @@
               <div
                 class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
                 :class="{ 'grid-cols-2': notification.post.image.length > 1 }"
-                v-if="notification.post && notification.post.image && notification.post.image.length > 0"
+                v-if="
+                  notification.post &&
+                  notification.post.image &&
+                  notification.post.image.length > 0
+                "
               >
                 <div
                   class="aspect-w-16 aspect-h-9 cursor-pointer"
-                  v-for="(image, index) in notification.post.image"
+                  v-for="image in notification.post.image"
                   :key="image.id"
                 >
                   <img
@@ -76,7 +150,11 @@
 
               <div
                 class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
-                v-if="notification.post.video"
+                v-if="
+                  notification.post.only_boost
+                    ? notification.post.quote[0].video
+                    : notification.post.video
+                "
               >
                 <div
                   class="absolute w-full h-full flex justify-center items-center"
@@ -87,8 +165,18 @@
                 </div>
                 <img
                   class="rounded-xl object-cover"
-                  :src="'https://img.youtube.com/vi/' + notification.post.video + '/0.jpg'"
-                  :alt="notification.post.video"
+                  :src="
+                    'https://img.youtube.com/vi/' +
+                    (notification.post.only_boost
+                      ? notification.post.quote[0].video
+                      : notification.post.video) +
+                    '/0.jpg'
+                  "
+                  :alt="
+                    notification.post.only_boost
+                      ? notification.post.quote[0].video
+                      : notification.post.video
+                  "
                 />
               </div>
             </div>
@@ -96,10 +184,13 @@
         </div>
       </div>
     </div>
-    <div v-if='notification.game'>
-      <div class='h-24 rounded-lg px-2'>
-        <img class='h-full w-full rounded-lg' :src="smallImagePath + notification.game.image + '.jpg'"
-             :alt='notification.game.name'>
+    <div v-if="notification.game">
+      <div class="h-24 rounded-lg px-2">
+        <img
+          class="h-full w-full rounded-lg"
+          :src="smallImagePath + notification.game.image + '.jpg'"
+          :alt="notification.game.name"
+        />
       </div>
     </div>
   </div>
@@ -111,8 +202,8 @@ export default {
   props: {
     notification: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
@@ -143,8 +234,8 @@ export default {
       } else if (notfType === 7) {
         return ['primary', 'bx bx-plus-medical']
       }
-    }
-  }
+    },
+  },
   /*
  1=' gönderinizi favorilerine ekledi.',
 2=' gönderinizi boostladı.',
@@ -157,6 +248,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
