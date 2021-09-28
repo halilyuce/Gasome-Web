@@ -27,7 +27,13 @@
 
       <h2 class="mt-8 text-center">Statistics</h2>
       <div class="grid grid-cols-6 gap-0">
-        <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
+        <vs-button
+          :to="'/u/' + (loggedInUser ? loggedInUser.username : '') + '/follows'"
+          shadow
+          size="xl"
+          animation-type="scale"
+          class="col-span-3"
+        >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.follows : '' }}</h2>
             <span class="text-gray-400 text-xs">Follows</span>
@@ -36,7 +42,15 @@
             <i class="bx bxs-user-plus text-3xl"></i>
           </template>
         </vs-button>
-        <vs-button shadow size="xl" animation-type="scale" class="col-span-3">
+        <vs-button
+          :to="
+            '/u/' + (loggedInUser ? loggedInUser.username : '') + '/followers'
+          "
+          shadow
+          size="xl"
+          animation-type="scale"
+          class="col-span-3"
+        >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.followers : '' }}</h2>
             <span class="text-gray-400 text-xs">Followers</span>
@@ -45,7 +59,13 @@
             <i class="bx bxs-user-plus text-3xl"></i>
           </template>
         </vs-button>
-        <vs-button shadow size="xl" animation-type="scale" class="col-span-6">
+        <vs-button
+          :to="'/u/' + (loggedInUser ? loggedInUser.username : '')"
+          shadow
+          size="xl"
+          animation-type="scale"
+          class="col-span-6"
+        >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h2>
             <span class="text-gray-400 text-xs">Swaps</span>
