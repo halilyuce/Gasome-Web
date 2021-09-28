@@ -62,7 +62,15 @@
           <p class="text-sm text-gray-800 dark:text-gray-200 mb-2">
             We're in beta and we're waiting for your feedbacks :)
           </p>
-          <vs-button danger gradient>
+          <vs-button
+            @click.stop.prevent="
+              openWindow(
+                'mailto:support@gasome.com?subject=Gasome Beta Feedback'
+              )
+            "
+            danger
+            gradient
+          >
             Send Feedback <i class="bx bxs-flag-checkered ml-2"></i>
           </vs-button>
         </div>
@@ -80,6 +88,11 @@ export default {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
     }
+  },
+  methods: {
+    openWindow(link) {
+      window && window.open(link, '_blank')
+    },
   },
 }
 </script>

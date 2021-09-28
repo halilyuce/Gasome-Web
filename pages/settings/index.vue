@@ -1,0 +1,102 @@
+<template>
+  <div
+    class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
+  >
+    <!-- Breadcrumb -->
+
+    <div
+      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+    >
+      <vs-button
+        active
+        @click.prevent="$router.back()"
+        size="small"
+        transparent
+      >
+        <i class="bx bxs-chevron-left text-xl"></i>
+      </vs-button>
+      <div class="flex flex-col ml-9">
+        <h5>Settings</h5>
+        <span class="text-gray-400 text-sm mr-1">Update your preferences</span>
+      </div>
+    </div>
+
+    <ul>
+      <li
+        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+      >
+        <n-link
+          :to="'/settings/change-password'"
+          class="flex flex-row items-center"
+        >
+          <i class="bx bxs-lock text-gray-600 dark:text-gray-300 text-2xl"></i>
+          <div class="flex flex-col ml-4">
+            <h3>Change Password</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300"
+              >Update your account password</span
+            >
+          </div>
+        </n-link>
+        <vs-button :to="'/settings/change-password'" icon flat
+          ><i class="bx bxs-chevron-right"></i
+        ></vs-button>
+      </li>
+      <li
+        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+      >
+        <n-link :to="'/privacy'" class="flex flex-row items-center">
+          <i
+            class="bx bxs-check-shield text-gray-600 dark:text-gray-300 text-2xl"
+          ></i>
+          <div class="flex flex-col ml-4">
+            <h3>Privacy Policy</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300"
+              >You should know what data we collect from you</span
+            >
+          </div>
+        </n-link>
+        <vs-button :to="'/privacy'" icon flat
+          ><i class="bx bxs-chevron-right"></i
+        ></vs-button>
+      </li>
+      <li
+        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+      >
+        <a
+          href="mailto:support@gasome.com"
+          target="_blank"
+          class="flex flex-row items-center"
+        >
+          <i
+            class="bx bxs-help-circle text-gray-600 dark:text-gray-300 text-2xl"
+          ></i>
+          <div class="flex flex-col ml-4">
+            <h3>Support & Feedback</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300"
+              >You can give feedback or you can ask anything you want</span
+            >
+          </div>
+        </a>
+        <vs-button
+          @click.stop.prevent="openWindow('mailto:support@gasome.com')"
+          icon
+          flat
+          ><i class="bx bxs-chevron-right"></i
+        ></vs-button>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  layout: 'sidebars',
+  methods: {
+    openWindow(link) {
+      window && window.open(link, '_blank')
+    },
+  },
+}
+</script>
+
+<style></style>

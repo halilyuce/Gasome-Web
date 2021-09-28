@@ -6,6 +6,7 @@
 import Login from '~/components/Auth/Login.vue'
 export default {
   auth: 'guest',
+  layout: 'blank',
   components: {
     Login,
   },

@@ -8,7 +8,10 @@ Vue.mixin({
         "<a href='$1' class='text-purple-500' target='_blank'>$1</a>"
       )
       exp = /#(.+?)(?=[\s.,:,]|$)/g
-      text = text.replace(exp, "<span class='text-purple-500'>#$1</span>")
+      text = text.replace(
+        exp,
+        "<a href='/h/$1' class='text-purple-500'>#$1</a>"
+      )
       exp = /(^|\s)@(\w+)/g
       text = text.replace(
         exp,

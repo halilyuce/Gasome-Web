@@ -1,6 +1,6 @@
 export const state = () => ({
-  user: null,
-  loading: false,
+  emailLoading: false,
+  passwordLoading: false,
   mode: 'dark',
   tab: 'home',
   notificationBadge: 0,
@@ -17,8 +17,11 @@ export const getters = {
   },
 }
 export const mutations = {
-  setLoading(state, payload) {
-    state.loading = payload
+  setEmailLoading(state, payload) {
+    state.emailLoading = payload
+  },
+  setPasswordLoading(state, payload) {
+    state.passwordLoading = payload
   },
   setTab(state, payload) {
     state.tab = payload
@@ -63,6 +66,46 @@ export const actions = {
       })
       await commit('setRegisterLoading', false)
       throw 'Unable to register'
+    }
+  },
+  async sendEmail({ dispatch, commit }, email) {
+    await commit('setEmailLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postResetPassMail', {
+        email: email,
+      })
+      await commit('setEmailLoading', false)
+      return response.data
+    } catch (error) {
+      await dispatch('alert/error', error.response, {
+        root: true,
+      })
+      await commit('setEmailLoading', false)
+      throw 'Unable to send email'
+    }
+  },
+  async changePassword({ dispatch, commit }, payload) {
+    await commit('setPasswordLoading', true)
+    try {
+      const response = await this.$axios.post(
+        '/api/resetPassword',
+        {
+          password: payload.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${payload.token}`,
+          },
+        }
+      )
+      await commit('setPasswordLoading', false)
+      return response.data
+    } catch (error) {
+      await dispatch('alert/error', error.response, {
+        root: true,
+      })
+      await commit('setPasswordLoading', false)
+      throw 'Unable to change your password'
     }
   },
   async toggleRegisterLoading({ commit }, payload) {

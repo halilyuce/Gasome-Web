@@ -4,8 +4,8 @@ export const state = () => ({
   quotedPost: null,
   page: 0,
   comments: [],
-  loading: false,
   composer: false,
+  loading: false,
   shareLoading: false,
   detailLoading: false,
   commentsLoading: false,
@@ -68,7 +68,9 @@ export const mutations = {
     const item = state.posts.find((post) => post.id === payload.id)
     Object.assign(item, payload)
     const quote = state.posts.find((post) => post.quote_id === payload.id)
-    Object.assign(quote.quoted_post[0], payload)
+    if (quote) {
+      Object.assign(quote.quoted_post[0], payload)
+    }
   },
   setBoost(state, payload) {
     if (payload.response.success) {

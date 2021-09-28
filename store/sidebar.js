@@ -4,6 +4,7 @@ export const state = () => ({
   loading: false,
   trendsLoading: false,
   recommendsLoading: false,
+  followLoading: false,
 })
 export const getters = {}
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setRecommendedUsers(state, payload) {
     state.recommendedUsers = payload
+  },
+  setFollowLoading(state, payload) {
+    state.followLoading = payload
   },
 }
 export const actions = {
@@ -48,6 +52,22 @@ export const actions = {
         root: true,
       })
       commit('setTrendsLoading', false)
+    }
+  },
+  async follow({ dispatch, commit }, username) {
+    commit('setFollowLoading', true)
+    try {
+      const response = await this.$axios.post('/api/follow', {
+        selected_user: username,
+      })
+      commit('setFollowLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setFollowLoading', false)
+      throw 'Unable to follow/unfollow'
     }
   },
 }

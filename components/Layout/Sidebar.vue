@@ -57,7 +57,7 @@
         class="border-t dark:border-gray-500 dark:border-opacity-10 border-gray-200 w-full mt-3"
       ></div>
 
-      <vs-sidebar-item to="/settings" id="settings" disabled>
+      <vs-sidebar-item to="/settings" id="settings">
         <template #icon>
           <i class="bx bx-cog"></i>
         </template>
