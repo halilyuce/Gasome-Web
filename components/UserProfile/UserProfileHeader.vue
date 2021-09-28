@@ -62,6 +62,8 @@
           </div>
         </div>
         <vs-button
+          :shadow="user.isFollow"
+          :border="user.isFollow"
           :loading="followLoading"
           @click="followAction()"
           :danger="user.isFollow"

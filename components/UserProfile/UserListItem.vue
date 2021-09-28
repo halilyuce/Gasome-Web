@@ -41,18 +41,20 @@
             </div>
           </div>
           <vs-button
-            :loading="followLoading"
+            :shadow="follower.isAuthFollow"
+            :border="follower.isAuthFollow"
+            :loading="followLoading && lastFollow === follower.user.username"
             @click="followAction(follower.user.username)"
-            :danger="follower.user.isAuthFollow"
+            :danger="follower.isAuthFollow"
           >
             <i
               class="bx"
               :class="
-                follower.user.isAuthFollow ? 'bxs-user-minus' : 'bxs-user-plus'
+                follower.isAuthFollow ? 'bxs-user-minus' : 'bxs-user-plus'
               "
             ></i>
             <b class="mx-5">{{
-              follower.user.isAuthFollow ? 'Unfollow' : 'Follow'
+              follower.isAuthFollow ? 'Unfollow' : 'Follow'
             }}</b>
           </vs-button>
         </div>
@@ -71,6 +73,7 @@ export default {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
+      lastFollow: null,
     }
   },
   computed: {
@@ -83,6 +86,7 @@ export default {
       follow: 'profile/follow',
     }),
     followAction(username) {
+      this.lastfollow = username
       this.follow(username)
     },
   },

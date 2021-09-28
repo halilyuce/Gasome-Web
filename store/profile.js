@@ -76,7 +76,7 @@ export const mutations = {
     state.user = payload
   },
   setUserFollowers(state, payload) {
-    state.followers = payload
+    state.followers = [...state.followers, ...payload]
   },
   setFollow(state, payload) {
     state.user.isFollow = payload.state
@@ -93,6 +93,8 @@ export const mutations = {
     state.swapsEnough = false
     state.wishesPage = 0
     state.wishesEnough = false
+    state.followers = []
+    state.followersLoading = false
   },
   removeFromSwapList(state, payload) {
     const index = state.swaps.findIndex((swap) => swap.id === payload)
@@ -395,11 +397,11 @@ export const actions = {
   async clearState({ commit }) {
     commit('clearState')
   },
-  async getUserFollowers({ commit, dispatch }, pageIndex, userId) {
+  async getUserFollowers({ commit, dispatch }, payload) {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get(
-        '/api/getFollowers?userId=' + 3 + '&page=' + pageIndex
+        '/api/getFollowers?userName=' + payload.userName + '&page=' + payload.page
       )
       commit('setUserFollowers', response.data.data.data)
       commit('setLoading', false)

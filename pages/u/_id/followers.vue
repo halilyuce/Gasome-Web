@@ -19,7 +19,7 @@
       infinite-scroll-distance="1000"
       infinite-scroll-throttle-delay="1000"
     >
-      <UserListItem v-if="followers" v-bind:followers="followers"/>
+      <UserListItem v-if="followers" v-bind:followers="followers" />
     </div>
   </div>
 </template>
@@ -65,7 +65,6 @@ export default {
   },
   mounted() {
     this.getUserProfile(this.slug)
-    this.getUserFollowers(1, 1)
   },
   beforeDestroy() {
     this.clearState()
@@ -75,6 +74,7 @@ export default {
       clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
       getUserFollowers: 'profile/getUserFollowers',
+      toggleFollowersLoading: 'profile/toggleFollowersLoading',
     }),
     async loadMore() {
       const self = this
@@ -84,8 +84,8 @@ export default {
       if (!this.enough) {
         this.currentPage += 1
         this.getUserFollowers({
-          pageIndex: this.currentPage,
-          userId: this.user.id,
+          page: this.currentPage,
+          userName: this.slug,
         }).then(function (res) {
           if (res.data.length < 10) {
             self.enough = true
