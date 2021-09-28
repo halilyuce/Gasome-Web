@@ -22,8 +22,9 @@
 
     <div class="flex justify-between items-center mx-5 mt-5">
       <h3>Contacts</h3>
-      <vs-button success flat>
-        <i class="bx bxs-user-plus"></i>
+      <vs-button size="small" success flat>
+        <i class="bx bxs-user-plus text-base"></i>
+        <span class="mx-2 text-xs">New </span>
       </vs-button>
     </div>
 
@@ -35,6 +36,7 @@
         :key="contact.id"
         class="flex justify-between cursor-pointer pl-5 pr-3 py-4"
         :class="{ 'bg-gray-100 dark:bg-content-bg': contact === selected }"
+        @click="selected = contact"
       >
         <div class="flex flex-row">
           <vs-avatar size="42">
@@ -89,6 +91,14 @@ export default {
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
+  watch: {
+    selected(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setMessages([])
+        this.getMessages({ id: newVal.to, page: 0 })
+      }
+    },
+  },
   mounted() {
     this.getContacts().then(() => {
       this.selected = this.contacts[0]
@@ -97,7 +107,9 @@ export default {
   methods: {
     ...mapActions({
       getContacts: 'messages/getContacts',
+      getMessages: 'messages/getMessages',
       setSelected: 'messages/setSelected',
+      setMessages: 'messages/setMessages',
     }),
   },
 }
