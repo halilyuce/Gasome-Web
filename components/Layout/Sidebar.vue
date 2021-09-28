@@ -34,7 +34,7 @@
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item id="chat" disabled>
+      <vs-sidebar-item to="/messages" id="messages">
         <template #icon>
           <vs-avatar
             v-if="messagesBadge && messagesBadge > 0"
