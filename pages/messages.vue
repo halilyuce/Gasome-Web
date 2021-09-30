@@ -2,21 +2,30 @@
   <div
     class="bg-white dark:bg-black col-span-12 md:col-span-8 max-h-screen relative overflow-auto"
   >
+    <CoolLightBox
+      :items="showedImage"
+      :index="index"
+      :useZoomBar="true"
+      :fullScreen="true"
+      :closeOnClickOutsideMobile="true"
+      @close="closeImageViewer()"
+    />
+
     <!-- Breadcrumb -->
 
     <div
       class="flex items-center justify-between py-3 px-5 border-b border-gray-200 dark:border-gray-700"
     >
       <div v-if="selected" class="flex flex-row items-center">
-        <vs-avatar size="36">
+        <vs-avatar size="38">
           <img
             :src="`${smallAvatar + selected.user.avatar}.jpg`"
             alt="Avatar"
           />
         </vs-avatar>
         <div class="flex flex-col ml-3">
-          <h5>{{ selected.user.name }}</h5>
-          <span class="text-gray-400 text-sm mr-1">{{
+          <h4>{{ selected.user.name }}</h4>
+          <span class="text-gray-400 text-xs">{{
             '@' + selected.user.username
           }}</span>
         </div>
@@ -31,22 +40,52 @@
       </div>
     </div>
 
-    <ul v-if="messages" class="px-5">
-      <li class="flex my-2" v-for="message in messages" :key="message.id">
-        <div
-          class="flex rounded-2xl px-5 py-2 text-sm"
-          :class="
-            message.from === loggedInUser.id
-              ? 'bg-purple-500 text-white ml-auto'
-              : 'bg-gray-100 dark:bg-content-bg'
-          "
-        >
-          {{ message.text }}
+    <ul v-if="messages" class="px-5 pt-2 py-24 messagebox overflow-auto disable-scrollbars">
+      <li
+        class="flex flex-col my-1"
+        v-for="message in messages"
+        :key="message.id"
+      >
+        <div v-if="checkDate(message)" class="text-2xs my-3 strike">
+          <span
+            class="bg-gray-100 dark:bg-content-bg  rounded-2xl py-1 px-3"
+            >{{ $moment(message.created_at).format('ll') }}</span
+          >
         </div>
+        <div class="flex text-sm">
+          <span
+            v-if="message.text"
+            class="rounded-2xl px-5 py-2"
+            :class="
+              message.from === loggedInUser.id
+                ? 'bg-purple-500 text-white ml-auto'
+                : 'bg-gray-100 dark:bg-content-bg mr-auto'
+            "
+            >{{ message.text }}</span
+          >
+          <div
+            v-if="message.image"
+            @click="showImageViewer(message)"
+            class="cursor-pointer"
+            :class="message.from === loggedInUser.id ? 'ml-auto' : 'mr-auto'"
+          >
+            <img
+              class="rounded-2xl object-cover"
+              :src="`${smallMessageImage + message.image}.jpg`"
+              alt="Message Image"
+            />
+          </div>
+        </div>
+        <span
+          v-if="checkNext(message)"
+          class="text-2xs dark:text-gray-500 text-gray-400 mt-1 mx-1"
+          :class="{ 'ml-auto': message.from === loggedInUser.id }"
+          >{{ $moment(message.created_at).format('lll') }}</span
+        >
       </li>
     </ul>
 
-    <div class="absolute bottom-0 left-0 p-5 w-full">
+    <div class="absolute bottom-0 left-0 p-5 w-full bg-gradient-to-t from-white dark:from-content-bg">
       <div
         class="flex justify-between items-center py-2 px-3 text-gray-400 border border-white dark:border-gray-800 text-sm bg-gray-100 dark:bg-content-bg rounded-2xl shadow-2xl h-14"
       >
@@ -93,10 +132,57 @@ export default {
   },
   data() {
     return {
+      index: null,
+      showedImage: [],
       smallAvatar: process.env.AVATAR_SMALL,
+      smallMessageImage: process.env.MESSAGES_SMALL,
+      largeMessageImage: process.env.MESSAGES_LARGE,
     }
+  },
+  methods: {
+    async showImageViewer(payload) {
+      this.showedImage.push(`${this.largeMessageImage + payload.image}.jpg`)
+      this.index = 0
+    },
+    async closeImageViewer() {
+      this.showedImage = []
+      this.index = null
+    },
+    checkNext(message) {
+      const index = this.messages.findIndex((item) => item === message)
+      if (index > -1) {
+        if (
+          this.messages.length !== index + 1 &&
+          this.messages[index + 1].from !== this.messages[index].from
+        ) {
+          return true
+        } else if (this.messages.length === index + 1) {
+          return true
+        }
+      }
+      return false
+    },
+    checkDate(message) {
+      const index = this.messages.findIndex((item) => item === message)
+      if (index > -1) {
+        if (
+          index > 0 &&
+          !this.$moment(this.messages[index - 1].created_at).isSame(
+            this.messages[index].created_at,
+            'day'
+          )
+        ) {
+          return true
+        }
+      }
+      return false
+    },
   },
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.messagebox{
+  height: calc(100vh - 1.5rem - 45px)
+}
+</style>

@@ -29,7 +29,12 @@
     </div>
 
     <ul
-      class="divide-y divide-gray-200 dark:divide-gray-700 mt-5 overflow-auto disable-scrollbars"
+      class="relative divide-y divide-gray-200 dark:divide-gray-700 mt-5 overflow-auto disable-scrollbars"
+      ref="contacts"
+      :class="{ 'h-screen': loading }"
+      v-infinite-scroll="loadMoreContacts"
+      infinite-scroll-distance="500"
+      infinite-scroll-throttle-delay="1000"
     >
       <li
         v-for="contact in contacts"
@@ -68,10 +73,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import infiniteScroll from 'vue-infinite-scroll'
 export default {
   computed: {
+    ...mapGetters(['loggedInUser']),
     ...mapState({
+      loading: (state) => state.messages.loading,
       selectedState: (state) => state.messages.selected,
       messagesBadge: (state) => state.messagesBadge,
       contacts: (state) => state.messages.contacts,
@@ -88,21 +96,39 @@ export default {
   data() {
     return {
       search: '',
+      page: 0,
+      messagesPage: 0,
+      enough: false,
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
   watch: {
     selected(newVal, oldVal) {
+      const self = this
       if (newVal !== oldVal) {
         this.setMessages([])
-        this.getMessages({ id: newVal.to, page: 0 })
+        this.getMessages({
+          id: this.checkSender(newVal),
+          page: this.messagesPage,
+        }).then(res =>{
+           self.getMessages({
+          id: this.checkSender(newVal),
+          page: 2,
+        })
+        })
       }
     },
-  },
-  mounted() {
-    this.getContacts().then(() => {
-      this.selected = this.contacts[0]
-    })
+    loading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.contactsLoading.close()
+        } else {
+          this.contactsLoading = this.$vs.loading({
+            target: this.$refs.contacts,
+          })
+        }
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -110,7 +136,38 @@ export default {
       getMessages: 'messages/getMessages',
       setSelected: 'messages/setSelected',
       setMessages: 'messages/setMessages',
+      toggleLoading: 'messages/toggleLoading',
     }),
+    checkSender(message) {
+      if (message.to === this.loggedInUser.id) {
+        return message.from
+      }
+      return message.to
+    },
+    async loadMoreContacts() {
+      const self = this
+      if (this.page === 0) {
+        await this.toggleLoading(true)
+      }
+      if (!this.enough) {
+        this.page += 1
+        this.getContacts(this.page).then(function (res) {
+          if (!self.selected) {
+            self.selected = self.contacts[0]
+          }
+          if (res.data.data.length < 10) {
+            self.enough = true
+          } else {
+            if (self.page === 1) {
+              self.loadMoreContacts()
+            }
+          }
+        })
+      }
+    },
+  },
+  directives: {
+    infiniteScroll,
   },
 }
 </script>

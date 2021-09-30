@@ -14,7 +14,7 @@ export const mutations = {
     state.contacts = [...state.contacts, ...payload]
   },
   setMessages(state, payload) {
-    state.messages = [...state.messages, ...payload].reverse()
+    state.messages = [...payload.reverse(), ...state.messages]
   },
   setMessagesVal(state, payload) {
     state.messages = payload
@@ -33,10 +33,9 @@ export const mutations = {
   },
 }
 export const actions = {
-  async getContacts({ dispatch, commit }) {
-    await commit('setLoading', true)
+  async getContacts({ dispatch, commit }, page) {
     try {
-      const response = await this.$axios.get('/api/messagebox')
+      const response = await this.$axios.get('/api/messagebox?page=' + page)
       commit('setLoading', false)
       commit('setContacts', response.data.data.data)
       return response.data
@@ -70,5 +69,8 @@ export const actions = {
   },
   async setMessages({ commit }, payload) {
     commit('setMessagesVal', payload)
+  },
+  async toggleLoading({ commit }, payload) {
+    commit('setLoading', payload)
   },
 }
