@@ -40,17 +40,28 @@
       </div>
     </div>
 
-    <ul v-if="messages" class="px-5 pt-2 py-24 messagebox overflow-auto disable-scrollbars">
+    <ul
+      ref="messages"
+      class="px-5 pt-1 py-24 relative messagebox overflow-auto disable-scrollbars"
+    >
+      <infinite-loading
+        v-if="this.selected"
+        spinner="spiral"
+        :identifier="selected.id"
+        direction="top"
+        @infinite="infiniteHandler"
+        ><span slot="no-results"></span><span slot="no-more"></span
+      ></infinite-loading>
+
       <li
         class="flex flex-col my-1"
         v-for="message in messages"
         :key="message.id"
       >
         <div v-if="checkDate(message)" class="text-2xs my-3 strike">
-          <span
-            class="bg-gray-100 dark:bg-content-bg  rounded-2xl py-1 px-3"
-            >{{ $moment(message.created_at).format('ll') }}</span
-          >
+          <span class="bg-gray-100 dark:bg-content-bg rounded-2xl py-1 px-3">{{
+            $moment(message.created_at).format('ll')
+          }}</span>
         </div>
         <div class="flex text-sm">
           <span
@@ -85,7 +96,9 @@
       </li>
     </ul>
 
-    <div class="absolute bottom-0 left-0 p-5 w-full bg-gradient-to-t from-white dark:from-content-bg">
+    <div
+      class="absolute bottom-0 left-0 p-5 w-full bg-gradient-to-t from-white dark:from-content-bg"
+    >
       <div
         class="flex justify-between items-center py-2 px-3 text-gray-400 border border-white dark:border-gray-800 text-sm bg-gray-100 dark:bg-content-bg rounded-2xl shadow-2xl h-14"
       >
@@ -120,6 +133,8 @@ export default {
     ...mapState({
       selected: (state) => state.messages.selected,
       messagesState: (state) => state.messages.messages,
+      loading: (state) => state.messages.messagesLoading,
+      contacts: (state) => state.messages.contacts,
     }),
     messages: {
       get() {
@@ -130,8 +145,23 @@ export default {
       },
     },
   },
+  watch: {
+    loading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.messageLoading.close()
+        } else {
+          this.messageLoading = this.$vs.loading({
+            target: this.$refs.messages,
+          })
+        }
+      }
+    },
+  },
   data() {
     return {
+      page: 0,
+      enough: false,
       index: null,
       showedImage: [],
       smallAvatar: process.env.AVATAR_SMALL,
@@ -139,7 +169,44 @@ export default {
       largeMessageImage: process.env.MESSAGES_LARGE,
     }
   },
+  async asyncData({ route, store }) {
+    if (route.name === 'messages') {
+      await store.dispatch('setTab', 'messages')
+    }
+  },
   methods: {
+    ...mapActions({
+      getMessages: 'messages/getMessages',
+      toggleLoading: 'messages/toggleMessagesLoading',
+    }),
+    infiniteHandler($state) {
+      const self = this
+      if (this.messages.length === 0) {
+        this.page = 0
+      }
+      this.page += 1
+      this.getMessages({
+        id: this.checkSender(),
+        page: this.page,
+      }).then((res) => {
+        if (res.data.data.length > 9) {
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      })
+    },
+    checkSender() {
+      if (this.selected) {
+        if (this.selected.to === this.loggedInUser.id) {
+          return this.selected.from
+        } else {
+          return this.selected.to
+        }
+      } else {
+        return null
+      }
+    },
     async showImageViewer(payload) {
       this.showedImage.push(`${this.largeMessageImage + payload.image}.jpg`)
       this.index = 0
@@ -182,7 +249,7 @@ export default {
 </script>
 
 <style lang="scss">
-.messagebox{
-  height: calc(100vh - 1.5rem - 45px)
+.messagebox {
+  height: calc(100vh - 1.5rem - 45px);
 }
 </style>

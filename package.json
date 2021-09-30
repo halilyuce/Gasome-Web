@@ -24,6 +24,7 @@
     "stylus-loader": "^5.0.0",
     "vue-cool-lightbox": "^2.7.4",
     "vue-emoji-picker": "^1.0.3",
+    "vue-infinite-loading": "^2.4.5",
     "vue-infinite-scroll": "^2.0.2",
     "vue-lottie": "^0.2.1",
     "vuesax": "^4.0.1-alpha.25"

@@ -81,11 +81,7 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-import likeNotification from '../Notifications/Like.vue'
 export default {
-  components: {
-    likeNotification,
-  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,

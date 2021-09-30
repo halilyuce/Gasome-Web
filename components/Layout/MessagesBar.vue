@@ -97,7 +97,6 @@ export default {
     return {
       search: '',
       page: 0,
-      messagesPage: 0,
       enough: false,
       smallAvatar: process.env.AVATAR_SMALL,
     }
@@ -107,15 +106,6 @@ export default {
       const self = this
       if (newVal !== oldVal) {
         this.setMessages([])
-        this.getMessages({
-          id: this.checkSender(newVal),
-          page: this.messagesPage,
-        }).then(res =>{
-           self.getMessages({
-          id: this.checkSender(newVal),
-          page: 2,
-        })
-        })
       }
     },
     loading(newVal, oldVal) {

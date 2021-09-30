@@ -14,19 +14,14 @@ export const mutations = {
     state.contacts = [...state.contacts, ...payload]
   },
   setMessages(state, payload) {
-    state.messages = [...payload.reverse(), ...state.messages]
+    // state.messages = [...payload.reverse(), ...state.messages]
+    state.messages.unshift(...payload.reverse())
   },
   setMessagesVal(state, payload) {
     state.messages = payload
   },
   setSelected(state, payload) {
     state.selected = payload
-    const index = state.contacts.findIndex((item) => item === payload)
-    if (index > -1) {
-      var element = state.contacts[index]
-      state.contacts.splice(index, 1)
-      state.contacts.splice(0, 0, element)
-    }
   },
   setMessagesLoading(state, payload) {
     state.messagesLoading = payload
@@ -48,14 +43,13 @@ export const actions = {
     }
   },
   async getMessages({ dispatch, commit }, payload) {
-    await commit('setMessagesLoading', true)
     try {
       const response = await this.$axios.get(
         '/api/conversation/' + payload.id + '?page=' + payload.page
       )
       commit('setMessages', response.data.data.data)
       commit('setMessagesLoading', false)
-      return response.data.data
+      return response.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
@@ -72,5 +66,8 @@ export const actions = {
   },
   async toggleLoading({ commit }, payload) {
     commit('setLoading', payload)
+  },
+  async toggleMessagesLoading({ commit }, payload) {
+    commit('setMessagesLoading', payload)
   },
 }

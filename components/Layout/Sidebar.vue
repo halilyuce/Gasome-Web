@@ -6,7 +6,7 @@
       v-model="active"
       :textWhite="false"
       open
-      class="min-h-screen"
+      class="h-screen"
     >
       <template #logo>
         <Logo />

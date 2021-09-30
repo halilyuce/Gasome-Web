@@ -34,6 +34,7 @@ export default {
   plugins: [
     '@/plugins/vuesax',
     '@/plugins/vue-cool-lightbox.client.js',
+    '@/plugins/infinite-scroll.client.js',
     '@/plugins/helpers',
   ],
 
