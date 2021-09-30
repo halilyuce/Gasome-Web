@@ -41,7 +41,6 @@
     </div>
 
     <ul
-      ref="messages"
       class="px-5 pt-1 py-24 relative messagebox overflow-auto disable-scrollbars"
     >
       <infinite-loading
@@ -143,19 +142,6 @@ export default {
       set(value) {
         this.setMessages(value)
       },
-    },
-  },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (!newVal) {
-          this.messageLoading.close()
-        } else {
-          this.messageLoading = this.$vs.loading({
-            target: this.$refs.messages,
-          })
-        }
-      }
     },
   },
   data() {
