@@ -58,7 +58,7 @@
         :key="message.id"
       >
         <div v-if="checkDate(message)" class="text-2xs my-3 strike">
-          <span class="bg-gray-100 dark:bg-content-bg rounded-2xl py-1 px-3">{{
+          <span class="dark:text-gray-500 text-gray-400">{{
             $moment(message.created_at).format('ll')
           }}</span>
         </div>
@@ -90,7 +90,7 @@
           v-if="checkNext(message)"
           class="text-2xs dark:text-gray-500 text-gray-400 mt-1 mx-1"
           :class="{ 'ml-auto': message.from === loggedInUser.id }"
-          >{{ $moment(message.created_at).format('lll') }}</span
+          >{{ $moment(message.created_at).format('hh:mm A') }}</span
         >
       </li>
     </ul>
@@ -203,15 +203,27 @@ export default {
     },
     checkNext(message) {
       const index = this.messages.findIndex((item) => item === message)
-      if (index > -1) {
+      if (index > -1 && this.messages[index] !== this.messages[this.messages.length - 1]) {
         if (
-          this.messages.length !== index + 1 &&
           this.messages[index + 1].from !== this.messages[index].from
         ) {
           return true
-        } else if (this.messages.length === index + 1) {
+        } else if (
+          index > 0 &&
+          !this.$moment(this.messages[index - 1].created_at).isSame(
+            this.messages[index].created_at,
+            'day'
+          )){
+          return true
+        }else if (
+          !this.$moment(this.messages[index + 1].created_at).isSame(
+            this.messages[index].created_at,
+            'day'
+          )){
           return true
         }
+      }else{
+        return true
       }
       return false
     },

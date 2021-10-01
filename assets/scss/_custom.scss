@@ -43,7 +43,7 @@
   }
 
   .vs-sidebar__logo {
-    padding: 0
+    padding: 0;
   }
 }
 
@@ -67,7 +67,7 @@
     left: 0;
   }
 
-  &>li {
+  & > li {
     overflow: hidden;
     width: 100%;
     position: relative;
@@ -81,7 +81,7 @@
       background-color: rgba(149, 140, 180, 0.1);
     }
 
-    &>a {
+    & > a {
       padding: 10px 20px;
       display: flex;
       align-items: center;
@@ -91,7 +91,6 @@
       text-decoration: none;
     }
   }
-
 }
 
 .hover-bg:hover {
@@ -111,7 +110,6 @@
   }
 }
 
-
 .con-footer {
   display: flex;
   align-items: center;
@@ -121,7 +119,7 @@
     padding: 8px 20px;
   }
 
-  ~.vs-button {
+  ~ .vs-button {
     margin-left: 10px;
   }
 }
@@ -184,7 +182,6 @@
   .vs-sidebar__item__text-tooltip {
     left: 68px !important;
   }
-
 }
 
 .strike {
@@ -194,27 +191,27 @@
   white-space: nowrap;
 }
 
-.strike>span {
+.strike > span {
   position: relative;
   display: inline-block;
 }
 
-.strike>span:before,
-.strike>span:after {
+.strike > span:before,
+.strike > span:after {
   content: '';
   position: absolute;
   top: 50%;
   width: 9999px;
   height: 1px;
-  background: rgba(133, 133, 133, 0.25)
+  background: rgba(133, 133, 133, 0.1);
 }
 
-.strike>span:before {
+.strike > span:before {
   right: 100%;
   margin-right: 10px;
 }
 
-.strike>span:after {
+.strike > span:after {
   left: 100%;
   margin-left: 10px;
 }
