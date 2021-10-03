@@ -1,6 +1,14 @@
 <template>
   <div
-    class="flex flex-col bg-white dark:bg-black w-full max-h-screen border-l border-r border-gray-200 dark:border-gray-700"
+    class="
+      flex flex-col
+      bg-white
+      dark:bg-black
+      w-full
+      max-h-screen
+      border-l border-r border-gray-200
+      dark:border-gray-700
+    "
   >
     <div class="mx-5 mt-5 mb-2 flex flex-row items-center">
       <h1 class="mb-1 mr-1">Messages</h1>
@@ -29,7 +37,14 @@
     </div>
 
     <ul
-      class="relative divide-y divide-gray-200 dark:divide-gray-700 mt-5 overflow-auto disable-scrollbars"
+      class="
+        relative
+        divide-y divide-gray-200
+        dark:divide-gray-700
+        mt-5
+        overflow-auto
+        disable-scrollbars
+      "
       ref="contacts"
       :class="{ 'h-screen': loading }"
       v-infinite-scroll="loadMoreContacts"
@@ -37,7 +52,7 @@
       infinite-scroll-throttle-delay="1000"
     >
       <li
-        v-for="contact in contacts"
+        v-for="contact in filteredList"
         :key="contact.id"
         class="flex justify-between cursor-pointer pl-5 pr-3 py-4"
         :class="{ 'bg-gray-100 dark:bg-content-bg': contact === selected }"
@@ -91,6 +106,16 @@ export default {
       set(value) {
         this.setSelected(value)
       },
+    },
+    filteredList() {
+      return this.contacts.filter((contact) => {
+        return (
+          contact.user.name.toLowerCase().includes(this.search.toLowerCase()) ||
+          contact.user.username
+            .toLowerCase()
+            .includes(this.search.toLowerCase())
+        )
+      })
     },
   },
   data() {

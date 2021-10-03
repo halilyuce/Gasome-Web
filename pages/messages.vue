@@ -1,6 +1,14 @@
 <template>
   <div
-    class="bg-white dark:bg-black col-span-12 md:col-span-8 max-h-screen relative overflow-auto"
+    class="
+      bg-white
+      dark:bg-black
+      col-span-12
+      md:col-span-8
+      max-h-screen
+      relative
+      overflow-auto
+    "
   >
     <CoolLightBox
       :items="showedImage"
@@ -14,7 +22,15 @@
     <!-- Breadcrumb -->
 
     <div
-      class="flex items-center justify-between py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        justify-between
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <div v-if="selected" class="flex flex-row items-center">
         <vs-avatar size="38">
@@ -41,7 +57,15 @@
     </div>
 
     <ul
-      class="px-5 pt-1 py-24 relative messagebox overflow-auto disable-scrollbars"
+      class="
+        px-5
+        pt-1
+        py-24
+        relative
+        messagebox
+        overflow-auto
+        disable-scrollbars
+      "
     >
       <infinite-loading
         v-if="this.selected"
@@ -96,19 +120,61 @@
     </ul>
 
     <div
-      class="absolute bottom-0 left-0 p-5 w-full bg-gradient-to-t from-white dark:from-content-bg"
+      class="
+        absolute
+        bottom-0
+        left-0
+        p-5
+        w-full
+        bg-gradient-to-t
+        from-white
+        dark:from-content-bg
+      "
     >
       <div
-        class="flex justify-between items-center py-2 px-3 text-gray-400 border border-white dark:border-gray-800 text-sm bg-gray-100 dark:bg-content-bg rounded-2xl shadow-2xl h-14"
+        class="
+          flex
+          justify-between
+          items-center
+          py-2
+          px-3
+          text-gray-400
+          border border-white
+          dark:border-gray-800
+          text-sm
+          bg-gray-50
+          dark:bg-content-bg
+          rounded-2xl
+          shadow-2xl
+        "
       >
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row w-full items-center">
           <vs-avatar size="28">
             <img
               :src="`${smallAvatar + loggedInUser.avatar}.jpg`"
               alt="Avatar"
             />
           </vs-avatar>
-          <span class="ml-3">Type something...</span>
+          <textarea
+            class="
+              w-full
+              h-full
+              ml-3
+              px-3
+              py-2
+              text-gray-700
+              dark:text-gray-300 dark:bg-black
+              rounded-lg
+              focus:outline-none
+              resize-none
+            "
+            v-model="message"
+            ref="textarea"
+            rows="1"
+            @focus="resize"
+            @keyup="resize"
+            placeholder="Type something..."
+          ></textarea>
         </div>
         <div class="flex flex-row space-x-2">
           <vs-button icon color="#666" transparent
@@ -146,6 +212,7 @@ export default {
   },
   data() {
     return {
+      message: '',
       page: 0,
       enough: false,
       index: null,
@@ -165,6 +232,16 @@ export default {
       getMessages: 'messages/getMessages',
       toggleLoading: 'messages/toggleMessagesLoading',
     }),
+    resize() {
+      const { textarea } = this.$refs
+      if (this.message) {
+        if (textarea.scrollHeight < 80) {
+          textarea.style.height = textarea.scrollHeight + 'px'
+        }
+      } else {
+        textarea.style.height = '35px'
+      }
+    },
     infiniteHandler($state) {
       const self = this
       if (this.messages.length === 0) {
@@ -203,26 +280,29 @@ export default {
     },
     checkNext(message) {
       const index = this.messages.findIndex((item) => item === message)
-      if (index > -1 && this.messages[index] !== this.messages[this.messages.length - 1]) {
-        if (
-          this.messages[index + 1].from !== this.messages[index].from
-        ) {
+      if (
+        index > -1 &&
+        this.messages[index] !== this.messages[this.messages.length - 1]
+      ) {
+        if (this.messages[index + 1].from !== this.messages[index].from) {
           return true
         } else if (
           index > 0 &&
           !this.$moment(this.messages[index - 1].created_at).isSame(
             this.messages[index].created_at,
             'day'
-          )){
+          )
+        ) {
           return true
-        }else if (
+        } else if (
           !this.$moment(this.messages[index + 1].created_at).isSame(
             this.messages[index].created_at,
             'day'
-          )){
+          )
+        ) {
           return true
         }
-      }else{
+      } else {
         return true
       }
       return false
