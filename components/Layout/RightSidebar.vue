@@ -7,7 +7,11 @@
     >
       <h3 v-if="!trendsLoading">Most Spoken</h3>
       <ul
-        class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
+        v-if="trends && trends.length > 0"
+        class="
+          divide-y divide-gray-100
+          dark:divide-gray-500 dark:divide-opacity-10
+        "
       >
         <li v-for="trend in trends" :key="trend.id">
           <n-link
@@ -21,6 +25,23 @@
           </n-link>
         </li>
       </ul>
+      <div
+        class="
+          flex flex-col
+          justify-center
+          py-5
+          mt-3
+          mb-2
+          bg-gray-100
+          dark:bg-content-bg
+          rounded-xl
+          items-center
+        "
+        v-else-if="!trendsLoading && trends.length === 0"
+      >
+        <i class="bx bxs-memory-card text-yellow-500 mb-2 text-4xl"></i>
+        <h5>There is nothing to show</h5>
+      </div>
     </div>
 
     <div
@@ -32,7 +53,13 @@
         User Suggestions
       </h3>
       <ul
-        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
+        class="
+          px-5
+          pb-3
+          mt-1
+          divide-y divide-gray-100
+          dark:divide-gray-500 dark:divide-opacity-10
+        "
       >
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
@@ -41,7 +68,14 @@
         >
           <div class="flex flex-row items-center">
             <img
-              class="h-10 w-10 object-cover rounded rounded-xl border border-gray-200 dark:border-gray-700"
+              class="
+                h-10
+                w-10
+                object-cover
+                rounded rounded-xl
+                border border-gray-200
+                dark:border-gray-700
+              "
               :src="`${smallAvatar + user.avatar}.jpg`"
               alt="Avatar"
             />
@@ -81,11 +115,7 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-import likeNotification from '../Notifications/Like.vue'
 export default {
-  components: {
-    likeNotification,
-  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
@@ -131,7 +161,9 @@ export default {
   },
 
   mounted() {
-    this.getTrends()
+    if (this.trends.length === 0) {
+      this.getTrends()
+    }
     if (this.recommendedUsers.length === 0) {
       this.getRecommendedUsers()
     }
