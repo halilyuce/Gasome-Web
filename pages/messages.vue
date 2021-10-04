@@ -32,7 +32,11 @@
         dark:border-gray-700
       "
     >
-      <div v-if="selected" class="flex flex-row items-center">
+      <n-link
+        :to="'/u/' + selected.user.username"
+        v-if="selected"
+        class="flex flex-row items-center"
+      >
         <vs-avatar size="38">
           <img
             :src="`${smallAvatar + selected.user.avatar}.jpg`"
@@ -45,7 +49,7 @@
             '@' + selected.user.username
           }}</span>
         </div>
-      </div>
+      </n-link>
       <div class="flex flex-row space-x-4">
         <vs-button icon color="#666" flat
           ><i class="bx bx-block"></i
@@ -67,14 +71,17 @@
         disable-scrollbars
       "
     >
-      <infinite-loading
-        v-if="this.selected"
-        spinner="spiral"
-        :identifier="selected.id"
-        direction="top"
-        @infinite="infiniteHandler"
-        ><span slot="no-results"></span><span slot="no-more"></span
-      ></infinite-loading>
+      <client-only>
+        <infinite-loading
+          v-if="selected"
+          spinner="spiral"
+          :identifier="selected.id"
+          direction="top"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
 
       <li
         class="flex flex-col my-1"
@@ -173,14 +180,23 @@
             rows="1"
             @focus="resize"
             @keyup="resize"
+            @paste.prevent="onPaste"
             placeholder="Type something..."
+            :disabled="sendLoading"
           ></textarea>
         </div>
+
+        <input type="file" ref="photo_upload" @change="onFileChange" hidden />
+
         <div class="flex flex-row space-x-2">
-          <vs-button icon color="#666" transparent
+          <vs-button
+            icon
+            color="#666"
+            transparent
+            @click.stop="$refs.photo_upload.click()"
             ><i class="bx bx-images"></i
           ></vs-button>
-          <vs-button icon floating
+          <vs-button icon floating :loading="sendLoading" @click="send"
             ><i class="bx bxs-paper-plane"></i
           ></vs-button>
         </div>
@@ -199,6 +215,7 @@ export default {
       selected: (state) => state.messages.selected,
       messagesState: (state) => state.messages.messages,
       loading: (state) => state.messages.messagesLoading,
+      sendLoading: (state) => state.messages.sendLoading,
       contacts: (state) => state.messages.contacts,
     }),
     messages: {
@@ -213,8 +230,7 @@ export default {
   data() {
     return {
       message: '',
-      page: 0,
-      enough: false,
+      image: null,
       index: null,
       showedImage: [],
       smallAvatar: process.env.AVATAR_SMALL,
@@ -230,12 +246,16 @@ export default {
   methods: {
     ...mapActions({
       getMessages: 'messages/getMessages',
+      setMessages: 'messages/setMessages',
+      sendMessage: 'messages/sendMessage',
       toggleLoading: 'messages/toggleMessagesLoading',
     }),
     resize() {
       const { textarea } = this.$refs
       if (this.message) {
-        if (textarea.scrollHeight < 80) {
+        if (textarea.scrollHeight < 40) {
+          textarea.style.height = '35px'
+        } else if (textarea.scrollHeight > 40 && textarea.scrollHeight < 80) {
           textarea.style.height = textarea.scrollHeight + 'px'
         }
       } else {
@@ -244,20 +264,56 @@ export default {
     },
     infiniteHandler($state) {
       const self = this
-      if (this.messages.length === 0) {
-        this.page = 0
-      }
-      this.page += 1
-      this.getMessages({
-        id: this.checkSender(),
-        page: this.page,
-      }).then((res) => {
-        if (res.data.data.length > 9) {
+      this.getMessages(this.checkSender()).then((data) => {
+        if (data.length > 9) {
           $state.loaded()
         } else {
           $state.complete()
         }
       })
+    },
+    async send() {
+      const self = this
+      const { textarea } = this.$refs
+      var formData = new FormData()
+      formData.append('contact_id', this.checkSender())
+      if (this.message) {
+        formData.append('text', this.message)
+      }
+      if (this.image) {
+        formData.append('image', this.image)
+      }
+      this.sendMessage(formData)
+        .then((data) => {
+          self.image = null
+          self.message = ''
+          textarea.style.height = '35px'
+        })
+        .catch((err) => {
+          self.$vs.notification({
+            duration: 5000,
+            progress: 'auto',
+            flat: true,
+            color: 'danger',
+            icon: `<i class='bx bxs-error' ></i>`,
+            position: 'top-right',
+            title: 'An error occured!',
+            text: 'An error occurred while sending your message. Please try again.',
+          })
+        })
+    },
+    onFileChange(e) {
+      this.image = e.target.files[0]
+      this.send()
+    },
+    onPaste(e) {
+      let file =
+        e.clipboardData.items[e.clipboardData.items.length - 1].getAsFile()
+      if (file) {
+        this.image = file
+        this.message = ''
+        this.send()
+      }
     },
     checkSender() {
       if (this.selected) {

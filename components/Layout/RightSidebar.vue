@@ -7,7 +7,10 @@
     >
       <h3 v-if="!trendsLoading">Most Spoken</h3>
       <ul
-        class="divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
+        class="
+          divide-y divide-gray-100
+          dark:divide-gray-500 dark:divide-opacity-10
+        "
       >
         <li v-for="trend in trends" :key="trend.id">
           <n-link
@@ -32,7 +35,13 @@
         User Suggestions
       </h3>
       <ul
-        class="px-5 pb-3 mt-1 divide-y divide-gray-100 dark:divide-gray-500 dark:divide-opacity-10"
+        class="
+          px-5
+          pb-3
+          mt-1
+          divide-y divide-gray-100
+          dark:divide-gray-500 dark:divide-opacity-10
+        "
       >
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
@@ -41,7 +50,14 @@
         >
           <div class="flex flex-row items-center">
             <img
-              class="h-10 w-10 object-cover rounded rounded-xl border border-gray-200 dark:border-gray-700"
+              class="
+                h-10
+                w-10
+                object-cover
+                rounded rounded-xl
+                border border-gray-200
+                dark:border-gray-700
+              "
               :src="`${smallAvatar + user.avatar}.jpg`"
               alt="Avatar"
             />
@@ -127,7 +143,9 @@ export default {
   },
 
   mounted() {
-    this.getTrends()
+    if (this.trends.length === 0) {
+      this.getTrends()
+    }
     if (this.recommendedUsers.length === 0) {
       this.getRecommendedUsers()
     }
