@@ -7,6 +7,7 @@
     >
       <h3 v-if="!trendsLoading">Most Spoken</h3>
       <ul
+        v-if="trends && trends.length > 0"
         class="
           divide-y divide-gray-100
           dark:divide-gray-500 dark:divide-opacity-10
@@ -24,6 +25,23 @@
           </n-link>
         </li>
       </ul>
+      <div
+        class="
+          flex flex-col
+          justify-center
+          py-5
+          mt-3
+          mb-2
+          bg-gray-100
+          dark:bg-content-bg
+          rounded-xl
+          items-center
+        "
+        v-else-if="!trendsLoading && trends.length === 0"
+      >
+        <i class="bx bxs-memory-card text-yellow-500 mb-2 text-4xl"></i>
+        <h5>There is nothing to show</h5>
+      </div>
     </div>
 
     <div

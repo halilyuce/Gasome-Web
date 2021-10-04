@@ -94,14 +94,12 @@
           }}</span>
         </div>
         <div
-          class="flex w-full text-sm"
-          :class="
-            message.from === loggedInUser.id ? 'justify-end' : 'justify-start'
-          "
+          class="flex text-sm"
+          :class="message.from === loggedInUser.id ? 'ml-auto' : 'mr-auto'"
         >
           <span
             v-if="message.text"
-            class="rounded-2xl max-w-lg px-5 py-2"
+            class="rounded-2xl w-full max-w-sm px-5 py-2"
             :class="
               message.from === loggedInUser.id
                 ? 'bg-purple-500 text-white'
