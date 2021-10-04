@@ -93,14 +93,19 @@
             $moment(message.created_at).format('ll')
           }}</span>
         </div>
-        <div class="flex text-sm">
+        <div
+          class="flex w-full text-sm"
+          :class="
+            message.from === loggedInUser.id ? 'justify-end' : 'justify-start'
+          "
+        >
           <span
             v-if="message.text"
-            class="rounded-2xl px-5 py-2"
+            class="rounded-2xl max-w-lg px-5 py-2"
             :class="
               message.from === loggedInUser.id
-                ? 'bg-purple-500 text-white ml-auto'
-                : 'bg-gray-100 dark:bg-content-bg mr-auto'
+                ? 'bg-purple-500 text-white'
+                : 'bg-gray-100 dark:bg-content-bg'
             "
             >{{ message.text }}</span
           >
@@ -241,6 +246,9 @@ export default {
   async asyncData({ route, store }) {
     if (route.name === 'messages') {
       await store.dispatch('setTab', 'messages')
+    }
+    if (route.query.room) {
+      await store.dispatch('messages/setQuery', route.query.room)
     }
   },
   methods: {

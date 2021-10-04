@@ -95,6 +95,7 @@ export default {
     ...mapGetters(['loggedInUser']),
     ...mapState({
       loading: (state) => state.messages.loading,
+      query: (state) => state.messages.query,
       selectedState: (state) => state.messages.selected,
       messagesBadge: (state) => state.messagesBadge,
       contacts: (state) => state.messages.contacts,
@@ -132,6 +133,11 @@ export default {
       if (newVal !== oldVal) {
         this.setMessages([])
       }
+      if (newVal.user.id !== parseInt(this.$route.query.room)) {
+        this.$router.replace(
+          `${this.$route.path}?room=${this.selected.user.id}`
+        )
+      }
     },
     loading(newVal, oldVal) {
       if (newVal !== oldVal) {
@@ -151,6 +157,7 @@ export default {
       getMessages: 'messages/getMessages',
       setSelected: 'messages/setSelected',
       setMessages: 'messages/setMessages',
+      getUser: 'messages/getUser',
       toggleLoading: 'messages/toggleLoading',
     }),
     checkSender(message) {
@@ -167,9 +174,38 @@ export default {
       if (!this.enough) {
         this.page += 1
         this.getContacts(this.page).then(function (res) {
-          if (!self.selected) {
+          if (!self.selected && !self.query) {
             self.selected = self.contacts[0]
           }
+
+          if (!self.selected && self.query && self.page === 1) {
+            self
+              .getUser(self.query)
+              .then((user) => {
+                self.selected = {
+                  id: +new Date(),
+                  from: self.loggedInUser.id,
+                  to: parseInt(self.query),
+                  unread: 0,
+                  created_at: new Date(),
+                  updated_at: new Date(),
+                  user: user,
+                }
+              })
+              .catch((err) => {
+                self.$vs.notification({
+                  duration: 5000,
+                  progress: 'auto',
+                  flat: true,
+                  color: 'danger',
+                  icon: `<i class='bx bxs-error' ></i>`,
+                  position: 'top-right',
+                  title: 'An error occured!',
+                  text: 'An error occurred while load the messages. Please try again.',
+                })
+              })
+          }
+
           if (res.data.data.length < 10) {
             self.enough = true
           } else {
