@@ -6,7 +6,7 @@
       v-model="active"
       :textWhite="false"
       open
-      class="min-h-screen"
+      class="h-screen"
     >
       <template #logo>
         <Logo />
@@ -34,7 +34,7 @@
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item id="chat" disabled>
+      <vs-sidebar-item to="/messages" id="messages">
         <template #icon>
           <vs-avatar
             v-if="messagesBadge && messagesBadge > 0"
