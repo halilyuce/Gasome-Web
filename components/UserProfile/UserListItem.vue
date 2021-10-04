@@ -3,6 +3,7 @@
     class="flex flex-col rounded-xl border-gray-200 dark:border-gray-700 mt-1"
   >
     <ul
+      v-if="followers && user"
       class="
         divide-y divide-gray-100
         dark:divide-gray-500 dark:divide-opacity-10
@@ -43,7 +44,7 @@
           <vs-button
             :shadow="follower.isAuthFollow"
             :border="follower.isAuthFollow"
-            :loading="followLoading && lastFollow === follower.user.username"
+            :loading="followLoading === follower.user.username"
             @click="followAction(follower.user.username)"
             :danger="follower.isAuthFollow"
           >
@@ -59,11 +60,20 @@
           </vs-button>
         </div>
       </li>
+      <client-only>
+        <infinite-loading
+          spinner="spiral"
+          :identifier="user.id"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
     </ul>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'user-list-item',
   props: {
@@ -73,21 +83,24 @@ export default {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
       mediumImagePath: process.env.POSTIMAGE_MEDIUM,
-      lastFollow: null,
     }
   },
   computed: {
+    ...mapGetters(['loggedInUser']),
     ...mapState({
-      followLoading: (state) => state.profile.loading,
+      user: (state) => state.profile.user,
+      followLoading: (state) => state.profile.followersLoading,
     }),
   },
   methods: {
     ...mapActions({
-      follow: 'profile/follow',
+      follow: 'profile/followFromFollower',
     }),
     followAction(username) {
-      this.lastfollow = username
       this.follow(username)
+    },
+    async infiniteHandler($state) {
+      this.$emit('load', $state)
     },
   },
 }

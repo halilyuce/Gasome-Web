@@ -125,16 +125,18 @@
       <!-- User Follower - Follows Count -->
 
       <div class="flex items-center text-sm">
-        <div class="flex items-center mr-5">
-          <b>{{ user.follows }}</b>
-          <span class="text-gray-400 ml-1">Following</span>
-        </div>
-        <n-link :to="`${user.username}/followers`">
+        <vs-button transparent :to="`${user.username}/follows`">
           <div class="flex items-center">
-            <b>{{ user.followers }}</b>
+            <b class="text-black mr-1 dark:text-white">{{ user.follows }}</b>
+            <span class="text-gray-400 ml-1">Following</span>
+          </div>
+        </vs-button>
+        <vs-button transparent :to="`${user.username}/followers`">
+          <div class="flex items-center">
+            <b class="text-black mr-1 dark:text-white">{{ user.followers }}</b>
             <span class="text-gray-400 ml-1">Followers</span>
           </div>
-        </n-link>
+        </vs-button>
       </div>
     </div>
   </div>

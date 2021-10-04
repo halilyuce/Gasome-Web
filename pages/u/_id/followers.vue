@@ -8,18 +8,14 @@
       container
       overflow-y-auto
       disable-scrollbars
+      min-h-screen
     "
-    :class="followers.length > 0 ? 'max-h-screen' : 'min-h-screen'"
   >
     <!-- Followers Header Bar -->
     <FollowersHeader v-if="user" v-bind:user="user" />
 
-    <div
-      v-infinite-scroll="loadMore"
-      infinite-scroll-distance="1000"
-      infinite-scroll-throttle-delay="1000"
-    >
-      <UserListItem v-if="followers" v-bind:followers="followers" />
+    <div>
+      <UserListItem @load='loadMore' v-if="followers" v-bind:followers="followers" />
     </div>
   </div>
 </template>
@@ -36,7 +32,6 @@ export default {
     ...mapState({
       user: (state) => state.profile.user,
       followers: (state) => state.profile.followers,
-      loading: (state) => state.profile.loading,
     }),
   },
   data() {
@@ -50,19 +45,6 @@ export default {
       slug: params.id,
     }
   },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal != oldVal) {
-        if (!newVal) {
-          this.userLoading.close()
-        } else {
-          this.userLoading = this.$vs.loading({
-            target: this.$refs.user,
-          })
-        }
-      }
-    },
-  },
   mounted() {
     this.getUserProfile(this.slug)
   },
@@ -73,14 +55,10 @@ export default {
     ...mapActions({
       clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
-      getUserFollowers: 'profile/getUserFollowers',
-      toggleFollowersLoading: 'profile/toggleFollowersLoading',
+      getUserFollowers: 'profile/getUserFollowers'
     }),
-    async loadMore() {
+    async loadMore($state) {
       const self = this
-      if (this.currentPage === 0) {
-        this.toggleFollowersLoading(true)
-      }
       if (!this.enough) {
         this.currentPage += 1
         this.getUserFollowers({
@@ -89,6 +67,9 @@ export default {
         }).then(function (res) {
           if (res.data.length < 10) {
             self.enough = true
+            $state.complete()
+          } else {
+            $state.loaded()
           }
         })
       }
