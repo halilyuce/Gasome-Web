@@ -237,8 +237,16 @@ export default {
       },
     },
   },
+  mounted() {
+    this.$echo
+      .private(`messages.${this.loggedInUser.id}`)
+      .listen('NewMessage', (e) => {
+        this.hanleIncoming(e.message)
+      })
+  },
   data() {
     return {
+      socket: null,
       message: '',
       image: null,
       index: null,
@@ -261,6 +269,7 @@ export default {
       getMessages: 'messages/getMessages',
       setMessages: 'messages/setMessages',
       sendMessage: 'messages/sendMessage',
+      insertMessage: 'messages/insertMessage',
       toggleLoading: 'messages/toggleMessagesLoading',
     }),
     resize() {
@@ -291,6 +300,15 @@ export default {
           $state.complete()
         }
       })
+    },
+    async hanleIncoming(message) {
+      const self = this
+      if (this.selected && message.from == this.selected.user.id) {
+        this.insertMessage(message).then(() => {
+          self.scrollToElement()
+        })
+        return
+      }
     },
     async send() {
       const self = this
