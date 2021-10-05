@@ -15,7 +15,7 @@
           type="search"
           v-model="search"
           icon-after
-          placeholder="Search A Game or User"
+          :placeholder="$t('mainPage.search')"
           class="w-52 lg:w-64 xl:w-72"
           disabled
         >
@@ -26,7 +26,7 @@
         <vs-button @click="openComposer()">
           <i class="bx bx-edit text-lg"></i>
 
-          <span class="px-2">New Post</span>
+          <span class="px-2">{{ $t('mainPage.newPost') }}</span>
         </vs-button>
       </div>
 
