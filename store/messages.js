@@ -146,6 +146,9 @@ export const actions = {
   async setQuery({ commit }, payload) {
     commit('setQuery', payload)
   },
+  async insertMessage({ commit }, payload) {
+    commit('insertMessage', payload)
+  },
   async toggleLoading({ commit }, payload) {
     commit('setLoading', payload)
   },

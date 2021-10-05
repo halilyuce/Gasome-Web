@@ -47,7 +47,21 @@ export default {
     '@nuxtjs/color-mode',
     '@nuxtjs/dotenv',
     '@nuxtjs/moment',
+    '@nuxtjs/laravel-echo',
   ],
+
+  echo: {
+    broadcaster: 'socket.io',
+    host: 'http://api.gasome.com:6001',
+    // wsHost: 'http://api.gasome.com',
+    // wsPort: 6001,
+    authEndpoint: 'https://api.gasome.com/broadcasting/auth',
+    authModule: true,
+    connectOnLogin: true,
+    disconnectOnLogout: true,
+    plugins: ['@/plugins/echo'],
+    forceTLS: false,
+  },
 
   moment: {
     timezone: true,
