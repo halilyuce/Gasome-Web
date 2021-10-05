@@ -96,7 +96,6 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import infiniteScroll from 'vue-infinite-scroll'
 export default {
   computed: {
     ...mapGetters(['loggedInUser']),
@@ -203,9 +202,6 @@ export default {
         }
       })
     },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>

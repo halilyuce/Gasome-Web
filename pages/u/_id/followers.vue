@@ -1,6 +1,5 @@
 <template>
   <div
-    ref="user"
     class="
       relative
       bg-white
@@ -8,14 +7,18 @@
       container
       overflow-y-auto
       disable-scrollbars
-      min-h-screen
+      h-screen
     "
   >
     <!-- Followers Header Bar -->
     <FollowersHeader v-if="user" v-bind:user="user" />
 
     <div>
-      <UserListItem @load='loadMore' v-if="followers" v-bind:followers="followers" />
+      <UserListItem
+        @load="loadMore"
+        v-if="followers"
+        v-bind:followers="followers"
+      />
     </div>
   </div>
 </template>
@@ -24,7 +27,6 @@
 import { mapState, mapActions } from 'vuex'
 import FollowersHeader from '~/components/UserProfile/FollowersHeader.vue'
 import UserListItem from '~/components/UserProfile/UserListItem.vue'
-import infiniteScroll from 'vue-infinite-scroll'
 export default {
   components: { FollowersHeader, UserListItem },
   layout: 'sidebars',
@@ -55,7 +57,7 @@ export default {
     ...mapActions({
       clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
-      getUserFollowers: 'profile/getUserFollowers'
+      getUserFollowers: 'profile/getUserFollowers',
     }),
     async loadMore($state) {
       const self = this
@@ -74,9 +76,6 @@ export default {
         })
       }
     },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>

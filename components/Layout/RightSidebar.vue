@@ -25,23 +25,10 @@
           </n-link>
         </li>
       </ul>
-      <div
-        class="
-          flex flex-col
-          justify-center
-          py-5
-          mt-3
-          mb-2
-          bg-gray-100
-          dark:bg-content-bg
-          rounded-xl
-          items-center
-        "
+      <no-data
+        class="mt-3 mb-2"
         v-else-if="!trendsLoading && trends.length === 0"
-      >
-        <i class="bx bxs-memory-card text-yellow-500 mb-2 text-4xl"></i>
-        <h5>There is nothing to show</h5>
-      </div>
+      />
     </div>
 
     <div
@@ -115,7 +102,9 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import NoData from '../UI/NoData.vue'
 export default {
+  components: { NoData },
   computed: {
     ...mapState({
       alert: (state) => state.alert,

@@ -1,32 +1,51 @@
 <template>
   <div
-    ref="notifications"
-    v-infinite-scroll="loadMore"
-    infinite-scroll-distance="1000"
-    infinite-scroll-throttle-delay="1000"
-    class="bg-white relative dark:bg-black overflow-y-auto disable-scrollbars"
-    :class="!loading ? 'max-h-screen' : 'min-h-screen'"
+    class="
+      bg-white
+      h-screen
+      relative
+      dark:bg-black
+      overflow-y-auto overflow-x-hidden
+      disable-scrollbars
+    "
   >
     <h1 class="p-5">Notifications</h1>
     <ul
-      class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
+      class="
+        divide-y divide-gray-100
+        dark:divide-gray-600 dark:divide-opacity-20
+        divide-solid
+      "
       v-if="notifications"
     >
       <li
         class="px-5 py-3"
+        :class="{
+          'bg-purple-100 dark:bg-purple-300 dark:bg-opacity-5 bg-opacity-30':
+            !notification.isshowed,
+        }"
         v-for="notification in notifications"
         :key="notification.id"
       >
         <!-- AVATAR  -->
-        <NotificationList :notification='notification' />
+        <NotificationList :notification="notification" />
       </li>
+
+      <client-only>
+        <infinite-loading
+          v-if="!enough"
+          spinner="spiral"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
     </ul>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import infiniteScroll from 'vue-infinite-scroll'
 import NotificationList from '~/components/Notifications/NotificationList'
 export default {
   layout: 'sidebars',
@@ -45,19 +64,6 @@ export default {
       set(value) {
         this.setCurrentPage(value)
       },
-    },
-  },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal != oldVal) {
-        if (!newVal) {
-          this.notificationLoading.close()
-        } else {
-          this.notificationLoading = this.$vs.loading({
-            target: this.$refs.notifications,
-          })
-        }
-      }
     },
   },
   data() {
@@ -79,7 +85,7 @@ export default {
       setCurrentPage: 'notifications/setCurrentPage',
       clearAlert: 'alert/clear',
     }),
-    async loadMore() {
+    infiniteHandler($state) {
       const self = this
       if (this.page === 0) {
         this.toggleLoading(true)
@@ -89,13 +95,13 @@ export default {
         this.loadMoreNotifications().then(function (res) {
           if (res.data.length < 10) {
             self.enough = true
+            $state.complete()
+          } else {
+            $state.loaded()
           }
         })
       }
     },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>

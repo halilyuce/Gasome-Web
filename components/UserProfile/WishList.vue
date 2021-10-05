@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul
-      ref="wishes"
-      v-infinite-scroll="loadMore"
-      infinite-scroll-distance="1000"
-      infinite-scroll-throttle-delay="1000"
-      :class="{ 'h-72': wishes.length === 0 }"
-      class="relative divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
+      class="
+        relative
+        divide-y divide-gray-100
+        dark:divide-gray-600 dark:divide-opacity-20
+        divide-solid
+      "
     >
       <li v-for="wish in wishes" :key="wish.id">
         <div class="flex flex-row justify-between items-center px-5 py-3">
@@ -61,7 +61,18 @@
           </div>
         </div>
       </li>
+
+      <client-only>
+        <infinite-loading
+          v-if="!enough"
+          spinner="spiral"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
     </ul>
+    <no-data class="m-6" v-if="!loading && wishes.length === 0" />
     <vs-dialog v-model="showRemove">
       <template #header>
         <h4 class="not-margin">Are you sure to <b>Remove?</b></h4>
@@ -97,8 +108,9 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import infiniteScroll from 'vue-infinite-scroll'
+import NoData from '~/components/UI/NoData.vue'
 export default {
+  components: { NoData },
   props: {
     id: null,
     same: false,
@@ -129,19 +141,6 @@ export default {
       removedWish: null,
     }
   },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal != oldVal) {
-        if (!newVal) {
-          this.wishesLoading.close()
-        } else {
-          this.wishesLoading = this.$vs.loading({
-            target: this.$refs.wishes,
-          })
-        }
-      }
-    },
-  },
   methods: {
     ...mapActions({
       getWishes: 'profile/getWishes',
@@ -152,6 +151,23 @@ export default {
       setWishesPage: 'profile/setWishesPage',
       toggleWishesEnough: 'profile/toggleWishesEnough',
     }),
+    infiniteHandler($state) {
+      const self = this
+      if (this.page === 0) {
+        this.toggleWishesLoading(true)
+      }
+      if (!this.enough) {
+        this.page += 1
+        this.getWishes(this.id).then(function (res) {
+          if (res.data.length < 10) {
+            $state.complete()
+            self.toggleWishesEnough(true)
+          } else {
+            $state.loaded()
+          }
+        })
+      }
+    },
     openModal(wish) {
       this.removedWish = wish
       this.showRemove = true
@@ -226,23 +242,6 @@ export default {
           })
         })
     },
-    async loadMore() {
-      const self = this
-      if (this.page === 0) {
-        this.toggleWishesLoading(true)
-      }
-      if (!this.enough) {
-        this.page += 1
-        this.getWishes(this.id).then(function (res) {
-          if (res.data.length < 10) {
-            self.toggleWishesEnough(true)
-          }
-        })
-      }
-    },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>

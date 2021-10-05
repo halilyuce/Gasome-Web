@@ -1,14 +1,19 @@
 <template>
   <div
-    ref="target"
-    v-infinite-scroll="loadMore"
-    infinite-scroll-distance="1000"
-    infinite-scroll-throttle-delay="1000"
-    class="bg-white dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
+    class="bg-white dark:bg-black h-screen overflow-y-auto disable-scrollbars"
   >
     <div class="lg:my-3">
       <div
-        class="hidden lg:flex justify-between items-center px-5 pb-3 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+        class="
+          hidden
+          lg:flex
+          justify-between
+          items-center
+          px-5
+          pb-3
+          border-b border-gray-100
+          dark:border-gray-600 dark:border-opacity-20
+        "
       >
         <vs-input
           color="#7d33ff"
@@ -31,14 +36,20 @@
       </div>
 
       <PostsBody
-        class="relative"
-        :class="{ 'h-screen': loading }"
-        ref="posts"
         v-bind:posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
       />
+
+      <client-only>
+        <infinite-loading
+          spinner="spiral"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
     </div>
   </div>
 </template>
@@ -46,7 +57,6 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import PostsBody from '../components/Posts/PostsBody.vue'
-import infiniteScroll from 'vue-infinite-scroll'
 export default {
   layout: 'sidebars',
   components: {
@@ -77,19 +87,6 @@ export default {
       },
     },
   },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (!newVal) {
-          this.postLoading.close()
-        } else {
-          this.postLoading = this.$vs.loading({
-            target: this.$refs.posts,
-          })
-        }
-      }
-    },
-  },
   data() {
     return {
       enough: false,
@@ -113,19 +110,17 @@ export default {
       this.quotedPost = null
       this.toggleComposer(true)
     },
-    async loadMore() {
+
+    infiniteHandler($state) {
       const self = this
-      if (this.page === 0) {
-        await this.toggleLoading(true)
-      }
-      if (!this.enough) {
-        this.page += 1
-        this.loadMorePosts().then(function (res) {
-          if (res.data.length < 10) {
-            self.enough = true
-          }
-        })
-      }
+      this.page += 1
+      this.loadMorePosts().then(function (res) {
+        if (res.data.length < 10) {
+          $state.complete()
+        } else {
+          $state.loaded()
+        }
+      })
     },
     async favorite(id) {
       await this.favoritePost(id)
@@ -137,9 +132,6 @@ export default {
       this.quotedPost = post
       await this.toggleComposer(true)
     },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>
