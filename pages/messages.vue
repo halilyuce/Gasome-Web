@@ -85,6 +85,7 @@
 
       <li
         class="flex flex-col my-1"
+        :class="`message-${message.id}`"
         v-for="message in messages"
         :key="message.id"
       >
@@ -183,6 +184,7 @@
             rows="1"
             @focus="resize"
             @keyup="resize"
+            @keydown.enter.exact.prevent="send"
             @paste.prevent="onPaste"
             placeholder="Type something..."
             :disabled="sendLoading"
@@ -273,6 +275,13 @@ export default {
         textarea.style.height = '35px'
       }
     },
+    scrollToElement() {
+      const last = this.messages[this.messages.length - 1].id
+      const el = this.$el.getElementsByClassName(`message-${last}`)[0]
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    },
     infiniteHandler($state) {
       const self = this
       this.getMessages(this.checkSender()).then((data) => {
@@ -299,6 +308,7 @@ export default {
           self.image = null
           self.message = ''
           textarea.style.height = '35px'
+          self.scrollToElement()
         })
         .catch((err) => {
           self.$vs.notification({
