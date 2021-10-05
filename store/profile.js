@@ -17,7 +17,9 @@ export const state = () => ({
   wishesPage: 0,
   wishesEnough: false,
   followers: [],
+  following: [],
   followersLoading: null,
+  followingLoading: null
 })
 export const getters = {}
 export const mutations = {
@@ -78,6 +80,9 @@ export const mutations = {
   setUserFollowers(state, payload) {
     state.followers = [...state.followers, ...payload]
   },
+  setUserFollowing(state, payload) {
+    state.following = [...state.following, ...payload]
+  },
   setFollow(state, payload) {
     state.user.isFollow = payload.state
   },
@@ -85,8 +90,15 @@ export const mutations = {
     state.followers.find(follower => follower.user.username === state.followersLoading).isAuthFollow = payload.state
     state.followersLoading = null
   },
+  setFollowingListFollow(state, payload) {
+    state.following.find(follower => follower.user.username === state.followingLoading).isAuthFollow = payload.state
+    state.followingLoading = null
+  },
   setFollowersLoading(state, payload) {
     state.followersLoading = payload
+  },
+  setFollowingLoading(state, payload) {
+    state.followingLoading = payload
   },
   clearState(state) {
     state.user = null
@@ -98,7 +110,7 @@ export const mutations = {
     state.wishesPage = 0
     state.wishesEnough = false
     state.followers = []
-    state.followersLoading = null
+    state.following = []
   },
   removeFromSwapList(state, payload) {
     const index = state.swaps.findIndex((swap) => swap.id === payload)
@@ -252,6 +264,22 @@ export const actions = {
         root: true,
       })
       commit('setFollowersLoading', null)
+      throw 'Unable to follow/unfollow'
+    }
+  },
+  async followFromFollowing({ dispatch, commit }, username) {
+    commit('setFollowingLoading', username)
+    try {
+      const response = await this.$axios.post('/api/follow', {
+        selected_user: username,
+      })
+      commit('setFollowingListFollow', response.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setFollowingLoading', null)
       throw 'Unable to follow/unfollow'
     }
   },
@@ -424,6 +452,22 @@ export const actions = {
         '/api/getFollowers?userName=' + payload.userName + '&page=' + payload.page
       )
       commit('setUserFollowers', response.data.data.data)
+      commit('setLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setLoading', false)
+    }
+  },
+  async getUserFollowing({ commit, dispatch }, payload) {
+    commit('setLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/getFollowing?userName=' + payload.userName + '&page=' + payload.page
+      )
+      commit('setUserFollowing', response.data.data.data)
       commit('setLoading', false)
       return response.data.data
     } catch (error) {

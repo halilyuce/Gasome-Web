@@ -10,8 +10,8 @@
       h-screen
     "
   >
-    <!-- Followers Header Bar -->
-    <FollowersHeader v-if="user" v-bind:user="user" />
+    <!-- Following Header Bar -->
+    <FollowingHeader v-if="user" v-bind:user="user" />
 
     <!-- Tabs -->
 
@@ -35,14 +35,10 @@
           cursor-pointer
           hover-bg
         "
-        :class="{ 'border-b-4 border-purple-500': 'followers' === tab.value }"
+        :class="{ 'border-b-4 border-purple-500': 'following' === tab.value }"
         v-for="tab in tabs"
         :key="tab.value"
-        @click="
-          'following' == tab.value
-            ? $router.push(`/u/${user.username}/following`)
-            : ''
-        "
+        @click="'followers' == tab.value ? $router.push(`/u/${user.username}/followers`) : ''"
       >
         <b>{{ tab.title }}</b>
       </li>
@@ -53,8 +49,8 @@
     <div>
       <UserListItem
         @load="loadMore"
-        v-if="followers"
-        v-bind:followers="followers"
+        v-if="following"
+        v-bind:following="following"
       />
     </div>
   </div>
@@ -62,15 +58,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import FollowersHeader from '~/components/UserProfile/FollowersHeader.vue'
-import UserListItem from '~/components/UserProfile/UserListItem.vue'
+import FollowingHeader from '~/components/UserProfile/FollowingHeader.vue'
+import UserListItem from '~/components/UserProfile/FollowingListItem.vue'
 export default {
-  components: { FollowersHeader, UserListItem },
+  components: { FollowingHeader, UserListItem },
   layout: 'sidebars',
   computed: {
     ...mapState({
       user: (state) => state.profile.user,
-      followers: (state) => state.profile.followers,
+      following: (state) => state.profile.following,
     }),
   },
   data() {
@@ -104,13 +100,13 @@ export default {
     ...mapActions({
       clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
-      getUserFollowers: 'profile/getUserFollowers',
+      getUserFollowing: 'profile/getUserFollowing',
     }),
     async loadMore($state) {
       const self = this
       if (!this.enough) {
         this.currentPage += 1
-        this.getUserFollowers({
+        this.getUserFollowing({
           page: this.currentPage,
           userName: this.slug,
         }).then(function (res) {
