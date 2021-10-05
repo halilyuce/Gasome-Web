@@ -199,7 +199,12 @@
             @click.stop="$refs.photo_upload.click()"
             ><i class="bx bx-images"></i
           ></vs-button>
-          <vs-button icon floating :loading="sendLoading" @click="send"
+          <vs-button
+            icon
+            floating
+            :loading="sendLoading"
+            :disabled="!message"
+            @click="send"
             ><i class="bx bxs-paper-plane"></i
           ></vs-button>
         </div>
