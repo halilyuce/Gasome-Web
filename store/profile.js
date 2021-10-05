@@ -17,7 +17,7 @@ export const state = () => ({
   wishesPage: 0,
   wishesEnough: false,
   followers: [],
-  followersLoading: null,
+  following: []
 })
 export const getters = {}
 export const mutations = {
@@ -78,6 +78,9 @@ export const mutations = {
   setUserFollowers(state, payload) {
     state.followers = [...state.followers, ...payload]
   },
+  setUserFollowing(state, payload) {
+    state.following = [...state.following, ...payload]
+  },
   setFollow(state, payload) {
     state.user.isFollow = payload.state
   },
@@ -98,7 +101,7 @@ export const mutations = {
     state.wishesPage = 0
     state.wishesEnough = false
     state.followers = []
-    state.followersLoading = null
+    state.following = []
   },
   removeFromSwapList(state, payload) {
     const index = state.swaps.findIndex((swap) => swap.id === payload)
@@ -424,6 +427,22 @@ export const actions = {
         '/api/getFollowers?userName=' + payload.userName + '&page=' + payload.page
       )
       commit('setUserFollowers', response.data.data.data)
+      commit('setLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setLoading', false)
+    }
+  },
+  async getUserFollowing({ commit, dispatch }, payload) {
+    commit('setLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/getFollowing?userName=' + payload.userName + '&page=' + payload.page
+      )
+      commit('setUserFollowing', response.data.data.data)
       commit('setLoading', false)
       return response.data.data
     } catch (error) {

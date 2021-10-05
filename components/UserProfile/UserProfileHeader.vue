@@ -143,7 +143,7 @@
         <!-- User Follower - Follows Count -->
 
         <div class="flex items-center space-x-8 text-sm">
-          <n-link :to="`${user.username}/follows`">
+          <n-link :to="`${user.username}/following`">
             <div class="flex items-center">
               <b class="text-black mr-1 dark:text-white">{{ user.follows }}</b>
               <span class="text-gray-400 ml-1">Following</span>
