@@ -50,7 +50,7 @@
       <UserListItem
         @load="loadMore"
         v-if="following"
-        v-bind:followers="following"
+        v-bind:following="following"
       />
     </div>
   </div>
@@ -59,7 +59,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import FollowingHeader from '~/components/UserProfile/FollowingHeader.vue'
-import UserListItem from '~/components/UserProfile/UserListItem.vue'
+import UserListItem from '~/components/UserProfile/FollowingListItem.vue'
 export default {
   components: { FollowingHeader, UserListItem },
   layout: 'sidebars',
