@@ -1,7 +1,21 @@
 <template>
   <div>
     <div
-      class="sticky top-0 z-20 items-center flex bg-white dark:bg-black lg:hidden justify-between px-5 py-1 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+      class="
+        sticky
+        top-0
+        z-20
+        items-center
+        flex
+        bg-white
+        dark:bg-black
+        lg:hidden
+        justify-between
+        px-5
+        py-1
+        border-b border-gray-100
+        dark:border-gray-600 dark:border-opacity-20
+      "
     >
       <n-link :to="`/u/${loggedInUser.username}`">
         <vs-avatar size="34">
@@ -18,7 +32,14 @@
       </vs-button>
     </div>
     <div
-      class="bg-gray-100 mb-14 lg:mb-0 dark:bg-content-bg dark:text-white grid grid-cols-12 gap-0"
+      class="
+        bg-gray-100
+        mb-14
+        lg:mb-0
+        dark:bg-content-bg dark:text-white
+        grid grid-cols-12
+        gap-0
+      "
     >
       <div class="col-span-1 lg:col-span-4 xl:col-span-3 2xl:col-span-4 flex">
         <sidebar class="hidden lg:flex" />
@@ -66,10 +87,12 @@ export default {
     } else {
       this.$vs.setTheme('dark')
     }
+    this.getBadges()
   },
   methods: {
     ...mapActions({
       toggleComposer: 'posts/toggleComposer',
+      getBadges: 'getBadges',
     }),
   },
 }

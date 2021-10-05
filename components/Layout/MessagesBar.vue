@@ -30,7 +30,7 @@
 
     <div class="flex justify-between items-center mx-5 mt-5">
       <h3>Contacts</h3>
-      <vs-button size="small" success flat>
+      <vs-button size="small" success flat disabled>
         <i class="bx bxs-user-plus text-base"></i>
         <span class="mx-2 text-xs">New </span>
       </vs-button>
@@ -47,9 +47,6 @@
       "
       ref="contacts"
       :class="{ 'h-screen': loading }"
-      v-infinite-scroll="loadMoreContacts"
-      infinite-scroll-distance="500"
-      infinite-scroll-throttle-delay="1000"
     >
       <li
         v-for="contact in filteredList"
@@ -83,6 +80,16 @@
           }}</vs-button>
         </div>
       </li>
+
+      <client-only>
+        <infinite-loading
+          v-if="filteredList"
+          spinner="spiral"
+          :distance="300"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
     </ul>
   </div>
 </template>
@@ -123,7 +130,6 @@ export default {
     return {
       search: '',
       page: 0,
-      enough: false,
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
@@ -139,17 +145,6 @@ export default {
         )
       }
     },
-    loading(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (!newVal) {
-          this.contactsLoading.close()
-        } else {
-          this.contactsLoading = this.$vs.loading({
-            target: this.$refs.contacts,
-          })
-        }
-      }
-    },
   },
   methods: {
     ...mapActions({
@@ -158,7 +153,6 @@ export default {
       setSelected: 'messages/setSelected',
       setMessages: 'messages/setMessages',
       getUser: 'messages/getUser',
-      toggleLoading: 'messages/toggleLoading',
     }),
     checkSender(message) {
       if (message.to === this.loggedInUser.id) {
@@ -166,55 +160,48 @@ export default {
       }
       return message.to
     },
-    async loadMoreContacts() {
+    infiniteHandler($state) {
       const self = this
-      if (this.page === 0) {
-        await this.toggleLoading(true)
-      }
-      if (!this.enough) {
-        this.page += 1
-        this.getContacts(this.page).then(function (res) {
-          if (!self.selected && !self.query) {
-            self.selected = self.contacts[0]
-          }
+      this.page += 1
+      this.getContacts(this.page).then(function (res) {
+        if (!self.selected && !self.query) {
+          self.selected = self.contacts[0]
+        }
 
-          if (!self.selected && self.query && self.page === 1) {
-            self
-              .getUser(self.query)
-              .then((user) => {
-                self.selected = {
-                  id: +new Date(),
-                  from: self.loggedInUser.id,
-                  to: parseInt(self.query),
-                  unread: 0,
-                  created_at: new Date(),
-                  updated_at: new Date(),
-                  user: user,
-                }
+        if (!self.selected && self.query && self.page === 1) {
+          self
+            .getUser(self.query)
+            .then((user) => {
+              self.selected = {
+                id: +new Date(),
+                from: self.loggedInUser.id,
+                to: parseInt(self.query),
+                unread: 0,
+                created_at: new Date(),
+                updated_at: new Date(),
+                user: user,
+              }
+            })
+            .catch((err) => {
+              self.$vs.notification({
+                duration: 5000,
+                progress: 'auto',
+                flat: true,
+                color: 'danger',
+                icon: `<i class='bx bxs-error' ></i>`,
+                position: 'top-right',
+                title: 'An error occured!',
+                text: 'An error occurred while load the messages. Please try again.',
               })
-              .catch((err) => {
-                self.$vs.notification({
-                  duration: 5000,
-                  progress: 'auto',
-                  flat: true,
-                  color: 'danger',
-                  icon: `<i class='bx bxs-error' ></i>`,
-                  position: 'top-right',
-                  title: 'An error occured!',
-                  text: 'An error occurred while load the messages. Please try again.',
-                })
-              })
-          }
+            })
+        }
 
-          if (res.data.data.length < 10) {
-            self.enough = true
-          } else {
-            if (self.page === 1) {
-              self.loadMoreContacts()
-            }
-          }
-        })
-      }
+        if (res.data.data.length < 10) {
+          $state.complete()
+        } else {
+          $state.loaded()
+        }
+      })
     },
   },
   directives: {
