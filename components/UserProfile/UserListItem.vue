@@ -33,15 +33,19 @@
                   />
                 </vs-avatar>
               </n-link>
-              <div class="ml-2 flex-col items-center">
+              <n-link
+                :to="'/u/' + follower.user.username"
+                class="ml-2 flex-col items-center"
+              >
                 <h4>{{ follower.user.name }}</h4>
                 <span class="text-gray-400">{{
                   '@' + follower.user.username
                 }}</span>
-              </div>
+              </n-link>
             </div>
           </div>
           <vs-button
+            size="small"
             :shadow="follower.isAuthFollow"
             :border="follower.isAuthFollow"
             :loading="followLoading === follower.user.username"
@@ -49,14 +53,14 @@
             :danger="follower.isAuthFollow"
           >
             <i
-              class="bx"
+              class="bx text-base"
               :class="
                 follower.isAuthFollow ? 'bxs-user-minus' : 'bxs-user-plus'
               "
             ></i>
-            <b class="mx-5">{{
+            <span class="ml-2 mr-1">{{
               follower.isAuthFollow ? 'Unfollow' : 'Follow'
-            }}</b>
+            }}</span>
           </vs-button>
         </div>
       </li>

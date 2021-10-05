@@ -1,14 +1,19 @@
 <template>
   <div
-    ref="hashtags"
-    v-infinite-scroll="loadMorePosts"
-    infinite-scroll-distance="1000"
-    infinite-scroll-throttle-delay="1000"
-    class="bg-white dark:bg-black max-h-screen overflow-y-auto disable-scrollbars"
+    class="bg-white dark:bg-black h-screen overflow-y-auto disable-scrollbars"
   >
     <div class="lg:my-3">
       <div
-        class="hidden lg:flex justify-between items-center px-5 pb-3 border-b border-gray-100 dark:border-gray-600 dark:border-opacity-20"
+        class="
+          hidden
+          lg:flex
+          justify-between
+          items-center
+          px-5
+          pb-3
+          border-b border-gray-100
+          dark:border-gray-600 dark:border-opacity-20
+        "
       >
         <div class="flex flex-row">
           <vs-button active @click="$router.back()" size="small" transparent>
@@ -31,7 +36,14 @@
         </div>
 
         <div
-          class="flex flex-row items-center justify-center bg-gray-100 dark:bg-content-bg rounded-2xl"
+          class="
+            flex flex-row
+            items-center
+            justify-center
+            bg-gray-100
+            dark:bg-content-bg
+            rounded-2xl
+          "
         >
           <vs-button
             :transparent="!isTop"
@@ -59,22 +71,28 @@
       </div>
 
       <PostsBody
-        class="relative"
-        :class="{ 'h-screen': loading }"
-        ref="tags"
         v-bind:posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
       />
     </div>
+
+    <client-only>
+      <infinite-loading
+        v-if="!enough"
+        spinner="spiral"
+        :distance="300"
+        @infinite="infiniteHandler"
+        ><span slot="no-results"></span><span slot="no-more"></span
+      ></infinite-loading>
+    </client-only>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import PostsBody from '~/components/Posts/PostsBody.vue'
-import infiniteScroll from 'vue-infinite-scroll'
 export default {
   layout: 'sidebars',
   name: 'TagPosts',
@@ -106,19 +124,6 @@ export default {
       },
     },
   },
-  watch: {
-    loading(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        if (!newVal) {
-          this.tagPostLoading.close()
-        } else {
-          this.tagPostLoading = this.$vs.loading({
-            target: this.$refs.tags,
-          })
-        }
-      }
-    },
-  },
   mounted() {
     this.search = '#' + this.$route.params.id
   },
@@ -148,17 +153,20 @@ export default {
       this.loadMorePosts()
     },
 
-    async loadMorePosts() {
+    infiniteHandler($state) {
       const self = this
       if (this.page === 0) {
-        await this.toggleLoading(true)
+        this.toggleLoading(true)
       }
       if (!this.enough) {
         this.page += 1
         this.getTagPosts({ tag: this.$route.params.id, top: this.isTop }).then(
           function (res) {
             if (res.data.length < 10) {
+              $state.complete()
               self.enough = true
+            } else {
+              $state.loaded()
             }
           }
         )
@@ -174,9 +182,6 @@ export default {
       this.quotedPost = post
       await this.toggleComposer(true)
     },
-  },
-  directives: {
-    infiniteScroll,
   },
 }
 </script>
