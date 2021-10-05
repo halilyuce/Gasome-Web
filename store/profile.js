@@ -16,6 +16,8 @@ export const state = () => ({
   swapsEnough: false,
   wishesPage: 0,
   wishesEnough: false,
+  followers: [],
+  followersLoading: null,
 })
 export const getters = {}
 export const mutations = {
@@ -73,8 +75,18 @@ export const mutations = {
   setUserInfo(state, payload) {
     state.user = payload
   },
+  setUserFollowers(state, payload) {
+    state.followers = [...state.followers, ...payload]
+  },
   setFollow(state, payload) {
     state.user.isFollow = payload.state
+  },
+  setFollowerListFollow(state, payload) {
+    state.followers.find(follower => follower.user.username === state.followersLoading).isAuthFollow = payload.state
+    state.followersLoading = null
+  },
+  setFollowersLoading(state, payload) {
+    state.followersLoading = payload
   },
   clearState(state) {
     state.user = null
@@ -85,6 +97,8 @@ export const mutations = {
     state.swapsEnough = false
     state.wishesPage = 0
     state.wishesEnough = false
+    state.followers = []
+    state.followersLoading = null
   },
   removeFromSwapList(state, payload) {
     const index = state.swaps.findIndex((swap) => swap.id === payload)
@@ -105,13 +119,13 @@ export const mutations = {
       const posts = state.posts.filter(
         (post) =>
           post.quote_id ===
-            (payload.sent.quoted_post.length > 0
-              ? payload.sent.quote_id
-              : payload.sent.id) ||
+          (payload.sent.quoted_post.length > 0
+            ? payload.sent.quote_id
+            : payload.sent.id) ||
           post.id ===
-            (payload.sent.quoted_post.length > 0
-              ? payload.sent.quote_id
-              : payload.sent.id)
+          (payload.sent.quoted_post.length > 0
+            ? payload.sent.quote_id
+            : payload.sent.id)
       )
       posts.forEach((postItem) => {
         const item = state.posts.find((post) => post.id === postItem.id)
@@ -161,9 +175,9 @@ export const actions = {
     try {
       const response = await this.$axios.get(
         '/api/getPostsByUser?username=' +
-          payload.username +
-          '&page=' +
-          payload.page
+        payload.username +
+        '&page=' +
+        payload.page
       )
       commit('insertPosts', response.data.data.data)
       commit('setPostLoading', false)
@@ -222,6 +236,22 @@ export const actions = {
         root: true,
       })
       commit('setFollowLoading', false)
+      throw 'Unable to follow/unfollow'
+    }
+  },
+  async followFromFollower({ dispatch, commit }, username) {
+    commit('setFollowersLoading', username)
+    try {
+      const response = await this.$axios.post('/api/follow', {
+        selected_user: username,
+      })
+      commit('setFollowerListFollow', response.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setFollowersLoading', null)
       throw 'Unable to follow/unfollow'
     }
   },
@@ -372,6 +402,9 @@ export const actions = {
   async toggleSwapsEnough({ commit }, payload) {
     commit('setSwapsEnough', payload)
   },
+  async toggleFollowersLoading({ commit }, payload) {
+    commit('setFollowersLoading', payload)
+  },
   async setSwapsPage({ commit }, payload) {
     commit('setSwapsPage', payload)
   },
@@ -383,5 +416,21 @@ export const actions = {
   },
   async clearState({ commit }) {
     commit('clearState')
+  },
+  async getUserFollowers({ commit, dispatch }, payload) {
+    commit('setLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/getFollowers?userName=' + payload.userName + '&page=' + payload.page
+      )
+      commit('setUserFollowers', response.data.data.data)
+      commit('setLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setLoading', false)
+    }
   },
 }

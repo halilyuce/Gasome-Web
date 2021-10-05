@@ -3,7 +3,14 @@
     <!-- User Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button active @click="$router.back()" size="small" transparent>
         <i class="bx bxs-chevron-left text-xl"></i>
@@ -55,6 +62,8 @@
           </div>
         </div>
         <vs-button
+          :shadow="user.isFollow"
+          :border="user.isFollow"
           :loading="followLoading"
           @click="followAction()"
           :danger="user.isFollow"
@@ -116,14 +125,18 @@
       <!-- User Follower - Follows Count -->
 
       <div class="flex items-center text-sm">
-        <div class="flex items-center mr-5">
-          <b>{{ user.follows }}</b>
-          <span class="text-gray-400 ml-1">Following</span>
-        </div>
-        <div class="flex items-center">
-          <b>{{ user.followers }}</b>
-          <span class="text-gray-400 ml-1">Followers</span>
-        </div>
+        <vs-button transparent :to="`${user.username}/follows`">
+          <div class="flex items-center">
+            <b class="text-black mr-1 dark:text-white">{{ user.follows }}</b>
+            <span class="text-gray-400 ml-1">Following</span>
+          </div>
+        </vs-button>
+        <vs-button transparent :to="`${user.username}/followers`">
+          <div class="flex items-center">
+            <b class="text-black mr-1 dark:text-white">{{ user.followers }}</b>
+            <span class="text-gray-400 ml-1">Followers</span>
+          </div>
+        </vs-button>
       </div>
     </div>
   </div>
