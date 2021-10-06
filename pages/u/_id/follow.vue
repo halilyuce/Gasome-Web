@@ -11,7 +11,11 @@
     "
   >
     <!-- Followers Header Bar -->
-    <FollowersHeader v-if="user" v-bind:user="user" />
+    <FollowersHeader
+      v-if="user"
+      :followers="selected === 'followers'"
+      v-bind:user="user"
+    />
 
     <!-- Tabs -->
 
@@ -35,14 +39,10 @@
           cursor-pointer
           hover-bg
         "
-        :class="{ 'border-b-4 border-purple-500': 'followers' === tab.value }"
+        :class="{ 'border-b-4 border-purple-500': selected === tab.value }"
         v-for="tab in tabs"
         :key="tab.value"
-        @click="
-          'following' == tab.value
-            ? $router.push(`/u/${user.username}/following`)
-            : ''
-        "
+        @click="changeTab(tab.value)"
       >
         <b>{{ tab.title }}</b>
       </li>
@@ -52,9 +52,9 @@
 
     <div>
       <UserListItem
-        @load="loadMore"
-        v-if="followers"
-        v-bind:followers="followers"
+        @load="loadData"
+        :type="selected"
+        v-bind:followers="selected === 'followers' ? followers : following"
       />
     </div>
   </div>
@@ -71,12 +71,15 @@ export default {
     ...mapState({
       user: (state) => state.profile.user,
       followers: (state) => state.profile.followers,
+      following: (state) => state.profile.following,
     }),
   },
   data() {
     return {
-      enough: false,
-      currentPage: 0,
+      followersEnough: false,
+      followingEnough: false,
+      followersCurrentPage: 0,
+      followingCurrentPage: 0,
       tabs: [
         {
           title: 'Following',
@@ -89,13 +92,16 @@ export default {
       ],
     }
   },
-  asyncData({ params }) {
+  asyncData({ route, params }) {
     return {
       slug: params.id,
+      selected: route.query.tab,
     }
   },
   mounted() {
-    this.getUserProfile(this.slug)
+    if (!this.user) {
+      this.getUserProfile(this.slug)
+    }
   },
   beforeDestroy() {
     this.clearState()
@@ -105,17 +111,48 @@ export default {
       clearState: 'profile/clearState',
       getUserProfile: 'profile/getUserProfile',
       getUserFollowers: 'profile/getUserFollowers',
+      getUserFollowing: 'profile/getUserFollowing',
     }),
-    async loadMore($state) {
+    changeTab(tab) {
+      if (this.selected !== tab) {
+        this.selected = tab
+        this.$router.replace(`${this.$route.path}?tab=${tab}`)
+      }
+    },
+    async loadData($state) {
+      if (this.selected === 'followers') {
+        this.loadMoreFollowers($state)
+      } else {
+        this.loadMoreFollowing($state)
+      }
+    },
+    async loadMoreFollowers($state) {
       const self = this
-      if (!this.enough) {
-        this.currentPage += 1
+      if (!this.followersEnough) {
+        this.followersCurrentPage += 1
         this.getUserFollowers({
-          page: this.currentPage,
+          page: this.followersCurrentPage,
           userName: this.slug,
         }).then(function (res) {
           if (res.data.length < 10) {
-            self.enough = true
+            self.followersEnough = true
+            $state.complete()
+          } else {
+            $state.loaded()
+          }
+        })
+      }
+    },
+    async loadMoreFollowing($state) {
+      const self = this
+      if (!this.followingEnough) {
+        this.followingCurrentPage += 1
+        this.getUserFollowing({
+          page: this.followingCurrentPage,
+          userName: this.slug,
+        }).then(function (res) {
+          if (res.data.length < 10) {
+            self.followingEnough = true
             $state.complete()
           } else {
             $state.loaded()
