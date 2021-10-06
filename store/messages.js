@@ -46,6 +46,7 @@ export const mutations = {
     }
     state.query = null
     state.selected = payload
+    state.selected.unread = 0
     var index = state.contacts.findIndex(
       (contact) => contact.user.id === payload.user.id
     )
