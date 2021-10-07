@@ -89,7 +89,7 @@
         </div>
         <span
           v-show="!isMobile"
-          class="text-xs text-gray-500 dark:text-gray-400"
+          class="text-xs text-right text-gray-500 dark:text-gray-400"
           >{{ $moment(contact.created_at).fromNow(true) }}</span
         >
       </div>

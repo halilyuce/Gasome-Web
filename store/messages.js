@@ -8,6 +8,7 @@ export const state = () => ({
   enough: false,
   selected: null,
   query: null,
+  socket: false,
 })
 export const getters = {}
 export const mutations = {
@@ -23,8 +24,19 @@ export const mutations = {
   setEnough(state, payload) {
     state.enough = payload
   },
+  setSocket(state, payload) {
+    state.socket = payload
+  },
   setContacts(state, payload) {
     state.contacts = [...state.contacts, ...payload]
+  },
+  removeMessage(state, id) {
+    const index = state.messages.findIndex(
+      (message) => message.unique && message.unique === id
+    )
+    if (index > -1) {
+      state.messages.splice(index, 1)
+    }
   },
   setMessages(state, payload) {
     // state.messages = [...payload.reverse(), ...state.messages]
@@ -34,7 +46,17 @@ export const mutations = {
     }
   },
   insertMessage(state, payload) {
+    const index = state.messages.findIndex(
+      (message) => message.unique && message.unique === payload.id
+    )
+    if (index > -1) {
+      state.messages[index].unique = null
+      Object.assign(state.messages[index], payload.message)
+    }
+  },
+  setSendingMessages(state, payload) {
     state.messages.push(payload)
+    state.selected.created_at = payload.created_at
   },
   setMessagesVal(state, payload) {
     state.messages = payload
@@ -126,19 +148,31 @@ export const actions = {
       return []
     }
   },
-  async sendMessage({ dispatch, commit }, payload) {
-    commit('setSendLoading', true)
+  async sendMessage({ dispatch, commit, rootState }, payload) {
+    const unique = +new Date()
+    const msg = {
+      from: rootState.auth.user.id,
+      unique: unique,
+      id: unique,
+      image: payload.get('image'),
+      read: true,
+      room_id: unique,
+      text: payload.get('text'),
+      to: parseInt(payload.get('contact_id')),
+      user: rootState.auth.user,
+      updated_at: new Date(),
+      created_at: new Date(),
+    }
+    commit('setSendingMessages', msg)
     try {
       const response = await this.$axios.post('/api/conversation/send', payload)
-      commit('insertMessage', response.data.data)
-      commit('setSendLoading', false)
+      commit('insertMessage', { id: unique, message: response.data.data })
       return response.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
-      commit('setSendLoading', false)
-      throw 'Unable to send message'
+      throw unique
     }
   },
   async getUser({ dispatch }, id) {
@@ -177,5 +211,11 @@ export const actions = {
   },
   async messageFromAnother({ commit }, payload) {
     commit('messageFromAnother', payload)
+  },
+  async removeMessage({ commit }, id) {
+    commit('removeMessage', id)
+  },
+  async setSocket({ commit }, payload) {
+    commit('setSocket', payload)
   },
 }

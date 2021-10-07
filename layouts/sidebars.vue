@@ -109,6 +109,9 @@ export default {
           })
         }
       })
+    if (this.$route.name !== 'notifications') {
+      this.setNotificationBadge(0)
+    }
   },
   methods: {
     ...mapActions({
@@ -116,6 +119,7 @@ export default {
       setQuotedPost: 'posts/setQuotedPost',
       getBadges: 'getBadges',
       setMessageBadge: 'setMessageBadge',
+      setNotificationBadge: 'setNotificationBadge',
     }),
 
     openComposer() {

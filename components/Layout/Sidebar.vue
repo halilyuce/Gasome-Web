@@ -9,7 +9,7 @@
       class="h-screen"
     >
       <template #logo>
-        <Logo />
+        <div @click.prevent="active = 'home'"><Logo /></div>
       </template>
 
       <div

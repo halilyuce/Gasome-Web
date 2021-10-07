@@ -90,7 +90,7 @@
               <div
                 v-if="post.quoted_post[0].video"
                 class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
-                @click.prevent="showVideoViewer(post.quoted_post[0].vide)"
+                @click.prevent="showVideoViewer(post.quoted_post[0].video)"
               >
                 <div
                   class="

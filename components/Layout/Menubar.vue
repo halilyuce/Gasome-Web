@@ -17,7 +17,7 @@
         :class="active === 'home' ? 'text-purple-600' : 'text-gray-400'"
         @click="changeTab('home')"
       >
-        <i class="bx bxs-home text-2xl"></i>
+        <i class="bx bx-home text-2xl"></i>
         <span class="menu-text-xxs md:text-sm">Home</span>
       </div>
       <div
@@ -25,7 +25,7 @@
         :class="active === 'swaps' ? 'text-purple-600' : 'text-gray-400'"
         @click="changeTab('swaps')"
       >
-        <i class="bx bxs-hand-up text-2xl"></i>
+        <i class="bx bx-shuffle text-2xl"></i>
         <span class="menu-text-xxs md:text-sm">Swaps</span>
       </div>
       <div
@@ -33,7 +33,7 @@
         :class="active === 'discover' ? 'text-purple-600' : 'text-gray-400'"
         @click="changeTab('discover')"
       >
-        <i class="bx bxs-joystick text-2xl"></i>
+        <i class="bx bx-joystick text-2xl"></i>
         <span class="menu-text-xxs md:text-sm">Discover</span>
       </div>
       <div
@@ -44,7 +44,7 @@
         @click="changeTab('notifications')"
       >
         <span class="relative inline-block">
-          <i class="bx bxs-bell text-2xl"></i>
+          <i class="bx bx-bell text-2xl"></i>
           <span
             v-if="notificationBadge > 0"
             class="
@@ -77,7 +77,7 @@
         @click="changeTab('messages')"
       >
         <span class="relative inline-block">
-          <i class="bx bxs-message-square-detail text-2xl"></i>
+          <i class="bx bx-chat text-2xl"></i>
           <span
             v-if="messagesBadge > 0"
             class="
@@ -114,16 +114,23 @@ export default {
   name: 'Menubar',
   computed: {
     ...mapState({
+      tab: (state) => state.tab,
       notificationBadge: (state) => state.notificationBadge,
       messagesBadge: (state) => state.messagesBadge,
     }),
-  },
-  data() {
-    return {
-      active: 'home',
-    }
+    active: {
+      get() {
+        return this.tab
+      },
+      set(value) {
+        this.setTab(value)
+      },
+    },
   },
   methods: {
+    ...mapActions({
+      setTab: 'setTab',
+    }),
     changeTab(tab) {
       this.active = tab
       if (tab === 'home') {
@@ -131,7 +138,8 @@ export default {
       }
       if (tab === 'notifications') {
         this.$router && this.$router.push('/notifications')
-      } else if (tab === 'messages') {
+      }
+      if (tab === 'messages') {
         this.$router && this.$router.push('/messages')
       }
     },

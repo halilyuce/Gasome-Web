@@ -96,12 +96,12 @@ export default {
     } else {
       this.$vs.setTheme('dark')
     }
-    this.getBadges()
+    this.setMessageBadge(0)
   },
   methods: {
     ...mapActions({
       toggleComposer: 'posts/toggleComposer',
-      getBadges: 'getBadges',
+      setMessageBadge: 'setMessageBadge',
     }),
   },
 }
