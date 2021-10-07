@@ -95,10 +95,11 @@
       </client-only>
 
       <li
+        :id="`message-${message.id}`"
         class="flex flex-col my-1"
-        :class="`message-${message.id}`"
         v-for="message in messages"
         :key="message.id"
+        :disabled="message.unique"
       >
         <div v-if="checkDate(message)" class="text-2xs my-3 strike">
           <span class="dark:text-gray-500 text-gray-400">{{
@@ -120,7 +121,7 @@
             >{{ message.text }}</span
           >
           <div
-            v-if="message.image"
+            v-if="message.image && !message.unique"
             @click="showImageViewer(message)"
             class="cursor-pointer"
             :class="message.from === loggedInUser.id ? 'ml-auto' : 'mr-auto'"
@@ -129,6 +130,17 @@
               class="rounded-2xl object-cover"
               :src="`${smallMessageImage + message.image}.jpg`"
               alt="Message Image"
+            />
+          </div>
+          <div
+            v-if="message.image && message.unique"
+            :class="message.from === loggedInUser.id ? 'ml-auto' : 'mr-auto'"
+          >
+            <img
+              class="rounded-2xl w-32 shimmer object-cover"
+              :src="localImage(message.image)"
+              alt="Message Image"
+              disabled
             />
           </div>
         </div>
@@ -290,11 +302,15 @@ export default {
       getMessages: 'messages/getMessages',
       setMessages: 'messages/setMessages',
       sendMessage: 'messages/sendMessage',
+      removeMessage: 'messages/removeMessage',
       insertMessage: 'messages/insertMessage',
       messageFromAnother: 'messages/messageFromAnother',
       toggleLoading: 'messages/toggleMessagesLoading',
       setSocket: 'messages/setSocket',
     }),
+    localImage(image) {
+      return window && window.URL.createObjectURL(image)
+    },
     openWindow(link) {
       if (link.includes('http')) {
         window && window.open(link, '_blank')
@@ -316,7 +332,7 @@ export default {
     },
     scrollToElement() {
       const last = this.messages[this.messages.length - 1].id
-      const el = this.$el.getElementsByClassName(`message-${last}`)[0]
+      const el = document.getElementById(`message-${last}`)
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' })
       }
@@ -352,28 +368,28 @@ export default {
       if (this.image) {
         formData.append('image', this.image)
       }
-      this.sendMessage(formData)
-        .then((data) => {
-          self.image = null
-          self.message = ''
-          textarea.style.height = '35px'
-          self.scrollToElement()
-          setTimeout(() => {
-            self.$refs.textarea.focus()
-          }, 500)
+      this.sendMessage(formData).catch((id) => {
+        self.removeMessage(id)
+        self.$vs.notification({
+          duration: 5000,
+          progress: 'auto',
+          flat: true,
+          color: 'danger',
+          icon: `<i class='bx bxs-error' ></i>`,
+          position: 'top-right',
+          title: 'An error occured!',
+          text: 'An error occurred while sending your message. Please try again.',
         })
-        .catch((err) => {
-          self.$vs.notification({
-            duration: 5000,
-            progress: 'auto',
-            flat: true,
-            color: 'danger',
-            icon: `<i class='bx bxs-error' ></i>`,
-            position: 'top-right',
-            title: 'An error occured!',
-            text: 'An error occurred while sending your message. Please try again.',
-          })
-        })
+      })
+      setTimeout(() => {
+        self.image = null
+        self.message = ''
+        textarea.style.height = '35px'
+        self.scrollToElement()
+        setTimeout(() => {
+          self.$refs.textarea.focus()
+        }, 500)
+      }, 100)
     },
     onFileChange(e) {
       this.image = e.target.files[0]
@@ -462,5 +478,21 @@ export default {
 <style lang="scss">
 .messagebox {
   height: calc(100vh - 1.5rem - 45px);
+}
+.shimmer {
+  color: grey;
+  display: inline-block;
+  -webkit-mask: linear-gradient(60deg, #000 30%, #0005, #000 70%) right/300%
+    100%;
+  background-repeat: no-repeat;
+  animation: shimmer 2.5s infinite;
+  font-size: 50px;
+  max-width: 200px;
+}
+
+@keyframes shimmer {
+  100% {
+    -webkit-mask-position: left;
+  }
 }
 </style>
