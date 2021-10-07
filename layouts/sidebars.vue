@@ -62,7 +62,14 @@ import PostComposer from '@/components/Posts/PostComposer.vue'
 import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'sidebars',
-  components: { Sidebar, RightSidebar, UserBar, Menubar, Logo, PostComposer },
+  components: {
+    Sidebar,
+    RightSidebar,
+    UserBar,
+    Menubar,
+    Logo,
+    PostComposer,
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({
@@ -92,12 +99,31 @@ export default {
       this.$vs.setTheme('dark')
     }
     this.getBadges()
+    this.$echo
+      .private(`messages.${this.loggedInUser.id}`)
+      .listen('NewMessage', (e) => {
+        if (this.$route.name !== 'messages') {
+          this.setMessageBadge(1)
+          const noti = this.$vs.notification({
+            duration: 10000,
+            progress: 'auto',
+            icon: `<img class='rounded-lg h-8 w-8' src='${
+              this.smallAvatar + e.message.user.avatar
+            }.jpg' />`,
+            title: e.message.image
+              ? e.message.user.name + ' sent a photo'
+              : e.message.user.name + ' sent a message',
+            text: e.message.text,
+          })
+        }
+      })
   },
   methods: {
     ...mapActions({
       toggleComposer: 'posts/toggleComposer',
       setQuotedPost: 'posts/setQuotedPost',
       getBadges: 'getBadges',
+      setMessageBadge: 'setMessageBadge',
     }),
 
     openComposer() {

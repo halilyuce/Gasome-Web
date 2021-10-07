@@ -39,6 +39,25 @@ export const mutations = {
   setMessagesVal(state, payload) {
     state.messages = payload
   },
+  messageFromAnother(state, payload) {
+    var index = state.contacts.findIndex(
+      (contact) => contact.user.id === payload.user.id
+    )
+    if (index > -1) {
+      state.contacts[index].unread += 1
+    } else {
+      const selected = {
+        id: +new Date(),
+        from: payload.from,
+        to: payload.to,
+        unread: 1,
+        created_at: payload.created_at,
+        updated_at: payload.updated_at,
+        user: payload.user,
+      }
+      state.contacts.unshift(selected)
+    }
+  },
   setSelected(state, payload) {
     state.page = 0
     if (state.selected && payload.user.id !== state.selected.user.id) {
@@ -155,5 +174,8 @@ export const actions = {
   },
   async toggleMessagesLoading({ commit }, payload) {
     commit('setMessagesLoading', payload)
+  },
+  async messageFromAnother({ commit }, payload) {
+    commit('messageFromAnother', payload)
   },
 }
