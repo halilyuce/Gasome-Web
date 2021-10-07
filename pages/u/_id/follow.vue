@@ -106,6 +106,11 @@ export default {
   beforeDestroy() {
     this.clearState()
   },
+  watch: {
+    '$route.query.tab'(val) {
+      this.selected = val
+    },
+  },
   methods: {
     ...mapActions({
       clearState: 'profile/clearState',
@@ -115,7 +120,6 @@ export default {
     }),
     changeTab(tab) {
       if (this.selected !== tab) {
-        this.selected = tab
         this.$router.replace(`${this.$route.path}?tab=${tab}`)
       }
     },

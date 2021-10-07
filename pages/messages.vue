@@ -5,7 +5,7 @@
       dark:bg-black
       col-span-12
       md:col-span-8
-      max-h-screen
+      h-screen
       relative
       overflow-auto
     "
@@ -50,13 +50,24 @@
           }}</span>
         </div>
       </n-link>
-      <div class="flex flex-row space-x-4">
-        <vs-button icon color="#666" flat
-          ><i class="bx bx-block"></i
+      <div v-if="selected" class="flex flex-row space-x-3">
+        <vs-button
+          v-if="selected.user.twitch"
+          @click.stop.prevent="
+            openWindow('https://www.twitch.tv/' + selected.user.twitch)
+          "
+          icon
+          flat
+          ><i class="bx bxl-twitch"></i
         ></vs-button>
-        <vs-button icon color="#666" flat
-          ><i class="bx bx-trash"></i
-        ></vs-button>
+        <vs-button
+          v-if="selected.user.weblink"
+          @click.stop.prevent="openWindow(selected.user.weblink)"
+          icon
+          flat
+        >
+          <i class="bx bx-world"></i>
+        </vs-button>
       </div>
     </div>
 
@@ -243,7 +254,6 @@ export default {
       .listen('NewMessage', (e) => {
         this.hanleIncoming(e.message)
       })
-    this.$nextTick(() => this.$refs.textarea.focus())
   },
   watch: {
     selected(newVal, oldVal) {
@@ -281,6 +291,13 @@ export default {
       messageFromAnother: 'messages/messageFromAnother',
       toggleLoading: 'messages/toggleMessagesLoading',
     }),
+    openWindow(link) {
+      if (link.includes('http')) {
+        window && window.open(link, '_blank')
+      } else {
+        window && window.open('https://' + link, '_blank')
+      }
+    },
     resize() {
       const { textarea } = this.$refs
       if (this.message) {
