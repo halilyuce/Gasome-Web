@@ -11,17 +11,13 @@
     <CoolLightBox
       :items="images"
       :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
+      :use-zoom-bar="true"
+      :full-screen="true"
+      :close-on-click-outside-mobile="true"
       @close="closeImageViewer()"
     />
 
-    <li
-      v-for="post in posts"
-      v-bind:key="post.id"
-      class="pt-4 px-5 pb-3 hover-bg"
-    >
+    <li v-for="post in posts" :key="post.id" class="pt-4 px-5 pb-3 hover-bg">
       <n-link :to="`/p/${post.id}`">
         <div
           v-if="post.only_boost"
@@ -74,9 +70,9 @@
                 :class="{ 'grid-cols-2': post.quoted_post[0].image.length > 1 }"
               >
                 <div
-                  class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
                   v-for="(image, index) in post.quoted_post[0].image"
                   :key="image.id"
+                  class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
                   @click.prevent="
                     showImageViewer({
                       post: post.quoted_post[0],
@@ -92,9 +88,9 @@
                 </div>
               </div>
               <div
+                v-if="post.quoted_post[0].video"
                 class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
                 @click.prevent="showVideoViewer(post.quoted_post[0].video)"
-                v-if="post.quoted_post[0].video"
               >
                 <div
                   class="
@@ -127,7 +123,7 @@
                 "
               >
                 <n-link :to="`/p/${post.quoted_post[0].id}`">
-                  <quoted-post :post="post.quoted_post[0].quoted_post[0]" />
+                  <QuotedPost :post="post.quoted_post[0].quoted_post[0]" />
                 </n-link>
               </div>
             </div>
@@ -149,6 +145,7 @@
                   >{{ post.quoted_post[0].boosts_count }}
                 </a>
                 <ul
+                  v-if="askQuote === post.id"
                   class="
                     dropdown-menu
                     bg-white
@@ -157,7 +154,6 @@
                     border border-gray-200
                     dark:border-gray-700
                   "
-                  v-if="askQuote === post.id"
                 >
                   <li>
                     <a
@@ -199,6 +195,7 @@
                   <i class="bx bx-share-alt text-lg share"></i
                 ></a>
                 <ul
+                  v-if="showShare === post.id"
                   class="
                     dropdown-menu dropdown-menu-right
                     bg-white
@@ -207,7 +204,6 @@
                     border border-gray-200
                     dark:border-gray-700
                   "
-                  v-if="showShare === post.id"
                 >
                   <li>
                     <a
@@ -264,14 +260,14 @@
               />
 
               <div
+                v-if="post.image && post.image.length > 0"
                 class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
                 :class="{ 'grid-cols-2': post.image.length > 1 }"
-                v-if="post.image && post.image.length > 0"
               >
                 <div
-                  class="aspect-w-16 aspect-h-9 cursor-pointer"
                   v-for="(image, index) in post.image"
                   :key="image.id"
+                  class="aspect-w-16 aspect-h-9 cursor-pointer"
                   @click.prevent="
                     showImageViewer({
                       post: post,
@@ -288,9 +284,9 @@
               </div>
 
               <div
+                v-if="post.video"
                 class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
                 @click.prevent="showVideoViewer(post.video)"
-                v-if="post.video"
               >
                 <div
                   class="
@@ -314,7 +310,7 @@
               </div>
               <div v-if="post.quoted_post && post.quoted_post.length > 0">
                 <n-link :to="`/p/${post.quoted_post[0].id}`">
-                  <quoted-post
+                  <QuotedPost
                     :post="post.quoted_post[0]"
                     @show-viewer="showImageViewer"
                   />
@@ -338,6 +334,7 @@
                   >{{ post.boosts_count }}
                 </a>
                 <ul
+                  v-if="askQuote === post.id"
                   class="
                     dropdown-menu
                     bg-white
@@ -346,7 +343,6 @@
                     border border-gray-200
                     dark:border-gray-700
                   "
-                  v-if="askQuote === post.id"
                 >
                   <li>
                     <a
@@ -385,6 +381,7 @@
                   <i class="bx bx-share-alt text-lg share"></i
                 ></a>
                 <ul
+                  v-if="showShare === post.id"
                   class="
                     dropdown-menu dropdown-menu-right
                     bg-white
@@ -393,7 +390,6 @@
                     border border-gray-200
                     dark:border-gray-700
                   "
-                  v-if="showShare === post.id"
                 >
                   <li>
                     <a
@@ -429,6 +425,7 @@ import QuotedPost from './QuotedPost.vue'
 import linkClickRouting from '../../helpers/mixins/linkClickRouting'
 export default {
   components: { QuotedPost },
+  mixins: [linkClickRouting],
   props: {
     posts: {
       type: Array,
@@ -436,7 +433,6 @@ export default {
       required: true,
     },
   },
-  mixins: [linkClickRouting],
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,

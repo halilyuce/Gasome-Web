@@ -1,56 +1,111 @@
 <template>
-  <vs-dialog width="500px" not-center v-model="composer">
+  <vs-dialog v-model="composer" width="500px" not-center>
     <template #header>
       <h4 class="not-margin">A penny for your <b>thoughts</b></h4>
     </template>
 
     <div class="relative">
       <textarea
-        class="w-full px-3 py-2 text-gray-700 dark:text-gray-300 dark:bg-content-bg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
         v-model="text"
+        class="
+          w-full
+          px-3
+          py-2
+          text-gray-700
+          dark:text-gray-300 dark:bg-content-bg
+          border border-gray-200
+          dark:border-gray-700
+          rounded-lg
+          focus:outline-none
+        "
         placeholder="What do you think?"
         rows="4"
       ></textarea>
 
-      <emoji-picker :search="emojiSearch">
+      <EmojiPicker :search="emojiSearch">
         <vs-button
-          shadow
-          size="small"
           slot="emoji-invoker"
           slot-scope="{ events: { click: clickEvent } }"
-          @click.stop="clickEvent"
+          shadow
+          size="small"
           class="absolute-important top-0.5 right-0"
+          @click.stop="clickEvent"
         >
           <i class="bx bx-smile text-xl"></i>
         </vs-button>
 
         <div slot="emoji-picker" slot-scope="{ emojis }">
           <div
-            class="absolute z-10 border-none w-64 h-96 overflow-scroll p-4 rounded bg-white dark:bg-content-bg shadow-xl top-0.5 -r-64"
+            class="
+              absolute
+              z-10
+              border-none
+              w-64
+              h-96
+              overflow-scroll
+              p-4
+              rounded
+              bg-white
+              dark:bg-content-bg
+              shadow-xl
+              top-0.5
+              -r-64
+            "
           >
             <div class="flex">
               <input
-                class="rounded-full dark:bg-content-bg dark:text-gray-400 border dark:border-gray-600 border-gray-300 py-2 px-4 outline-none focus:shadow-outline w-full"
-                type="text"
-                placeholder="Start to type emoji name"
                 v-model="emojiSearch"
                 v-focus
+                class="
+                  rounded-full
+                  dark:bg-content-bg dark:text-gray-400
+                  border
+                  dark:border-gray-600
+                  border-gray-300
+                  py-2
+                  px-4
+                  outline-none
+                  focus:shadow-outline
+                  w-full
+                "
+                type="text"
+                placeholder="Start to type emoji name"
               />
             </div>
             <div>
               <div v-for="(emojiGroup, category) in emojis" :key="category">
                 <h5
-                  class="text-grey-darker uppercase text-sm cursor-default mb-2 mt-4"
+                  class="
+                    text-grey-darker
+                    uppercase
+                    text-sm
+                    cursor-default
+                    mb-2
+                    mt-4
+                  "
                 >
                   {{ category }}
                 </h5>
                 <div class="flex flex-wrap justify-between emojis">
                   <button
-                    class="p-1 cursor-pointer rounded bg-white dark:bg-content-bg focus:outline-none focus:shadow-outline text-xl flex items-center justify-center h-8 w-8"
                     v-for="(emoji, emojiName) in emojiGroup"
                     :key="emojiName"
-                    @click="append(emoji)"
+                    class="
+                      p-1
+                      cursor-pointer
+                      rounded
+                      bg-white
+                      dark:bg-content-bg
+                      focus:outline-none focus:shadow-outline
+                      text-xl
+                      flex
+                      items-center
+                      justify-center
+                      h-8
+                      w-8
+                    "
                     :title="emojiName"
+                    @click="append(emoji)"
                   >
                     {{ emoji }}
                   </button>
@@ -59,25 +114,46 @@
             </div>
           </div>
         </div>
-      </emoji-picker>
+      </EmojiPicker>
     </div>
 
     <template #footer>
       <input
-        type="file"
         ref="photo_upload"
+        type="file"
         multiple
-        @change="onFileChange"
         hidden
+        @change="onFileChange"
       />
       <div v-if="photos" class="grid grid-cols-4 gap-2">
         <div v-for="(photo, index) in photos" :key="index" class="relative">
           <img
-            class="h-20 w-full rounded object-cover border dark:border-gray-700 border-gray-300 mb-3"
+            class="
+              h-20
+              w-full
+              rounded
+              object-cover
+              border
+              dark:border-gray-700
+              border-gray-300
+              mb-3
+            "
             :src="photo.url"
           />
           <button
-            class="absolute bg-gray-900 hover:bg-red-600 text-white font-bold text-lg h-6 w-6 rounded-full top-1 right-1"
+            class="
+              absolute
+              bg-gray-900
+              hover:bg-red-600
+              text-white
+              font-bold
+              text-lg
+              h-6
+              w-6
+              rounded-full
+              top-1
+              right-1
+            "
             @click.stop="removePhoto(index)"
           >
             <i class="bx bx-x"></i>
@@ -87,11 +163,11 @@
 
       <vs-input
         v-if="showYoutube"
+        v-model="youtubeURL"
         shadow
         danger
         :loading="youtubeLoad"
         type="url"
-        v-model="youtubeURL"
         placeholder="Youtube URL"
         class="mb-3"
       >
@@ -101,8 +177,19 @@
       </vs-input>
 
       <div
-        class="max-w-2xl bg-white dark:bg-content-bg relative border border-gray-200 dark:border-gray-700 p-3 mb-3 rounded-md tracking-wide"
         v-if="youtubeVideo"
+        class="
+          max-w-2xl
+          bg-white
+          dark:bg-content-bg
+          relative
+          border border-gray-200
+          dark:border-gray-700
+          p-3
+          mb-3
+          rounded-md
+          tracking-wide
+        "
       >
         <div id="header" class="flex">
           <img
@@ -132,36 +219,36 @@
         </vs-button>
       </div>
 
-      <quoted-post v-if="quote" :post="quote" />
+      <QuotedPost v-if="quote" :post="quote" />
 
       <div class="flex justify-between">
         <div class="flex items-center">
           <vs-button
-            @click.stop="$refs.photo_upload.click()"
             shadow
             active
             :disabled="photos.length > 3"
+            @click.stop="$refs.photo_upload.click()"
           >
             <i class="bx bx-image text-xl"></i>
           </vs-button>
 
           <vs-button
-            @click.stop="showYoutube = !showYoutube"
             shadow
             active
             :loading="youtubeLoad"
+            @click.stop="showYoutube = !showYoutube"
           >
             <i class="bx bxl-youtube text-xl"></i>
           </vs-button>
         </div>
         <div class="flex items-center">
-          <vs-button @click.stop="toggleComposer(false)" danger transparent>
+          <vs-button danger transparent @click.stop="toggleComposer(false)">
             Cancel
           </vs-button>
           <vs-button
-            @click.stop="sendNewPost()"
             :loading="shareLoading"
             :disabled="text == '' && youtubeURL == '' && photos.length == 0"
+            @click.stop="sendNewPost()"
           >
             Share
           </vs-button>
@@ -311,7 +398,8 @@ export default {
       }
     },
     getYoutubeID(url) {
-      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      var regExp =
+        /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
       var match = url.match(regExp)
       if (match && match[2].length == 11) {
         return match[2]

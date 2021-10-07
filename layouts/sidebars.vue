@@ -38,18 +38,17 @@
         lg:mb-0
         dark:bg-content-bg dark:text-white
         grid grid-cols-12
-        gap-0
       "
     >
       <div class="col-span-1 lg:col-span-4 xl:col-span-3 2xl:col-span-4 flex">
-        <sidebar class="hidden lg:flex" />
+        <Sidebar class="hidden lg:flex" />
         <Menubar class="flex lg:hidden" />
-        <user-bar class="hidden lg:flex" />
+        <UserBar class="hidden lg:flex" />
       </div>
-      <Nuxt class="col-span-12 lg:col-span-5 2xl:col-span-4" />
-      <right-sidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
+      <Nuxt class="col-span-12 lg:col-span-5 xl:col-span-6 2xl:col-span-4" />
+      <RightSidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
     </div>
-    <post-composer />
+    <PostComposer />
   </div>
 </template>
 <script>
@@ -61,15 +60,8 @@ import Logo from '@/components/Logo.vue'
 import PostComposer from '@/components/Posts/PostComposer.vue'
 import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
-  name: 'sidebars',
-  components: {
-    Sidebar,
-    RightSidebar,
-    UserBar,
-    Menubar,
-    Logo,
-    PostComposer,
-  },
+  name: 'Sidebars',
+  components: { Sidebar, RightSidebar, UserBar, Menubar, Logo, PostComposer },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({

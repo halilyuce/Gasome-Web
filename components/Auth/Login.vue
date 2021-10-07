@@ -22,10 +22,10 @@
             </template>
           </vs-switch>
         </div>
-        <form v-on:submit.prevent="login">
+        <form @submit.prevent="login">
           <vs-input
-            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="username"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             placeholder="Username or E-mail"
             class="my-5"
           >
@@ -34,11 +34,11 @@
             </template>
           </vs-input>
           <vs-input
+            v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            v-model="password"
             placeholder="Password"
-            :visiblePassword="hasVisiblePassword"
+            :visible-password="hasVisiblePassword"
             icon-after
             @click-icon="hasVisiblePassword = !hasVisiblePassword"
           >
@@ -58,8 +58,8 @@
             type="submit"
             size="large"
             animation-type="vertical"
-            v-on:keyup.enter="login"
             :loading="loading"
+            @keyup.enter="login"
           >
             <b>Sign In</b>
             <template #animate>
@@ -90,7 +90,7 @@
         </div> -->
       </div>
       <div class="col-span-3 hidden md:flex">
-        <lottie :options="lottieOptions" v-on:animCreated="handleAnimation" />
+        <lottie :options="lottieOptions" @animCreated="handleAnimation" />
       </div>
     </div>
   </div>
@@ -160,8 +160,7 @@ export default {
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
             title: 'An Error Occured',
-            text:
-              'It seems your credentials are wrong, please check your username and password and try again.',
+            text: 'It seems your credentials are wrong, please check your username and password and try again.',
           })
         })
     },

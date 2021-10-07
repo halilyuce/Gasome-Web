@@ -1,17 +1,22 @@
 <template>
-  <div
-    class="bg-white dark:bg-black col-span-12 md:col-span-8 max-h-screen overflow-auto"
-  >
+  <div class="bg-white dark:bg-black col-span-12 max-h-screen overflow-auto">
     <!-- Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button
         active
-        @click.prevent="$router.back()"
         size="small"
         transparent
+        @click.prevent="$router.back()"
       >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>

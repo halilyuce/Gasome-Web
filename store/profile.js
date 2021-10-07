@@ -19,7 +19,7 @@ export const state = () => ({
   followers: [],
   following: [],
   followersLoading: null,
-  followingLoading: null
+  followingLoading: null,
 })
 export const getters = {}
 export const mutations = {
@@ -87,11 +87,15 @@ export const mutations = {
     state.user.isFollow = payload.state
   },
   setFollowerListFollow(state, payload) {
-    state.followers.find(follower => follower.user.username === state.followersLoading).isAuthFollow = payload.state
+    state.followers.find(
+      (follower) => follower.user.username === state.followersLoading
+    ).isAuthFollow = payload.state
     state.followersLoading = null
   },
   setFollowingListFollow(state, payload) {
-    state.following.find(follower => follower.user.username === state.followingLoading).isAuthFollow = payload.state
+    state.following.find(
+      (follower) => follower.user.username === state.followingLoading
+    ).isAuthFollow = payload.state
     state.followingLoading = null
   },
   setFollowersLoading(state, payload) {
@@ -131,13 +135,13 @@ export const mutations = {
       const posts = state.posts.filter(
         (post) =>
           post.quote_id ===
-          (payload.sent.quoted_post.length > 0
-            ? payload.sent.quote_id
-            : payload.sent.id) ||
+            (payload.sent.quoted_post.length > 0
+              ? payload.sent.quote_id
+              : payload.sent.id) ||
           post.id ===
-          (payload.sent.quoted_post.length > 0
-            ? payload.sent.quote_id
-            : payload.sent.id)
+            (payload.sent.quoted_post.length > 0
+              ? payload.sent.quote_id
+              : payload.sent.id)
       )
       posts.forEach((postItem) => {
         const item = state.posts.find((post) => post.id === postItem.id)
@@ -187,9 +191,9 @@ export const actions = {
     try {
       const response = await this.$axios.get(
         '/api/getPostsByUser?username=' +
-        payload.username +
-        '&page=' +
-        payload.page
+          payload.username +
+          '&page=' +
+          payload.page
       )
       commit('insertPosts', response.data.data.data)
       commit('setPostLoading', false)
@@ -449,7 +453,10 @@ export const actions = {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get(
-        '/api/getFollowers?userName=' + payload.userName + '&page=' + payload.page
+        '/api/getFollowers?userName=' +
+          payload.userName +
+          '&page=' +
+          payload.page
       )
       commit('setUserFollowers', response.data.data.data)
       commit('setLoading', false)
@@ -465,7 +472,10 @@ export const actions = {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get(
-        '/api/getFollowing?userName=' + payload.userName + '&page=' + payload.page
+        '/api/getFollowing?userName=' +
+          payload.userName +
+          '&page=' +
+          payload.page
       )
       commit('setUserFollowing', response.data.data.data)
       commit('setLoading', false)

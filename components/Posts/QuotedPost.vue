@@ -1,6 +1,15 @@
 <template>
   <div
-    class="flex flex-col border rounded-xl px-3 py-2 border-gray-200 dark:border-gray-700 mt-1"
+    class="
+      flex flex-col
+      border
+      rounded-xl
+      px-3
+      py-2
+      border-gray-200
+      dark:border-gray-700
+      mt-1
+    "
   >
     <div class="flex justify-between">
       <div class="flex flex-row items-center">
@@ -18,14 +27,14 @@
     <p v-html="hyperlinkString(post.text)" />
 
     <div
+      v-if="post.image && post.image.length > 0"
       class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
       :class="{ 'grid-cols-2': post.image.length > 1 }"
-      v-if="post.image && post.image.length > 0"
     >
       <div
-        class="aspect-w-16 aspect-h-9 cursor-pointer"
         v-for="(image, index) in post.image"
         :key="image.id"
+        class="aspect-w-16 aspect-h-9 cursor-pointer"
         @click="
           showViewer({
             post: post,
@@ -41,7 +50,7 @@
       </div>
     </div>
 
-    <div class="relative mt-2 aspect-w-16 aspect-h-9" v-if="post.video">
+    <div v-if="post.video" class="relative mt-2 aspect-w-16 aspect-h-9">
       <div class="absolute w-full h-full flex justify-center items-center">
         <vs-button color="#ff3e4e" size="xl" circle floating @click.stop="">
           <i class="bx bx-play text-xl"></i>
@@ -63,7 +72,7 @@
 </template>
 <script>
 export default {
-  name: 'quoted-post',
+  name: 'QuotedPost',
   props: {
     post: null,
   },

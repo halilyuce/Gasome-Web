@@ -1,8 +1,8 @@
 <template>
   <div class="component">
     <svg
-      version="1.1"
       id="Layer_1"
+      version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       x="0px"
@@ -240,7 +240,7 @@
 
     <p>We use cookies to make your experience on this website better.</p>
 
-    <vs-button @click="accept" block dark>
+    <vs-button block dark @click="accept">
       <span class="text-white"> I Like Cookies</span>
     </vs-button>
   </div>

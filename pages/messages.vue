@@ -4,8 +4,7 @@
       bg-white
       dark:bg-black
       col-span-12
-      md:col-span-8
-      h-screen
+      lg:col-span-8 lg:h-screen
       relative
       overflow-auto
     "
@@ -13,9 +12,9 @@
     <CoolLightBox
       :items="showedImage"
       :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
+      :use-zoom-bar="true"
+      :full-screen="true"
+      :close-on-click-outside-mobile="true"
       @close="closeImageViewer()"
     />
 
@@ -33,8 +32,8 @@
       "
     >
       <n-link
-        :to="'/u/' + selected.user.username"
         v-if="selected"
+        :to="'/u/' + selected.user.username"
         class="flex flex-row items-center"
       >
         <vs-avatar size="38">
@@ -122,9 +121,9 @@
           >
           <div
             v-if="message.image && !message.unique"
-            @click="showImageViewer(message)"
             class="cursor-pointer"
             :class="message.from === loggedInUser.id ? 'ml-auto' : 'mr-auto'"
+            @click="showImageViewer(message)"
           >
             <img
               class="rounded-2xl object-cover"
@@ -190,6 +189,8 @@
             />
           </vs-avatar>
           <textarea
+            ref="textarea"
+            v-model="message"
             class="
               w-full
               h-full
@@ -202,19 +203,17 @@
               focus:outline-none
               resize-none
             "
-            v-model="message"
-            ref="textarea"
             rows="1"
+            placeholder="Type something..."
+            :disabled="sendLoading"
             @focus="resize"
             @keyup="resize"
             @keydown.enter.exact.prevent="send"
             @paste.prevent="onPaste"
-            placeholder="Type something..."
-            :disabled="sendLoading"
           ></textarea>
         </div>
 
-        <input type="file" ref="photo_upload" @change="onFileChange" hidden />
+        <input ref="photo_upload" type="file" hidden @change="onFileChange" />
 
         <div class="flex flex-row space-x-2">
           <vs-button

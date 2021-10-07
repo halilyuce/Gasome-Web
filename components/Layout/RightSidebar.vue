@@ -25,9 +25,9 @@
           </n-link>
         </li>
       </ul>
-      <no-data
-        class="mt-3 mb-2"
+      <NoData
         v-else-if="!trendsLoading && trends.length === 0"
+        class="mt-3 mb-2"
       />
     </div>
 
@@ -51,7 +51,7 @@
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
           :key="user.id"
-          class="flex flex-row justify-between items-center py-2"
+          class="flex flex-col xl:flex-row justify-between items-center py-2"
         >
           <div class="flex flex-row items-center">
             <img

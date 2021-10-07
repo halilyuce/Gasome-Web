@@ -16,14 +16,14 @@
         "
       >
         <div class="flex flex-row">
-          <vs-button active @click="$router.back()" size="small" transparent>
+          <vs-button active size="small" transparent @click="$router.back()">
             <i class="bx bxs-chevron-left text-xl"></i>
           </vs-button>
 
           <vs-input
+            v-model="search"
             color="#7d33ff"
             type="search"
-            v-model="search"
             icon-after
             placeholder="Search A Game or User"
             class="w-52 lg:w-64 xl:w-72 ml-3"
@@ -49,9 +49,9 @@
             :transparent="!isTop"
             :shadow="isTop"
             :active="isTop"
-            @click="changeFilter(true)"
             color="#666"
             size="small"
+            @click="changeFilter(true)"
           >
             <i class="bx mr-2 text-base bxs-to-top"></i>
             Top
@@ -60,9 +60,9 @@
             :transparent="isTop"
             :shadow="!isTop"
             :active="!isTop"
-            @click="changeFilter(false)"
             color="#666"
             size="small"
+            @click="changeFilter(false)"
           >
             <i class="bx mr-2 text-base bx-time"></i>
             Recent
@@ -71,7 +71,7 @@
       </div>
 
       <PostsBody
-        v-bind:posts="posts"
+        :posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
@@ -91,14 +91,14 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 export default {
-  layout: 'sidebars',
   name: 'TagPosts',
   components: {
     PostsBody,
   },
+  layout: 'sidebars',
   computed: {
     ...mapState({
       alert: (state) => state.alert,

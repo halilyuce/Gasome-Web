@@ -11,21 +11,21 @@
   >
     <h1 class="p-5">Notifications</h1>
     <ul
+      v-if="notifications"
       class="
         divide-y divide-gray-100
         dark:divide-gray-600 dark:divide-opacity-20
         divide-solid
       "
-      v-if="notifications"
     >
       <li
+        v-for="notification in notifications"
+        :key="notification.id"
         class="px-5 py-3"
         :class="{
           'bg-purple-100 dark:bg-purple-300 dark:bg-opacity-5 bg-opacity-30':
             !notification.isshowed,
         }"
-        v-for="notification in notifications"
-        :key="notification.id"
       >
         <!-- AVATAR  -->
         <NotificationList :notification="notification" />
@@ -48,8 +48,8 @@
 import { mapState, mapActions } from 'vuex'
 import NotificationList from '~/components/Notifications/NotificationList'
 export default {
-  layout: 'sidebars',
   components: { NotificationList },
+  layout: 'sidebars',
   computed: {
     ...mapState({
       alert: (state) => state.alert,
@@ -66,16 +66,16 @@ export default {
       },
     },
   },
-  data() {
-    return {
-      smallAvatar: process.env.AVATAR_SMALL,
-      enough: false,
-    }
-  },
 
   async asyncData({ route, store }) {
     if (route.name === 'notifications') {
       await store.dispatch('setTab', 'notifications')
+    }
+  },
+  data() {
+    return {
+      smallAvatar: process.env.AVATAR_SMALL,
+      enough: false,
     }
   },
   methods: {

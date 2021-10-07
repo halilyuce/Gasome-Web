@@ -1,17 +1,22 @@
 <template>
-  <div
-    class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
-  >
+  <div class="bg-white dark:bg-black min-h-screen">
     <!-- Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button
         active
-        @click.prevent="$router.back()"
         size="small"
         transparent
+        @click.prevent="$router.back()"
       >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
@@ -20,31 +25,49 @@
         <span class="text-gray-400 text-sm mr-1">Update your information</span>
       </div>
     </div>
-    <form class="mx-6" autocomplete="on" v-on:submit.prevent="saveChanges">
-      <input type="file" ref="avatar_upload" @change="onFileChange" hidden />
+    <form class="px-6 md:px-24 lg:px-6" autocomplete="on" @submit.prevent="saveChanges">
+      <input ref="avatar_upload" type="file" hidden @change="onFileChange" />
       <div class="flex flex-row mt-5">
         <div class="w-32 mr-3 relative">
           <div
-            class="absolute w-full h-full bg-black bg-opacity-40 rounded-3xl flex justify-center items-center"
+            class="
+              absolute
+              w-full
+              h-full
+              bg-black bg-opacity-40
+              rounded-3xl
+              flex
+              justify-center
+              items-center
+            "
           >
             <vs-button
-              @click.prevent="$refs.avatar_upload.click()"
               color="#fff"
               flat
+              @click.prevent="$refs.avatar_upload.click()"
             >
               <i class="bx bx-photo-album text-lg"></i>
             </vs-button>
           </div>
           <img
-            class="h-24 w-28 cursor-pointer rounded-3xl object-cover border dark:border-gray-700 border-gray-300"
+            class="
+              h-24
+              w-28
+              cursor-pointer
+              rounded-3xl
+              object-cover
+              border
+              dark:border-gray-700
+              border-gray-300
+            "
             :src="avatar"
           />
         </div>
 
         <div class="flex flex-col items-center justify-center w-full">
           <vs-input
-            :color="isLight ? '#6e00ff' : '#7850ff'"
             v-model="name"
+            :color="isLight ? '#6e00ff' : '#7850ff'"
             placeholder="Full Name"
             class="mb-3 w-full"
           >
@@ -54,8 +77,8 @@
           </vs-input>
 
           <vs-input
-            :color="isLight ? '#6e00ff' : '#7850ff'"
             v-model="username"
+            :color="isLight ? '#6e00ff' : '#7850ff'"
             placeholder="Username"
             name="username"
             class="w-full"
@@ -68,8 +91,8 @@
       </div>
 
       <vs-input
-        :color="isLight ? '#6e00ff' : '#7850ff'"
         v-model="email"
+        :color="isLight ? '#6e00ff' : '#7850ff'"
         name="email"
         placeholder="E-mail Adress"
         class="my-4"
@@ -80,9 +103,9 @@
       </vs-input>
 
       <vs-input
+        v-model="birthday"
         type="date"
         :color="isLight ? '#6e00ff' : '#7850ff'"
-        v-model="birthday"
         name="birthday"
         placeholder="Birthday"
         class="my-4"
@@ -93,8 +116,8 @@
       </vs-input>
 
       <vs-input
-        :color="isLight ? '#6e00ff' : '#7850ff'"
         v-model="website"
+        :color="isLight ? '#6e00ff' : '#7850ff'"
         name="website"
         placeholder="Website URL"
         class="my-4"
@@ -105,22 +128,29 @@
       </vs-input>
 
       <textarea
-        class="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-content-bg rounded-xl focus:outline-none mb-3"
         v-model="bio"
+        class="
+          w-full
+          px-3
+          py-2
+          text-gray-700
+          dark:text-gray-300
+          bg-gray-100
+          dark:bg-content-bg
+          rounded-xl
+          focus:outline-none
+          mb-3
+        "
         placeholder="Biography"
         rows="2"
       ></textarea>
 
       <div class="flex items-center justify-end">
-        <vs-button @click.prevent="$router.back()" danger transparent>
+        <vs-button danger transparent @click.prevent="$router.back()">
           Cancel
         </vs-button>
 
-        <vs-button
-          type="submit"
-          :loading="loading"
-          v-on:keyup.enter="saveChanges"
-        >
+        <vs-button type="submit" :loading="loading" @keyup.enter="saveChanges">
           Save Changes
         </vs-button>
       </div>

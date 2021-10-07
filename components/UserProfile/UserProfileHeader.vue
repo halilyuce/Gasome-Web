@@ -14,7 +14,7 @@
         dark:border-gray-700
       "
     >
-      <vs-button active @click="$router.back()" size="small" transparent>
+      <vs-button active size="small" transparent @click="$router.back()">
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
@@ -30,9 +30,9 @@
     <CoolLightBox
       :items="avatar"
       :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
+      :use-zoom-bar="true"
+      :full-screen="true"
+      :close-on-click-outside-mobile="true"
       @close="closeAvatar"
     />
 
@@ -41,7 +41,7 @@
     <div v-if="user" class="px-5 pb-3">
       <div class="flex items-center w-full justify-between">
         <div class="flex flex-row items-center mt-3">
-          <vs-avatar @click="showAvatar" size="72">
+          <vs-avatar size="72" @click="showAvatar">
             <img
               class="cursor-pointer"
               :src="`${smallAvatar + user.avatar}.jpg`"
@@ -60,8 +60,8 @@
         </div>
         <div class="flex flex-row items-center">
           <vs-button
-            :to="`/messages?room=${user.id}`"
             v-if="user.id !== loggedInUser.id"
+            :to="`/messages?room=${user.id}`"
             icon
             ><i class="bx bxs-envelope"></i
           ></vs-button>
@@ -69,8 +69,8 @@
             :shadow="user.isFollow"
             :border="user.isFollow"
             :loading="followLoading"
-            @click="followAction()"
             :danger="user.isFollow"
+            @click="followAction()"
           >
             <i
               class="bx text-lg"
@@ -96,7 +96,7 @@
       <!-- User Bio -->
 
       <div class="flex flex-col mt-3 space-y-1">
-        <p class="text-sm" v-if="user.bio" v-html="user.bio" />
+        <p v-if="user.bio" class="text-sm" v-html="user.bio" />
 
         <!-- User Links & Dates -->
 

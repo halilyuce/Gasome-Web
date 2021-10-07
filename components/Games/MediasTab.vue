@@ -3,9 +3,9 @@
     <CoolLightBox
       :items="images"
       :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
+      :use-zoom-bar="true"
+      :full-screen="true"
+      :close-on-click-outside-mobile="true"
       @close="closeImageViewer()"
     />
     <h2>Photos</h2>

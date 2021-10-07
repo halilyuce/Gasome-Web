@@ -35,12 +35,19 @@
           >
 
           <n-link
-            :to="`/p/${notification.post.id}`"
             v-if="notification.post"
+            :to="`/p/${notification.post.id}`"
             class="mt-2"
           >
             <div
-              class="flex flex-col text-sm border border-gray-200 dark:border-gray-700 rounded-lg p-2"
+              class="
+                flex flex-col
+                text-sm
+                border border-gray-200
+                dark:border-gray-700
+                rounded-lg
+                p-2
+              "
             >
               <n-link
                 :to="`/u/${
@@ -100,7 +107,13 @@
                 class="flex items-center space-x-2 m-1"
               >
                 <div
-                  class="flex flex-col border border-gray-400 dark:border-gray-700 rounded-lg p-2"
+                  class="
+                    flex flex-col
+                    border border-gray-400
+                    dark:border-gray-700
+                    rounded-lg
+                    p-2
+                  "
                 >
                   <n-link
                     :to="`/u/${notification.post.quote[0].user.username}`"
@@ -127,18 +140,18 @@
                 </div>
               </div>
               <div
-                class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
-                :class="{ 'grid-cols-2': notification.post.image.length > 1 }"
                 v-if="
                   notification.post &&
                   notification.post.image &&
                   notification.post.image.length > 0
                 "
+                class="grid grid-cols-1 gap-2 auto-cols-max mt-2"
+                :class="{ 'grid-cols-2': notification.post.image.length > 1 }"
               >
                 <div
-                  class="aspect-w-16 aspect-h-9 cursor-pointer"
                   v-for="image in notification.post.image"
                   :key="image.id"
+                  class="aspect-w-16 aspect-h-9 cursor-pointer"
                 >
                   <img
                     :src="`${mediumImagePath + image.image}.jpg`"
@@ -149,15 +162,22 @@
               </div>
 
               <div
-                class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
                 v-if="
                   notification.post.only_boost
                     ? notification.post.quote[0].video
                     : notification.post.video
                 "
+                class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
               >
                 <div
-                  class="absolute w-full h-full flex justify-center items-center"
+                  class="
+                    absolute
+                    w-full
+                    h-full
+                    flex
+                    justify-center
+                    items-center
+                  "
                 >
                   <vs-button color="#ff3e4e" size="xl" circle floating>
                     <i class="bx bx-play text-xl"></i>

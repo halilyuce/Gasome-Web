@@ -89,13 +89,13 @@
             We're in beta and we're waiting for your feedbacks :)
           </p>
           <vs-button
+            danger
+            gradient
             @click.stop.prevent="
               openWindow(
                 'mailto:support@gasome.com?subject=Gasome Beta Feedback'
               )
             "
-            danger
-            gradient
           >
             Send Feedback <i class="bx bxs-flag-checkered ml-2"></i>
           </vs-button>

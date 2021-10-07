@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'blank',
+  name: 'Blank',
   mounted() {
     this.$vs.setColor('primary', '#7850ff')
     this.$store.dispatch(`getSettings`)

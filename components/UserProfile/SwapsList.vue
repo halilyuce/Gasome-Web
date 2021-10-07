@@ -40,21 +40,21 @@
             <vs-button
               v-if="same"
               :loading="wishListLoading"
+              icon
+              flat
               @click="
                 addWishList({ id: swap.game.id, platform: swap.platform.id })
               "
-              icon
-              flat
             >
               <i class="bx bx-heart"></i>
             </vs-button>
             <vs-button
               v-else
               :loading="removeLoading"
-              @click="openModal(swap)"
               danger
               icon
               flat
+              @click="openModal(swap)"
             >
               <i class="bx bx-trash"></i>
             </vs-button>
@@ -72,7 +72,7 @@
         ></infinite-loading>
       </client-only>
     </ul>
-    <no-data class="m-6" v-if="!loading && swaps.length === 0" />
+    <NoData v-if="!loading && swaps.length === 0" class="m-6" />
     <vs-dialog v-model="showRemove">
       <template #header>
         <h4 class="not-margin">Are you sure to <b>Remove?</b></h4>
@@ -94,10 +94,10 @@
 
       <template #footer>
         <div class="flex flex-col">
-          <vs-button danger @click="removeSwapList(removedSwap.id)" block>
+          <vs-button danger block @click="removeSwapList(removedSwap.id)">
             Yes, remove
           </vs-button>
-          <vs-button transparent danger @click="showRemove = false" block>
+          <vs-button transparent danger block @click="showRemove = false">
             Cancel
           </vs-button>
         </div>

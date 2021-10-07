@@ -25,10 +25,12 @@ export const actions = {
       commit('setLoading', false, { root: true })
     }
   },
-  async getGameComments({ commit }, id, page= 1) {
+  async getGameComments({ commit }, id, page = 1) {
     commit('setLoading', true, { root: true })
     try {
-      const response = await this.$axios.get('/api/gamecomment?id=' + id + '&page=' + page)
+      const response = await this.$axios.get(
+        '/api/gamecomment?id=' + id + '&page=' + page
+      )
       await commit('setComments', response.data.data)
       commit('setLoading', false, { root: true })
     } catch (error) {

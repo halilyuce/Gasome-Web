@@ -1,10 +1,10 @@
 <template>
   <div>
     <vs-sidebar
+      v-model="active"
       relative
       reduce
-      v-model="active"
-      :textWhite="false"
+      :text-white="false"
       open
       class="h-screen"
     >
@@ -23,7 +23,7 @@
         "
       ></div>
 
-      <vs-sidebar-item to="/" id="home">
+      <vs-sidebar-item id="home" to="/">
         <template #icon>
           <i class="bx bx-home-circle"></i>
         </template>
@@ -41,7 +41,7 @@
         </template>
         Discover
       </vs-sidebar-item>
-      <vs-sidebar-item to="/messages" id="messages">
+      <vs-sidebar-item id="messages" to="/messages">
         <template #icon>
           <vs-avatar
             v-if="messagesBadge && messagesBadge > 0"
@@ -70,14 +70,14 @@
         "
       ></div>
 
-      <vs-sidebar-item to="/settings" id="settings">
+      <vs-sidebar-item id="settings" to="/settings">
         <template #icon>
           <i class="bx bx-cog"></i>
         </template>
         Settings
       </vs-sidebar-item>
 
-      <vs-sidebar-item to="/notifications" id="notifications">
+      <vs-sidebar-item id="notifications" to="/notifications">
         <template #icon>
           <vs-avatar
             v-if="notificationBadge && notificationBadge > 0"
@@ -114,9 +114,9 @@
               :transparent="isLight"
               :shadow="!isLight"
               :active="!isLight"
-              @click="isLight = false"
               dark
               icon
+              @click="isLight = false"
             >
               <i class="bx" :class="!isLight ? 'bxs-moon' : 'bx-moon'"></i>
             </vs-button>
@@ -124,15 +124,15 @@
               :transparent="!isLight"
               :shadow="isLight"
               :active="isLight"
-              @click="isLight = true"
               color="#666"
               icon
+              @click="isLight = true"
             >
               <i class="bx" :class="isLight ? 'bxs-sun' : 'bx-sun'"></i>
             </vs-button>
           </div>
 
-          <vs-button @click="logOut" danger flat icon>
+          <vs-button danger flat icon @click="logOut">
             <i class="bx bx-power-off"></i>
           </vs-button>
         </div>
@@ -165,9 +165,6 @@ export default {
       isLight: true,
     }
   },
-  mounted() {
-    this.isLight = localStorage.getItem('mode') === 'light' ? true : false
-  },
   watch: {
     isLight(val) {
       if (val === true) {
@@ -180,6 +177,9 @@ export default {
         this.$colorMode.preference = 'dark'
       }
     },
+  },
+  mounted() {
+    this.isLight = localStorage.getItem('mode') === 'light' ? true : false
   },
   methods: {
     ...mapActions({
