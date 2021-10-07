@@ -238,6 +238,7 @@ export default {
       loading: (state) => state.messages.messagesLoading,
       sendLoading: (state) => state.messages.sendLoading,
       contacts: (state) => state.messages.contacts,
+      socket: (state) => state.messages.socket,
     }),
     messages: {
       get() {
@@ -249,11 +250,14 @@ export default {
     },
   },
   mounted() {
-    this.$echo
-      .private(`messages.${this.loggedInUser.id}`)
-      .listen('NewMessage', (e) => {
-        this.hanleIncoming(e.message)
-      })
+    if (!this.socket) {
+      this.setSocket(true)
+      this.$echo
+        .private(`messages.${this.loggedInUser.id}`)
+        .listen('NewMessage', (e) => {
+          this.hanleIncoming(e.message)
+        })
+    }
   },
   watch: {
     selected(newVal, oldVal) {
@@ -264,7 +268,6 @@ export default {
   },
   data() {
     return {
-      socket: null,
       message: '',
       image: null,
       index: null,
@@ -290,6 +293,7 @@ export default {
       insertMessage: 'messages/insertMessage',
       messageFromAnother: 'messages/messageFromAnother',
       toggleLoading: 'messages/toggleMessagesLoading',
+      setSocket: 'messages/setSocket',
     }),
     openWindow(link) {
       if (link.includes('http')) {

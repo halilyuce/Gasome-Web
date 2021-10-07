@@ -9,11 +9,18 @@
       class="h-screen"
     >
       <template #logo>
-        <Logo />
+        <div @click.prevent="active = 'home'"><Logo /></div>
       </template>
 
       <div
-        class="border-t dark:border-gray-500 dark:border-opacity-10 border-gray-200 w-full mt-2 mb-3"
+        class="
+          border-t
+          dark:border-gray-500 dark:border-opacity-10
+          border-gray-200
+          w-full
+          mt-2
+          mb-3
+        "
       ></div>
 
       <vs-sidebar-item to="/" id="home">
@@ -54,7 +61,13 @@
       </vs-sidebar-item>
 
       <div
-        class="border-t dark:border-gray-500 dark:border-opacity-10 border-gray-200 w-full mt-3"
+        class="
+          border-t
+          dark:border-gray-500 dark:border-opacity-10
+          border-gray-200
+          w-full
+          mt-3
+        "
       ></div>
 
       <vs-sidebar-item to="/settings" id="settings">
@@ -86,7 +99,15 @@
       <template #footer>
         <div class="flex flex-col">
           <div
-            class="flex flex-col items-center justify-center bg-gray-100 dark:bg-content-bg rounded-2xl mb-3"
+            class="
+              flex flex-col
+              items-center
+              justify-center
+              bg-gray-100
+              dark:bg-content-bg
+              rounded-2xl
+              mb-3
+            "
             :class="{ 'pt-1': !isLight }"
           >
             <vs-button

@@ -8,6 +8,7 @@ export const state = () => ({
   enough: false,
   selected: null,
   query: null,
+  socket: false,
 })
 export const getters = {}
 export const mutations = {
@@ -23,6 +24,9 @@ export const mutations = {
   setEnough(state, payload) {
     state.enough = payload
   },
+  setSocket(state, payload) {
+    state.socket = payload
+  },
   setContacts(state, payload) {
     state.contacts = [...state.contacts, ...payload]
   },
@@ -35,6 +39,7 @@ export const mutations = {
   },
   insertMessage(state, payload) {
     state.messages.push(payload)
+    state.selected.created_at = payload.created_at
   },
   setMessagesVal(state, payload) {
     state.messages = payload
@@ -177,5 +182,8 @@ export const actions = {
   },
   async messageFromAnother({ commit }, payload) {
     commit('messageFromAnother', payload)
+  },
+  async setSocket({ commit }, payload) {
+    commit('setSocket', payload)
   },
 }
