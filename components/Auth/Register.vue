@@ -22,10 +22,10 @@
             </template>
           </vs-switch>
         </div>
-        <form v-on:submit.prevent="registerUser">
+        <form @submit.prevent="registerUser">
           <vs-input
-            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="fullname"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             placeholder="Full Name"
             class="my-5"
           >
@@ -34,8 +34,8 @@
             </template>
           </vs-input>
           <vs-input
-            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="username"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             placeholder="Username"
             class="my-5"
           >
@@ -44,8 +44,8 @@
             </template>
           </vs-input>
           <vs-input
-            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="email"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             placeholder="E-mail Adress"
             class="my-5"
           >
@@ -54,13 +54,13 @@
             </template>
           </vs-input>
           <vs-input
+            v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            v-model="password"
             class="my-5"
             placeholder="Password"
             :progress="getProgress"
-            :visiblePassword="hasVisiblePassword"
+            :visible-password="hasVisiblePassword"
             icon-after
             @click-icon="hasVisiblePassword = !hasVisiblePassword"
           >
@@ -79,7 +79,7 @@
             animation-type="vertical"
             type="submit"
             :loading="registerLoading"
-            v-on:keyup.enter="registerUser"
+            @keyup.enter="registerUser"
           >
             <b>Register</b>
             <template #animate>
@@ -110,7 +110,7 @@
         </div> -->
       </div>
       <div class="col-span-3 hidden md:flex">
-        <lottie :options="lottieOptions" v-on:animCreated="handleAnimation" />
+        <lottie :options="lottieOptions" @animCreated="handleAnimation" />
       </div>
     </div>
   </div>

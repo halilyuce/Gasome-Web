@@ -1,57 +1,67 @@
 <template>
   <div
     class="
-      flex flex-col
+      flex flex-raw
+      lg:flex-col
       bg-white
       dark:bg-black
       w-full
-      max-h-screen
-      border-l border-r border-gray-200
+      lg:max-h-screen lg:border-l lg:border-r lg:border-gray-200
       dark:border-gray-700
     "
   >
-    <div class="mx-5 mt-5 mb-2 flex flex-row items-center">
+    <div class="mx-5 mt-5 mb-2 flex flex-row items-center hidden lg:flex">
       <h1 class="mb-1 mr-1">Messages</h1>
       <vs-button size="small" flat>{{ messagesBadge }}</vs-button>
     </div>
 
-    <vs-input
-      color="#7d33ff"
-      type="search"
-      v-model="search"
-      icon-after
-      placeholder="Search..."
-      class="w-full px-5"
-    >
-      <template #icon>
-        <i class="bx bx-search"></i>
-      </template>
-    </vs-input>
+    <div class="hidden lg:block">
+      <vs-input
+        v-model="search"
+        color="#7d33ff"
+        type="search"
+        icon-after
+        placeholder="Search..."
+        class="w-full px-5"
+      >
+        <template #icon>
+          <i class="bx bx-search"></i>
+        </template>
+      </vs-input>
+    </div>
 
-    <div class="flex justify-between items-center mx-5 mt-5">
-      <h3>Contacts</h3>
+    <div class="flex justify-between items-center lg:mx-5 lg:mt-5 px-3 lg:px-0">
+      <h3 class="hidden lg:flex">Contacts</h3>
       <vs-button size="small" success flat disabled>
         <i class="bx bxs-user-plus text-base"></i>
-        <span class="mx-2 text-xs">New </span>
+        <span class="mx-2 text-xs">New</span>
       </vs-button>
     </div>
 
-    <ul
+    <div
+      ref="contacts"
       class="
         relative
-        divide-y divide-gray-200
+        flex flex-raw
+        lg:flex-col lg:divide-y lg:divide-gray-200
         dark:divide-gray-700
         mt-5
         overflow-auto
         disable-scrollbars
       "
-      ref="contacts"
       :class="{ 'h-screen': loading }"
     >
-      <li
+      <div
         v-for="contact in filteredList"
         :key="contact.id"
-        class="flex justify-between cursor-pointer pl-5 pr-3 py-4"
+        class="
+          flex
+          lg:justify-between
+          cursor-pointer
+          p-2
+          rounded-lg
+          lg:rounded-0 lg:pl-5 lg:pr-3 lg:py-4
+        "
         :class="{ 'bg-gray-100 dark:bg-content-bg': contact === selected }"
         @click="selected = contact"
       >
@@ -61,12 +71,15 @@
               :src="`${smallAvatar + contact.user.avatar}.jpg`"
               alt="Avatar"
             />
-            <template #badge v-if="contact.unread > 0">
+            <template v-if="contact.unread > 0" #badge>
               <span class="dark:text-white">{{ contact.unread }}</span>
             </template>
           </vs-avatar>
-          <div class="flex flex-col ml-3">
-            <h4 class="truncate w-36">
+          <div
+            v-show="contact === selected || !isMobile"
+            class="flex flex-col ml-3"
+          >
+            <h4 class="truncate lg:w-36">
               {{ contact.user.name }}
             </h4>
             <span class="text-gray-400 text-xs">
@@ -74,10 +87,12 @@
             </span>
           </div>
         </div>
-        <span class="text-xs text-gray-500 dark:text-gray-400">{{
-          $moment(contact.created_at).fromNow(true)
-        }}</span>
-      </li>
+        <span
+          v-show="!isMobile"
+          class="text-xs text-gray-500 dark:text-gray-400"
+          >{{ $moment(contact.created_at).fromNow(true) }}</span
+        >
+      </div>
 
       <client-only>
         <infinite-loading
@@ -88,7 +103,7 @@
           ><span slot="no-results"></span><span slot="no-more"></span
         ></infinite-loading>
       </client-only>
-    </ul>
+    </div>
   </div>
 </template>
 
@@ -104,6 +119,9 @@ export default {
       messagesBadge: (state) => state.messagesBadge,
       contacts: (state) => state.messages.contacts,
     }),
+    isMobile() {
+      return window.innerWidth < 770
+    },
     selected: {
       get() {
         return this.selectedState
@@ -132,7 +150,6 @@ export default {
   },
   watch: {
     selected(newVal, oldVal) {
-      const self = this
       if (newVal !== oldVal) {
         this.setMessages([])
       }
@@ -180,6 +197,7 @@ export default {
               }
             })
             .catch((err) => {
+              console.error(err)
               self.$vs.notification({
                 duration: 5000,
                 progress: 'auto',

@@ -16,6 +16,7 @@
           :size="size === 'sm' ? 'small' : 'default'"
         >
           <i
+            :id="i"
             class="bx"
             :class="[
               point > i || point === 5
@@ -25,7 +26,6 @@
                 : 'bx-star',
               size === 'sm' ? 'text-md' : 'text-3xl',
             ]"
-            :id="i"
           ></i>
         </vs-button>
       </vs-button-group>
@@ -40,11 +40,6 @@
 <script>
 export default {
   name: 'StarRate',
-  data() {
-    return {
-      hover: null,
-    }
-  },
   props: {
     disabled: {
       type: Boolean,
@@ -56,6 +51,11 @@ export default {
     size: {
       type: String,
     },
+  },
+  data() {
+    return {
+      hover: null,
+    }
   },
 }
 </script>

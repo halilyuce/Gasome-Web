@@ -3,9 +3,9 @@
     <CoolLightBox
       :items="images"
       :index="index"
-      :useZoomBar="true"
-      :fullScreen="true"
-      :closeOnClickOutsideMobile="true"
+      :use-zoom-bar="true"
+      :full-screen="true"
+      :close-on-click-outside-mobile="true"
       @close="closeImageViewer()"
     />
     <div :v-if="post" class="py-3">
@@ -51,9 +51,9 @@
               :class="{ 'grid-cols-2': post.quoted_post[0].image.length > 1 }"
             >
               <div
-                class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
                 v-for="(image, index) in post.quoted_post[0].image"
                 :key="image.id"
+                class="aspect-w-16 aspect-h-9 mt-2 cursor-pointer"
                 @click="
                   showImageViewer({
                     post: post.quoted_post[0],
@@ -70,9 +70,9 @@
             </div>
 
             <div
+              v-if="post.quoted_post[0].video"
               class="relative mt-2 aspect-w-16 aspect-h-9 mx-5 cursor-pointer"
               @click.stop="showVideoViewer(post.quoted_post[0].vide)"
-              v-if="post.quoted_post[0].video"
             >
               <div
                 class="absolute w-full h-full flex justify-center items-center"
@@ -93,7 +93,7 @@
             </div>
 
             <div class="px-5">
-              <quoted-post
+              <QuotedPost
                 v-if="
                   post.quoted_post[0].quoted_post &&
                   post.quoted_post[0].quoted_post.length > 0
@@ -108,7 +108,14 @@
           </div>
 
           <div
-            class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
+            class="
+              flex flex-row
+              mt-3
+              pt-3
+              px-5
+              border-t border-gray-200
+              dark:border-gray-700
+            "
           >
             <div class="flex items-center mr-5">
               <b>{{ post.quoted_post[0].comments_count }}</b>
@@ -133,7 +140,16 @@
           </div>
 
           <div
-            class="flex justify-between mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700 text-gray-500"
+            class="
+              flex
+              justify-between
+              mt-3
+              pt-3
+              px-5
+              border-t border-gray-200
+              dark:border-gray-700
+              text-gray-500
+            "
           >
             <div class="flex items-center">
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
@@ -150,8 +166,15 @@
                 <i class="bx bxs-zap text-lg mr-3 boost"></i>
               </a>
               <ul
-                class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
                 v-if="askQuote === post.id"
+                class="
+                  dropdown-menu
+                  bg-white
+                  shadow-xl
+                  dark:bg-black
+                  border border-gray-200
+                  dark:border-gray-700
+                "
               >
                 <li>
                   <a
@@ -192,8 +215,15 @@
                 <i class="bx bx-share-alt text-lg share"></i
               ></a>
               <ul
-                class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
                 v-if="showShare === post.id"
+                class="
+                  dropdown-menu dropdown-menu-right
+                  bg-white
+                  shadow-xl
+                  dark:bg-black
+                  border border-gray-200
+                  dark:border-gray-700
+                "
               >
                 <li>
                   <a
@@ -242,14 +272,14 @@
             />
 
             <div
+              v-if="post.image && post.image.length > 0"
               class="grid grid-cols-1 gap-2 auto-cols-max px-5 mt-2"
               :class="{ 'grid-cols-2': post.image.length > 1 }"
-              v-if="post.image && post.image.length > 0"
             >
               <div
-                class="aspect-w-16 aspect-h-9 cursor-pointer"
                 v-for="(image, index) in post.image"
                 :key="image.id"
+                class="aspect-w-16 aspect-h-9 cursor-pointer"
                 @click="
                   showImageViewer({
                     post: post,
@@ -266,9 +296,9 @@
             </div>
 
             <div
+              v-if="post.video"
               class="relative mt-2 aspect-w-16 aspect-h-9 mx-5 cursor-pointer"
               @click.stop="showVideoViewer(post.video)"
-              v-if="post.video"
             >
               <div
                 class="absolute w-full h-full flex justify-center items-center"
@@ -285,7 +315,7 @@
             </div>
 
             <div class="px-5">
-              <quoted-post
+              <QuotedPost
                 v-if="post.quoted_post && post.quoted_post.length > 0"
                 :post="post.quoted_post[0]"
                 @show-viewer="showImageViewer"
@@ -298,7 +328,14 @@
           </p>
 
           <div
-            class="flex flex-row mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700"
+            class="
+              flex flex-row
+              mt-3
+              pt-3
+              px-5
+              border-t border-gray-200
+              dark:border-gray-700
+            "
           >
             <div class="flex items-center mr-5">
               <b>{{ post.comments_count }}</b>
@@ -323,7 +360,16 @@
           </div>
 
           <div
-            class="flex justify-between mt-3 pt-3 px-5 border-t border-gray-200 dark:border-gray-700 text-gray-500"
+            class="
+              flex
+              justify-between
+              mt-3
+              pt-3
+              px-5
+              border-t border-gray-200
+              dark:border-gray-700
+              text-gray-500
+            "
           >
             <div class="flex items-center cursor-pointer">
               <i class="bx bx-message-square-detail text-lg mr-3"></i>
@@ -339,8 +385,15 @@
                 <i class="bx bxs-zap text-lg mr-3 boost"></i>
               </a>
               <ul
-                class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
                 v-if="askQuote === post.id"
+                class="
+                  dropdown-menu
+                  bg-white
+                  shadow-xl
+                  dark:bg-black
+                  border border-gray-200
+                  dark:border-gray-700
+                "
               >
                 <li>
                   <a
@@ -379,8 +432,15 @@
                 <i class="bx bx-share-alt text-lg share"></i
               ></a>
               <ul
-                class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
                 v-if="showShare === post.id"
+                class="
+                  dropdown-menu dropdown-menu-right
+                  bg-white
+                  shadow-xl
+                  dark:bg-black
+                  border border-gray-200
+                  dark:border-gray-700
+                "
               >
                 <li>
                   <a
@@ -413,6 +473,7 @@ import QuotedPost from './QuotedPost.vue'
 import linkClickRouting from '../../helpers/mixins/linkClickRouting'
 export default {
   components: { QuotedPost },
+  mixins: [linkClickRouting],
   props: {
     post: {
       type: Object,
@@ -420,7 +481,6 @@ export default {
       required: true,
     },
   },
-  mixins: [linkClickRouting],
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,

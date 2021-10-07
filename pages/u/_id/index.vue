@@ -10,7 +10,7 @@
     "
   >
     <!-- Profile Header -->
-    <UserHeader v-bind:user="user" />
+    <UserHeader :user="user" />
 
     <!-- Profile Tabs -->
     <ul
@@ -23,6 +23,8 @@
       "
     >
       <li
+        v-for="tab in tabs"
+        :key="tab.value"
         class="
           py-3
           flex
@@ -34,8 +36,6 @@
           hover-bg
         "
         :class="{ 'border-b-4 border-purple-500': activeTab === tab.value }"
-        v-for="tab in tabs"
-        :key="tab.value"
         @click="activeTab = tab.value"
       >
         <b>{{ tab.title }}</b>
@@ -46,7 +46,7 @@
 
     <div v-if="activeTab === 'posts'">
       <PostsBody
-        v-bind:posts="posts"
+        :posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
@@ -62,14 +62,12 @@
         ></infinite-loading>
       </client-only>
 
-      <no-data class="m-6" v-if="!postsLoading && posts.length === 0" />
+      <NoData v-if="!postsLoading && posts.length === 0" class="m-6" />
     </div>
 
     <div v-if="activeTab === 'medias'">
       <PostsBody
-        v-bind:posts="
-          posts.filter((post) => post.image.length > 0 || post.video)
-        "
+        :posts="posts.filter((post) => post.image.length > 0 || post.video)"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
@@ -85,25 +83,25 @@
         ></infinite-loading>
       </client-only>
 
-      <no-data
-        class="m-6"
+      <NoData
         v-if="
           !postsLoading &&
           posts.filter((post) => post.image.length > 0 || post.video).length ===
             0
         "
+        class="m-6"
       />
     </div>
 
     <div v-if="activeTab === 'swaps'">
-      <swaps-list :id="user.id" :same="this.user.id != this.loggedInUser.id" />
+      <SwapsList :id="user.id" :same="user.id != loggedInUser.id" />
     </div>
 
     <div v-if="activeTab === 'wishes'">
-      <wish-list :id="user.id" :same="this.user.id != this.loggedInUser.id" />
+      <WishList :id="user.id" :same="user.id != loggedInUser.id" />
     </div>
 
-    <post-composer :quote="quotedPost" />
+    <PostComposer :quote="quotedPost" />
   </div>
 </template>
 
@@ -133,6 +131,11 @@ export default {
       postsLoading: (state) => state.profile.postLoading,
     }),
   },
+  asyncData({ params }) {
+    return {
+      slug: params.id,
+    }
+  },
   data() {
     return {
       quotedPost: null,
@@ -157,11 +160,6 @@ export default {
           value: 'wishes',
         },
       ],
-    }
-  },
-  asyncData({ params }) {
-    return {
-      slug: params.id,
     }
   },
 

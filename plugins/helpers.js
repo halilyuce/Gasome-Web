@@ -2,7 +2,8 @@ import Vue from 'vue'
 Vue.mixin({
   methods: {
     hyperlinkString(text) {
-      var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+      var exp =
+        /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
       text = text.replace(
         exp,
         "<a href='$1' class='text-purple-500' target='_blank'>$1</a>"

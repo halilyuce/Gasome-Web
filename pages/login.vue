@@ -1,14 +1,14 @@
 <template>
-  <login />
+  <Login />
 </template>
 
 <script>
 import Login from '~/components/Auth/Login.vue'
 export default {
   auth: 'guest',
-  layout: 'blank',
   components: {
     Login,
   },
+  layout: 'blank',
 }
 </script>

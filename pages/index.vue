@@ -16,11 +16,11 @@
         "
       >
         <vs-input
+          v-model="search"
           color="#7d33ff"
           type="search"
-          v-model="search"
           icon-after
-          placeholder="Search A Game or User"
+          :placeholder="$t('mainPage.search')"
           class="w-52 lg:w-64 xl:w-72"
           disabled
         >
@@ -31,12 +31,12 @@
         <vs-button @click="openComposer()">
           <i class="bx bx-edit text-lg"></i>
 
-          <span class="px-2">New Post</span>
+          <span class="px-2">{{ $t('mainPage.newPost') }}</span>
         </vs-button>
       </div>
 
       <PostsBody
-        v-bind:posts="posts"
+        :posts="posts"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
@@ -55,13 +55,13 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import PostsBody from '../components/Posts/PostsBody.vue'
 export default {
-  layout: 'sidebars',
   components: {
     PostsBody,
   },
+  layout: 'sidebars',
   computed: {
     ...mapState({
       alert: (state) => state.alert,

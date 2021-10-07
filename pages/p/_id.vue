@@ -23,7 +23,7 @@
         dark:border-gray-700
       "
     >
-      <vs-button active @click="$router.back()" size="small" transparent>
+      <vs-button active size="small" transparent @click="$router.back()">
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
@@ -32,9 +32,9 @@
     </div>
 
     <div ref="post" class="relative" :class="{ 'h-72': !post }">
-      <single-post
+      <SinglePost
         v-if="post"
-        v-bind:post="post"
+        :post="post"
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
@@ -42,10 +42,10 @@
       />
     </div>
 
-    <comment-composer v-bind:post="post" />
+    <CommentComposer :post="post" />
 
     <PostsBody
-      v-bind:posts="comments"
+      :posts="comments"
       @favorite-post="favorite"
       @boost-post="boost"
       @quote-post="quote"
@@ -59,7 +59,7 @@
       ><span slot="no-results"></span><span slot="no-more"></span
     ></infinite-loading>
 
-    <post-composer :quote="quotedPost" />
+    <PostComposer :quote="quotedPost" />
   </div>
 </template>
 
@@ -70,9 +70,9 @@ import PostsBody from '~/components/Posts/PostsBody.vue'
 import SinglePost from '~/components/Posts/SinglePost.vue'
 import CommentComposer from '~/components/Posts/CommentComposer.vue'
 export default {
-  layout: 'sidebars',
   name: 'PostDetail',
   components: { PostComposer, PostsBody, SinglePost, CommentComposer },
+  layout: 'sidebars',
   computed: {
     ...mapState({
       post: (state) => state.posts.post,
@@ -80,21 +80,6 @@ export default {
       detailLoading: (state) => state.posts.detailLoading,
       commentsLoading: (state) => state.posts.commentsLoading,
     }),
-  },
-  mounted() {
-    this.getPostDetail(this.slug)
-  },
-  data() {
-    return {
-      quotedPost: null,
-      currentPage: 0,
-      enough: false,
-    }
-  },
-  asyncData({ params }) {
-    return {
-      slug: params.id,
-    }
   },
   watch: {
     detailLoading(newVal, oldVal) {
@@ -108,6 +93,21 @@ export default {
         }
       }
     },
+  },
+  mounted() {
+    this.getPostDetail(this.slug)
+  },
+  asyncData({ params }) {
+    return {
+      slug: params.id,
+    }
+  },
+  data() {
+    return {
+      quotedPost: null,
+      currentPage: 0,
+      enough: false,
+    }
   },
   methods: {
     ...mapActions({

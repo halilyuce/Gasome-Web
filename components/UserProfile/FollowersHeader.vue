@@ -12,9 +12,9 @@
     >
       <vs-button
         active
-        @click="$router.push('/u/' + user.username)"
         size="small"
         transparent
+        @click="$router.push('/u/' + user.username)"
       >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>

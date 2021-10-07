@@ -9,11 +9,7 @@
         dark:divide-gray-500 dark:divide-opacity-10
       "
     >
-      <li
-        v-for="follower in followers"
-        v-bind:key="follower.id"
-        class="hover-bg"
-      >
+      <li v-for="follower in followers" :key="follower.id" class="hover-bg">
         <div
           class="pt-4 px-5 pb-3 flex items-center w-full justify-between"
           :class="{ 'border-l-4 border-purple-500': follower.isUserFollow }"
@@ -48,8 +44,8 @@
             :shadow="follower.isAuthFollow"
             :border="follower.isAuthFollow"
             :loading="followLoading === follower.user.username"
-            @click="followAction(follower.user.username)"
             :danger="follower.isAuthFollow"
+            @click="followAction(follower.user.username)"
           >
             <i
               class="bx text-base"
@@ -78,7 +74,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'user-list-item',
+  name: 'UserListItem',
   props: {
     followers: null,
     type: '',

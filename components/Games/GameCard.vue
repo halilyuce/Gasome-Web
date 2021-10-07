@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center md:justify-end md:mr-6">
+  <div class="flex justify-center">
     <div class="flex flex-col">
       <img
         :src="`${mediumImagePath + game.image}.webp`"

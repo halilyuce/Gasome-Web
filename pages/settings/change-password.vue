@@ -1,17 +1,22 @@
 <template>
-  <div
-    class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
-  >
+  <div class="bg-white dark:bg-black col-span-12 min-h-screen overflow-auto">
     <!-- Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button
         active
-        @click.prevent="$router.back()"
         size="small"
         transparent
+        @click.prevent="$router.back()"
       >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
@@ -23,7 +28,7 @@
       </div>
     </div>
 
-    <form class="px-5" v-on:submit.prevent="updatePassword">
+    <form class="px-5 md:px-20 lg:px-5" @submit.prevent="updatePassword">
       <vs-alert class="text-xs mt-7">
         <template #icon>
           <i class="bx bxs-error"></i>
@@ -33,14 +38,14 @@
       </vs-alert>
 
       <vs-input
+        v-model="current"
         type="password"
         :color="isDark ? '#6e00ff' : '#7850ff'"
-        v-model="current"
         placeholder="Enter Current Password"
-        :visiblePassword="hasVisiblePassword"
+        :visible-password="hasVisiblePassword"
         icon-after
-        @click-icon="hasVisiblePassword = !hasVisiblePassword"
         class="my-5"
+        @click-icon="hasVisiblePassword = !hasVisiblePassword"
       >
         <template #icon>
           <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
@@ -48,14 +53,14 @@
         </template>
       </vs-input>
       <vs-input
+        v-model="password"
         type="password"
         :color="isDark ? '#6e00ff' : '#7850ff'"
-        v-model="password"
         placeholder="Enter New Password"
-        :visiblePassword="hasVisiblePassword"
+        :visible-password="hasVisiblePassword"
         icon-after
-        @click-icon="hasVisiblePassword = !hasVisiblePassword"
         class="mb-7"
+        @click-icon="hasVisiblePassword = !hasVisiblePassword"
       >
         <template #icon>
           <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
@@ -77,8 +82,8 @@
         type="submit"
         size="large"
         animation-type="vertical"
-        v-on:keyup.enter="updatePassword"
         :loading="passwordLoading"
+        @keyup.enter="updatePassword"
       >
         <b>Update Password</b>
         <template #animate>
@@ -147,8 +152,7 @@ export default {
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
             title: 'An Error Occured',
-            text:
-              'It seems your password is not matching with criteria or current password is wrong, please enter a stronger password.',
+            text: 'It seems your password is not matching with criteria or current password is wrong, please enter a stronger password.',
           })
         })
     },

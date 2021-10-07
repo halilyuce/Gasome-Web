@@ -3,14 +3,28 @@
     <div v-if="game" class="grid grid-cols-12 gap-4">
       <GameCard class="col-span-12 md:col-span-4 mt-8" :game="game" />
       <div
-        class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
+        class="
+          bg-white
+          dark:bg-black
+          col-span-12
+          md:col-span-8
+          min-h-screen
+          overflow-auto
+        "
       >
         <!-- Breadcrumb -->
 
         <div
-          class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+          class="
+            flex
+            items-center
+            py-3
+            px-5
+            border-b border-gray-200
+            dark:border-gray-700
+          "
         >
-          <vs-button active @click="$router.back()" size="small" transparent>
+          <vs-button active size="small" transparent @click="$router.back()">
             <i class="bx bxs-chevron-left text-xl"></i>
           </vs-button>
           <div class="flex flex-col ml-9">
@@ -23,15 +37,30 @@
 
         <!-- Tabs -->
         <ul
-          class="grid grid-cols-4 border-b border-b border-gray-200 dark:border-gray-700 mb-5"
+          class="
+            grid grid-cols-4
+            border-b border-b border-gray-200
+            dark:border-gray-700
+            mb-5
+          "
         >
           <li
-            class="py-5 relative flex ransition duration-300 ease-in-out justify-center cursor-pointer hover-bg"
+            v-for="tab in tabs"
+            :key="tab.value"
+            class="
+              py-5
+              relative
+              flex
+              ransition
+              duration-300
+              ease-in-out
+              justify-center
+              cursor-pointer
+              hover-bg
+            "
             :class="{
               'active-border': activeTab === tab.value,
             }"
-            v-for="tab in tabs"
-            :key="tab.value"
             @click="activeTab = tab.value"
           >
             <b>{{ tab.title }}</b>
@@ -48,7 +77,7 @@
           <GameComments v-if="comments" :comments="comments" />
         </div>
         <div v-if="activeTab === 'medias'" class="px-8">
-          <medias-tab :game="game" />
+          <MediasTab :game="game" />
         </div>
       </div>
     </div>
@@ -120,9 +149,9 @@ import GameComments from '~/components/Games/GameComments'
 import MediasTab from '~/components/Games/MediasTab.vue'
 
 export default {
-  name: 'gameDetail',
-  layout: 'game',
+  name: 'GameDetail',
   components: { GameCard, StarRate, GameComments, MediasTab },
+  layout: 'game',
   data() {
     return {
       commentPage: 1,

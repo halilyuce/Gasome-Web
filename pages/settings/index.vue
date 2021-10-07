@@ -1,17 +1,22 @@
 <template>
-  <div
-    class="bg-white dark:bg-black col-span-12 md:col-span-8 min-h-screen overflow-auto"
-  >
+  <div class="bg-white dark:bg-black col-span-12 min-h-screen overflow-auto">
     <!-- Breadcrumb -->
 
     <div
-      class="flex items-center py-3 px-5 border-b border-gray-200 dark:border-gray-700"
+      class="
+        flex
+        items-center
+        py-3
+        px-5
+        border-b border-gray-200
+        dark:border-gray-700
+      "
     >
       <vs-button
         active
-        @click.prevent="$router.back()"
         size="small"
         transparent
+        @click.prevent="$router.back()"
       >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
@@ -23,7 +28,15 @@
 
     <ul>
       <li
-        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+        class="
+          flex
+          justify-between
+          hover:bg-purple-300 hover:bg-opacity-10
+          items-center
+          p-5
+          border-b border-gray-200
+          dark:border-gray-700
+        "
       >
         <n-link
           :to="'/settings/change-password'"
@@ -42,11 +55,25 @@
         ></vs-button>
       </li>
       <li
-        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+        class="
+          flex
+          justify-between
+          hover:bg-purple-300 hover:bg-opacity-10
+          items-center
+          p-5
+          border-b border-gray-200
+          dark:border-gray-700
+        "
       >
         <n-link :to="'/privacy'" class="flex flex-row items-center">
           <i
-            class="bx bxs-check-shield text-gray-600 dark:text-gray-300 text-2xl"
+            class="
+              bx
+              bxs-check-shield
+              text-gray-600
+              dark:text-gray-300
+              text-2xl
+            "
           ></i>
           <div class="flex flex-col ml-4">
             <h3>Privacy Policy</h3>
@@ -60,7 +87,15 @@
         ></vs-button>
       </li>
       <li
-        class="flex justify-between hover:bg-purple-300 hover:bg-opacity-10 items-center p-5 border-b border-gray-200 dark:border-gray-700"
+        class="
+          flex
+          justify-between
+          hover:bg-purple-300 hover:bg-opacity-10
+          items-center
+          p-5
+          border-b border-gray-200
+          dark:border-gray-700
+        "
       >
         <a
           href="mailto:support@gasome.com"
@@ -78,9 +113,9 @@
           </div>
         </a>
         <vs-button
-          @click.stop.prevent="openWindow('mailto:support@gasome.com')"
           icon
           flat
+          @click.stop.prevent="openWindow('mailto:support@gasome.com')"
           ><i class="bx bxs-chevron-right"></i
         ></vs-button>
       </li>

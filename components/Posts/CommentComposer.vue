@@ -1,7 +1,14 @@
 <template>
   <div
     v-if="user && post"
-    class="flex flex-row px-5 pt-4 pb-2 border-b border-gray-200 dark:border-gray-700"
+    class="
+      flex flex-row
+      px-5
+      pt-4
+      pb-2
+      border-b border-gray-200
+      dark:border-gray-700
+    "
   >
     <!-- AVATAR  -->
     <div class="mr-4">
@@ -15,7 +22,7 @@
     <!-- TEXTAREA  -->
     <div class="flex flex-col w-full">
       <transition name="list">
-        <div class="flex flex-row text-sm mb-2" v-show="isFocused">
+        <div v-show="isFocused" class="flex flex-row text-sm mb-2">
           <span class="text-gray-700 dark:text-gray-300">Replying to</span>
           <n-link
             class="text-purple-500 ml-1"
@@ -28,52 +35,107 @@
       <!-- TEXTAREA FORM  -->
       <div class="relative">
         <textarea
-          class="w-full px-3 py-2 text-gray-700 dark:text-gray-300 dark:bg-content-bg border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none"
           v-model="text"
+          class="
+            w-full
+            px-3
+            py-2
+            text-gray-700
+            dark:text-gray-300 dark:bg-content-bg
+            border border-gray-200
+            dark:border-gray-700
+            rounded-lg
+            focus:outline-none
+          "
           placeholder="Share your thoughts about this post"
           :rows="isFocused ? 4 : 2"
           @focusin="onFocus(true)"
         ></textarea>
 
-        <emoji-picker v-if="isFocused" :search="emojiSearch">
+        <EmojiPicker v-if="isFocused" :search="emojiSearch">
           <vs-button
-            shadow
-            size="small"
             slot="emoji-invoker"
             slot-scope="{ events: { click: clickEvent } }"
-            @click.stop="clickEvent"
+            shadow
+            size="small"
             class="absolute-important top-0.5 right-0"
+            @click.stop="clickEvent"
           >
             <i class="bx bx-smile text-xl"></i>
           </vs-button>
 
           <div slot="emoji-picker" slot-scope="{ emojis }">
             <div
-              class="absolute z-10 border-none w-64 h-96 overflow-scroll p-4 rounded bg-white dark:bg-content-bg shadow-xl top-0.5 right-14"
+              class="
+                absolute
+                z-10
+                border-none
+                w-64
+                h-96
+                overflow-scroll
+                p-4
+                rounded
+                bg-white
+                dark:bg-content-bg
+                shadow-xl
+                top-0.5
+                right-14
+              "
             >
               <div class="flex">
                 <input
-                  class="rounded-full dark:bg-content-bg dark:text-gray-400 border dark:border-gray-600 border-gray-300 py-2 px-4 outline-none focus:shadow-outline w-full"
-                  type="text"
-                  placeholder="Start to type emoji name"
                   v-model="emojiSearch"
                   v-focus
+                  class="
+                    rounded-full
+                    dark:bg-content-bg dark:text-gray-400
+                    border
+                    dark:border-gray-600
+                    border-gray-300
+                    py-2
+                    px-4
+                    outline-none
+                    focus:shadow-outline
+                    w-full
+                  "
+                  type="text"
+                  placeholder="Start to type emoji name"
                 />
               </div>
               <div>
                 <div v-for="(emojiGroup, category) in emojis" :key="category">
                   <h5
-                    class="text-grey-darker uppercase text-sm cursor-default mb-2 mt-4"
+                    class="
+                      text-grey-darker
+                      uppercase
+                      text-sm
+                      cursor-default
+                      mb-2
+                      mt-4
+                    "
                   >
                     {{ category }}
                   </h5>
                   <div class="flex flex-wrap justify-between emojis">
                     <button
-                      class="p-1 cursor-pointer rounded bg-white dark:bg-content-bg focus:outline-none focus:shadow-outline text-xl flex items-center justify-center h-8 w-8"
                       v-for="(emoji, emojiName) in emojiGroup"
                       :key="emojiName"
-                      @click="append(emoji)"
+                      class="
+                        p-1
+                        cursor-pointer
+                        rounded
+                        bg-white
+                        dark:bg-content-bg
+                        focus:outline-none focus:shadow-outline
+                        text-xl
+                        flex
+                        items-center
+                        justify-center
+                        h-8
+                        w-8
+                      "
                       :title="emojiName"
+                      @click="append(emoji)"
                     >
                       {{ emoji }}
                     </button>
@@ -82,27 +144,48 @@
               </div>
             </div>
           </div>
-        </emoji-picker>
+        </EmojiPicker>
       </div>
 
       <!-- COMMENT ACTIONS  -->
       <transition name="list">
         <div v-show="isFocused">
           <input
-            type="file"
             ref="photo_upload"
+            type="file"
             multiple
-            @change="onFileChange"
             hidden
+            @change="onFileChange"
           />
           <div v-if="photos" class="grid grid-cols-4 gap-2">
             <div v-for="(photo, index) in photos" :key="index" class="relative">
               <img
-                class="h-20 w-full rounded object-cover border dark:border-gray-700 border-gray-300 mb-3"
+                class="
+                  h-20
+                  w-full
+                  rounded
+                  object-cover
+                  border
+                  dark:border-gray-700
+                  border-gray-300
+                  mb-3
+                "
                 :src="photo.url"
               />
               <button
-                class="absolute bg-gray-900 hover:bg-red-600 text-white font-bold text-lg h-6 w-6 rounded-full top-1 right-1"
+                class="
+                  absolute
+                  bg-gray-900
+                  hover:bg-red-600
+                  text-white
+                  font-bold
+                  text-lg
+                  h-6
+                  w-6
+                  rounded-full
+                  top-1
+                  right-1
+                "
                 @click.stop="removePhoto(index)"
               >
                 <i class="bx bx-x"></i>
@@ -112,11 +195,11 @@
 
           <vs-input
             v-if="showYoutube"
+            v-model="youtubeURL"
             shadow
             danger
             :loading="youtubeLoad"
             type="url"
-            v-model="youtubeURL"
             placeholder="Youtube URL"
             class="mb-3"
           >
@@ -126,8 +209,19 @@
           </vs-input>
 
           <div
-            class="max-w-2xl bg-white dark:bg-content-bg relative border border-gray-200 dark:border-gray-700 p-3 mb-3 rounded-md tracking-wide"
             v-if="youtubeVideo"
+            class="
+              max-w-2xl
+              bg-white
+              dark:bg-content-bg
+              relative
+              border border-gray-200
+              dark:border-gray-700
+              p-3
+              mb-3
+              rounded-md
+              tracking-wide
+            "
           >
             <div id="header" class="flex">
               <img
@@ -163,27 +257,27 @@
           <div class="flex justify-between">
             <div class="flex items-center">
               <vs-button
-                @click.stop="$refs.photo_upload.click()"
                 shadow
                 active
                 :disabled="photos.length > 3"
+                @click.stop="$refs.photo_upload.click()"
               >
                 <i class="bx bx-image text-xl"></i>
               </vs-button>
 
               <vs-button
-                @click.stop="showYoutube = !showYoutube"
                 shadow
                 active
                 :loading="youtubeLoad"
+                @click.stop="showYoutube = !showYoutube"
               >
                 <i class="bx bxl-youtube text-xl"></i>
               </vs-button>
             </div>
             <vs-button
-              @click.stop="sendNewComment()"
               :loading="shareLoading"
               :disabled="text == '' && youtubeURL == '' && photos.length == 0"
+              @click.stop="sendNewComment()"
             >
               Reply
             </vs-button>
@@ -199,10 +293,10 @@ import axios from 'axios'
 import { mapActions, mapState } from 'vuex'
 import EmojiPicker from 'vue-emoji-picker'
 export default {
-  props: { post: null },
   components: {
     EmojiPicker,
   },
+  props: { post: null },
   computed: {
     ...mapState({
       user: (state) => state.auth.user,
@@ -298,7 +392,8 @@ export default {
     },
 
     getYoutubeID(url) {
-      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+      var regExp =
+        /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
       var match = url.match(regExp)
       if (match && match[2].length == 11) {
         return match[2]

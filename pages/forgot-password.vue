@@ -7,10 +7,10 @@
         </div>
         <div class="flex justify-between items-center">
           <vs-button
-            @click="$router.back()"
             shadow
             border
             animation-type="scale"
+            @click="$router.back()"
           >
             <b class="mx-5">Back</b>
 
@@ -25,16 +25,16 @@
             </template>
           </vs-switch>
         </div>
-        <form v-if="token" v-on:submit.prevent="changePassword">
+        <form v-if="token" @submit.prevent="changePassword">
           <vs-input
+            v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            v-model="password"
             placeholder="Enter New Password"
-            :visiblePassword="hasVisiblePassword"
+            :visible-password="hasVisiblePassword"
             icon-after
-            @click-icon="hasVisiblePassword = !hasVisiblePassword"
             class="my-5"
+            @click-icon="hasVisiblePassword = !hasVisiblePassword"
           >
             <template #icon>
               <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
@@ -42,14 +42,14 @@
             </template>
           </vs-input>
           <vs-input
+            v-model="confirm"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            v-model="confirm"
             placeholder="Confirm New Password"
-            :visiblePassword="hasVisiblePassword"
+            :visible-password="hasVisiblePassword"
             icon-after
-            @click-icon="hasVisiblePassword = !hasVisiblePassword"
             class="mb-7"
+            @click-icon="hasVisiblePassword = !hasVisiblePassword"
           >
             <template #icon>
               <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
@@ -81,8 +81,8 @@
             type="submit"
             size="large"
             animation-type="vertical"
-            v-on:keyup.enter="changePassword"
             :loading="passwordLoading"
+            @keyup.enter="changePassword"
           >
             <b>Change Password</b>
             <template #animate>
@@ -90,10 +90,10 @@
             </template>
           </vs-button>
         </form>
-        <form v-else v-on:submit.prevent="sendEmail">
+        <form v-else @submit.prevent="sendEmail">
           <vs-input
-            :color="isDark ? '#6e00ff' : '#7850ff'"
             v-model="email"
+            :color="isDark ? '#6e00ff' : '#7850ff'"
             placeholder="Email address you registered"
             class="my-5"
           >
@@ -108,7 +108,7 @@
             Please enter the e-mail address you registered to Gasome in the box
             above.
           </vs-alert>
-          <vs-alert success v-else class="mb-6 text-xs">
+          <vs-alert v-else success class="mb-6 text-xs">
             <template #icon>
               <i class="bx bxs-envelope"></i>
             </template>
@@ -119,8 +119,8 @@
             type="submit"
             size="large"
             animation-type="vertical"
-            v-on:keyup.enter="sendEmail"
             :loading="emailLoading"
+            @keyup.enter="sendEmail"
           >
             <b>Send Reset Link</b>
             <template #animate>
@@ -130,7 +130,7 @@
         </form>
       </div>
       <div class="col-span-3 hidden md:flex">
-        <lottie :options="lottieOptions" v-on:animCreated="handleAnimation" />
+        <lottie :options="lottieOptions" @animCreated="handleAnimation" />
       </div>
     </div>
   </div>
@@ -142,16 +142,21 @@ import lottie from 'vue-lottie/src/lottie.vue'
 import * as animationData from '~/assets/lottie/login.json'
 export default {
   auth: 'guest',
-  layout: 'blank',
   components: {
     Logo,
     lottie,
   },
+  layout: 'blank',
   computed: {
     ...mapState({
       emailLoading: (state) => state.emailLoading,
       passwordLoading: (state) => state.passwordLoading,
     }),
+  },
+  asyncData({ route }) {
+    return {
+      token: route.query.token,
+    }
   },
   data: () => ({
     error: '',
@@ -165,11 +170,6 @@ export default {
     anim: null,
     lottieOptions: { animationData: animationData.default },
   }),
-  asyncData({ route }) {
-    return {
-      token: route.query.token,
-    }
-  },
   watch: {
     isDark(val) {
       if (val === true) {
@@ -224,8 +224,7 @@ export default {
               icon: `<i class='bx bx-error' ></i>`,
               position: 'top-center',
               title: 'An Error Occured',
-              text:
-                'It seems your password is not matching with criteria, please enter a stronger password.',
+              text: 'It seems your password is not matching with criteria, please enter a stronger password.',
             })
           })
       } else {
@@ -248,8 +247,7 @@ export default {
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
             title: 'An Error Occured',
-            text:
-              'It seems there is no user with this email/username. Please try again.',
+            text: 'It seems there is no user with this email/username. Please try again.',
           })
         })
     },

@@ -148,7 +148,23 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/style-resources',
     'cookie-universal-nuxt',
+    '@nuxtjs/i18n',
   ],
+  //i18n config
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en.js',
+      },
+      {
+        code: 'tr',
+        file: 'tr.js',
+      },
+    ],
+    langDir: 'language/',
+    defaultLocale: 'en',
+  },
 
   // runtime config
   publicRuntimeConfig: {

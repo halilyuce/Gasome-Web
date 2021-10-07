@@ -6,7 +6,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  name: 'default',
+  name: 'Default',
   mounted() {
     this.$vs.setColor('primary', '#7850ff')
     this.$store.dispatch(`getSettings`)

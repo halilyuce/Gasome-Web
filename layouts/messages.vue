@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-h-screen lg:max-h-full">
     <div
       class="
         sticky
@@ -41,13 +41,22 @@
         gap-0
       "
     >
-      <div class="col-span-1 lg:col-span-4 xl:col-span-3 2xl:col-span-4 flex">
-        <sidebar class="hidden lg:flex" />
+      <div
+        class="
+          col-span-12
+          lg:col-span-4
+          xl:col-span-4
+          2xl:col-span-3
+          flex
+          relative
+        "
+      >
+        <Sidebar class="hidden lg:flex" />
         <Menubar class="flex lg:hidden" />
-        <messages-bar class="hidden lg:flex" />
+        <MessagesBar />
       </div>
-      <Nuxt class="col-span-12 lg:col-span-5 2xl:col-span-4" />
-      <right-sidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
+      <Nuxt class="col-span-12 xl:col-span-5" />
+      <RightSidebar class="hidden xl:flex lg:col-span-3 2xl:col-span-3" />
     </div>
   </div>
 </template>
@@ -59,7 +68,7 @@ import Menubar from '@/components/Layout/Menubar'
 import Logo from '@/components/Logo.vue'
 import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
-  name: 'sidebars',
+  name: 'Sidebars',
   components: {
     Sidebar,
     RightSidebar,
