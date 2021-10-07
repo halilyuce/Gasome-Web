@@ -243,6 +243,14 @@ export default {
       .listen('NewMessage', (e) => {
         this.hanleIncoming(e.message)
       })
+    this.$nextTick(() => this.$refs.textarea.focus())
+  },
+  watch: {
+    selected(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$refs.textarea.focus()
+      }
+    },
   },
   data() {
     return {
@@ -270,6 +278,7 @@ export default {
       setMessages: 'messages/setMessages',
       sendMessage: 'messages/sendMessage',
       insertMessage: 'messages/insertMessage',
+      messageFromAnother: 'messages/messageFromAnother',
       toggleLoading: 'messages/toggleMessagesLoading',
     }),
     resize() {
@@ -307,7 +316,8 @@ export default {
         this.insertMessage(message).then(() => {
           self.scrollToElement()
         })
-        return
+      } else {
+        this.messageFromAnother(message)
       }
     },
     async send() {
@@ -327,6 +337,9 @@ export default {
           self.message = ''
           textarea.style.height = '35px'
           self.scrollToElement()
+          setTimeout(() => {
+            self.$refs.textarea.focus()
+          }, 500)
         })
         .catch((err) => {
           self.$vs.notification({
@@ -348,10 +361,14 @@ export default {
     onPaste(e) {
       let file =
         e.clipboardData.items[e.clipboardData.items.length - 1].getAsFile()
+      let text = e.clipboardData.getData('text')
       if (file) {
         this.image = file
         this.message = ''
         this.send()
+      }
+      if (text) {
+        this.message = text
       }
     },
     checkSender() {

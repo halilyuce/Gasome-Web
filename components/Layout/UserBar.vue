@@ -28,7 +28,11 @@
       <h2 class="mt-8 text-center">Statistics</h2>
       <div class="grid grid-cols-6 gap-0">
         <vs-button
-          :to="'/u/' + (loggedInUser ? loggedInUser.username : '') + '/follows'"
+          :to="
+            '/u/' +
+            (loggedInUser ? loggedInUser.username : '') +
+            '/follow?tab=following'
+          "
           shadow
           size="xl"
           animation-type="scale"
@@ -44,7 +48,9 @@
         </vs-button>
         <vs-button
           :to="
-            '/u/' + (loggedInUser ? loggedInUser.username : '') + '/followers'
+            '/u/' +
+            (loggedInUser ? loggedInUser.username : '') +
+            '/follow?tab=followers'
           "
           shadow
           size="xl"

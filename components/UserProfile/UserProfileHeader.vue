@@ -52,12 +52,7 @@
             <h3 class="leading-4">{{ user.name }}</h3>
             <div class="flex items-center">
               <span class="text-gray-400 mr-1">{{ '@' + user.username }}</span>
-              <vs-button
-                v-if="user.isFollowsYou"
-                size="mini"
-                transparent
-                active
-              >
+              <vs-button v-if="user.isFollowsYou" size="mini" flat>
                 Follows You
               </vs-button>
             </div>
@@ -143,13 +138,13 @@
         <!-- User Follower - Follows Count -->
 
         <div class="flex items-center space-x-8 text-sm">
-          <n-link :to="`${user.username}/following`">
+          <n-link :to="`${user.username}/follow?tab=following`">
             <div class="flex items-center">
               <b class="text-black mr-1 dark:text-white">{{ user.follows }}</b>
               <span class="text-gray-400 ml-1">Following</span>
             </div>
           </n-link>
-          <n-link :to="`${user.username}/followers`">
+          <n-link :to="`${user.username}/follow?tab=followers`">
             <div class="flex items-center">
               <b class="text-black mr-1 dark:text-white">{{
                 user.followers

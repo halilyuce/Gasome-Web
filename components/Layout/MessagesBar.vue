@@ -56,11 +56,14 @@
         @click="selected = contact"
       >
         <div class="flex flex-row">
-          <vs-avatar size="42">
+          <vs-avatar badge-color="danger" size="42">
             <img
               :src="`${smallAvatar + contact.user.avatar}.jpg`"
               alt="Avatar"
             />
+            <template #badge v-if="contact.unread > 0">
+              <span class="dark:text-white">{{ contact.unread }}</span>
+            </template>
           </vs-avatar>
           <div class="flex flex-col ml-3">
             <h4 class="truncate w-36">
@@ -71,14 +74,9 @@
             </span>
           </div>
         </div>
-        <div class="flex flex-col">
-          <span class="text-xs text-gray-500 dark:text-gray-400">{{
-            $moment(contact.created_at).fromNow(true)
-          }}</span>
-          <vs-button v-if="contact.unread > 0" size="mini" flat>{{
-            contact.unread
-          }}</vs-button>
-        </div>
+        <span class="text-xs text-gray-500 dark:text-gray-400">{{
+          $moment(contact.created_at).fromNow(true)
+        }}</span>
       </li>
 
       <client-only>

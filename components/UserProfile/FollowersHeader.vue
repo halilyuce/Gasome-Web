@@ -10,13 +10,20 @@
         dark:border-gray-700
       "
     >
-      <vs-button active @click="$router.back()" size="small" transparent>
+      <vs-button
+        active
+        @click="$router.push('/u/' + user.username)"
+        size="small"
+        transparent
+      >
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
         <h5>{{ user.name }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          user.followers + ' Followers'
+          followers
+            ? user.followers + ' Followers'
+            : user.follows + ' Following'
         }}</span>
       </div>
     </div>
@@ -27,6 +34,7 @@
 export default {
   props: {
     user: null,
-  }
+    followers: true,
+  },
 }
 </script>

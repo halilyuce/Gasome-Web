@@ -36,6 +36,9 @@ export const mutations = {
     state.notificationBadge = payload.notifications
     state.messagesBadge = payload.messages
   },
+  setMessageBadge(state, payload) {
+    state.messagesBadge = payload
+  },
 }
 export const actions = {
   async getSettings({ commit }) {
@@ -113,5 +116,8 @@ export const actions = {
   },
   async setTab({ commit }, payload) {
     await commit('setTab', payload)
+  },
+  async setMessageBadge({ state, commit }, payload) {
+    await commit('setMessageBadge', state.messagesBadge + payload)
   },
 }

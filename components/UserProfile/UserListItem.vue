@@ -12,18 +12,16 @@
       <li
         v-for="follower in followers"
         v-bind:key="follower.id"
-        class="pt-4 px-5 pb-3 hover-bg"
+        class="hover-bg"
       >
-        <div class="flex items-center w-full justify-between">
+        <div
+          class="pt-4 px-5 pb-3 flex items-center w-full justify-between"
+          :class="{ 'border-l-4 border-purple-500': follower.isUserFollow }"
+        >
           <div class="flex justify-between">
             <div class="flex flex-row items-center">
               <n-link
-                class="
-                  flex
-                  justify-between
-                  items-center
-                  text-sm text-purple-500
-                "
+                class="flex justify-between items-center"
                 :to="'/u/' + follower.user.username"
               >
                 <vs-avatar size="40">
@@ -35,16 +33,17 @@
               </n-link>
               <n-link
                 :to="'/u/' + follower.user.username"
-                class="ml-2 flex-col items-center"
+                class="ml-2 flex flex-col"
               >
-                <h4>{{ follower.user.name }}</h4>
-                <span class="text-gray-400">{{
+                <h4 class="leading-4">{{ follower.user.name }}</h4>
+                <span class="text-gray-400 text-sm">{{
                   '@' + follower.user.username
                 }}</span>
               </n-link>
             </div>
           </div>
           <vs-button
+            v-if="follower.user.id !== loggedInUser.id"
             size="small"
             :shadow="follower.isAuthFollow"
             :border="follower.isAuthFollow"
@@ -67,7 +66,7 @@
       <client-only>
         <infinite-loading
           spinner="spiral"
-          :identifier="user.id"
+          :identifier="type"
           :distance="300"
           @infinite="infiniteHandler"
           ><span slot="no-results"></span><span slot="no-more"></span
@@ -82,6 +81,7 @@ export default {
   name: 'user-list-item',
   props: {
     followers: null,
+    type: '',
   },
   data() {
     return {
@@ -98,10 +98,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      follow: 'profile/followFromFollower',
+      followersFollow: 'profile/followFromFollower',
+      FollowingFollow: 'profile/followFromFollowing',
     }),
     followAction(username) {
-      this.follow(username)
+      if (this.type === 'followers') {
+        this.followersFollow(username)
+      } else {
+        this.FollowingFollow(username)
+      }
     },
     async infiniteHandler($state) {
       this.$emit('load', $state)
