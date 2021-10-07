@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-black min-h-screen">
+  <div class="bg-white dark:bg-black lg:h-screen overflow-hidden">
     <!-- Breadcrumb -->
 
     <div
@@ -25,7 +25,11 @@
         <span class="text-gray-400 text-sm mr-1">Update your information</span>
       </div>
     </div>
-    <form class="px-6 md:px-24 lg:px-6" autocomplete="on" @submit.prevent="saveChanges">
+    <form
+      class="px-6 md:px-24 lg:px-6"
+      autocomplete="on"
+      @submit.prevent="saveChanges"
+    >
       <input ref="avatar_upload" type="file" hidden @change="onFileChange" />
       <div class="flex flex-row mt-5">
         <div class="w-32 mr-3 relative">
@@ -230,11 +234,12 @@ export default {
         payload['bio'] = this.bio
       }
       if (
+        this.loggedInUser.birthday &&
         this.birthday !==
-        this.loggedInUser.birthday.substr(
-          0,
-          this.loggedInUser.birthday.indexOf(' ')
-        )
+          this.loggedInUser.birthday.substr(
+            0,
+            this.loggedInUser.birthday.indexOf(' ')
+          )
       ) {
         payload['birthday'] = this.birthday
       }

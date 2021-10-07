@@ -7,6 +7,7 @@
       lg:col-span-8 lg:h-screen
       relative
       overflow-auto
+      mobile-height
     "
   >
     <CoolLightBox
@@ -22,7 +23,8 @@
 
     <div
       class="
-        flex
+        hidden
+        lg:flex
         items-center
         justify-between
         py-3
@@ -74,7 +76,8 @@
       class="
         px-5
         pt-1
-        py-24
+        pb-16
+        lg:pb-24
         relative
         messagebox
         overflow-auto
@@ -157,7 +160,7 @@
         absolute
         bottom-0
         left-0
-        p-5
+        lg:p-5
         w-full
         bg-gradient-to-t
         from-white
@@ -177,8 +180,7 @@
           text-sm
           bg-gray-50
           dark:bg-content-bg
-          rounded-2xl
-          shadow-2xl
+          lg:rounded-2xl lg:shadow-2xl
         "
       >
         <div class="flex flex-row w-full items-center">
@@ -477,6 +479,14 @@ export default {
 <style lang="scss">
 .messagebox {
   height: calc(100vh - 1.5rem - 45px);
+  @media only screen and (max-width: 770px) {
+    height: calc(100vh - 207px);
+  }
+}
+.mobile-height {
+  @media only screen and (max-width: 770px) {
+    height: calc(100vh - 207px);
+  }
 }
 .shimmer {
   color: grey;

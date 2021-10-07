@@ -39,8 +39,8 @@
     <!-- User Avatar & Info -->
 
     <div v-if="user" class="px-5 pb-3">
-      <div class="flex items-center w-full justify-between">
-        <div class="flex flex-row items-center mt-3">
+      <div class="flex items-center w-full justify-between mt-3">
+        <div class="flex flex-row items-center">
           <vs-avatar size="72" @click="showAvatar">
             <img
               class="cursor-pointer"
@@ -48,9 +48,9 @@
               alt="Avatar"
             />
           </vs-avatar>
-          <div class="ml-4">
-            <h3 class="leading-4">{{ user.name }}</h3>
-            <div class="flex items-center">
+          <div class="ml-2 md:ml-4">
+            <h3 class="leading-4 truncate">{{ user.name }}</h3>
+            <div class="flex flex-col items-start md:flex-row md:items-center">
               <span class="text-gray-400 mr-1">{{ '@' + user.username }}</span>
               <vs-button v-if="user.isFollowsYou" size="mini" flat>
                 Follows You
@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-row items-center">
+        <div class="flex flex-col items-end md:flex-row md:items-center">
           <vs-button
             v-if="user.id !== loggedInUser.id"
             :to="`/messages?room=${user.id}`"

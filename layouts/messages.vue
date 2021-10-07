@@ -45,8 +45,8 @@
         class="
           col-span-12
           lg:col-span-4
-          xl:col-span-4
-          2xl:col-span-3
+          xl:col-span-3
+          2xl:col-span-4
           flex
           relative
         "
@@ -55,8 +55,8 @@
         <Menubar class="flex lg:hidden" />
         <MessagesBar />
       </div>
-      <Nuxt class="col-span-12 xl:col-span-5" />
-      <RightSidebar class="hidden xl:flex lg:col-span-3 2xl:col-span-3" />
+      <Nuxt class="col-span-12 lg:col-span-5 xl:col-span-6 2xl:col-span-4" />
+      <RightSidebar class="hidden xl:flex lg:col-span-3 2xl:col-span-2" />
     </div>
   </div>
 </template>

@@ -1,12 +1,15 @@
 <template>
   <div
     class="
-      flex flex-raw
+      flex flex-row
       lg:flex-col
       bg-white
       dark:bg-black
       w-full
-      lg:max-h-screen lg:border-l lg:border-r lg:border-gray-200
+      2xl:w-1/2 2xl:ml-auto
+      lg:h-screen lg:border-l lg:border-r
+      border-gray-200 border-b
+      lg:border-b-0
       dark:border-gray-700
     "
   >
@@ -30,8 +33,18 @@
       </vs-input>
     </div>
 
-    <div class="flex justify-between items-center lg:mx-5 lg:mt-5 px-3 lg:px-0">
-      <h3 class="hidden lg:flex">Contacts</h3>
+    <div
+      class="
+        hidden
+        lg:flex
+        justify-between
+        items-center
+        lg:mx-5 lg:mt-5
+        px-3
+        lg:px-0
+      "
+    >
+      <h3 class="flex">Contacts</h3>
       <vs-button size="small" success flat disabled>
         <i class="bx bxs-user-plus text-base"></i>
         <span class="mx-2 text-xs">New</span>
@@ -42,14 +55,16 @@
       ref="contacts"
       class="
         relative
-        flex flex-raw
+        flex flex-row
         lg:flex-col lg:divide-y lg:divide-gray-200
         dark:divide-gray-700
-        mt-5
+        pl-3
+        lg:pl-0
+        mt-4
         overflow-auto
         disable-scrollbars
       "
-      :class="{ 'h-screen': loading }"
+      :class="{ 'w-screen lg:h-screen': loading }"
     >
       <div
         v-for="contact in filteredList"
@@ -60,7 +75,7 @@
           cursor-pointer
           p-2
           rounded-lg
-          lg:rounded-0 lg:pl-5 lg:pr-3 lg:py-4
+          lg:rounded-none lg:pl-5 lg:pr-3 lg:py-4
         "
         :class="{ 'bg-gray-100 dark:bg-content-bg': contact === selected }"
         @click="selected = contact"
@@ -88,8 +103,12 @@
           </div>
         </div>
         <span
-          v-show="!isMobile"
-          class="text-xs text-right text-gray-500 dark:text-gray-400"
+          class="
+            hidden
+            lg:flex
+            text-xs text-right text-gray-500
+            dark:text-gray-400
+          "
           >{{ $moment(contact.created_at).fromNow(true) }}</span
         >
       </div>

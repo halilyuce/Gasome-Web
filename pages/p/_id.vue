@@ -7,7 +7,7 @@
       container
       overflow-y-auto
       disable-scrollbars
-      h-screen
+      lg:h-screen
     "
     :class="post ? 'max-h-screen' : 'min-h-screen'"
   >
