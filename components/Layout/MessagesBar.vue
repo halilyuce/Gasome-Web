@@ -74,7 +74,7 @@
             </span>
           </div>
         </div>
-        <span class="text-xs text-gray-500 dark:text-gray-400">{{
+        <span class="text-xs text-right text-gray-500 dark:text-gray-400">{{
           $moment(contact.created_at).fromNow(true)
         }}</span>
       </li>

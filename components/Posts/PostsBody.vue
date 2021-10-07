@@ -2,7 +2,11 @@
   <ul
     id="timeline"
     ref="timeline"
-    class="divide-y divide-gray-100 dark:divide-gray-600 dark:divide-opacity-20 divide-solid"
+    class="
+      divide-y divide-gray-100
+      dark:divide-gray-600 dark:divide-opacity-20
+      divide-solid
+    "
   >
     <CoolLightBox
       :items="images"
@@ -54,7 +58,11 @@
             <div>
               <p
                 class="dark:text-gray-300"
-                v-html="hyperlinkString(post.quoted_post[0] ? post.quoted_post[0].text : '')"
+                v-html="
+                  hyperlinkString(
+                    post.quoted_post[0] ? post.quoted_post[0].text : ''
+                  )
+                "
               />
 
               <div
@@ -85,11 +93,18 @@
               </div>
               <div
                 class="relative mt-2 aspect-w-16 aspect-h-9 cursor-pointer"
-                @click.prevent="showVideoViewer(post.quoted_post[0].vide)"
+                @click.prevent="showVideoViewer(post.quoted_post[0].video)"
                 v-if="post.quoted_post[0].video"
               >
                 <div
-                  class="absolute w-full h-full flex justify-center items-center"
+                  class="
+                    absolute
+                    w-full
+                    h-full
+                    flex
+                    justify-center
+                    items-center
+                  "
                 >
                   <vs-button color="#ff3e4e" size="xl" circle floating>
                     <i class="bx bx-play text-xl"></i>
@@ -134,7 +149,14 @@
                   >{{ post.quoted_post[0].boosts_count }}
                 </a>
                 <ul
-                  class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                  class="
+                    dropdown-menu
+                    bg-white
+                    shadow-xl
+                    dark:bg-black
+                    border border-gray-200
+                    dark:border-gray-700
+                  "
                   v-if="askQuote === post.id"
                 >
                   <li>
@@ -177,7 +199,14 @@
                   <i class="bx bx-share-alt text-lg share"></i
                 ></a>
                 <ul
-                  class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                  class="
+                    dropdown-menu dropdown-menu-right
+                    bg-white
+                    shadow-xl
+                    dark:bg-black
+                    border border-gray-200
+                    dark:border-gray-700
+                  "
                   v-if="showShare === post.id"
                 >
                   <li>
@@ -264,7 +293,14 @@
                 v-if="post.video"
               >
                 <div
-                  class="absolute w-full h-full flex justify-center items-center"
+                  class="
+                    absolute
+                    w-full
+                    h-full
+                    flex
+                    justify-center
+                    items-center
+                  "
                 >
                   <vs-button color="#ff3e4e" size="xl" circle floating>
                     <i class="bx bx-play text-xl"></i>
@@ -302,7 +338,14 @@
                   >{{ post.boosts_count }}
                 </a>
                 <ul
-                  class="dropdown-menu bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                  class="
+                    dropdown-menu
+                    bg-white
+                    shadow-xl
+                    dark:bg-black
+                    border border-gray-200
+                    dark:border-gray-700
+                  "
                   v-if="askQuote === post.id"
                 >
                   <li>
@@ -342,7 +385,14 @@
                   <i class="bx bx-share-alt text-lg share"></i
                 ></a>
                 <ul
-                  class="dropdown-menu dropdown-menu-right bg-white shadow-xl dark:bg-black border border-gray-200 dark:border-gray-700"
+                  class="
+                    dropdown-menu dropdown-menu-right
+                    bg-white
+                    shadow-xl
+                    dark:bg-black
+                    border border-gray-200
+                    dark:border-gray-700
+                  "
                   v-if="showShare === post.id"
                 >
                   <li>
