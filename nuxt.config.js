@@ -52,13 +52,16 @@ export default {
 
   echo: {
     broadcaster: 'socket.io',
-    host: 'https://api.gasome.com/ws/',
+    host:
+      process.env.NODE_ENV === 'production'
+        ? 'https://api.gasome.com/ws/'
+        : 'http://api.gasome.com:6001',
     authEndpoint: 'https://api.gasome.com/broadcasting/auth',
     authModule: true,
     connectOnLogin: true,
     disconnectOnLogout: true,
     plugins: ['@/plugins/echo'],
-    forceTLS: false,
+    forceTLS: true,
   },
 
   moment: {
