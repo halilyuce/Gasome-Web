@@ -52,9 +52,7 @@ export default {
 
   echo: {
     broadcaster: 'socket.io',
-    host: 'http://api.gasome.com:6001',
-    // wsHost: 'http://api.gasome.com',
-    // wsPort: 6001,
+    host: 'https://api.gasome.com/ws/',
     authEndpoint: 'https://api.gasome.com/broadcasting/auth',
     authModule: true,
     connectOnLogin: true,
