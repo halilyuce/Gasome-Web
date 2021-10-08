@@ -36,6 +36,7 @@ export default {
     '@/plugins/vue-cool-lightbox.client.js',
     '@/plugins/infinite-scroll.client.js',
     '@/plugins/helpers',
+    '@/plugins/axios.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
