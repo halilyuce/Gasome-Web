@@ -171,7 +171,10 @@ export default {
   // runtime config
   publicRuntimeConfig: {
     apiURL: process.env.API_URL,
-  },
+    axios: {
+      browserBaseURL: process.env.API_URL,
+    },
+ },
   privateRuntimeConfig: {
     apiId: process.env.CLIENT_ID,
     apiSecret: process.env.CLIENT_SECRET,
