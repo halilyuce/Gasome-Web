@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt NODE_ENV=development",
-    "build": "nuxt build NODE_ENV=production",
-    "start": "nuxt start NODE_ENV=production",
-    "generate": "nuxt generate NODE_ENV=production"
+    "dev": "NODE_ENV=development nuxt",
+    "build": "NODE_ENV=production nuxt build",
+    "start": "NODE_ENV=production nuxt start",
+    "generate": "NODE_ENV=production nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1616003482.75c20e6",
