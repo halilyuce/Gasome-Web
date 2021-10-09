@@ -51,7 +51,7 @@ jobs:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: node_modules
           # An explicit key for restoring and saving the cache
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn-lock.json')) }}
 
       - name: Install YARN 📦
         if: steps.cache.outputs.cache-hit != 'true'
