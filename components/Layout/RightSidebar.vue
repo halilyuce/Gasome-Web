@@ -5,7 +5,7 @@
       class="relative bg-white dark:bg-black py-3 px-5 rounded-xl mt-4"
       :class="{ 'h-48': trendsLoading }"
     >
-      <h3 v-if="!trendsLoading">Most Spoken</h3>
+      <h3 v-if="!trendsLoading">{{ $t('mainPage.mostSpoken') }}</h3>
       <ul
         v-if="trends && trends.length > 0"
         class="

@@ -5,7 +5,8 @@ export default {
     mostSpoken: 'Most Spoken',
   },
   //AUTH
-  firstPage: {                                                                    //Login
+  firstPage: {
+    //Login
     newMember: 'Sign Up',
     rememberThing: 'Remember Me',
     forgotPassword: 'Forgot Password ?',
@@ -14,7 +15,8 @@ export default {
     userName: 'Username or E-mail',
     passWord: 'Password Please',
     error: 'An error occured',
-    secondError: 'It seems your credentials are wrong, please check your username and password and try again.',
+    secondError:
+      'It seems your credentials are wrong, please check your username and password and try again.',
   },
   registerPart: {
     fullName: 'Fullname',
@@ -74,7 +76,8 @@ export default {
   like: {},
   notificationList: {},
   //POSTS
-  comment: {                                            // commentComposer
+  comment: {
+    // commentComposer
     whoToReply: 'Replying to',
     replyText: 'Share your thoughts about this post',
     button: 'Reply',
@@ -90,20 +93,20 @@ export default {
     copy: 'Copy Post Link',
     twitter: 'Share on Twitter',
     boosted: 'Boosted',
-    orderBoost: 'Boost', 
+    orderBoost: 'Boost',
     orderQuote: 'Quote',
   },
   quotedPost: {},
   singlePost: {
-    boosted: 'boosted',    //17
-    comments: 'comments',  //123 343
+    boosted: 'boosted', //17
+    comments: 'comments', //123 343
     comment: 'comment', //123
     boosts: 'boosts', //130 350
     boost: 'boost', //130
     favorites: 'favorites', //137  357
     favorite: 'favorite', //137
-    orderBoost: 'Boost',  //404
-    orderQuote: 'Quote',  //413
+    orderBoost: 'Boost', //404
+    orderQuote: 'Quote', //413
     copy: 'Copy Post Link', //234
     twitter: 'Share on Twitter', //243
   },
@@ -139,7 +142,7 @@ export default {
     followsYou: 'Follows you',
     edit: 'Edit Profile',
     follow: 'Follow',
-    unfollow: 'Unfollow'
+    unfollow: 'Unfollow',
   },
   wishList: {
     makesure: 'Are you sure to REMOVE ?',
@@ -154,8 +157,9 @@ export default {
   wrong: {
     contactButton: 'Contact us',
     missing: 'This page has gone missing.',
-    errorMessage: 'You may have mistyped the address or the page may have moved.',
-    homePageBtn: 'Back to Home'
+    errorMessage:
+      'You may have mistyped the address or the page may have moved.',
+    homePageBtn: 'Back to Home',
   },
   //P
   p: {
@@ -163,8 +167,8 @@ export default {
   },
   //G
   g: {
-   summary: 'Summary',
-   ratings: 'Ratings',
+    summary: 'Summary',
+    ratings: 'Ratings',
   },
   //H
   h: {
@@ -174,7 +178,8 @@ export default {
   changePassword: {
     change: 'Change Password',
     update: 'Update your account password',
-    warning: 'Your new password must match with criteria and you must enter current password to update.',
+    warning:
+      'Your new password must match with criteria and you must enter current password to update.',
     currentPassword: 'Enter Current Password',
     newPassword: 'Enter New Password',
     message: 'Password updated successfully, you can use your new password.',
@@ -205,12 +210,15 @@ export default {
   forgot: {
     back: 'Back',
     mailFill: 'E-mail address you registered',
-    message: 'Please enter the e-mail address you registered to Gasome in the box above.',
+    message:
+      'Please enter the e-mail address you registered to Gasome in the box above.',
     sendButton: 'Send Reset Link',
-    secondMessage: 'Password reset link sent successfully, please check your inbox.',
+    secondMessage:
+      'Password reset link sent successfully, please check your inbox.',
     newPassword: 'Enter New Password',
     confirm: 'Confirm New Password',
     changeButton: 'Change Password',
-    lastMessage: 'Password changed successfully, you can login with your new password.',
+    lastMessage:
+      'Password changed successfully, you can login with your new password.',
   },
 }
