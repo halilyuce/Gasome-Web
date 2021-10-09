@@ -1,6 +1,6 @@
 require('dotenv').config()
 export default {
-  target: "https://gasome.com"
+  target: "https://gasome.com",
   ssr: false,
   router: {
     base: '/',
