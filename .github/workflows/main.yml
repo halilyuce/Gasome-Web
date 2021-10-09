@@ -33,7 +33,7 @@ jobs:
       - name: Rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
-          switches: -avzr --delete --exclude="" --include="" --filter=""
+          switches: -avzr
           path: /
           remote_path: /var/www/vhosts/gasome.com/httpdocs/Gasome-Web/
           remote_host: ${{ secrets.SSH_HOST }}
