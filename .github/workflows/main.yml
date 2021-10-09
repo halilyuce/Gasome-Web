@@ -46,12 +46,15 @@ jobs:
           # An explicit key for restoring and saving the cache
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
 
-      - name: Install YARN
+      - name: Install YARN 📦
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
         
       - name: Generate Project 👨🏻‍💻
         run: yarn generate
         
-      - name: PM2 Restart
+      - name: Install PM2 📦
+        run: npm install -g pm2
+        
+      - name: PM2 Restart 👨🏻‍💻
         run: pm2 restart Gasome --update-env
