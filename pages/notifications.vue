@@ -41,14 +41,19 @@
         ></infinite-loading>
       </client-only>
     </ul>
+    <no-data
+      v-if="!loading && notifications && notifications.legth === 0"
+      class="mx-5"
+    />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import NotificationList from '~/components/Notifications/NotificationList'
+import NoData from '~/components/UI/NoData.vue'
 export default {
-  components: { NotificationList },
+  components: { NotificationList, NoData },
   layout: 'sidebars',
   computed: {
     ...mapState({

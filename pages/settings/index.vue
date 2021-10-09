@@ -38,6 +38,30 @@
           dark:border-gray-700
         "
       >
+        <n-link :to="'/settings/language'" class="flex flex-row items-center">
+          <i class="bx bx-world text-gray-600 dark:text-gray-300 text-2xl"></i>
+          <div class="flex flex-col ml-4">
+            <h3>{{ $t('Language') }}</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300">{{
+              $t('Update your language settings')
+            }}</span>
+          </div>
+        </n-link>
+        <vs-button :to="'/settings/language'" icon flat
+          ><i class="bx bxs-chevron-right"></i
+        ></vs-button>
+      </li>
+      <li
+        class="
+          flex
+          justify-between
+          hover:bg-purple-300 hover:bg-opacity-10
+          items-center
+          p-5
+          border-b border-gray-200
+          dark:border-gray-700
+        "
+      >
         <n-link
           :to="'/settings/change-password'"
           class="flex flex-row items-center"

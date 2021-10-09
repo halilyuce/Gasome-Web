@@ -157,16 +157,21 @@ export default {
   i18n: {
     locales: [
       {
+        name: 'English',
         code: 'en',
+        iso: 'en-EN',
         file: 'en.js',
       },
       {
+        name: 'Türkçe',
         code: 'tr',
+        iso: 'tr-TR',
         file: 'tr.js',
       },
     ],
     langDir: 'language/',
     defaultLocale: 'en',
+    strategy: 'no_prefix',
   },
 
   // runtime config
@@ -175,7 +180,7 @@ export default {
     axios: {
       browserBaseURL: process.env.API_URL,
     },
- },
+  },
   privateRuntimeConfig: {
     apiId: process.env.CLIENT_ID,
     apiSecret: process.env.CLIENT_SECRET,
