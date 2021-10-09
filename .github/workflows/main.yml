@@ -56,5 +56,5 @@ jobs:
       - name: Install PM2 📦
         run: npm install -g pm2
         
-      - name: PM2 Restart 👨🏻‍💻
-        run: pm2 restart Gasome --update-env
+      - name: PM2 Start 👨🏻‍💻
+        run: pm2 start
