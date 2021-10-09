@@ -3,7 +3,7 @@
     <div class="grid grid-cols-6 lg:grid-cols-5 gap-4 min-h-screen">
       <div class="p-10 lg:p-20 my-auto col-span-6 md:col-span-3 lg:col-span-2">
         <div class="flex justify-start my-5">
-          <Logo />
+          <Logo :size="{ width: '42pt', height: '56pt' }" />
         </div>
         <div class="flex justify-between items-center">
           <n-link :to="'/login'">
@@ -11,7 +11,7 @@
               <b class="mx-5">Sign In</b>
 
               <template #animate>
-                <i class="bx bxs-face"></i>
+                <i class="bx bx-log-in"></i>
               </template>
             </vs-button>
           </n-link>
@@ -88,7 +88,9 @@
           </vs-button>
         </form>
         <div class="flex justify-center text-sm my-5">
-          <span class="text-gray-700">Already have an account?</span>
+          <span class="text-gray-600 dark:text-gray-400"
+            >Already have an account?</span
+          >
           <n-link :to="'/login'" class="ml-3 text-purple-500 font-bold"
             >Login</n-link
           >
