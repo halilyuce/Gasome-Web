@@ -8,14 +8,14 @@ export default {
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'Gasome - Gamer Social Media',
+    title: 'Gasome | Gamer Social Media',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: 'Gamer Social Media',
+        content: 'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
