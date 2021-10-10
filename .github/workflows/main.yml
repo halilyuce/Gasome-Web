@@ -1,4 +1,4 @@
-name: CI
+name: Gasome Frontent CI
 
 on:
   push:
@@ -18,9 +18,6 @@ jobs:
         node: [14]
 
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
-        
       - name: Deploy Project 👨🏻‍💻
         uses: appleboy/ssh-action@master
         with:
