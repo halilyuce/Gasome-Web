@@ -35,12 +35,18 @@
         </vs-button>
       </div>
 
-      <PostsBody
-        :posts="posts"
-        @favorite-post="favorite"
-        @boost-post="boost"
-        @quote-post="quote"
-      />
+      <div v-if="posts && posts.length > 0">
+        <PostsBody
+          :posts="posts"
+          @favorite-post="favorite"
+          @boost-post="boost"
+          @quote-post="quote"
+        />
+      </div>
+
+      <div v-else>
+        <UserSuggestions @reloadPosts="reloadPage" />
+      </div>
 
       <client-only>
         <infinite-loading
@@ -57,9 +63,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import PostsBody from '../components/Posts/PostsBody.vue'
+import UserSuggestions from '../components/Layout/UserSuggestions.vue'
 export default {
   components: {
     PostsBody,
+    UserSuggestions,
   },
   layout: 'sidebars',
   computed: {
@@ -109,6 +117,11 @@ export default {
     openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
+    },
+
+    reloadPage() {
+      this.page = 0
+      this.infiniteHandler()
     },
 
     infiniteHandler($state) {
