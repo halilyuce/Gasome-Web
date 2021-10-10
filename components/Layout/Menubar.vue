@@ -18,7 +18,7 @@
         @click="changeTab('home')"
       >
         <i class="bx bx-home text-2xl"></i>
-        <span class="menu-text-xxs md:text-sm">Home</span>
+        <span class="menu-text-xxs md:text-sm">{{ $t('menuBar.home') }}</span>
       </div>
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
@@ -26,7 +26,7 @@
         @click="changeTab('swaps')"
       >
         <i class="bx bx-shuffle text-2xl"></i>
-        <span class="menu-text-xxs md:text-sm">Swaps</span>
+        <span class="menu-text-xxs md:text-sm">{{ $t('menuBar.swaps') }}</span>
       </div>
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
@@ -34,7 +34,9 @@
         @click="changeTab('discover')"
       >
         <i class="bx bx-joystick text-2xl"></i>
-        <span class="menu-text-xxs md:text-sm">Discover</span>
+        <span class="menu-text-xxs md:text-sm">{{
+          $t('menuBar.discover')
+        }}</span>
       </div>
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
@@ -69,7 +71,9 @@
             >{{ notificationBadge }}</span
           >
         </span>
-        <span class="menu-text-xxs md:text-sm">Notifications</span>
+        <span class="menu-text-xxs md:text-sm">{{
+          $t('menuBar.notifcations')
+        }}</span>
       </div>
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
@@ -102,7 +106,9 @@
             >{{ messagesBadge }}</span
           >
         </span>
-        <span class="menu-text-xxs md:text-sm">Messages</span>
+        <span class="menu-text-xxs md:text-sm">{{
+          $t('menuBar.messages')
+        }}</span>
       </div>
     </div>
   </div>

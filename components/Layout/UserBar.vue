@@ -22,10 +22,12 @@
           </div>
         </div>
 
-        <vs-button :to="'/edit-profile'"> Edit Profile </vs-button>
+        <vs-button :to="'/edit-profile'">
+          {{ $t('userBar.editProfile') }}
+        </vs-button>
       </div>
 
-      <h2 class="mt-8 text-center">Statistics</h2>
+      <h2 class="mt-8 text-center">{{ $t('userBar.statistics') }}</h2>
       <div class="grid grid-cols-6 gap-0">
         <vs-button
           :to="
@@ -40,7 +42,9 @@
         >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.follows : '' }}</h2>
-            <span class="text-gray-400 text-xs">Follows</span>
+            <span class="text-gray-400 text-xs">{{
+              $t('userBar.follows')
+            }}</span>
           </div>
           <template #animate>
             <i class="bx bxs-user-plus text-3xl"></i>
@@ -59,7 +63,9 @@
         >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.followers : '' }}</h2>
-            <span class="text-gray-400 text-xs">Followers</span>
+            <span class="text-gray-400 text-xs">{{
+              $t('userBar.followers')
+            }}</span>
           </div>
           <template #animate>
             <i class="bx bxs-user-plus text-3xl"></i>
@@ -74,7 +80,7 @@
         >
           <div class="flex flex-col items-center">
             <h2>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h2>
-            <span class="text-gray-400 text-xs">Swaps</span>
+            <span class="text-gray-400 text-xs">{{ $t('userBar.swaps') }}</span>
           </div>
           <template #animate>
             <i class="bx bx-shuffle text-3xl"></i>
@@ -83,10 +89,10 @@
       </div>
 
       <div class="bg-white dark:bg-black py-3 px-5 rounded-xl mt-auto">
-        <h3>Give Feedback</h3>
+        <h3>{{ $t('userBar.feedback') }}</h3>
         <div class="flex flex-col mt-2">
           <p class="text-sm text-gray-800 dark:text-gray-200 mb-2">
-            We're in beta and we're waiting for your feedbacks :)
+            {{ $t('userBar.textPart') }}
           </p>
           <vs-button
             danger
@@ -97,7 +103,8 @@
               )
             "
           >
-            Send Feedback <i class="bx bxs-flag-checkered ml-2"></i>
+            {{ $t('userBar.sendPhase')
+            }}<i class="bx bxs-flag-checkered ml-2"></i>
           </vs-button>
         </div>
       </div>

@@ -9,7 +9,7 @@
       disable-scrollbars
     "
   >
-    <h1 class="p-5">Notifications</h1>
+    <h1 class="p-5">{{ $t('notify.notifications') }}</h1>
     <ul
       v-if="notifications"
       class="

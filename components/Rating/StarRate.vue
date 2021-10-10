@@ -31,8 +31,8 @@
       </vs-button-group>
     </div>
     <div v-else>
-      <p>Nobody rated this game yet.</p>
-      <vs-button class="m-0">Be first!</vs-button>
+      <p>{{ $t('startRate.nobody') }}</p>
+      <vs-button class="m-0">{{ $t('startRate.beFirst') }}</vs-button>
     </div>
   </div>
 </template>

@@ -54,7 +54,9 @@
               "
             ></i>
             <span class="ml-2 mr-1">{{
-              follower.isAuthFollow ? 'Unfollow' : 'Follow'
+              follower.isAuthFollow
+                ? $t('userListItem.unfollow')
+                : $t('userListItem.follow')
             }}</span>
           </vs-button>
         </div>

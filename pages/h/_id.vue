@@ -65,7 +65,7 @@
             @click="changeFilter(false)"
           >
             <i class="bx mr-2 text-base bx-time"></i>
-            Recent
+            {{ $t('h.recent') }}
           </vs-button>
         </div>
       </div>

@@ -22,8 +22,8 @@
         <h5>{{ user.name }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
           followers
-            ? user.followers + ' Followers'
-            : user.follows + ' Following'
+            ? user.followers + $t('followersHeader.follower')
+            : user.follows + $t('followersHeader.following')
         }}</span>
       </div>
     </div>
