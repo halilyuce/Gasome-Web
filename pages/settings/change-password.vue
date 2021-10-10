@@ -21,10 +21,10 @@
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
-        <h5>Change Password</h5>
-        <span class="text-gray-400 text-sm mr-1"
-          >Update your account password</span
-        >
+        <h5>{{ $t('changePassword.change') }}</h5>
+        <span class="text-gray-400 text-sm mr-1">{{
+          $t('changePassword.update')
+        }}</span>
       </div>
     </div>
 
@@ -33,15 +33,14 @@
         <template #icon>
           <i class="bx bxs-error"></i>
         </template>
-        Your new password must match with criteria and you must enter current
-        password to update.
+        {{ $t('changePassword.warning') }}
       </vs-alert>
 
       <vs-input
         v-model="current"
         type="password"
         :color="isDark ? '#6e00ff' : '#7850ff'"
-        placeholder="Enter Current Password"
+        :placeholder="$t('changePassword.currentPassword')"
         :visible-password="hasVisiblePassword"
         icon-after
         class="my-5"
@@ -56,7 +55,7 @@
         v-model="password"
         type="password"
         :color="isDark ? '#6e00ff' : '#7850ff'"
-        placeholder="Enter New Password"
+        :placeholder="$t('changePassword.newPassword')"
         :visible-password="hasVisiblePassword"
         icon-after
         class="mb-7"
@@ -73,7 +72,7 @@
           <template #icon>
             <i class="bx bxs-lock-open"></i>
           </template>
-          Password updated successfully, you can use your new password.
+          {{ $t('changePassword.message') }}
         </vs-alert>
       </div>
 
@@ -85,7 +84,7 @@
         :loading="passwordLoading"
         @keyup.enter="updatePassword"
       >
-        <b>Update Password</b>
+        <b>{{ $t('changePassword.updateButton') }}</b>
         <template #animate>
           <i class="bx bxs-lock"></i>
         </template>

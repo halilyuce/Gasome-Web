@@ -21,8 +21,10 @@
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
-        <h5>Settings</h5>
-        <span class="text-gray-400 text-sm mr-1">Update your preferences</span>
+        <h5>{{ $t('main.settings') }}</h5>
+        <span class="text-gray-400 text-sm mr-1">{{
+          $t('main.directive')
+        }}</span>
       </div>
     </div>
 
@@ -68,10 +70,10 @@
         >
           <i class="bx bxs-lock text-gray-600 dark:text-gray-300 text-2xl"></i>
           <div class="flex flex-col ml-4">
-            <h3>Change Password</h3>
-            <span class="text-xs text-gray-600 dark:text-gray-300"
-              >Update your account password</span
-            >
+            <h3>{{ $t('main.changeA') }}</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300">{{
+              $t('main.changeB')
+            }}</span>
           </div>
         </n-link>
         <vs-button :to="'/settings/change-password'" icon flat
@@ -100,10 +102,10 @@
             "
           ></i>
           <div class="flex flex-col ml-4">
-            <h3>Privacy Policy</h3>
-            <span class="text-xs text-gray-600 dark:text-gray-300"
-              >You should know what data we collect from you</span
-            >
+            <h3>{{ $t('main.privacyA') }}</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300">{{
+              $t('main.privacyB')
+            }}</span>
           </div>
         </n-link>
         <vs-button :to="'/privacy'" icon flat
@@ -130,10 +132,10 @@
             class="bx bxs-help-circle text-gray-600 dark:text-gray-300 text-2xl"
           ></i>
           <div class="flex flex-col ml-4">
-            <h3>Support & Feedback</h3>
-            <span class="text-xs text-gray-600 dark:text-gray-300"
-              >You can give feedback or you can ask anything you want</span
-            >
+            <h3>{{ $t('main.supportA') }}</h3>
+            <span class="text-xs text-gray-600 dark:text-gray-300">{{
+              $t('main.supportB')
+            }}</span>
           </div>
         </a>
         <vs-button

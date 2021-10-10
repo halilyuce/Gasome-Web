@@ -5,7 +5,7 @@
       class="relative bg-white dark:bg-black py-3 px-5 rounded-xl mt-4"
       :class="{ 'h-48': trendsLoading }"
     >
-      <h3 v-if="!trendsLoading">{{ $t('mainPage.mostSpoken') }}</h3>
+      <h3 v-if="!trendsLoading">{{ $t('rightSideBar.mostSpoken') }}</h3>
       <ul
         v-if="trends && trends.length > 0"
         class="
@@ -37,7 +37,7 @@
       :class="{ 'h-48': recommendsLoading }"
     >
       <h3 v-if="recommendedUsers.length > 0" class="pt-3 pl-5">
-        User Suggestions
+        {{ $t('rightSideBar.suggestion') }}
       </h3>
       <ul
         class="
@@ -86,7 +86,9 @@
             @click="followUser(user.username)"
           >
             <span class="px-1">{{
-              followedList.includes(user.username) ? 'Unfollow' : 'Follow'
+              followedList.includes(user.username)
+                ? $t('rightSideBar.unfollow')
+                : $t('rightSideBar.unfollow')
             }}</span>
           </vs-button>
         </li>
@@ -94,8 +96,12 @@
     </div>
 
     <div class="flex flex-row justify-between mt-auto">
-      <a href="#" class="text-gray-500 text-sm">Privacy Policy</a>
-      <a href="#" class="text-gray-500 text-sm">Support</a>
+      <a href="#" class="text-gray-500 text-sm">{{
+        $t('rightSideBar.privacy')
+      }}</a>
+      <a href="#" class="text-gray-500 text-sm">{{
+        $t('rightSideBar.support')
+      }}</a>
       <a href="#" class="text-gray-500 text-sm">© 2021 Gasome</a>
     </div>
   </div>

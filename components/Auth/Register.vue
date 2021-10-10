@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center">
           <n-link :to="'/login'">
             <vs-button shadow border animation-type="scale">
-              <b class="mx-5">Sign In</b>
+              <b class="mx-5">{{ $t('registerPart.sign') }}</b>
 
               <template #animate>
                 <i class="bx bx-log-in"></i>
@@ -26,7 +26,7 @@
           <vs-input
             v-model="fullname"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Full Name"
+            :placeholder="$t('registerPart.fullName')"
             class="my-5"
           >
             <template #icon>
@@ -36,7 +36,7 @@
           <vs-input
             v-model="username"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Username"
+            :placeholder="$t('registerPart.userName')"
             class="my-5"
           >
             <template #icon>
@@ -46,7 +46,7 @@
           <vs-input
             v-model="email"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="E-mail Adress"
+            :placeholder="$t('registerPart.addressEmail')"
             class="my-5"
           >
             <template #icon>
@@ -58,7 +58,7 @@
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
             class="my-5"
-            placeholder="Password"
+            :placeholder="$t('registerPart.password')"
             :progress="getProgress"
             :visible-password="hasVisiblePassword"
             icon-after
@@ -70,7 +70,7 @@
             </template>
 
             <template v-if="getProgress >= 100" #message-success>
-              Secure password
+              {{ $t('registerPart.securePassword') }}
             </template>
           </vs-input>
           <vs-button
@@ -81,19 +81,19 @@
             :loading="registerLoading"
             @keyup.enter="registerUser"
           >
-            <b>Register</b>
+            <b>{{ $t('registerPart.register') }}</b>
             <template #animate>
               <i class="bx bxs-game"></i>
             </template>
           </vs-button>
         </form>
         <div class="flex justify-center text-sm my-5">
-          <span class="text-gray-600 dark:text-gray-400"
-            >Already have an account?</span
-          >
-          <n-link :to="'/login'" class="ml-3 text-purple-500 font-bold"
-            >Login</n-link
-          >
+          <span class="text-gray-600 dark:text-gray-400">{{
+            $t('registerPart.hadAccount')
+          }}</span>
+          <n-link :to="'/login'" class="ml-3 text-purple-500 font-bold">{{
+            $t('registerPart.login')
+          }}</n-link>
         </div>
         <!-- <div class="my-5 separator">or continue with</div>
         <div class="grid grid-cols-3 gap-2">

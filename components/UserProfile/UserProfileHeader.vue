@@ -20,7 +20,7 @@
       <div class="flex flex-col ml-9">
         <h5>{{ user.name }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          user.postcount + ' Posts'
+          user.postcount + $t('userProfileHeader.post')
         }}</span>
       </div>
     </div>
@@ -53,7 +53,7 @@
             <div class="flex flex-col items-start md:flex-row md:items-center">
               <span class="text-gray-400 mr-1">{{ '@' + user.username }}</span>
               <vs-button v-if="user.isFollowsYou" size="mini" flat>
-                Follows You
+                {{ $t('userProfileHeader.followsYou') }}
               </vs-button>
             </div>
           </div>
@@ -84,10 +84,10 @@
             ></i>
             <span class="ml-2 mr-1">{{
               user.id === loggedInUser.id
-                ? 'Edit Profile'
+                ? $t('userProfileHeader.edit')
                 : user.isFollow
-                ? 'Unfollow'
-                : 'Follow'
+                ? $t('userProfileHeader.unfollow')
+                : $t('userProfileHeader.follow')
             }}</span>
           </vs-button>
         </div>
@@ -141,7 +141,9 @@
           <n-link :to="`${user.username}/follow?tab=following`">
             <div class="flex items-center">
               <b class="text-black mr-1 dark:text-white">{{ user.follows }}</b>
-              <span class="text-gray-400 ml-1">Following</span>
+              <span class="text-gray-400 ml-1">{{
+                $t('userProfileHeader.followNumber')
+              }}</span>
             </div>
           </n-link>
           <n-link :to="`${user.username}/follow?tab=followers`">
@@ -149,7 +151,9 @@
               <b class="text-black mr-1 dark:text-white">{{
                 user.followers
               }}</b>
-              <span class="text-gray-400 ml-1">Followers</span>
+              <span class="text-gray-400 ml-1">{{
+                $t('userProfileHeader.followersNumber')
+              }}</span>
             </div>
           </n-link>
         </div>

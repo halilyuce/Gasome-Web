@@ -2,7 +2,8 @@
   <div
     class="
       bg-white
-      dark:bg-black dark:text-white
+      dark:bg-black
+      dark:text-white
       min-h-screen
       flex flex-col
       items-center
@@ -24,7 +25,7 @@
         <Logo />
         <n-link :to="'/'">
           <vs-button :active="true" animation-type="vertical">
-            <span class="mx-2">Contact Us</span>
+            <span class="mx-2">{{ $t('errorPage.contactButton') }}</span>
             <template #animate>
               <i class="bx bx-mail-send"></i>
             </template>
@@ -34,15 +35,15 @@
       <div class="w-full md:w-5/12 text-center p-5 lg:p-20">
         <h1 class="text-404 font-black">404</h1>
         <div class="text-xl md:text-3xl font-medium">
-          This page has gone missing.
+          {{ $t('errorPage.missing') }}
         </div>
         <div class="text-lg mb-8">
-          You may have mistyped the address or the page may have moved.
+          {{ $t('errorPage.errorMessage') }}
         </div>
         <div class="flex justify-center">
           <n-link :to="'/'">
             <vs-button size="large" :active="true" animation-type="vertical">
-              <span class="mx-2">Back to Home</span>
+              <span class="mx-2">{{ $t('errorPage.homePageBtn') }}</span>
               <template #animate>
                 <i class="bx bx-home-alt"></i>
               </template>

@@ -4,7 +4,8 @@
       bg-white
       dark:bg-black
       col-span-12
-      lg:col-span-8 lg:h-screen
+      lg:col-span-8
+      lg:h-screen
       relative
       overflow-auto
       mobile-height
@@ -180,7 +181,8 @@
           text-sm
           bg-gray-50
           dark:bg-content-bg
-          lg:rounded-2xl lg:shadow-2xl
+          lg:rounded-2xl
+          lg:shadow-2xl
         "
       >
         <div class="flex flex-row w-full items-center">
@@ -200,13 +202,14 @@
               px-3
               py-2
               text-gray-700
-              dark:text-gray-300 dark:bg-black
+              dark:text-gray-300
+              dark:bg-black
               rounded-lg
               focus:outline-none
               resize-none
             "
             rows="1"
-            placeholder="Type something..."
+            :placeholder="$t('messages.typing')"
             :disabled="sendLoading"
             @focus="resize"
             @keyup="resize"

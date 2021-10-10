@@ -24,7 +24,7 @@
           class="flex flex-row items-center text-gray-400 ml-9 mb-2"
         >
           <i class="bx bxs-zap mr-1"></i>
-          <span>{{ post.user.name + ' ' + 'Boosted' }} </span>
+          <span>{{ post.user.name + ' ' + $t('postBody.boosted') }} </span>
         </div>
         <div v-if="post.only_boost" class="flex flex-row">
           <div class="user">
@@ -161,7 +161,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="boost(post.quoted_post[0])"
                     >
-                      <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                      <i class="bx bxs-zap text-lg mr-3"></i>
+                      {{ $t('postBody.orderBoost') }}
                     </a>
                   </li>
                   <li>
@@ -170,7 +171,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="quote(post.quoted_post[0])"
                     >
-                      <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                      <i class="bx bxs-comment-detail text-lg mr-3"></i>
+                      {{ $t('postBody.orderQuote') }}
                     </a>
                   </li>
                 </ul>
@@ -211,8 +213,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="copyLink(post.quoted_post[0])"
                     >
-                      <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post
-                      Link
+                      <i class="bx bxs-copy-alt text-lg mr-3"></i>
+                      {{ $t('postBody.copy') }}
                     </a>
                   </li>
                   <li>
@@ -221,8 +223,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="shareTwitter(post.quoted_post[0])"
                     >
-                      <i class="bx bxl-twitter text-lg mr-3"></i> Share on
-                      Twitter
+                      <i class="bx bxl-twitter text-lg mr-3"></i>
+                      {{ $t('postBody.twitter') }}
                     </a>
                   </li>
                 </ul>
@@ -350,7 +352,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="boost(post)"
                     >
-                      <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                      <i class="bx bxs-zap text-lg mr-3"></i>
+                      {{ $t('postBody.orderBoost') }}
                     </a>
                   </li>
                   <li>
@@ -359,7 +362,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="quote(post)"
                     >
-                      <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                      <i class="bx bxs-comment-detail text-lg mr-3"></i>
+                      {{ $t('postBody.orderQuote') }}
                     </a>
                   </li>
                 </ul>
@@ -397,8 +401,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="copyLink(post)"
                     >
-                      <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post
-                      Link
+                      <i class="bx bxs-copy-alt text-lg mr-3"></i>
+                      {{ $t('postBody.copy') }}
                     </a>
                   </li>
                   <li>
@@ -407,8 +411,8 @@
                       class="dark:text-gray-300 hover:text-purple-500"
                       @click.prevent="shareTwitter(post)"
                     >
-                      <i class="bx bxl-twitter text-lg mr-3"></i> Share on
-                      Twitter
+                      <i class="bx bxl-twitter text-lg mr-3"></i>
+                      {{ $t('postBody.twitter') }}
                     </a>
                   </li>
                 </ul>

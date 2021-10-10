@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center">
           <n-link :to="'/register'">
             <vs-button shadow border animation-type="scale">
-              <b class="mx-5">Sign Up</b>
+              <b class="mx-5"> {{ $t('login.newMember') }}</b>
 
               <template #animate>
                 <i class="bx bxs-check-shield"></i>
@@ -26,7 +26,7 @@
           <vs-input
             v-model="username"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Username or E-mail"
+            :placeholder="$t('login.userName')"
             class="my-5"
           >
             <template #icon>
@@ -37,7 +37,7 @@
             v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Password"
+            :placeholder="$t('login.password')"
             :visible-password="hasVisiblePassword"
             icon-after
             @click-icon="hasVisiblePassword = !hasVisiblePassword"
@@ -59,7 +59,9 @@
             "
           >
             <!-- <vs-checkbox v-model="remember">Remember me</vs-checkbox> -->
-            <n-link :to="'/forgot-password'">Forgot Password?</n-link>
+            <n-link :to="'/forgot-password'">{{
+              $t('login.forgotPassword')
+            }}</n-link>
           </div>
           <vs-button
             block
@@ -76,10 +78,12 @@
           </vs-button>
         </form>
         <div class="flex justify-center text-sm my-5">
-          <span class="text-gray-600 dark:text-gray-400">New Here?</span>
-          <n-link class="ml-3 text-purple-500 font-bold" :to="'/register'"
-            >Create New Account</n-link
-          >
+          <span class="text-gray-600 dark:text-gray-400">{{
+            $t('login.newThing')
+          }}</span>
+          <n-link class="ml-3 text-purple-500 font-bold" :to="'/register'">{{
+            $t('login.newAccount')
+          }}</n-link>
         </div>
         <!-- <div class="my-5 separator">or continue with</div>
         <div class="grid grid-cols-3 gap-2">
