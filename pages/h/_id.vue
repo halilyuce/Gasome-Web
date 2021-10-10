@@ -54,7 +54,7 @@
             @click="changeFilter(true)"
           >
             <i class="bx mr-2 text-base bxs-to-top"></i>
-            Top
+            {{ $t('h.top') }}
           </vs-button>
           <vs-button
             :transparent="isTop"
