@@ -169,6 +169,7 @@ export const actions = {
     await dispatch('getPostById', slug)
   },
   async loadMorePosts({ dispatch, state, commit }) {
+    commit('setLoading', true)
     try {
       const response = await this.$axios.get('/api/getPosts?page=' + state.page)
       commit('insertPosts', response.data.data.data)

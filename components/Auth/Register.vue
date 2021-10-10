@@ -58,7 +58,7 @@
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
             class="my-5"
-            :placeholder="$t('registerPart.password')"
+            :placeholder="$t('registerPart.passWord')"
             :progress="getProgress"
             :visible-password="hasVisiblePassword"
             icon-after

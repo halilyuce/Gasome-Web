@@ -82,11 +82,11 @@ export default {
       followingCurrentPage: 0,
       tabs: [
         {
-          title: 'Following',
+          title: this.$t('followerHeader.follow'),
           value: 'following',
         },
         {
-          title: 'Followers',
+          title: this.$t('followerHeader.follower'),
           value: 'followers',
         },
       ],

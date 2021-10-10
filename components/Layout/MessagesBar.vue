@@ -6,10 +6,8 @@
       bg-white
       dark:bg-black
       w-full
-      2xl:w-1/2
-      2xl:ml-auto
-      lg:h-screen
-      lg:border-l lg:border-r
+      2xl:w-1/2 2xl:ml-auto
+      lg:h-screen lg:border-l lg:border-r
       border-gray-200 border-b
       lg:border-b-0
       dark:border-gray-700
@@ -26,7 +24,7 @@
         color="#7d33ff"
         type="search"
         icon-after
-        :placeholder="$('messagesBar.search')"
+        :placeholder="$t('messagesBar.search')"
         class="w-full px-5"
       >
         <template #icon>
@@ -41,13 +39,12 @@
         lg:flex
         justify-between
         items-center
-        lg:mx-5
-        lg:mt-5
+        lg:mx-5 lg:mt-5
         px-3
         lg:px-0
       "
     >
-      <h3 class="flex">Contacts</h3>
+      <h3 class="flex">{{ $t('messagesBar.contacts') }}</h3>
       <vs-button size="small" success flat disabled>
         <i class="bx bxs-user-plus text-base"></i>
         <span class="mx-2 text-xs">{{ $t('messagesBar.new') }}</span>
@@ -59,8 +56,7 @@
       class="
         relative
         flex flex-row
-        lg:flex-col
-        lg:divide-y lg:divide-gray-200
+        lg:flex-col lg:divide-y lg:divide-gray-200
         dark:divide-gray-700
         pl-3
         lg:pl-0
@@ -79,10 +75,7 @@
           cursor-pointer
           p-2
           rounded-lg
-          lg:rounded-none
-          lg:pl-5
-          lg:pr-3
-          lg:py-4
+          lg:rounded-none lg:pl-5 lg:pr-3 lg:py-4
         "
         :class="{ 'bg-gray-100 dark:bg-content-bg': contact === selected }"
         @click="selected = contact"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col pt-1 pb-5 px-8 w-full">
+  <div class="flex flex-col pt-1 pb-5 w-full">
     <ul
       v-if="users"
       class="
@@ -28,7 +28,12 @@
             />
 
             <div class="flex flex-col ml-2">
-              <h5 class="truncate w-28 overflow-ellipsis">{{ user.name }}</h5>
+              <h5
+                class="truncate overflow-ellipsis"
+                :class="{ 'w-28': !fullWidth }"
+              >
+                {{ user.name }}
+              </h5>
               <span class="text-gray-400 text-xs">{{
                 '@' + user.username
               }}</span>
@@ -57,6 +62,7 @@ export default {
   name: 'UserSuggestions',
   props: {
     users: [],
+    fullWidth: false,
   },
   data() {
     return {
