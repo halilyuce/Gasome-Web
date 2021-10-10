@@ -67,9 +67,9 @@
           </li>
         </ul>
         <div v-if="activeTab === 'info'" class="px-8">
-          <h2>Summary</h2>
+          <h2>{{ $t('g.summary') }}</h2>
           <p class="my-3" v-html="game.summary" />
-          <h2>Ratings</h2>
+          <h2>{{ $t('g.ratings') }}</h2>
           <StarRate
             :disabled="false"
             :point="parseFloat(game.ratings.total_rate)"

@@ -27,7 +27,7 @@
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
-        <h3>Post</h3>
+        <h3>{{ $t('p.post') }}</h3>
       </div>
     </div>
 

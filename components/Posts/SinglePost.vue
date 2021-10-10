@@ -14,7 +14,7 @@
         class="flex flex-row items-center text-gray-400 ml-9 mb-2"
       >
         <i class="bx bxs-zap mr-1"></i>
-        <span>{{ post.user.name + ' ' + 'Boosted' }} </span>
+        <span>{{ post.user.name + ' ' + $t('singlePost.boosted') }} </span>
       </div>
       <div v-if="post.only_boost" class="flex flex-col">
         <div class="user flex flex-row mb-3 px-5">
@@ -120,21 +120,27 @@
             <div class="flex items-center mr-5">
               <b>{{ post.quoted_post[0].comments_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.quoted_post[0].comments_count > 1 ? 'Comments' : 'Comment'
+                post.quoted_post[0].comments_count > 1
+                  ? $t('singlePost.comments')
+                  : $t('singlePost.comment')
               }}</span>
             </div>
 
             <div class="flex items-center mr-5">
               <b>{{ post.quoted_post[0].boosts_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.quoted_post[0].boosts_count > 1 ? 'Boosts' : 'Boost'
+                post.quoted_post[0].boosts_count > 1
+                  ? $t('singlePost.boosts')
+                  : $t('singlePost.boost')
               }}</span>
             </div>
 
             <div class="flex items-center">
               <b>{{ post.quoted_post[0].likes_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.quoted_post[0].likes_count > 1 ? 'Favorites' : 'Favorite'
+                post.quoted_post[0].likes_count > 1
+                  ? $t('singlePost.favorites')
+                  : $t('singlePost.favorite')
               }}</span>
             </div>
           </div>
@@ -182,7 +188,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click="boost(post.quoted_post[0])"
                   >
-                    <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                    <i class="bx bxs-zap text-lg mr-3"></i>
+                    {{ $t('singlePost.orderBoost') }}
                   </a>
                 </li>
                 <li>
@@ -191,7 +198,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click="quote(post.quoted_post[0])"
                   >
-                    <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                    <i class="bx bxs-comment-detail text-lg mr-3"></i>
+                    {{ $t('singlePost.orderQuote') }}
                   </a>
                 </li>
               </ul>
@@ -231,7 +239,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click.prevent="copyLink(post)"
                   >
-                    <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post Link
+                    <i class="bx bxs-copy-alt text-lg mr-3"></i>
+                    {{ $t('singlePost.copy') }}
                   </a>
                 </li>
                 <li>
@@ -240,7 +249,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click.prevent="shareTwitter(post)"
                   >
-                    <i class="bx bxl-twitter text-lg mr-3"></i> Share on Twitter
+                    <i class="bx bxl-twitter text-lg mr-3"></i>
+                    {{ $t('singlePost.twitter') }}
                   </a>
                 </li>
               </ul>
@@ -340,21 +350,27 @@
             <div class="flex items-center mr-5">
               <b>{{ post.comments_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.comments_count > 1 ? 'Comments' : 'Comment'
+                post.comments_count > 1
+                  ? $t('singlePost.comments')
+                  : $t('singlePost.comment')
               }}</span>
             </div>
 
             <div class="flex items-center mr-5">
               <b>{{ post.boosts_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.boosts_count > 1 ? 'Boosts' : 'Boost'
+                post.boosts_count > 1
+                  ? $t('singlePost.boosts')
+                  : $t('singlePost.boost')
               }}</span>
             </div>
 
             <div class="flex items-center">
               <b>{{ post.likes_count }}</b>
               <span class="text-gray-400 ml-2">{{
-                post.likes_count > 1 ? 'Favorites' : 'Favorite'
+                post.likes_count > 1
+                  ? $t('singlePost.favorites')
+                  : $t('singlePost.favorite')
               }}</span>
             </div>
           </div>
@@ -401,7 +417,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click="boost(post)"
                   >
-                    <i class="bx bxs-zap text-lg mr-3"></i> Boost
+                    <i class="bx bxs-zap text-lg mr-3"></i>
+                    {{ $t('singlePost.orderBoost') }}
                   </a>
                 </li>
                 <li>
@@ -410,7 +427,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click="quote(post)"
                   >
-                    <i class="bx bxs-comment-detail text-lg mr-3"></i> Quote
+                    <i class="bx bxs-comment-detail text-lg mr-3"></i>
+                    {{ $t('singlePost.orderQuote') }}
                   </a>
                 </li>
               </ul>
@@ -448,7 +466,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click.prevent="copyLink(post)"
                   >
-                    <i class="bx bxs-copy-alt text-lg mr-3"></i> Copy Post Link
+                    <i class="bx bxs-copy-alt text-lg mr-3"></i>
+                    {{ $t('singlePost.copy') }}
                   </a>
                 </li>
                 <li>
@@ -457,7 +476,8 @@
                     class="dark:text-gray-300 hover:text-purple-500"
                     @click.prevent="shareTwitter(post)"
                   >
-                    <i class="bx bxl-twitter text-lg mr-3"></i> Share on Twitter
+                    <i class="bx bxl-twitter text-lg mr-3"></i>
+                    {{ $t('singlePost.twitter') }}
                   </a>
                 </li>
               </ul>

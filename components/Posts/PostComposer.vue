@@ -1,7 +1,10 @@
 <template>
   <vs-dialog v-model="composer" width="500px" not-center>
     <template #header>
-      <h4 class="not-margin">A penny for your <b>thoughts</b></h4>
+      <h4 class="not-margin">
+        {{ $t('postComposer.postTitle') }}
+        <b>{{ $t('postComposer.though') }}</b>
+      </h4>
     </template>
 
     <div class="relative">
@@ -12,13 +15,14 @@
           px-3
           py-2
           text-gray-700
-          dark:text-gray-300 dark:bg-content-bg
+          dark:text-gray-300
+          dark:bg-content-bg
           border border-gray-200
           dark:border-gray-700
           rounded-lg
           focus:outline-none
         "
-        placeholder="What do you think?"
+        :placeholder="$t('postComposer.content')"
         rows="4"
       ></textarea>
 
@@ -58,7 +62,8 @@
                 v-focus
                 class="
                   rounded-full
-                  dark:bg-content-bg dark:text-gray-400
+                  dark:bg-content-bg
+                  dark:text-gray-400
                   border
                   dark:border-gray-600
                   border-gray-300
@@ -69,7 +74,7 @@
                   w-full
                 "
                 type="text"
-                placeholder="Start to type emoji name"
+                :placeholder="$t('postComposer.emoji')"
               />
             </div>
             <div>
@@ -96,7 +101,8 @@
                       rounded
                       bg-white
                       dark:bg-content-bg
-                      focus:outline-none focus:shadow-outline
+                      focus:outline-none
+                      focus:shadow-outline
                       text-xl
                       flex
                       items-center
@@ -243,14 +249,14 @@
         </div>
         <div class="flex items-center">
           <vs-button danger transparent @click.stop="toggleComposer(false)">
-            Cancel
+            {{ $t('postComposer.cancel') }}
           </vs-button>
           <vs-button
             :loading="shareLoading"
             :disabled="text == '' && youtubeURL == '' && photos.length == 0"
             @click.stop="sendNewPost()"
           >
-            Share
+            {{ $t('postComposer.share') }}
           </vs-button>
         </div>
       </div>

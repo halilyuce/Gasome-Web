@@ -11,7 +11,7 @@
     "
   >
     <i class="bx bxs-sad text-yellow-500 mb-2 text-4xl"></i>
-    <h5>Nothing to show here</h5>
+    <h5>{{ $t('noData.message') }}</h5>
   </div>
 </template>
 

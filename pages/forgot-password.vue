@@ -12,7 +12,7 @@
             animation-type="scale"
             @click="$router.back()"
           >
-            <b class="mx-5">Back</b>
+            <b class="mx-5">{{ $t('forgot.back') }}</b>
 
             <template #animate>
               <i class="bx bxs-chevrons-left"></i>
@@ -30,7 +30,7 @@
             v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Enter New Password"
+            :placeholder="$t('forgot.newPassword')"
             :visible-password="hasVisiblePassword"
             icon-after
             class="my-5"
@@ -45,7 +45,7 @@
             v-model="confirm"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Confirm New Password"
+            :placeholder="$t('forgot.confirm')"
             :visible-password="hasVisiblePassword"
             icon-after
             class="mb-7"
@@ -71,8 +71,7 @@
               <template #icon>
                 <i class="bx bxs-lock-open"></i>
               </template>
-              Password changed successfully, you can login with your new
-              password.
+              {{ $t('forgot.lastMessage') }}
             </vs-alert>
           </div>
 
@@ -84,7 +83,7 @@
             :loading="passwordLoading"
             @keyup.enter="changePassword"
           >
-            <b>Change Password</b>
+            <b>{{ $t('forgot.changeButton') }}</b>
             <template #animate>
               <i class="bx bxs-lock"></i>
             </template>
@@ -94,7 +93,7 @@
           <vs-input
             v-model="email"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            placeholder="Email address you registered"
+            :placeholder="$t('forgot.mailFill')"
             class="my-5"
           >
             <template #icon>
@@ -105,14 +104,13 @@
             <template #icon>
               <i class="bx bxs-lock-open"></i>
             </template>
-            Please enter the e-mail address you registered to Gasome in the box
-            above.
+            {{ $t('forgot.message') }}
           </vs-alert>
           <vs-alert v-else success class="mb-6 text-xs">
             <template #icon>
               <i class="bx bxs-envelope"></i>
             </template>
-            Password reset link sent successfully, please check your inbox.
+            {{ $t('forgot.secondMessage') }}
           </vs-alert>
           <vs-button
             block
@@ -122,7 +120,7 @@
             :loading="emailLoading"
             @keyup.enter="sendEmail"
           >
-            <b>Send Reset Link</b>
+            <b>{{ $t('forgot.sendButton') }}</b>
             <template #animate>
               <i class="bx bxs-envelope"></i>
             </template>

@@ -75,7 +75,9 @@
     <NoData v-if="!loading && wishes.length === 0" class="m-6" />
     <vs-dialog v-model="showRemove">
       <template #header>
-        <h4 class="not-margin">Are you sure to <b>Remove?</b></h4>
+        <h4 class="not-margin">
+          {{ $t('wishList.makesure') }}<b>{{ $t('wishList.remove') }}</b>
+        </h4>
       </template>
 
       <div v-if="removedWish" class="flex flex-col justify-center items-center">
@@ -95,10 +97,10 @@
       <template #footer>
         <div class="flex flex-col">
           <vs-button danger block @click="removeWishList(removedWish.id)">
-            Yes, remove
+            {{ $t('wishList.yes') }}
           </vs-button>
           <vs-button transparent danger block @click="showRemove = false">
-            Cancel
+            {{ $t('wishList.cancel') }}
           </vs-button>
         </div>
       </template>

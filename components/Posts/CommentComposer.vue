@@ -23,7 +23,9 @@
     <div class="flex flex-col w-full">
       <transition name="list">
         <div v-show="isFocused" class="flex flex-row text-sm mb-2">
-          <span class="text-gray-700 dark:text-gray-300">Replying to</span>
+          <span class="text-gray-700 dark:text-gray-300">{{
+            $t('commentComposer.whoToReply')
+          }}</span>
           <n-link
             class="text-purple-500 ml-1"
             :to="`/u/${post.user.username}`"
@@ -41,13 +43,14 @@
             px-3
             py-2
             text-gray-700
-            dark:text-gray-300 dark:bg-content-bg
+            dark:text-gray-300
+            dark:bg-content-bg
             border border-gray-200
             dark:border-gray-700
             rounded-lg
             focus:outline-none
           "
-          placeholder="Share your thoughts about this post"
+          :placeholder="$t('commentComposer.replyText')"
           :rows="isFocused ? 4 : 2"
           @focusin="onFocus(true)"
         ></textarea>
@@ -88,7 +91,8 @@
                   v-focus
                   class="
                     rounded-full
-                    dark:bg-content-bg dark:text-gray-400
+                    dark:bg-content-bg
+                    dark:text-gray-400
                     border
                     dark:border-gray-600
                     border-gray-300
@@ -99,7 +103,7 @@
                     w-full
                   "
                   type="text"
-                  placeholder="Start to type emoji name"
+                  :placeholder="$t('commentComposer.emoji')"
                 />
               </div>
               <div>
@@ -126,7 +130,8 @@
                         rounded
                         bg-white
                         dark:bg-content-bg
-                        focus:outline-none focus:shadow-outline
+                        focus:outline-none
+                        focus:shadow-outline
                         text-xl
                         flex
                         items-center
@@ -279,7 +284,7 @@
               :disabled="text == '' && youtubeURL == '' && photos.length == 0"
               @click.stop="sendNewComment()"
             >
-              Reply
+              {{ $t('commentComposer.button') }}
             </vs-button>
           </div>
         </div>

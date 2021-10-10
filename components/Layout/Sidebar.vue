@@ -27,19 +27,19 @@
         <template #icon>
           <i class="bx bx-home-circle"></i>
         </template>
-        Home
+        {{ $t('sideBar.home') }}
       </vs-sidebar-item>
       <vs-sidebar-item id="swaps" disabled>
         <template #icon>
           <i class="bx bx-shuffle"></i>
         </template>
-        Swaps
+        {{ $t('sideBar.swaps') }}
       </vs-sidebar-item>
       <vs-sidebar-item id="discover" disabled>
         <template #icon>
           <i class="bx bx-game"></i>
         </template>
-        Discover
+        {{ $t('sideBar.discover') }}
       </vs-sidebar-item>
       <vs-sidebar-item id="messages" to="/messages">
         <template #icon>
@@ -57,7 +57,7 @@
           </vs-avatar>
           <i v-else class="bx bx-chat"></i>
         </template>
-        Messages
+        {{ $t('sideBar.messages') }}
       </vs-sidebar-item>
 
       <div
@@ -74,7 +74,7 @@
         <template #icon>
           <i class="bx bx-cog"></i>
         </template>
-        Settings
+        {{ $t('sideBar.settings') }}
       </vs-sidebar-item>
 
       <vs-sidebar-item id="notifications" to="/notifications">
@@ -93,7 +93,7 @@
           </vs-avatar>
           <i v-else class="bx bx-bell"></i>
         </template>
-        Notifications
+        {{ $t('sideBar.notifications') }}
       </vs-sidebar-item>
 
       <template #footer>

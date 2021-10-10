@@ -21,8 +21,10 @@
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
-        <h5>Edit Profile</h5>
-        <span class="text-gray-400 text-sm mr-1">Update your information</span>
+        <h5>{{ $t('edit.edit') }}</h5>
+        <span class="text-gray-400 text-sm mr-1">{{
+          $t('edit.editText')
+        }}</span>
       </div>
     </div>
     <form
@@ -72,7 +74,7 @@
           <vs-input
             v-model="name"
             :color="isLight ? '#6e00ff' : '#7850ff'"
-            placeholder="Full Name"
+            :placeholder="$t('edit.fullName')"
             class="mb-3 w-full"
           >
             <template #icon>
@@ -83,7 +85,7 @@
           <vs-input
             v-model="username"
             :color="isLight ? '#6e00ff' : '#7850ff'"
-            placeholder="Username"
+            :placeholder="$t('edit.userName')"
             name="username"
             class="w-full"
           >
@@ -98,7 +100,7 @@
         v-model="email"
         :color="isLight ? '#6e00ff' : '#7850ff'"
         name="email"
-        placeholder="E-mail Adress"
+        placeholder="E-mail"
         class="my-4"
       >
         <template #icon>
@@ -111,7 +113,7 @@
         type="date"
         :color="isLight ? '#6e00ff' : '#7850ff'"
         name="birthday"
-        placeholder="Birthday"
+        :placeholder="$t('edit.birthday')"
         class="my-4"
       >
         <template #icon>
@@ -145,17 +147,17 @@
           focus:outline-none
           mb-3
         "
-        placeholder="Biography"
+        :placeholder="$t('edit.bio')"
         rows="2"
       ></textarea>
 
       <div class="flex items-center justify-end">
         <vs-button danger transparent @click.prevent="$router.back()">
-          Cancel
+          {{ $t('edit.cancel') }}
         </vs-button>
 
         <vs-button type="submit" :loading="loading" @keyup.enter="saveChanges">
-          Save Changes
+          {{ $t('edit.save') }}
         </vs-button>
       </div>
     </form>

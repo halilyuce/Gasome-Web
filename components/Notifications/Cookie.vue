@@ -236,12 +236,12 @@
       <g></g>
     </svg>
 
-    <h3>COOKIE !</h3>
+    <h3>{{ $t('cookie.cookie') }}</h3>
 
-    <p>We use cookies to make your experience on this website better.</p>
+    <p>{{ $t('cookie.message') }}</p>
 
     <vs-button block dark @click="accept">
-      <span class="text-white"> I Like Cookies</span>
+      <span class="text-white">{{ $t('cookie.secondMessage') }}</span>
     </vs-button>
   </div>
 </template>

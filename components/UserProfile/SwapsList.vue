@@ -75,7 +75,9 @@
     <NoData v-if="!loading && swaps.length === 0" class="m-6" />
     <vs-dialog v-model="showRemove">
       <template #header>
-        <h4 class="not-margin">Are you sure to <b>Remove?</b></h4>
+        <h4 class="not-margin">
+          {{ $t('swapList.makesure') }} <b>{{ $t('swapList.remove') }}</b>
+        </h4>
       </template>
 
       <div v-if="removedSwap" class="flex flex-col justify-center items-center">
@@ -95,10 +97,10 @@
       <template #footer>
         <div class="flex flex-col">
           <vs-button danger block @click="removeSwapList(removedSwap.id)">
-            Yes, remove
+            {{ $t('swapList.yes') }}
           </vs-button>
           <vs-button transparent danger block @click="showRemove = false">
-            Cancel
+            {{ $t('swapList.cancel') }}
           </vs-button>
         </div>
       </template>
