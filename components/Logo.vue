@@ -4,8 +4,8 @@
       class="NuxtLogo"
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      width="22pt"
-      height="36pt"
+      :width="size.width"
+      :height="size.height"
       viewBox="0 0 24 42"
       preserveAspectRatio="xMidYMid meet"
     >
@@ -52,6 +52,15 @@ l-85 85 -85 -85 c-47 -47 -89 -85 -94 -85 -13 0 -66 51 -66 64 0 6 38 49 85
     </svg>
   </router-link>
 </template>
+<script>
+export default {
+  props: {
+    size: {
+      default: { width: '22pt', height: '36pt' },
+    },
+  },
+}
+</script>
 <style>
 .NuxtLogo {
   animation: 1s appear;

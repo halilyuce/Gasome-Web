@@ -3,7 +3,7 @@
     <div class="grid grid-cols-6 lg:grid-cols-5 gap-4 min-h-screen">
       <div class="p-10 lg:p-20 my-auto col-span-6 md:col-span-3 lg:col-span-2">
         <div class="flex justify-start my-5">
-          <Logo />
+          <Logo :size="{ width: '42pt', height: '56pt' }" />
         </div>
         <div class="flex justify-between items-center">
           <n-link :to="'/register'">
@@ -11,7 +11,7 @@
               <b class="mx-5">Sign Up</b>
 
               <template #animate>
-                <i class="bx bxs-face"></i>
+                <i class="bx bxs-check-shield"></i>
               </template>
             </vs-button>
           </n-link>
@@ -48,9 +48,17 @@
             </template>
           </vs-input>
           <div
-            class="flex justify-between items-center text-sm my-3 text-gray-700"
+            class="
+              flex
+              justify-end
+              items-center
+              text-sm
+              my-3
+              text-gray-600
+              dark:text-gray-400
+            "
           >
-            <vs-checkbox v-model="remember">Remember me</vs-checkbox>
+            <!-- <vs-checkbox v-model="remember">Remember me</vs-checkbox> -->
             <n-link :to="'/forgot-password'">Forgot Password?</n-link>
           </div>
           <vs-button
@@ -68,7 +76,7 @@
           </vs-button>
         </form>
         <div class="flex justify-center text-sm my-5">
-          <span class="text-gray-700">New Here?</span>
+          <span class="text-gray-600 dark:text-gray-400">New Here?</span>
           <n-link class="ml-3 text-purple-500 font-bold" :to="'/register'"
             >Create New Account</n-link
           >

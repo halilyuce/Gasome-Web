@@ -315,9 +315,9 @@ export default {
         e.target.files.length > 0 &&
         this.photos.length + e.target.files.length < 5
       ) {
-        e.target.files.forEach((element, index) => {
+        for (const element of e.target.files) {
           this.photos.push({ url: URL.createObjectURL(element), file: element })
-        })
+        }
       } else if (this.photos.length + e.target.files.length > 4) {
         this.$vs.notification({
           flat: true,

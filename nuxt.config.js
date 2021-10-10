@@ -1,5 +1,6 @@
 require('dotenv').config()
 export default {
+  target: 'static',
   ssr: false,
   router: {
     base: '/',
@@ -7,14 +8,14 @@ export default {
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'Gasome',
+    title: 'Gasome | Gamer Social Media',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: 'Gamer Social Media',
+        content: 'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -36,6 +37,7 @@ export default {
     '@/plugins/vue-cool-lightbox.client.js',
     '@/plugins/infinite-scroll.client.js',
     '@/plugins/helpers',
+    '@/plugins/axios.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -52,11 +54,13 @@ export default {
 
   echo: {
     broadcaster: 'socket.io',
-    host: 'http://api.gasome.com:6001',
-    // wsHost: 'http://api.gasome.com',
-    // wsPort: 6001,
+    host:
+      process.env.NODE_ENV === 'production'
+        ? 'https://api.gasome.com'
+        : 'http://api.gasome.com:6001',
     authEndpoint: 'https://api.gasome.com/broadcasting/auth',
     authModule: true,
+    path: process.env.NODE_ENV === 'production' ? '/ws/socket.io' : '',
     connectOnLogin: true,
     disconnectOnLogout: true,
     plugins: ['@/plugins/echo'],
@@ -154,21 +158,29 @@ export default {
   i18n: {
     locales: [
       {
+        name: 'English',
         code: 'en',
+        iso: 'en-EN',
         file: 'en.js',
       },
       {
+        name: 'Türkçe',
         code: 'tr',
+        iso: 'tr-TR',
         file: 'tr.js',
       },
     ],
     langDir: 'language/',
     defaultLocale: 'en',
+    strategy: 'no_prefix',
   },
 
   // runtime config
   publicRuntimeConfig: {
     apiURL: process.env.API_URL,
+    axios: {
+      browserBaseURL: process.env.API_URL,
+    },
   },
   privateRuntimeConfig: {
     apiId: process.env.CLIENT_ID,
