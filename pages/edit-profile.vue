@@ -23,7 +23,7 @@
       <div class="flex flex-col ml-9">
         <h5>{{ $t('edit.edit') }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          $t('edit.editText')
+          $t('edit.directive')
         }}</span>
       </div>
     </div>

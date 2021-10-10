@@ -23,7 +23,7 @@
       <div class="flex flex-col ml-9">
         <h5>{{ $t('main.settings') }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          $t('main.directive')
+          $t('main.textPart')
         }}</span>
       </div>
     </div>
@@ -43,9 +43,9 @@
         <n-link :to="'/settings/language'" class="flex flex-row items-center">
           <i class="bx bx-world text-gray-600 dark:text-gray-300 text-2xl"></i>
           <div class="flex flex-col ml-4">
-            <h3>{{ $t('Language') }}</h3>
+            <h3>{{ $t('main.language') }}</h3>
             <span class="text-xs text-gray-600 dark:text-gray-300">{{
-              $t('Update your language settings')
+              $t('main.languageDesc')
             }}</span>
           </div>
         </n-link>

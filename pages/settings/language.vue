@@ -21,9 +21,9 @@
         <i class="bx bxs-chevron-left text-xl"></i>
       </vs-button>
       <div class="flex flex-col ml-9">
-        <h5>{{ $t('Language') }}</h5>
+        <h5>{{ $t('main.language') }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          $t('Update your language settings')
+          $t('main.languageDesc')
         }}</span>
       </div>
     </div>
@@ -54,7 +54,7 @@
           <template #icon>
             <i class="bx bx-world"></i>
           </template>
-          {{ $t('Language settings updated successfully') }}
+          {{ $t('languageSettings.updateMsg') }}
         </vs-alert>
       </div>
 
@@ -65,7 +65,7 @@
         animation-type="vertical"
         @keyup.enter="updateLanguage"
       >
-        <b>{{ $t('Update Language') }}</b>
+        <b>{{ $t('languageSettings.button') }}</b>
         <template #animate>
           <i class="bx bx-world"></i>
         </template>

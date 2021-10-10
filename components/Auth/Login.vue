@@ -37,7 +37,7 @@
             v-model="password"
             type="password"
             :color="isDark ? '#6e00ff' : '#7850ff'"
-            :placeholder="$t('login.password')"
+            :placeholder="$t('login.passWord')"
             :visible-password="hasVisiblePassword"
             icon-after
             @click-icon="hasVisiblePassword = !hasVisiblePassword"
@@ -71,7 +71,7 @@
             :loading="loading"
             @keyup.enter="login"
           >
-            <b>Sign In</b>
+            <b>{{ $t('login.signIn') }}</b>
             <template #animate>
               <i class="bx bxs-game"></i>
             </template>
@@ -171,8 +171,8 @@ export default {
             color: 'danger',
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
-            title: 'An Error Occured',
-            text: 'It seems your credentials are wrong, please check your username and password and try again.',
+            title: self.$t('login.error'),
+            text: self.$t('login.secondError'),
           })
         })
     },

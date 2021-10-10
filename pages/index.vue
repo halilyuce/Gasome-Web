@@ -1,6 +1,12 @@
 <template>
   <div
-    class="bg-white dark:bg-black h-screen overflow-y-auto disable-scrollbars"
+    class="
+      bg-white
+      dark:bg-black
+      h-screen
+      overflow-y-auto overflow-x-hidden
+      disable-scrollbars
+    "
   >
     <div class="lg:my-3">
       <div
@@ -35,7 +41,7 @@
         </vs-button>
       </div>
 
-      <div v-if="posts && posts.length > 0">
+      <div>
         <PostsBody
           :posts="posts"
           @favorite-post="favorite"
@@ -44,8 +50,17 @@
         />
       </div>
 
-      <div v-else>
-        <UserSuggestions @reloadPosts="reloadPage" />
+      <div
+        class="flex flex-col bg-gray-50 dark:bg-content-bg rounded-xl m-5 px-5"
+        v-if="showSuggestions"
+      >
+        <vs-alert class="text-xs my-5">
+          <template #icon>
+            <i class="bx bxs-smile"></i>
+          </template>
+          {{ $t('mainPage.followSuggestions') }}
+        </vs-alert>
+        <UserSuggestions :fullWidth="true" @reloadPosts="reloadPage" />
       </div>
 
       <client-only>
@@ -100,6 +115,7 @@ export default {
       enough: false,
       search: '',
       smallAvatar: process.env.AVATAR_SMALL,
+      showSuggestions: false,
     }
   },
   methods: {
@@ -129,6 +145,9 @@ export default {
       this.page += 1
       this.loadMorePosts().then(function (res) {
         if (res.data.length < 10) {
+          if (self.page === 1) {
+            self.showSuggestions = true
+          }
           $state.complete()
         } else {
           $state.loaded()
