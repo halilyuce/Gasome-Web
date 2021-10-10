@@ -57,11 +57,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
         
+      - name: Check the Location
+        run: pwd 
+        
       - name: Generate Project 👨🏻‍💻
         run: yarn generate
-        
-      - name: Install PM2 📦
-        run: npm install -g pm2
         
       - name: PM2 Start 👨🏻‍💻
         run: pm2 start
