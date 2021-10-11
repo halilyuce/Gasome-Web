@@ -1,7 +1,10 @@
-export const state = () => ({
-  game: null,
-  comments: null,
-})
+const getDefaultState = () => {
+  return {
+    game: null,
+    comments: null,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setGame(state, payload) {
@@ -10,8 +13,14 @@ export const mutations = {
   setComments(state, payload) {
     state.comments = payload
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getGameById({ commit }, id) {
     commit('setLoading', true, { root: true })
     try {

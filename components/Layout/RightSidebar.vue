@@ -1,5 +1,17 @@
 <template>
-  <div class="flex flex-col pt-1 pb-5 px-8 h-full">
+  <div
+    class="
+      flex flex-col
+      xl:w-5/6
+      2xl:w-2/3
+      xl:mr-auto
+      w-full
+      pt-1
+      pb-5
+      px-8
+      h-full
+    "
+  >
     <div
       ref="trends"
       class="relative bg-white dark:bg-black py-3 px-5 rounded-xl mt-4"
@@ -51,7 +63,7 @@
         <li
           v-for="user in recommendedUsers.slice(0, 3)"
           :key="user.id"
-          class="flex flex-col xl:flex-row justify-between items-center py-2"
+          class="flex flex-col xl:flex-row justify-between py-2"
         >
           <div class="flex flex-row items-center">
             <img
@@ -68,7 +80,18 @@
             />
 
             <div class="flex flex-col ml-2">
-              <h5 class="truncate w-28 overflow-ellipsis">{{ user.name }}</h5>
+              <h5
+                class="
+                  truncate
+                  w-full
+                  lg:w-28
+                  xl:w-24
+                  2xl:w-32
+                  overflow-ellipsis
+                "
+              >
+                {{ user.name }}
+              </h5>
               <span class="text-gray-400 text-xs">{{
                 '@' + user.username
               }}</span>
@@ -88,7 +111,7 @@
             <span class="px-1">{{
               followedList.includes(user.username)
                 ? $t('rightSideBar.unfollow')
-                : $t('rightSideBar.unfollow')
+                : $t('rightSideBar.follow')
             }}</span>
           </vs-button>
         </li>
@@ -96,13 +119,16 @@
     </div>
 
     <div class="flex flex-row justify-between mt-auto">
-      <a href="#" class="text-gray-500 text-sm">{{
+      <n-link :to="'/privacy'" class="text-gray-500 text-sm">{{
         $t('rightSideBar.privacy')
-      }}</a>
-      <a href="#" class="text-gray-500 text-sm">{{
-        $t('rightSideBar.support')
-      }}</a>
-      <a href="#" class="text-gray-500 text-sm">© 2021 Gasome</a>
+      }}</n-link>
+      <a
+        href="mailto:support@gasome.com"
+        target="_blank"
+        class="text-gray-500 text-sm"
+        >{{ $t('rightSideBar.support') }}</a
+      >
+      <span class="text-gray-500 text-sm">© 2021 Gasome</span>
     </div>
   </div>
 </template>

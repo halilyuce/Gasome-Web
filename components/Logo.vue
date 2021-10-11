@@ -56,7 +56,10 @@ l-85 85 -85 -85 c-47 -47 -89 -85 -94 -85 -13 0 -66 51 -66 64 0 6 38 49 85
 export default {
   props: {
     size: {
-      default: { width: '22pt', height: '36pt' },
+      type: Object,
+      default() {
+        return { width: '22pt', height: '36pt' }
+      },
     },
   },
 }

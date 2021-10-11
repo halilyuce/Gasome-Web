@@ -71,7 +71,9 @@ export default {
       },
     },
   },
-
+  mounted() {
+    this.setNotificationBadge(0)
+  },
   async asyncData({ route, store }) {
     if (route.name === 'notifications') {
       await store.dispatch('setTab', 'notifications')
@@ -89,6 +91,7 @@ export default {
       loadMoreNotifications: 'notifications/loadMoreNotifications',
       setCurrentPage: 'notifications/setCurrentPage',
       clearAlert: 'alert/clear',
+      setNotificationBadge: 'setNotificationBadge',
     }),
     infiniteHandler($state) {
       const self = this

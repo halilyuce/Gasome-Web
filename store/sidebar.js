@@ -1,11 +1,14 @@
-export const state = () => ({
-  recommendedUsers: [],
-  trends: [],
-  loading: false,
-  trendsLoading: false,
-  recommendsLoading: false,
-  followLoading: false,
-})
+const getDefaultState = () => {
+  return {
+    recommendedUsers: [],
+    trends: [],
+    loading: false,
+    trendsLoading: false,
+    recommendsLoading: false,
+    followLoading: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setLoading(state, payload) {
@@ -26,8 +29,14 @@ export const mutations = {
   setFollowLoading(state, payload) {
     state.followLoading = payload
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getRecommendedUsers({ commit, dispatch }) {
     commit('setRecommendsLoading', true)
     try {

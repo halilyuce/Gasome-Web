@@ -76,7 +76,7 @@
     <vs-dialog v-model="showRemove">
       <template #header>
         <h4 class="not-margin">
-          {{ $t('wishList.makesure') }}<b>{{ $t('wishList.remove') }}</b>
+          {{ $t('wishList.makesure') }}<b>{{ $t('wishList.delete') }}</b>
         </h4>
       </template>
 

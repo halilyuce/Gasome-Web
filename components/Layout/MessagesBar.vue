@@ -4,6 +4,7 @@
       flex flex-row
       lg:flex-col
       bg-white
+      h-24
       dark:bg-black
       w-full
       2xl:w-1/2 2xl:ml-auto
@@ -115,7 +116,7 @@
 
       <client-only>
         <infinite-loading
-          v-if="filteredList"
+          v-if="filteredList && !enough"
           spinner="spiral"
           :distance="300"
           @infinite="infiniteHandler"
@@ -134,9 +135,11 @@ export default {
     ...mapState({
       loading: (state) => state.messages.loading,
       query: (state) => state.messages.query,
+      contactsPage: (state) => state.messages.contactsPage,
       selectedState: (state) => state.messages.selected,
       messagesBadge: (state) => state.messagesBadge,
       contacts: (state) => state.messages.contacts,
+      enough: (state) => state.messages.contactsEnough,
     }),
     isMobile() {
       return window.innerWidth < 770
@@ -147,6 +150,14 @@ export default {
       },
       set(value) {
         this.setSelected(value)
+      },
+    },
+    page: {
+      get() {
+        return this.contactsPage
+      },
+      set(value) {
+        this.setContactsPage(value)
       },
     },
     filteredList() {
@@ -163,7 +174,6 @@ export default {
   data() {
     return {
       search: '',
-      page: 0,
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
@@ -185,6 +195,8 @@ export default {
       getMessages: 'messages/getMessages',
       setSelected: 'messages/setSelected',
       setMessages: 'messages/setMessages',
+      setContactsPage: 'messages/setContactsPage',
+      setContactsEnough: 'messages/setContactsEnough',
       getUser: 'messages/getUser',
     }),
     checkSender(message) {
@@ -195,47 +207,49 @@ export default {
     },
     infiniteHandler($state) {
       const self = this
-      this.page += 1
-      this.getContacts(this.page).then(function (res) {
-        if (!self.selected && !self.query) {
-          self.selected = self.contacts[0]
-        }
+      if (!this.enough) {
+        this.getContacts(this.page).then(function (res) {
+          if (!self.selected && !self.query) {
+            self.selected = self.contacts[0]
+          }
 
-        if (!self.selected && self.query && self.page === 1) {
-          self
-            .getUser(self.query)
-            .then((user) => {
-              self.selected = {
-                id: +new Date(),
-                from: self.loggedInUser.id,
-                to: parseInt(self.query),
-                unread: 0,
-                created_at: new Date(),
-                updated_at: new Date(),
-                user: user,
-              }
-            })
-            .catch((err) => {
-              console.error(err)
-              self.$vs.notification({
-                duration: 5000,
-                progress: 'auto',
-                flat: true,
-                color: 'danger',
-                icon: `<i class='bx bxs-error' ></i>`,
-                position: 'top-right',
-                title: 'An error occured!',
-                text: 'An error occurred while load the messages. Please try again.',
+          if (!self.selected && self.query && self.page === 1) {
+            self
+              .getUser(self.query)
+              .then((user) => {
+                self.selected = {
+                  id: +new Date(),
+                  from: self.loggedInUser.id,
+                  to: parseInt(self.query),
+                  unread: 0,
+                  created_at: new Date(),
+                  updated_at: new Date(),
+                  user: user,
+                }
               })
-            })
-        }
-
-        if (res.data.data.length < 10) {
-          $state.complete()
-        } else {
-          $state.loaded()
-        }
-      })
+              .catch((err) => {
+                console.error(err)
+                self.$vs.notification({
+                  duration: 5000,
+                  progress: 'auto',
+                  flat: true,
+                  color: 'danger',
+                  icon: `<i class='bx bxs-error' ></i>`,
+                  position: 'top-right',
+                  title: 'An error occured!',
+                  text: 'An error occurred while load the messages. Please try again.',
+                })
+              })
+          }
+          if (res.data.data.length < 10) {
+            self.setContactsEnough(true)
+            $state.complete()
+          } else {
+            self.page += 1
+            $state.loaded()
+          }
+        })
+      }
     },
   },
 }

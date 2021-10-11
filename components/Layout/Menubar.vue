@@ -72,7 +72,7 @@
           >
         </span>
         <span class="menu-text-xxs md:text-sm">{{
-          $t('menuBar.notifcations')
+          $t('menuBar.notifications')
         }}</span>
       </div>
       <div

@@ -144,19 +144,19 @@ export default {
       activeTab: 'posts',
       tabs: [
         {
-          title: 'Posts',
+          title: this.$t('userProfileHeader.posts'),
           value: 'posts',
         },
         {
-          title: 'Medias',
+          title: this.$t('userProfileHeader.medias'),
           value: 'medias',
         },
         {
-          title: 'Swaps',
+          title: this.$t('userProfileHeader.swaps'),
           value: 'swaps',
         },
         {
-          title: 'Wishes',
+          title: this.$t('userProfileHeader.wishes'),
           value: 'wishes',
         },
       ],

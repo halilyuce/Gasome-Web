@@ -29,7 +29,7 @@
     </div>
 
     <div class="py-5 px-7">
-      <h1>GASOME PRIVACY NOTICE</h1>
+      <h1>{{ $t('privacyP.title') }}</h1>
       <p>{{ $t('privacyP.relaseDate') }}</p>
       <p class="my-3">
         {{ $t('privacyP.firstPart') }}

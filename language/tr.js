@@ -126,6 +126,7 @@ export default {
   },
   swapList: {
     makesure: 'Kaldırmak istediğine emin misin ?',
+    delete: ' SİL ?',
     yes: 'Evet, Lütfen.',
     cancel: 'İptal Et',
   },
@@ -134,6 +135,10 @@ export default {
     follow: 'Takip Et',
   },
   userProfileHeader: {
+    posts: 'Gönderiler',
+    medias: 'Medyalar',
+    swaps: 'Takaslar',
+    wishes: 'İstekler',
     post: 'Gönderi',
     followsYou: 'Seni Takip Ediyor',
     edit: 'Profili Düzenle',
@@ -144,6 +149,7 @@ export default {
   },
   wishList: {
     makesure: 'Kaldırmak istediğine emin misin ?',
+    delete: ' SİL ?',
     yes: 'Evet, Lütfen',
     cancel: 'İptal Et',
   },
@@ -239,7 +245,8 @@ export default {
     notications: 'Bildirimler',
   },
   //PRIVACY
-  privateP: {
+  privacyP: {
+    title: 'GASOME GİZLİLİK SÖZLEŞMESİ',
     header: 'Gizlilik Politikası',
     altText: 'Sizden hangi verileri topladığımızı bilmelisiniz.',
     relaseDate: 'August 12, 2020 tarihinde yayınlandı.',
