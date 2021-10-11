@@ -5,6 +5,8 @@ export const state = () => ({
   contacts: [],
   messages: [],
   page: 0,
+  contactsPage: 1,
+  contactsEnough: false,
   enough: false,
   selected: null,
   query: null,
@@ -20,6 +22,12 @@ export const mutations = {
   },
   setPage(state, payload) {
     state.page = payload
+  },
+  setContactsPage(state, payload) {
+    state.contactsPage = payload
+  },
+  setContactsEnough(state, payload) {
+    state.contactsEnough = payload
   },
   setEnough(state, payload) {
     state.enough = payload
@@ -196,6 +204,12 @@ export const actions = {
   },
   async setPage({ commit }, payload) {
     commit('setPage', payload)
+  },
+  async setContactsPage({ commit }, payload) {
+    commit('setContactsPage', payload)
+  },
+  async setContactsEnough({ commit }, payload) {
+    commit('setContactsEnough', payload)
   },
   async setQuery({ commit }, payload) {
     commit('setQuery', payload)
