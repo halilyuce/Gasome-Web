@@ -82,7 +82,7 @@
                   : 'bxs-user-plus'
               "
             ></i>
-            <span class="ml-2 mr-1">{{
+            <span class="mx-1">{{
               user.id === loggedInUser.id
                 ? $t('userProfileHeader.edit')
                 : user.isFollow

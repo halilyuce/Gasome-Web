@@ -27,7 +27,7 @@
           type="search"
           icon-after
           :placeholder="$t('mainPage.search')"
-          class="w-52 lg:w-64 xl:w-72"
+          class="w-52 lg:w-56 xl:w-72"
           disabled
         >
           <template #icon>

@@ -37,16 +37,16 @@
         mb-14
         lg:mb-0
         dark:bg-content-bg dark:text-white
-        grid grid-cols-12
+        grid grid-cols-7
       "
     >
-      <div class="col-span-1 lg:col-span-4 xl:col-span-3 2xl:col-span-4 flex">
+      <div class="col-span-1 lg:col-span-2 flex">
         <Sidebar class="hidden lg:flex" />
         <Menubar class="flex lg:hidden" />
         <UserBar class="hidden lg:flex" />
       </div>
-      <Nuxt class="col-span-12 lg:col-span-5 xl:col-span-6 2xl:col-span-4" />
-      <RightSidebar class="hidden lg:flex lg:col-span-3 2xl:col-span-2" />
+      <Nuxt class="col-span-7 lg:col-span-3" />
+      <RightSidebar class="hidden lg:flex col-span-2" />
     </div>
     <PostComposer />
   </div>

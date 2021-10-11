@@ -126,7 +126,7 @@ export default {
   },
   swapList: {
     makesure: 'Are you sure to',
-    remove: ' REMOVE ?',
+    delete: ' REMOVE ?',
     yes: 'Yes, Please',
     cancel: 'Cancel',
   },
@@ -135,6 +135,10 @@ export default {
     follow: 'Follow',
   },
   userProfileHeader: {
+    posts: 'Posts',
+    medias: 'Medias',
+    swaps: 'Swaps',
+    wishes: 'Wishes',
     post: 'Posts',
     followsYou: 'Follows you',
     edit: 'Edit Profile',
@@ -145,7 +149,7 @@ export default {
   },
   wishList: {
     makesure: 'Are you sure to',
-    remove: ' REMOVE ?',
+    delete: ' REMOVE ?',
     yes: 'Yes, Please',
     cancel: 'Cancel',
   },
@@ -241,7 +245,8 @@ export default {
     notications: 'Notifications',
   },
   //PRIVACY
-  privateP: {
+  privacyP: {
+    title: 'GASOME PRIVACY NOTICE',
     header: 'Privacy Policy',
     altText: 'You should know what data we collect from you',
     relaseDate: 'Release August 12, 2020',

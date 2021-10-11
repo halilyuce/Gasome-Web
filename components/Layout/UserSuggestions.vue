@@ -1,11 +1,13 @@
 <template>
   <div class="flex flex-col pt-1 pb-5 w-full">
     <ul
-      v-if="users"
+      ref="recommends"
       class="
+        relative
         divide-y divide-gray-100
         dark:divide-gray-500 dark:divide-opacity-10
       "
+      :class="{ 'h-48 rounded-xl': recommendsLoading }"
     >
       <li
         v-for="user in users"
@@ -48,7 +50,11 @@
               size="small"
               @click="followAction(user.username)"
             >
-              <span class="px-1">{{ 'Follow' }}</span>
+              <span class="px-1">{{
+                followedList.includes(user.username)
+                  ? $t('rightSideBar.unfollow')
+                  : $t('rightSideBar.follow')
+              }}</span>
             </vs-button>
           </div>
         </div>
@@ -61,12 +67,19 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'UserSuggestions',
   props: {
-    users: [],
     fullWidth: false,
+  },
+  computed: {
+    ...mapState({
+      users: (state) => state.recommendedUsers.users,
+      recommendsLoading: (state) => state.recommendedUsers.loading,
+    }),
   },
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
+      followList: [],
+      followedList: [],
     }
   },
   mounted() {
@@ -74,10 +87,18 @@ export default {
       this.getRecommendedUsers()
     }
   },
-  computed: {
-    ...mapState({
-      users: (state) => state.recommendedUsers.users,
-    }),
+  watch: {
+    recommendsLoading(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (!newVal) {
+          this.recommendsLoad.close()
+        } else {
+          this.recommendsLoad = this.$vs.loading({
+            target: this.$refs.recommends,
+          })
+        }
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -85,8 +106,17 @@ export default {
       followUser: 'recommendedUsers/follow',
     }),
     async followAction(username) {
-      await this.followUser(username)
-      this.$emit('reloadPosts')
+      const self = this
+      self.followList.push(username)
+      await this.followUser(username).then((res) => {
+        if (res.state) {
+          self.followedList.push(username)
+        } else {
+          const index = self.followedList.findIndex((user) => user === username)
+          self.followedList.splice(index, 1)
+        }
+        this.$emit('reloadPosts')
+      })
     },
     async infiniteHandler($state) {
       this.$emit('load', $state)

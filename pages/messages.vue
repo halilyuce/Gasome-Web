@@ -3,8 +3,6 @@
     class="
       bg-white
       dark:bg-black
-      col-span-12
-      lg:col-span-8
       lg:h-screen
       relative
       overflow-auto
@@ -181,8 +179,7 @@
           text-sm
           bg-gray-50
           dark:bg-content-bg
-          lg:rounded-2xl
-          lg:shadow-2xl
+          lg:rounded-2xl lg:shadow-2xl
         "
       >
         <div class="flex flex-row w-full items-center">
@@ -201,9 +198,10 @@
               ml-3
               px-3
               py-2
+              text-base
+              lg:text-sm
               text-gray-700
-              dark:text-gray-300
-              dark:bg-black
+              dark:text-gray-300 dark:bg-black
               rounded-lg
               focus:outline-none
               resize-none
@@ -483,12 +481,12 @@ export default {
 .messagebox {
   height: calc(100vh - 1.5rem - 45px);
   @media only screen and (max-width: 770px) {
-    height: calc(100vh - 207px);
+    height: calc(100vh - 210px);
   }
 }
 .mobile-height {
   @media only screen and (max-width: 770px) {
-    height: calc(100vh - 207px);
+    height: calc(100vh - 210px);
   }
 }
 .shimmer {
