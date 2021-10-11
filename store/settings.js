@@ -1,13 +1,22 @@
-export const state = () => ({
-  passwordLoading: false,
-})
+const getDefaultState = () => {
+  return {
+    passwordLoading: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setPasswordLoading(state, payload) {
     state.passwordLoading = payload
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async updatePassword({ dispatch, commit }, payload) {
     await commit('setPasswordLoading', true)
     try {

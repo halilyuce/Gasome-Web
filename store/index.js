@@ -1,12 +1,15 @@
-export const state = () => ({
-  emailLoading: false,
-  passwordLoading: false,
-  mode: 'dark',
-  tab: 'home',
-  notificationBadge: 0,
-  messagesBadge: 0,
-  registerLoading: false,
-})
+const getDefaultState = () => {
+  return {
+    emailLoading: false,
+    passwordLoading: false,
+    mode: 'dark',
+    tab: 'home',
+    notificationBadge: 0,
+    messagesBadge: 0,
+    registerLoading: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {
   isAuthenticated(state) {
     return state.auth.loggedIn
@@ -42,8 +45,14 @@ export const mutations = {
   setNotificationBadge(state, payload) {
     state.notificationBadge = payload
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getSettings({ commit }) {
     const mode = localStorage.getItem('mode') || null
     if (mode) {

@@ -184,9 +184,31 @@ export default {
   methods: {
     ...mapActions({
       setTab: 'setTab',
+      resetAlertState: 'alert/resetState',
+      resetGameState: 'game/resetState',
+      resetState: 'resetState',
+      resetMessagesState: 'messages/resetState',
+      resetNofiticationsState: 'notifications/resetState',
+      resetPostsState: 'posts/resetState',
+      resetProfileState: 'profile/resetState',
+      resetRecommendedUsersState: 'recommendedUsers/resetState',
+      resetSearchState: 'search/resetState',
+      resetSettingsState: 'settings/resetState',
+      resetSidebarState: 'sidebar/resetState',
     }),
     async logOut() {
       await this.$auth.logout()
+      this.resetAlertState()
+      this.resetGameState()
+      this.resetState()
+      this.resetMessagesState()
+      this.resetNofiticationsState()
+      this.resetPostsState()
+      this.resetProfileState()
+      this.resetRecommendedUsersState()
+      this.resetSearchState()
+      this.resetSettingsState()
+      this.resetSidebarState()
     },
   },
 }

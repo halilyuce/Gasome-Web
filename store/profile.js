@@ -1,26 +1,29 @@
-export const state = () => ({
-  user: null,
-  posts: [],
-  wishes: [],
-  swaps: [],
-  loading: false,
-  editLoading: false,
-  postLoading: false,
-  followLoading: false,
-  swapsLoading: false,
-  wishesLoading: false,
-  swapListLoading: false,
-  wishListLoading: false,
-  removeLoading: false,
-  swapsPage: 0,
-  swapsEnough: false,
-  wishesPage: 0,
-  wishesEnough: false,
-  followers: [],
-  following: [],
-  followersLoading: null,
-  followingLoading: null,
-})
+const getDefaultState = () => {
+  return {
+    user: null,
+    posts: [],
+    wishes: [],
+    swaps: [],
+    loading: false,
+    editLoading: false,
+    postLoading: false,
+    followLoading: false,
+    swapsLoading: false,
+    wishesLoading: false,
+    swapListLoading: false,
+    wishListLoading: false,
+    removeLoading: false,
+    swapsPage: 0,
+    swapsEnough: false,
+    wishesPage: 0,
+    wishesEnough: false,
+    followers: [],
+    following: [],
+    followersLoading: null,
+    followingLoading: null,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setLoading(state, payload) {
@@ -170,8 +173,14 @@ export const mutations = {
       })
     }
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getUserProfile({ commit, dispatch }, username) {
     commit('setLoading', true)
     try {

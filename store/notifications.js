@@ -1,8 +1,11 @@
-export const state = () => ({
-  notifications: [],
-  page: 0,
-  loading: false,
-})
+const getDefaultState = () => {
+  return {
+    notifications: [],
+    page: 0,
+    loading: false,
+  }
+}
+export const state = () => getDefaultState()
 
 export const mutations = {
   setLoading(state, payload) {
@@ -17,9 +20,15 @@ export const mutations = {
   insertNotifications(state, payload) {
     state.notifications = [...state.notifications, ...payload]
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async loadMoreNotifications({ dispatch, state, commit }) {
     try {
       const response = await this.$axios.get(

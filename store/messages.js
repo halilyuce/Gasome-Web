@@ -1,17 +1,20 @@
-export const state = () => ({
-  loading: false,
-  sendLoading: false,
-  messagesLoading: false,
-  contacts: [],
-  messages: [],
-  page: 0,
-  contactsPage: 1,
-  contactsEnough: false,
-  enough: false,
-  selected: null,
-  query: null,
-  socket: false,
-})
+const getDefaultState = () => {
+  return {
+    loading: false,
+    sendLoading: false,
+    messagesLoading: false,
+    contacts: [],
+    messages: [],
+    page: 0,
+    contactsPage: 1,
+    contactsEnough: false,
+    enough: false,
+    selected: null,
+    query: null,
+    socket: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setLoading(state, payload) {
@@ -116,8 +119,14 @@ export const mutations = {
   setMessagesLoading(state, payload) {
     state.messagesLoading = payload
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getContacts({ dispatch, commit }, page) {
     try {
       const response = await this.$axios.get('/api/messagebox?page=' + page)

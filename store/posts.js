@@ -1,15 +1,18 @@
-export const state = () => ({
-  posts: [],
-  post: null,
-  quotedPost: null,
-  page: 0,
-  comments: [],
-  composer: false,
-  loading: false,
-  shareLoading: false,
-  detailLoading: false,
-  commentsLoading: false,
-})
+const getDefaultState = () => {
+  return {
+    posts: [],
+    post: null,
+    quotedPost: null,
+    page: 0,
+    comments: [],
+    composer: false,
+    loading: false,
+    shareLoading: false,
+    detailLoading: false,
+    commentsLoading: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {
   composer: (state) => {
     return state.composer
@@ -121,8 +124,14 @@ export const mutations = {
       })
     }
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getPosts({ dispatch, commit }) {
     commit('setLoading', true)
     try {

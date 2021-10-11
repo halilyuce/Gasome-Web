@@ -1,10 +1,13 @@
-export const state = () => ({
-  posts: [],
-  post: null,
-  tagPage: 0,
-  loading: false,
-  tagLoading: false,
-})
+const getDefaultState = () => {
+  return {
+    posts: [],
+    post: null,
+    tagPage: 0,
+    loading: false,
+    tagLoading: false,
+  }
+}
+export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
   setPosts(state, payload) {
@@ -85,8 +88,14 @@ export const mutations = {
       })
     }
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   async getTagPosts({ dispatch, commit }, payload) {
     commit('setTagLoading', true)
     try {

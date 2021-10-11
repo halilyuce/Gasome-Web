@@ -1,8 +1,10 @@
-export const state = () => ({
-  type: null,
-  message: null,
-})
-
+const getDefaultState = () => {
+  return {
+    type: null,
+    message: null,
+  }
+}
+export const state = () => getDefaultState()
 export const mutations = {
   success(state, message) {
     state.type = 'success'
@@ -16,9 +18,15 @@ export const mutations = {
     state.type = null
     state.message = null
   },
+  resetState(state) {
+    Object.assign(state, getDefaultState())
+  },
 }
 
 export const actions = {
+  async resetState({ commit }) {
+    commit('resetState')
+  },
   success({ commit }, message) {
     commit('success', message)
   },
