@@ -94,7 +94,14 @@ export default {
     orderBoost: 'Boostla',
     orderQuote: 'Alıntıla',
     copy: 'Bağlantı Linkini Kopyala',
+    delete: 'Gönderiyi Sil',
     twitter: "Twitter'da Paylaş",
+    errorTitle: 'Gönderi Silinemedi',
+    errorDesc:
+      'Seçtiğiniz gönderiyi silerken bir hata ile karşılaştık, lütfen tekrar deneyiniz.',
+    successTitle: 'Gönderi Başarıyla Silindi',
+    successDesc:
+      'Seçtiğiniz gönderi başarıyla silinmiştir. Bir dahaki sefere daha dikkatli olun :)',
   },
   quotedPost: {},
   singlePost: {

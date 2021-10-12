@@ -15,8 +15,7 @@
           px-3
           py-2
           text-gray-700
-          dark:text-gray-300
-          dark:bg-content-bg
+          dark:text-gray-300 dark:bg-content-bg
           border border-gray-200
           dark:border-gray-700
           rounded-lg
@@ -62,8 +61,7 @@
                 v-focus
                 class="
                   rounded-full
-                  dark:bg-content-bg
-                  dark:text-gray-400
+                  dark:bg-content-bg dark:text-gray-400
                   border
                   dark:border-gray-600
                   border-gray-300
@@ -101,8 +99,7 @@
                       rounded
                       bg-white
                       dark:bg-content-bg
-                      focus:outline-none
-                      focus:shadow-outline
+                      focus:outline-none focus:shadow-outline
                       text-xl
                       flex
                       items-center
@@ -338,6 +335,16 @@ export default {
     append(emoji) {
       this.text += emoji
     },
+    resetData() {
+      this.emojiSearch = ''
+      this.text = ''
+      this.postLoading = null
+      this.photos = []
+      this.showYoutube = false
+      this.youtubeURL = ''
+      this.youtubeLoad = false
+      this.youtubeVideo = null
+    },
     removePhoto(index) {
       this.photos = this.photos.filter((item) => item != this.photos[index])
     },
@@ -388,6 +395,7 @@ export default {
         setTimeout(function () {
           self.newPost(payload).then(() => {
             self.toggleComposer(false)
+            self.resetData()
           })
         }, 2000)
       } else {
@@ -400,6 +408,7 @@ export default {
         }
         this.newPost(payload).then(() => {
           this.toggleComposer(false)
+          self.resetData()
         })
       }
     },

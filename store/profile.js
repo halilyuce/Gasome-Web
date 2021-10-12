@@ -127,6 +127,12 @@ export const mutations = {
     const index = state.wishes.findIndex((wish) => wish.id === payload)
     state.wishes.splice(index, 1)
   },
+  setDeletedPost(state, id) {
+    const index = state.posts.findIndex((post) => post.id === id)
+    if (index > -1) {
+      state.posts.splice(index, 1)
+    }
+  },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
     Object.assign(item, payload)
@@ -362,6 +368,22 @@ export const actions = {
       })
       commit('setWishListLoading', false)
       throw error.response.data.errorMessage[0]
+    }
+  },
+  async deletePost({ dispatch, commit }, id) {
+    try {
+      const response = await this.$axios.post('/api/deletePost', {
+        postId: id,
+      })
+      commit('setDeletedPost', id)
+      commit('posts/setDeletedPost', id, { root: true })
+      commit('search/setDeletedPost', id, { root: true })
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw 'Unable to delete this post'
     }
   },
   async favoritePost({ dispatch, commit }, id) {

@@ -71,6 +71,7 @@
         @favorite-post="favorite"
         @boost-post="boost"
         @quote-post="quote"
+        @delete-post="deletePost"
       />
 
       <client-only>
@@ -176,6 +177,7 @@ export default {
       getUserProfile: 'profile/getUserProfile',
       favoritePost: 'profile/favoritePost',
       boostPost: 'profile/boostPost',
+      deletePostAPI: 'profile/deletePost',
       toggleComposer: 'posts/toggleComposer',
       togglePostLoading: 'profile/togglePostLoading',
     }),
@@ -212,6 +214,34 @@ export default {
     async quote(post) {
       this.quotedPost = post
       this.toggleComposer(true)
+    },
+    async deletePost(post) {
+      const self = this
+      this.deletePostAPI(post.id)
+        .then((res) => {
+          self.$vs.notification({
+            duration: 5000,
+            progress: 'auto',
+            flat: true,
+            color: 'success',
+            icon: `<i class='bx bx-check'></i>`,
+            position: 'top-right',
+            title: self.$t('postBody.successTitle'),
+            text: self.$t('postBody.successDesc'),
+          })
+        })
+        .catch((err) => {
+          self.$vs.notification({
+            duration: 5000,
+            progress: 'auto',
+            flat: true,
+            color: 'danger',
+            icon: `<i class='bx bx-error'></i>`,
+            position: 'top-right',
+            title: self.$t('postBody.errorTitle'),
+            text: self.$t('postBody.errorDesc'),
+          })
+        })
     },
   },
 }

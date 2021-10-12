@@ -49,7 +49,7 @@
             />
           </vs-avatar>
           <div class="ml-2 md:ml-4">
-            <h3 class="leading-4 truncate">{{ user.name }}</h3>
+            <h3 class="truncate">{{ user.name }}</h3>
             <div class="flex flex-col items-start md:flex-row md:items-center">
               <span class="text-gray-400 mr-1">{{ '@' + user.username }}</span>
               <vs-button v-if="user.isFollowsYou" size="mini" flat>

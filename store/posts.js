@@ -67,6 +67,12 @@ export const mutations = {
   setQuotedPost(state, payload) {
     state.quotedPost = payload
   },
+  setDeletedPost(state, id) {
+    const index = state.posts.findIndex((post) => post.id === id)
+    if (index > -1) {
+      state.posts.splice(index, 1)
+    }
+  },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
     Object.assign(item, payload)
@@ -219,6 +225,22 @@ export const actions = {
         root: true,
       })
       commit('setShareLoading', false)
+    }
+  },
+  async deletePost({ dispatch, commit }, id) {
+    try {
+      const response = await this.$axios.post('/api/deletePost', {
+        postId: id,
+      })
+      commit('setDeletedPost', id)
+      commit('profile/setDeletedPost', id, { root: true })
+      commit('search/setDeletedPost', id, { root: true })
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw 'Unable to delete this post'
     }
   },
   async favoritePost({ dispatch, commit }, id) {

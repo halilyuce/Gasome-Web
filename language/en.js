@@ -94,7 +94,14 @@ export default {
     orderBoost: 'Boost',
     orderQuote: 'Quote',
     copy: 'Copy Post Link',
+    delete: 'Delete Post',
     twitter: 'Share on Twitter',
+    errorTitle: "We Couldn't Delete Post",
+    errorDesc:
+      'We encountered an error while deleting the post you selected, please try again.',
+    successTitle: 'Post Successfully Deleted',
+    successDesc:
+      'The post you selected has been successfully deleted. Be more careful next time :)',
   },
   quotedPost: {},
   singlePost: {

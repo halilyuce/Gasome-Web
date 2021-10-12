@@ -194,7 +194,7 @@
                   href="javascript:void(0)"
                   @click.prevent="showShareList(post)"
                 >
-                  <i class="bx bx-share-alt text-lg share"></i
+                  <i class="bx bx-dots-horizontal text-xl share"></i
                 ></a>
                 <ul
                   v-if="showShare === post.id"
@@ -225,6 +225,16 @@
                     >
                       <i class="bx bxl-twitter text-lg mr-3"></i>
                       {{ $t('postBody.twitter') }}
+                    </a>
+                  </li>
+                  <li v-if="post.quoted_post[0].user.id === loggedInUser.id">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:text-red-500"
+                      @click.prevent="deletePost(post.quoted_post[0])"
+                    >
+                      <i class="bx bxs-trash text-lg mr-3"></i>
+                      {{ $t('postBody.delete') }}
                     </a>
                   </li>
                 </ul>
@@ -382,7 +392,7 @@
                   href="javascript:void(0)"
                   @click.prevent="showShareList(post)"
                 >
-                  <i class="bx bx-share-alt text-lg share"></i
+                  <i class="bx bx-dots-horizontal text-lg share"></i
                 ></a>
                 <ul
                   v-if="showShare === post.id"
@@ -415,6 +425,16 @@
                       {{ $t('postBody.twitter') }}
                     </a>
                   </li>
+                  <li v-if="post.user.id === loggedInUser.id">
+                    <a
+                      href="javascript:void(0)"
+                      class="dark:text-red-500"
+                      @click.prevent="deletePost(post)"
+                    >
+                      <i class="bx bxs-trash text-lg mr-3"></i>
+                      {{ $t('postBody.delete') }}
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -425,6 +445,7 @@
   </ul>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import QuotedPost from './QuotedPost.vue'
 import linkClickRouting from '../../helpers/mixins/linkClickRouting'
 export default {
@@ -436,6 +457,9 @@ export default {
       defult: [],
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['loggedInUser']),
   },
   data() {
     return {
@@ -464,6 +488,9 @@ export default {
     },
     quote(post) {
       this.$emit('quote-post', post)
+    },
+    deletePost(post) {
+      this.$emit('delete-post', post)
     },
     async showVideoViewer(video) {
       await this.images.push({
@@ -520,6 +547,7 @@ export default {
     copyLink(post) {
       navigator.clipboard.writeText(`https://gasome.com/p/${post.id}`)
     },
+
     clickHandler(event) {
       const { target } = event
       if (!target.classList.contains('boost')) {
