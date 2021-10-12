@@ -15,7 +15,8 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
+        content:
+          'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -50,7 +51,12 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/moment',
     '@nuxtjs/laravel-echo',
+    '@nuxtjs/google-analytics',
   ],
+
+  googleAnalytics: {
+    id: 'G-JPND45JHEW',
+  },
 
   echo: {
     broadcaster: 'socket.io',
