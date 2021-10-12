@@ -14,14 +14,17 @@
               />
             </vs-avatar>
           </n-link>
-          <div class="flex flex-col ml-3">
+          <n-link
+            :to="`/u/${loggedInUser.username}`"
+            class="flex flex-col ml-3"
+          >
             <h3>
               {{ loggedInUser ? loggedInUser.name : '' }}
             </h3>
             <span class="text-gray-400 text-sm">
               {{ loggedInUser ? '@' + loggedInUser.username : '' }}
             </span>
-          </div>
+          </n-link>
         </div>
 
         <vs-button :to="'/edit-profile'">

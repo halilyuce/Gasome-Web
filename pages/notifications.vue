@@ -42,7 +42,7 @@
       </client-only>
     </ul>
     <no-data
-      v-if="!loading && notifications && notifications.legth === 0"
+      v-if="!loading && notifications && notifications.length === 0"
       class="mx-5"
     />
   </div>

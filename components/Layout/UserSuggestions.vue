@@ -14,7 +14,10 @@
         :key="user.id"
         class="flex flex-col xl:flex-row justify-between py-2"
       >
-        <div class="flex flex-row items-end w-full justify-between">
+        <n-link
+          :to="'/u/' + user.username"
+          class="flex flex-row items-end w-full justify-between"
+        >
           <div class="flex flex-row items-center">
             <img
               class="
@@ -48,7 +51,7 @@
               shadow
               border
               size="small"
-              @click="followAction(user.username)"
+              @click.prevent="followAction(user.username)"
             >
               <span class="px-1">{{
                 followedList.includes(user.username)
@@ -57,7 +60,7 @@
               }}</span>
             </vs-button>
           </div>
-        </div>
+        </n-link>
       </li>
     </ul>
   </div>
@@ -115,11 +118,8 @@ export default {
           const index = self.followedList.findIndex((user) => user === username)
           self.followedList.splice(index, 1)
         }
-        this.$emit('reloadPosts')
+        self.$emit('reloadPosts')
       })
-    },
-    async infiniteHandler($state) {
-      this.$emit('load', $state)
     },
   },
 }

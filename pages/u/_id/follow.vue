@@ -20,7 +20,6 @@
     <!-- Tabs -->
 
     <ul
-      v-if="user"
       class="
         grid grid-cols-2
         border-b border-gray-200

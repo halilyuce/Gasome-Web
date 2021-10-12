@@ -65,7 +65,10 @@
           :key="user.id"
           class="flex flex-col xl:flex-row justify-between py-2"
         >
-          <div class="flex flex-row items-center">
+          <n-link
+            :to="'/u/' + user.username"
+            class="flex flex-row items-center"
+          >
             <img
               class="
                 h-10
@@ -96,7 +99,7 @@
                 '@' + user.username
               }}</span>
             </div>
-          </div>
+          </n-link>
           <vs-button
             shadow
             border

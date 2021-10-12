@@ -50,6 +50,17 @@
         />
       </div>
 
+      <client-only>
+        <infinite-loading
+          ref="infinite"
+          spinner="spiral"
+          :distance="300"
+          :identifier="infiniteID"
+          @infinite="infiniteHandler"
+          ><span slot="no-results"></span><span slot="no-more"></span
+        ></infinite-loading>
+      </client-only>
+
       <div
         class="flex flex-col bg-gray-50 dark:bg-content-bg rounded-xl m-5 px-5"
         v-if="showSuggestions"
@@ -62,15 +73,6 @@
         </vs-alert>
         <UserSuggestions :fullWidth="true" @reloadPosts="reloadPage" />
       </div>
-
-      <client-only>
-        <infinite-loading
-          spinner="spiral"
-          :distance="300"
-          @infinite="infiniteHandler"
-          ><span slot="no-results"></span><span slot="no-more"></span
-        ></infinite-loading>
-      </client-only>
     </div>
   </div>
 </template>
@@ -112,6 +114,7 @@ export default {
   },
   data() {
     return {
+      infiniteID: 1,
       enough: false,
       search: '',
       smallAvatar: process.env.AVATAR_SMALL,
@@ -128,6 +131,7 @@ export default {
       toggleLoading: 'posts/toggleLoading',
       setCurrentPage: 'posts/setCurrentPage',
       setQuotedPost: 'posts/setQuotedPost',
+      resetPosts: 'posts/resetPosts',
     }),
 
     openComposer() {
@@ -135,14 +139,14 @@ export default {
       this.toggleComposer(true)
     },
 
-    reloadPage() {
-      this.page = 0
-      this.infiniteHandler()
+    async reloadPage() {
+      this.page = 1
+      this.resetPosts()
+      this.infiniteID = +new Date()
     },
 
     infiniteHandler($state) {
       const self = this
-      this.page += 1
       this.loadMorePosts().then(function (res) {
         if (res.data.length < 10) {
           if (self.page === 1) {
@@ -150,6 +154,10 @@ export default {
           }
           $state.complete()
         } else {
+          if (self.showSuggestions) {
+            self.showSuggestions = false
+          }
+          self.page += 1
           $state.loaded()
         }
       })

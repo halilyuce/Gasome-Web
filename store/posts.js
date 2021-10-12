@@ -3,7 +3,7 @@ const getDefaultState = () => {
     posts: [],
     post: null,
     quotedPost: null,
-    page: 0,
+    page: 1,
     comments: [],
     composer: false,
     loading: false,
@@ -126,6 +126,9 @@ export const mutations = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState())
+  },
+  resetPosts(state) {
+    state.posts = []
   },
 }
 export const actions = {
@@ -253,6 +256,9 @@ export const actions = {
   async setPostNull({ commit }) {
     commit('setPostNull')
     commit('setCommentsNull')
+  },
+  async resetPosts({ commit }) {
+    commit('resetPosts')
   },
   async toggleComposer({ commit }, payload) {
     commit('setComposer', payload)

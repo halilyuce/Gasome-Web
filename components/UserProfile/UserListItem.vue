@@ -3,7 +3,7 @@
     class="flex flex-col rounded-xl border-gray-200 dark:border-gray-700 mt-1"
   >
     <ul
-      v-if="followers && user"
+      v-if="followers"
       class="
         divide-y divide-gray-100
         dark:divide-gray-500 dark:divide-opacity-10

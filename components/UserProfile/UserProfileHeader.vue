@@ -20,7 +20,7 @@
       <div class="flex flex-col ml-9">
         <h5>{{ user.name }}</h5>
         <span class="text-gray-400 text-sm mr-1">{{
-          user.postcount + $t('userProfileHeader.post')
+          user.postcount + ' ' + $t('userProfileHeader.post')
         }}</span>
       </div>
     </div>
