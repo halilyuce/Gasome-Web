@@ -39,6 +39,7 @@ export default {
     '@/plugins/infinite-scroll.client.js',
     '@/plugins/helpers',
     '@/plugins/axios.js',
+    '@/plugins/ga.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -51,12 +52,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/moment',
     '@nuxtjs/laravel-echo',
-    '@nuxtjs/google-analytics',
   ],
-
-  googleAnalytics: {
-    id: 'G-JPND45JHEW',
-  },
 
   echo: {
     broadcaster: 'socket.io',

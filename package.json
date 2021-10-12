@@ -27,6 +27,7 @@
     "vue": "^2.6.14",
     "vue-cool-lightbox": "^2.7.4",
     "vue-emoji-picker": "^1.0.3",
+    "vue-gtag": "1.16.1",
     "vue-infinite-loading": "^2.4.5",
     "vue-lottie": "^0.2.1",
     "vuesax": "^4.0.1-alpha.25"
@@ -34,7 +35,6 @@
   "devDependencies": {
     "@nuxtjs/color-mode": "^2.0.5",
     "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/laravel-echo": "^2.0.0-alpha.5",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/style-resources": "^1.0.0",
