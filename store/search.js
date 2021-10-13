@@ -2,7 +2,7 @@ const getDefaultState = () => {
   return {
     posts: [],
     post: null,
-    tagPage: 0,
+    tagPage: 1,
     loading: false,
     tagLoading: false,
   }

@@ -168,6 +168,11 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.editProfileTitle'),
+    }
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({

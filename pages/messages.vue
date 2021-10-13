@@ -244,6 +244,11 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   layout: 'messages',
+  head() {
+    return {
+      title: this.$t('pageHead.messagesTitle'),
+    }
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({

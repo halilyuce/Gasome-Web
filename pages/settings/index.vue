@@ -152,6 +152,11 @@
 <script>
 export default {
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.settingsTitle'),
+    }
+  },
   methods: {
     openWindow(link) {
       window && window.open(link, '_blank')

@@ -74,6 +74,11 @@ export default {
   name: 'PostDetail',
   components: { PostComposer, PostsBody, SinglePost, CommentComposer },
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.postDetailTitle'),
+    }
+  },
   computed: {
     ...mapState({
       post: (state) => state.posts.post,

@@ -97,6 +97,11 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.changePasswordTitle'),
+    }
+  },
   computed: {
     ...mapState({
       passwordLoading: (state) => state.settings.passwordLoading,

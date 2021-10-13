@@ -66,6 +66,14 @@ import UserListItem from '~/components/UserProfile/UserListItem.vue'
 export default {
   components: { FollowersHeader, UserListItem },
   layout: 'sidebars',
+  head() {
+    return {
+      title:
+        this.selected === 'followers'
+          ? this.$t('pageHead.followersListTitle')
+          : this.$t('pageHead.followsListTitle'),
+    }
+  },
   computed: {
     ...mapState({
       user: (state) => state.profile.user,

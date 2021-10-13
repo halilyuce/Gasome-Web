@@ -1,4 +1,25 @@
 export default {
+  //PAGE HEADS
+  pageHead: {
+    registerTitle: 'Kayıt Ol | Gasome',
+    registerDesc:
+      "Hesap oluştur veya Gasome'ye giriş yap. Diğer oyuncularla etkileşime geç ve düşüncelerini paylaş.",
+    loginTitle: 'Giriş Yap | Gasome',
+    editProfileTitle: 'Profilini Düzenle | Gasome',
+    forgotPasswordTitle: 'Şifremi Unuttum | Gasome',
+    messagesTitle: 'Mesajlar | Gasome',
+    notificationsTitle: 'Bildirimler | Gasome',
+    privacyTitle: 'Gizlilik Sözleşmesi | Gasome',
+    changePasswordTitle: 'Şifreni Değiştir | Gasome',
+    languagesTitle: 'Dil Ayarları | Gasome',
+    settingsTitle: 'Ayarlar | Gasome',
+    hashtagsTitle: 'Etiketler | Gasome',
+    postDetailTitle: 'Gönderi Detayı | Gasome',
+    followsListTitle: 'Takip Edilenler | Gasome',
+    followersListTitle: 'Takipçiler | Gasome',
+    profileTitle: 'Profil | Gasome',
+    indexTitle: 'Gasome | Oyuncu Sosyal Ağı',
+  },
   //AUTH
   login: {
     newMember: 'Kaydol',
@@ -129,7 +150,7 @@ export default {
   //USERPROFILE
   followerHeader: {
     follower: 'Takipçiler',
-    follow: 'Takip Edilen',
+    follow: 'Takip Edilenler',
   },
   swapList: {
     makesure: 'Kaldırmak istediğine emin misin ?',

@@ -1,4 +1,25 @@
 export default {
+  //PAGE HEADS
+  pageHead: {
+    registerTitle: 'Sign Up | Gasome',
+    registerDesc:
+      'Create an account or log in to Gasome. Interact with other gamers and share your thoughts.',
+    loginTitle: 'Sign In | Gasome',
+    editProfileTitle: 'Edit Profile | Gasome',
+    forgotPasswordTitle: 'Forgot Password | Gasome',
+    messagesTitle: 'Messages | Gasome',
+    notificationsTitle: 'Notifications | Gasome',
+    privacyTitle: 'Privacy | Gasome',
+    changePasswordTitle: 'Change Password | Gasome',
+    languagesTitle: 'Language Settings | Gasome',
+    settingsTitle: 'Settings | Gasome',
+    hashtagsTitle: 'Hashtags | Gasome',
+    postDetailTitle: 'Post Detail | Gasome',
+    followsListTitle: 'Follows | Gasome',
+    followersListTitle: 'Followers | Gasome',
+    profileTitle: 'Profile | Gasome',
+    indexTitle: 'Gasome | Gamer Social Media',
+  },
   //AUTH
   login: {
     //Login
@@ -63,8 +84,8 @@ export default {
     followers: 'Followers',
     swaps: 'Swaps',
     feedback: 'Give Feedback !',
-    textPart: 'We are in beta and we are waiting for your feedbacks :)',
-    sendPhase: 'Send it',
+    textPart: 'We are in #Beta and we are waiting for your feedbacks :)',
+    sendPhase: 'Send Feedback',
   },
   //NOTIFICATIONS
   cookie: {
@@ -83,8 +104,8 @@ export default {
   },
   postComposer: {
     postTitle: 'A penny for your',
-    though: 'thoughs',
-    content: 'What do you think ?',
+    though: 'thoughts',
+    content: 'For example, how about talking about the last game you played?',
     emoji: 'Start to type emoji name',
     cancel: 'Cancel',
     share: 'Share',

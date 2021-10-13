@@ -77,6 +77,11 @@
 <script>
 export default {
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.languagesTitle'),
+    }
+  },
   computed: {
     languages() {
       return this.$i18n.locales

@@ -145,6 +145,11 @@ export default {
     lottie,
   },
   layout: 'blank',
+  head() {
+    return {
+      title: this.$t('pageHead.forgotPasswordTitle'),
+    }
+  },
   computed: {
     ...mapState({
       emailLoading: (state) => state.emailLoading,

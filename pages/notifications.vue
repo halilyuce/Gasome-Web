@@ -55,6 +55,11 @@ import NoData from '~/components/UI/NoData.vue'
 export default {
   components: { NotificationList, NoData },
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.notificationsTitle'),
+    }
+  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,

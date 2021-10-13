@@ -181,6 +181,11 @@
 <script>
 export default {
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.privacyTitle'),
+    }
+  },
 }
 </script>
 

@@ -124,6 +124,15 @@ export default {
     NoData,
   },
   layout: 'sidebars',
+  head() {
+    return {
+      title: `${
+        this.user
+          ? this.user.name + ' | Gasome'
+          : this.$t('pageHead.profileTitle')
+      }`,
+    }
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({

@@ -84,6 +84,7 @@
         v-if="!enough"
         spinner="spiral"
         :distance="300"
+        :identifier="isTop"
         @infinite="infiniteHandler"
         ><span slot="no-results"></span><span slot="no-more"></span
       ></infinite-loading>
@@ -100,6 +101,11 @@ export default {
     PostsBody,
   },
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.hashtagsTitle'),
+    }
+  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,
@@ -150,24 +156,23 @@ export default {
     }),
 
     async changeFilter(val) {
-      this.isTop = val
       this.enough = false
-      this.loadMorePosts()
+      this.isTop = val
     },
 
     infiniteHandler($state) {
       const self = this
-      if (this.page === 0) {
+      if (this.page === 1) {
         this.toggleLoading(true)
       }
       if (!this.enough) {
-        this.page += 1
         this.getTagPosts({ tag: this.$route.params.id, top: this.isTop }).then(
           function (res) {
             if (res.data.length < 10) {
               $state.complete()
               self.enough = true
             } else {
+              self.page += 1
               $state.loaded()
             }
           }

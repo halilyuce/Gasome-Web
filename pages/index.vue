@@ -88,6 +88,11 @@ export default {
     UserSuggestions,
   },
   layout: 'sidebars',
+  head() {
+    return {
+      title: this.$t('pageHead.indexTitle'),
+    }
+  },
   computed: {
     ...mapState({
       alert: (state) => state.alert,

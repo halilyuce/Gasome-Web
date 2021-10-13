@@ -10,5 +10,17 @@ export default {
     Login,
   },
   layout: 'blank',
+  head() {
+    return {
+      title: this.$t('pageHead.loginTitle'),
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('pageHead.registerDesc'),
+        },
+      ],
+    }
+  },
 }
 </script>
