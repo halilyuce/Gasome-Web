@@ -124,6 +124,7 @@
       <input
         ref="photo_upload"
         type="file"
+        accept="image/*"
         multiple
         hidden
         @change="onFileChange"

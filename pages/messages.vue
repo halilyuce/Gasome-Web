@@ -216,7 +216,13 @@
           ></textarea>
         </div>
 
-        <input ref="photo_upload" type="file" hidden @change="onFileChange" />
+        <input
+          ref="photo_upload"
+          type="file"
+          accept="image/*"
+          hidden
+          @change="onFileChange"
+        />
 
         <div class="flex flex-row space-x-2">
           <vs-button

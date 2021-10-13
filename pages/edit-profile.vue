@@ -32,7 +32,13 @@
       autocomplete="on"
       @submit.prevent="saveChanges"
     >
-      <input ref="avatar_upload" type="file" hidden @change="onFileChange" />
+      <input
+        ref="avatar_upload"
+        type="file"
+        accept="image/*"
+        hidden
+        @change="onFileChange"
+      />
       <div class="flex flex-row mt-5">
         <div class="w-32 mr-3 relative">
           <div

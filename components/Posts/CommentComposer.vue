@@ -43,8 +43,7 @@
             px-3
             py-2
             text-gray-700
-            dark:text-gray-300
-            dark:bg-content-bg
+            dark:text-gray-300 dark:bg-content-bg
             border border-gray-200
             dark:border-gray-700
             rounded-lg
@@ -91,8 +90,7 @@
                   v-focus
                   class="
                     rounded-full
-                    dark:bg-content-bg
-                    dark:text-gray-400
+                    dark:bg-content-bg dark:text-gray-400
                     border
                     dark:border-gray-600
                     border-gray-300
@@ -130,8 +128,7 @@
                         rounded
                         bg-white
                         dark:bg-content-bg
-                        focus:outline-none
-                        focus:shadow-outline
+                        focus:outline-none focus:shadow-outline
                         text-xl
                         flex
                         items-center
@@ -158,6 +155,7 @@
           <input
             ref="photo_upload"
             type="file"
+            accept="image/*"
             multiple
             hidden
             @change="onFileChange"

@@ -263,6 +263,8 @@ export default {
     newPost: 'Yeni Gönderi',
     followSuggestions:
       'Görünüşe göre buralarda yenisin 👋  Akışında fazla içerik göremediğin için panik yapma, hemen aşağıdaki önerilerden arkadaş edinmeye başlayarak akışına renk kat 🤟',
+    justFollows: 'Takip Ettiklerim',
+    global: 'Global',
   },
   //MESSAGES
   messages: {

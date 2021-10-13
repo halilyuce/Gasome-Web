@@ -39,7 +39,11 @@
           <div>
             <p
               class="dark:text-gray-300 text-lg px-5"
-              v-html="hyperlinkString(post.quoted_post[0].text)"
+              v-html="
+                hyperlinkString(
+                  post.quoted_post[0].text ? post.quoted_post[0].text : ''
+                )
+              "
             />
 
             <div
@@ -288,7 +292,7 @@
           <div>
             <p
               class="dark:text-gray-300 text-lg px-5"
-              v-html="hyperlinkString(post.text)"
+              v-html="hyperlinkString(post.text ? post.text : '')"
             />
 
             <div

@@ -186,10 +186,12 @@ export const actions = {
   async getPostDetail({ dispatch }, slug) {
     await dispatch('getPostById', slug)
   },
-  async loadMorePosts({ dispatch, state, commit }) {
+  async loadMorePosts({ dispatch, state, commit }, global) {
     commit('setLoading', true)
     try {
-      const response = await this.$axios.get('/api/getPosts?page=' + state.page)
+      const response = await this.$axios.get(
+        '/api/getPosts?page=' + state.page + '&global=' + global
+      )
       commit('insertPosts', response.data.data.data)
       commit('setLoading', false)
       return response.data.data

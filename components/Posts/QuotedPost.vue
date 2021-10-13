@@ -24,7 +24,7 @@
       }}</span>
     </div>
 
-    <p v-html="hyperlinkString(post.text)" />
+    <p v-html="hyperlinkString(post.text ? post.text : '')" />
 
     <div
       v-if="post.image && post.image.length > 0"

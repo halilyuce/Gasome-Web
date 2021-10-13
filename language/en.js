@@ -263,6 +263,8 @@ export default {
     newPost: 'New Post',
     followSuggestions:
       "Looks like you're new around 👋 Don't panic if you can't see many content on your timeline, add some color to your timeline by starting to make friends with the suggestions below 🤟",
+    justFollows: 'Just Follows',
+    global: 'Global',
   },
   //MESSAGES
   messages: {

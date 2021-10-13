@@ -21,7 +21,7 @@
           dark:border-gray-600 dark:border-opacity-20
         "
       >
-        <vs-input
+        <!-- <vs-input
           v-model="search"
           color="#7d33ff"
           type="search"
@@ -33,7 +33,42 @@
           <template #icon>
             <i class="bx bx-search"></i>
           </template>
-        </vs-input>
+        </vs-input> -->
+
+        <div
+          class="
+            flex flex-row
+            items-center
+            justify-center
+            bg-gray-100
+            dark:bg-content-bg
+            rounded-2xl
+          "
+        >
+          <vs-button
+            :transparent="!isGlobal"
+            :shadow="isGlobal"
+            :active="isGlobal"
+            color="#666"
+            size="small"
+            @click="changeGlobal(true)"
+          >
+            <i class="bx mr-2 text-base bx-world"></i>
+            {{ $t('mainPage.global') }}
+          </vs-button>
+          <vs-button
+            :transparent="isGlobal"
+            :shadow="!isGlobal"
+            :active="!isGlobal"
+            color="#666"
+            size="small"
+            @click="changeGlobal(false)"
+          >
+            <i class="bx mr-2 text-base bx-user-check"></i>
+            {{ $t('mainPage.justFollows') }}
+          </vs-button>
+        </div>
+
         <vs-button @click="openComposer()">
           <i class="bx bx-edit text-lg"></i>
 
@@ -120,11 +155,18 @@ export default {
   },
   data() {
     return {
+      isGlobal: false,
       infiniteID: 1,
       enough: false,
       search: '',
       smallAvatar: process.env.AVATAR_SMALL,
       showSuggestions: false,
+    }
+  },
+  mounted() {
+    let global = this.$cookies.get('global')
+    if (global) {
+      this.isGlobal = global
     }
   },
   methods: {
@@ -141,6 +183,12 @@ export default {
       deletePostAPI: 'posts/deletePost',
     }),
 
+    changeGlobal(val) {
+      this.isGlobal = val
+      this.$cookies.set('global', val)
+      this.reloadPage()
+    },
+
     openComposer() {
       this.quotedPost = null
       this.toggleComposer(true)
@@ -154,7 +202,7 @@ export default {
 
     infiniteHandler($state) {
       const self = this
-      this.loadMorePosts().then(function (res) {
+      this.loadMorePosts(this.isGlobal).then(function (res) {
         if (res.data.length < 10) {
           if (self.page === 1) {
             self.showSuggestions = true
