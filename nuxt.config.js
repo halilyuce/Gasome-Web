@@ -18,19 +18,44 @@ export default {
         content:
           'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
+
+      // Global
+      { name: 'author', content: 'https://gasome.com' },
+      { name: 'publisher', content: 'https://gasome.com' },
       {
-        property: 'og:title',
-        content: 'Gasome | Gamer Social Media',
+        name: 'apple-mobile-web-app-title',
+        content: 'Gasome | Gamer Social Media',
       },
+      { name: 'theme-color', content: '#6e00ff' },
+
+      // Facebook & LinkedIn
+      { property: 'og:title', content: 'Gasome | Gamer Social Media' },
       {
         property: 'og:description',
         content:
           'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://gasome.com' },
+      { property: 'og:image', content: '/appIcon.png' },
+      { property: 'og:image:width', content: '512' },
+      { property: 'og:image:height', content: '512' },
+      { property: 'og:locale', content: 'en_US' },
+      { property: 'og:site_name', content: 'Gasome | Gamer Social Media' },
+
+      // Twitter
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:site', content: '@gasomecom' },
+      { name: 'twitter:creator', content: '@gasomecom' },
+      { name: 'twitter:title', content: 'Gasome | Gamer Social Media' },
       {
-        property: 'og:image',
-        content: '/appIcon.png',
+        name: 'twitter:description',
+        content:
+          'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
+      { name: 'twitter:image', content: '/appIcon.png' },
+      { name: 'twitter:image:width', content: '512' },
+      { name: 'twitter:image:height', content: '512' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
