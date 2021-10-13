@@ -18,6 +18,19 @@ export default {
         content:
           'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
       },
+      {
+        property: 'og:title',
+        content: 'Gasome | Gamer Social Media',
+      },
+      {
+        property: 'og:description',
+        content:
+          'Social Media Application based on games for gamers. You can find the closest gamers to you easily. Explore new games and meet with gamers around you.',
+      },
+      {
+        property: 'og:image',
+        content: '/appIcon.png',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
