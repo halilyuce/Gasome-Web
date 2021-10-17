@@ -17,6 +17,10 @@
           <img :src="`${smallAvatar + post.user.avatar}.jpg`" alt="Avatar" />
         </vs-avatar>
         <h4 class="ml-2">{{ post.user.name }}</h4>
+        <i
+          v-if="post.user.verified"
+          class="bx bxs-badge-check text-lg text-purple-500 ml-1"
+        ></i>
         <span class="text-gray-400 ml-1">{{ '@' + post.user.username }}</span>
       </div>
       <span class="text-gray-500 text-sm">{{

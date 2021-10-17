@@ -80,9 +80,16 @@ export const mutations = {
     if (quote) {
       Object.assign(quote.quoted_post[0], payload)
     }
+    if (payload.id === state.post.id) {
+      Object.assign(state.post, payload)
+    }
   },
   setBoost(state, payload) {
     if (payload.response.success) {
+      if (payload.sent.id === state.post.id) {
+        state.post.is_boosted_count = false
+        state.post.boosts_count -= 1
+      }
       const index = state.posts.findIndex(
         (post) =>
           post.quote_id === payload.sent.id &&
@@ -112,6 +119,17 @@ export const mutations = {
         }
       })
     } else {
+      if (payload.response.quoted_post[0].id === state.post.id) {
+        state.post.is_boosted_count =
+          payload.response.quoted_post[0].is_boosted_count
+        state.post.is_favorited_count =
+          payload.response.quoted_post[0].is_favorited_count
+        state.post.boosts_count = payload.response.quoted_post[0].boosts_count
+        state.post.likes_count = payload.response.quoted_post[0].likes_count
+        state.post.comments_count =
+          payload.response.quoted_post[0].comments_count
+      }
+
       state.posts.unshift(payload.response)
 
       const posts = state.posts.filter(

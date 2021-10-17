@@ -316,7 +316,7 @@ export default {
       setMessages: 'messages/setMessages',
       sendMessage: 'messages/sendMessage',
       removeMessage: 'messages/removeMessage',
-      insertMessage: 'messages/insertMessage',
+      insertSocketMessage: 'messages/insertSocketMessage',
       messageFromAnother: 'messages/messageFromAnother',
       toggleLoading: 'messages/toggleMessagesLoading',
       setSocket: 'messages/setSocket',
@@ -363,7 +363,7 @@ export default {
     async hanleIncoming(message) {
       const self = this
       if (this.selected && message.from == this.selected.user.id) {
-        this.insertMessage(message).then(() => {
+        this.insertSocketMessage(message).then(() => {
           self.scrollToElement()
         })
       } else {

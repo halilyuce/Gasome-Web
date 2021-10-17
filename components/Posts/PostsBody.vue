@@ -41,6 +41,10 @@
             <div class="flex justify-between">
               <div class="flex flex-row items-center">
                 <h4 class="">{{ post.quoted_post[0].user.name }}</h4>
+                <i
+                  v-if="post.quoted_post[0].user.verified"
+                  class="bx bxs-badge-check text-lg text-purple-500 ml-1"
+                ></i>
                 <span class="text-gray-400 ml-1">{{
                   '@' + post.quoted_post[0].user.username
                 }}</span>
@@ -257,6 +261,10 @@
             <div class="flex justify-between">
               <div class="flex flex-row items-center">
                 <h4 class="">{{ post.user.name }}</h4>
+                <i
+                  v-if="post.user.verified"
+                  class="bx bxs-badge-check text-lg text-purple-500 ml-1"
+                ></i>
                 <span class="text-gray-400 ml-1">{{
                   '@' + post.user.username
                 }}</span>

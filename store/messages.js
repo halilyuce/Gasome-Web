@@ -65,6 +65,14 @@ export const mutations = {
       Object.assign(state.messages[index], payload.message)
     }
   },
+  insertSocketMessage(state, payload) {
+    const index = state.messages.findIndex(
+      (message) => message.id === payload.id
+    )
+    if (index < 0) {
+      state.messages.push(payload)
+    }
+  },
   setSendingMessages(state, payload) {
     state.messages.push(payload)
     state.selected.created_at = payload.created_at
@@ -225,6 +233,9 @@ export const actions = {
   },
   async insertMessage({ commit }, payload) {
     commit('insertMessage', payload)
+  },
+  async insertSocketMessage({ commit }, payload) {
+    commit('insertSocketMessage', payload)
   },
   async toggleLoading({ commit }, payload) {
     commit('setLoading', payload)
