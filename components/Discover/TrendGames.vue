@@ -4,7 +4,7 @@
       {{ swapData.title }}
     </h3>
     <div v-if="swapData.list.length > 0">
-      <div v-if="listType === 'list'" class="flex py-4">
+      <div v-if="listType === 'list'" class="py-4">
         <div class="grid grid-cols-2 gap-2">
           <n-link
             v-for="game in swapData.list"
