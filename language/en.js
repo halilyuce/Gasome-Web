@@ -377,4 +377,10 @@ export default {
       'If you have any questions or comments regarding this Privacy Notice, please contact us by sending an email.',
     theLast: 'This Privacy Statement was last updated on 12/08/2020.',
   },
+  discover: {
+    title: 'Discover',
+    games: 'Games',
+    users: 'Users',
+    tags: 'Tags',
+  },
 }

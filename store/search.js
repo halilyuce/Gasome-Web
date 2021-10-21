@@ -5,11 +5,16 @@ const getDefaultState = () => {
     tagPage: 1,
     loading: false,
     tagLoading: false,
+    searchLoading: false,
+    search: null,
   }
 }
 export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
+  setSearch(state, payload) {
+    state.search = payload
+  },
   setPosts(state, payload) {
     state.posts = payload
   },
@@ -27,6 +32,9 @@ export const mutations = {
   },
   setTagLoading(state, payload) {
     state.tagLoading = payload
+  },
+  setSearchLoading(state, payload) {
+    state.searchLoading = payload
   },
   setTagPage(state, payload) {
     state.tagPage = payload
@@ -101,6 +109,23 @@ export const mutations = {
 export const actions = {
   async resetState({ commit }) {
     commit('resetState')
+  },
+  async getSearchResults({ dispatch, commit }, payload) {
+    commit('setSearchLoading', true)
+    try {
+      const response = await this.$axios.post(
+        '/api/search?search=' + payload.search
+      )
+      commit('setSearch', response.data.data)
+      commit('setSearchLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setSearchLoading', false)
+      throw 'Unable to fetch search results'
+    }
   },
   async getTagPosts({ dispatch, commit }, payload) {
     commit('setTagLoading', true)

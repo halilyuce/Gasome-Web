@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-black lg:h-screen overflow-hidden">
+  <div class="bg-white dark:bg-black min-h-screen lg:h-screen overflow-hidden">
     <!-- Breadcrumb -->
 
     <div

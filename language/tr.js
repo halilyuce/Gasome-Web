@@ -378,4 +378,10 @@ export default {
     theLast:
       'Bu Gizlilik Bildirimi en son 12/08/2020 tarihinde güncellenmiştir.',
   },
+  discover: {
+    title: 'Keşfet',
+    games: 'Oyunlar',
+    users: 'Kullanıcılar',
+    tags: 'Etiketler',
+  },
 }

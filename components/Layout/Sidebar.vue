@@ -35,7 +35,7 @@
         </template>
         {{ $t('sideBar.swaps') }}
       </vs-sidebar-item>
-      <vs-sidebar-item id="discover" disabled>
+      <vs-sidebar-item id="discover" to="/discover">
         <template #icon>
           <i class="bx bx-game"></i>
         </template>
