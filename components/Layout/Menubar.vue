@@ -148,6 +148,9 @@ export default {
       if (tab === 'messages') {
         this.$router && this.$router.push('/messages')
       }
+      if (tab === 'discover') {
+        this.$router && this.$router.push('discover')
+      }
     },
   },
 }
