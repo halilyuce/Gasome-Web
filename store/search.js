@@ -193,9 +193,12 @@ export const actions = {
     }
   },
   async setTagCurrentPage({ commit }, page) {
-    await commit('setTagPage', page)
+    commit('setTagPage', page)
   },
   async toggleTagLoading({ commit }, payload) {
     commit('setTagLoading', payload)
+  },
+  async setSearch({ commit }, data) {
+    commit('setSearch', data)
   },
 }

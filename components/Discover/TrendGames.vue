@@ -16,6 +16,7 @@
               flex
               items-center
               rounded-xl
+              dark:bg-content-bg
               bg-gray-200 bg-opacity-25
               hover:bg-opacity-40
               cursor-pointer

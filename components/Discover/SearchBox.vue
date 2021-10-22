@@ -19,15 +19,14 @@
           v-model="search"
           color="#7d33ff"
           type="search"
-          state="primary"
-          :placeholder="$t('mainPage.search')"
+          :placeholder="$t('messagesBar.search')"
           class="w-full"
-          @submit="searchFunc"
+          @keyup.enter="searchFunc"
         >
         </vs-input>
-        <vs-button icon @click="searchFunc">
-          <i class="bx bx-search"></i>
-        </vs-button>
+        <vs-button icon @click="searchFunc" :loading="loading"
+          ><i class="bx bx-search px-2"></i
+        ></vs-button>
       </div>
     </div>
     <div
@@ -39,82 +38,46 @@
         md:flex-row
         justify-between
         items-center
-        px-5
-        p-3
         rounded-xl
         grid grid-cols-12
       "
     >
-      <div class="col-span-12 flex w-full justify-center items-center">
-        <div
+      <div class="col-span-12 relative items-center">
+        <ul
           class="
-            flex flex-row
-            md:items-center md:justify-center
-            mt-4
-            overflow-auto
+            w-full
+            grid grid-cols-4
+            border-b border-gray-200
+            dark:border-gray-700
             text-sm
-            font-bold
-            uppercase
-            text-theme-base-900
-            dark:text-theme-base-200
           "
         >
-          <a
+          <li
+            v-for="tab in tabs"
+            :key="tab.value"
             class="
-              px-6
-              py-2
-              border-b-2 border-transparent
-              dark:hover:bg-theme-base-700
+              py-3
+              flex
+              transition
+              duration-300
+              ease-in-out
+              justify-center
               cursor-pointer
-              capitalize
+              hover-bg
             "
-            :class="
-              activeTab === 'users'
-                ? 'border-blue-300'
-                : 'hover:bg-gray-50 hover:border-gray-300'
-            "
-            @click="activeTab = 'users'"
+            :class="{ 'border-b-4 border-purple-500': activeTab === tab.value }"
+            @click="activeTab = tab.value"
           >
-            {{ $t('discover.users') }}
-          </a>
-          <a
-            class="
-              px-6
-              py-2
-              border-b-2 border-transparent
-              dark:hover:bg-theme-base-700
-              cursor-pointer
-              capitalize
-            "
-            :class="
-              activeTab === 'games'
-                ? 'border-blue-300'
-                : 'hover:bg-gray-50 hover:border-gray-300'
-            "
-            @click="activeTab = 'games'"
-          >
-            {{ $t('discover.games') }}
-          </a>
-          <a
-            class="
-              px-6
-              py-2
-              border-b-2 border-transparent
-              dark:hover:bg-theme-base-700
-              cursor-pointer
-              capitalize
-            "
-            :class="
-              activeTab === 'tags'
-                ? 'border-blue-300'
-                : 'hover:bg-gray-50 hover:border-gray-300'
-            "
-            @click="activeTab = 'tags'"
-          >
-            {{ $t('discover.tags') }}
-          </a>
+            <b>{{ tab.title }}</b>
+          </li>
+        </ul>
+        <div class="absolute right-1 top-0.5">
+          <vs-button icon danger @click="empty">
+            <i class="bx bx-x"></i
+          ></vs-button>
         </div>
       </div>
+
       <div class="col-span-12">
         <TrendUsers
           v-show="activeTab === 'users'"
@@ -127,17 +90,27 @@
           :swap-data="{ list: searchData.games }"
           class="col-span-12"
         />
-        <div v-show="activeTab === 'tags'" class="py-4">
+        <div v-show="activeTab === 'tags'" class="col-span-12">
           <ul
             v-if="searchData.tags.length > 0"
-            class="
-              divide-y divide-gray-100
-              dark:divide-gray-500 dark:divide-opacity-10
-            "
+            class="p-5 grid grid-cols-12 gap-2"
           >
-            <li v-for="trend in searchData.tags" :key="trend.id">
+            <li
+              v-for="trend in searchData.tags"
+              :key="trend.id"
+              class="col-span-4"
+            >
               <n-link
-                class="flex items-center text-purple-500"
+                class="
+                  flex
+                  items-center
+                  justify-center
+                  p-3
+                  bg-gray-50
+                  dark:bg-content-bg
+                  rounded-xl
+                  text-purple-500
+                "
                 :to="'/h/' + trend.tag"
               >
                 {{ '#' + trend.tag }}
@@ -152,6 +125,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import TrendUsers from '@/components/Discover/TrendUsers'
 import TrendGames from '@/components/Discover/TrendGames'
 import NoData from '@/components/UI/NoData'
@@ -163,20 +137,39 @@ export default {
       type: Object,
       default: null,
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  computed: {
+    ...mapState({
+      loading: (state) => state.search.searchLoading,
+    }),
   },
   data() {
     return {
-      search: null,
+      search: '',
       activeTab: 'users',
+      tabs: [
+        {
+          title: this.$t('discover.users'),
+          value: 'users',
+        },
+        {
+          title: this.$t('discover.games'),
+          value: 'games',
+        },
+        {
+          title: this.$t('discover.tags'),
+          value: 'tags',
+        },
+      ],
     }
   },
   methods: {
     searchFunc() {
       this.$emit('triggerSearch', this.search)
+    },
+    empty() {
+      this.search = ''
+      this.$emit('empty', null)
     },
   },
 }
