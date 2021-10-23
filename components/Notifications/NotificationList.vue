@@ -204,15 +204,17 @@
         </div>
       </div>
     </div>
-    <div v-if="notification.game">
-      <div class="h-24 rounded-lg px-2">
-        <img
-          class="h-full w-full rounded-lg"
-          :src="smallImagePath + notification.game.image + '.jpg'"
-          :alt="notification.game.name"
-        />
-      </div>
-    </div>
+    <n-link
+      class="rounded-xl px-2"
+      :to="'/g/' + notification.game.id"
+      v-if="notification.game"
+    >
+      <img
+        class="aspect-h-16 rounded-xl"
+        :src="smallImagePath + notification.game.image + '.jpg'"
+        :alt="notification.game.name"
+      />
+    </n-link>
   </div>
 </template>
 

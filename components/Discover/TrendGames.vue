@@ -34,7 +34,12 @@
         </div>
       </div>
       <div v-else class="w-full flex overflow-x-auto py-4">
-        <div v-for="game in swapData.list" :key="game.id" class="mx-2">
+        <n-link
+          v-for="game in swapData.list"
+          :key="game.id"
+          :to="'/g/' + game.id"
+          class="mx-2"
+        >
           <vs-card type="4">
             <template #title>
               <div
@@ -62,7 +67,7 @@
               <span></span>
             </template>
           </vs-card>
-        </div>
+        </n-link>
       </div>
     </div>
     <NoData v-else />
