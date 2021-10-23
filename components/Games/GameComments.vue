@@ -1,11 +1,11 @@
 <template>
   <div v-if="comments.data.length > 0">
-    <div class="bg-purple-700 rounded-3xl my-4">
+    <div class="bg-gray-100 dark:bg-content-bg rounded-3xl my-4">
       <vs-card-group class="max-w-full">
         <vs-card v-for="comment in comments.data" :key="comment.id">
           <template #title>
             <StarRates
-              :disabled="false"
+              :disabled="true"
               size="sm"
               :point="parseFloat(comment.star)"
             />

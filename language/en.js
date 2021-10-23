@@ -194,6 +194,11 @@ export default {
   g: {
     summary: 'Summary',
     ratings: 'Ratings',
+    rate: 'Rate',
+    information: 'Information',
+    medias: 'Medias',
+    swaps: 'Swaps',
+    wishes: 'Wishes',
   },
   //H
   h: {
