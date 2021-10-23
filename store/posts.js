@@ -75,10 +75,16 @@ export const mutations = {
   },
   setFavorite(state, payload) {
     const item = state.posts.find((post) => post.id === payload.id)
-    Object.assign(item, payload)
+    if (item) {
+      Object.assign(item, payload)
+    }
     const quote = state.posts.find((post) => post.quote_id === payload.id)
     if (quote) {
       Object.assign(quote.quoted_post[0], payload)
+    }
+    const comment = state.comments.find((comment) => comment.id === payload.id)
+    if (comment) {
+      Object.assign(comment, payload)
     }
     if (payload.id === state.post.id) {
       Object.assign(state.post, payload)
@@ -95,7 +101,9 @@ export const mutations = {
           post.quote_id === payload.sent.id &&
           post.user_id === this.state.auth.user.id
       )
-      state.posts.splice(index, 1)
+      if (index > -1) {
+        state.posts.splice(index, 1)
+      }
 
       const posts = state.posts.filter(
         (post) =>
@@ -118,6 +126,14 @@ export const mutations = {
           item.quoted_post[0].boosts_count -= 1
         }
       })
+
+      const comment = state.comments.find(
+        (comment) => comment.id === payload.sent.id
+      )
+      if (comment) {
+        comment.is_boosted_count = false
+        comment.boosts_count -= 1
+      }
     } else {
       if (payload.response.quoted_post[0].id === state.post.id) {
         state.post.is_boosted_count =
@@ -128,6 +144,19 @@ export const mutations = {
         state.post.likes_count = payload.response.quoted_post[0].likes_count
         state.post.comments_count =
           payload.response.quoted_post[0].comments_count
+      }
+
+      const comment = state.comments.find(
+        (comment) => comment.id === payload.response.quoted_post[0].id
+      )
+      if (comment) {
+        comment.is_boosted_count =
+          payload.response.quoted_post[0].is_boosted_count
+        comment.is_favorited_count =
+          payload.response.quoted_post[0].is_favorited_count
+        comment.boosts_count = payload.response.quoted_post[0].boosts_count
+        comment.likes_count = payload.response.quoted_post[0].likes_count
+        comment.comments_count = payload.response.quoted_post[0].comments_count
       }
 
       state.posts.unshift(payload.response)
