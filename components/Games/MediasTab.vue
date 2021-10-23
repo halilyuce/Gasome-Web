@@ -9,38 +9,44 @@
       @close="closeImageViewer()"
     />
     <h2>Photos</h2>
-    <vs-card-group>
-      <vs-card
-        v-for="(ss, index) in game.screenshots"
-        :key="index"
-        @click="showImageViewer(index)"
-      >
-        <template #img>
-          <img :src="gameSSPath + ss + '.jpg'" alt="" />
-        </template>
-      </vs-card>
-    </vs-card-group>
+    <div class="bg-gray-100 dark:bg-content-bg rounded-3xl my-4">
+      <vs-card-group>
+        <vs-card
+          v-for="(ss, index) in game.screenshots"
+          :key="index"
+          @click="showImageViewer(index)"
+        >
+          <template #img>
+            <img :src="gameSSPath + ss + '.jpg'" alt="" />
+          </template>
+        </vs-card>
+      </vs-card-group>
+    </div>
     <h2>Videos</h2>
-    <vs-card-group>
-      <vs-card
-        v-for="(video, index) in game.videos"
-        :key="index"
-        @click="showVideoViewer(index)"
-      >
-        <template #img>
-          <div class="absolute w-full h-full flex justify-center items-center">
-            <vs-button color="#ff3e4e" size="xl" circle floating>
-              <i class="bx bx-play text-xl"></i>
-            </vs-button>
-          </div>
-          <img
-            class="h-48 object-cover"
-            :src="'https://img.youtube.com/vi/' + video + '/0.jpg'"
-            :alt="video"
-          />
-        </template>
-      </vs-card>
-    </vs-card-group>
+    <div class="bg-gray-100 dark:bg-content-bg rounded-3xl my-4">
+      <vs-card-group>
+        <vs-card
+          v-for="(video, index) in game.videos"
+          :key="index"
+          @click="showVideoViewer(index)"
+        >
+          <template #img>
+            <div
+              class="absolute w-full h-full flex justify-center items-center"
+            >
+              <vs-button color="#ff3e4e" size="xl" circle floating>
+                <i class="bx bx-play text-xl"></i>
+              </vs-button>
+            </div>
+            <img
+              class="h-48 object-cover"
+              :src="'https://img.youtube.com/vi/' + video + '/0.jpg'"
+              :alt="video"
+            />
+          </template>
+        </vs-card>
+      </vs-card-group>
+    </div>
   </div>
 </template>
 

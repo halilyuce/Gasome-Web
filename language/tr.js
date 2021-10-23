@@ -194,6 +194,11 @@ export default {
   g: {
     summary: 'Özet',
     ratings: 'Puanlamalar',
+    rate: 'Puan Ver',
+    information: 'Bilgi',
+    medias: 'Medya',
+    swaps: 'Takaslar',
+    wishes: 'İstekler',
   },
   //H
   h: {
