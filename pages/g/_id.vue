@@ -1,6 +1,14 @@
 <template>
   <div
-    class="bg-white dark:bg-black overflow-y-auto disable-scrollbars h-screen"
+    ref="game"
+    class="
+      relative
+      bg-white
+      dark:bg-black
+      overflow-y-auto
+      disable-scrollbars
+      h-screen
+    "
   >
     <div v-if="game">
       <!-- Breadcrumb -->
@@ -72,7 +80,6 @@
         <GameWishList :id="game.id" />
       </div>
     </div>
-    <div ref="game" class="relative h-screen" v-else></div>
   </div>
 </template>
 
@@ -132,8 +139,13 @@ export default {
     },
   },
   async mounted() {
-    if (this.$route.params.id != this.game.id) {
-      await this.resetState()
+    if (this.game) {
+      if (this.$route.params.id != this.game.id) {
+        await this.resetState()
+        await this.getGameById(this.$route.params.id)
+        await this.getGameComments(this.$route.params.id)
+      }
+    } else {
       await this.getGameById(this.$route.params.id)
       await this.getGameComments(this.$route.params.id)
     }
