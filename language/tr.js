@@ -279,6 +279,10 @@ export default {
   notify: {
     notications: 'Bildirimler',
   },
+  //SWAPS
+  swaps: {
+    title: 'Takaslar',
+  },
   //PRIVACY
   privacyP: {
     title: 'GASOME GİZLİLİK SÖZLEŞMESİ',

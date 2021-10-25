@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-black col-span-12 max-h-screen overflow-auto">
+  <div class="bg-white dark:bg-black col-span-12 h-screen overflow-auto">
     <!-- Breadcrumb -->
 
     <div
