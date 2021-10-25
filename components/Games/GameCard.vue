@@ -84,14 +84,50 @@
         <vs-button block border shadow icon>
           <i class="bx bx-shuffle mr-2"></i> Swap
         </vs-button>
-        <vs-button block shadow border>
+        <vs-button block shadow border @click="openWishModal">
           <i class="bx bx-heart text-lg mr-2"></i> Wish
         </vs-button>
       </div>
     </div>
+    <vs-dialog v-model="showWish">
+      <template #header>
+        <h4 class="not-margin">
+          {{ $t('g.select') }}
+        </h4>
+      </template>
+
+      <vs-select
+        filter
+        block
+        :placeholder="$t('g.platform')"
+        v-model="wishPlatform"
+        :loading="wishLoading"
+      >
+        <vs-option
+          v-for="p in wishPlatforms"
+          :key="p.platform.id"
+          :label="p.platform.name"
+          :value="p.platform.id"
+        >
+          {{ p.platform.name }}
+        </vs-option>
+      </vs-select>
+
+      <template #footer>
+        <div class="flex flex-col">
+          <vs-button :loading="addWishLoading" @click="addWishList" block>
+            {{ $t('g.send') }}
+          </vs-button>
+          <vs-button transparent danger block @click="showWish = false">
+            {{ $t('g.cancel') }}
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'GameCard',
   props: {
@@ -102,13 +138,71 @@ export default {
   },
   data() {
     return {
+      showWish: false,
+      wishPlatform: '',
       smallImagePath: process.env.GAMECOVER_SMALL,
       mediumImagePath: process.env.GAMECOVER_MEDIUM,
       companyImagePath: process.env.COMPANYIMAGE_SMALL,
       gameSSPath: process.env.GAMESS_MEDIUM,
     }
   },
+  computed: {
+    ...mapState({
+      wishPlatforms: (state) => state.game.wishPlatforms,
+      wishLoading: (state) => state.game.wishPlatformsLoading,
+      addWishLoading: (state) => state.game.addWishLoading,
+    }),
+  },
   methods: {
+    ...mapActions({
+      getWishPlatforms: 'game/getWishPlatforms',
+      addGameWishList: 'game/addGameWishList',
+    }),
+    openWishModal() {
+      this.showWish = true
+      if (
+        this.wishPlatforms.length === 0 ||
+        (this.wishPlatforms && this.wishPlatforms[0].game != this.game.id)
+      ) {
+        this.getWishPlatforms(this.game.id)
+      }
+    },
+    async addWishList() {
+      const self = this
+      this.addGameWishList({ game: this.game.id, platform: this.wishPlatform })
+        .then((res) => {
+          if (res.errorMessage) {
+            self.$vs.notification({
+              flat: true,
+              color: 'danger',
+              icon: `<i class='bx bx-error' ></i>`,
+              position: 'top-right',
+              title: self.$t('g.addWishFailTitle'),
+              text: res.errorMessage[0],
+            })
+          } else {
+            self.$vs.notification({
+              flat: true,
+              color: 'success',
+              icon: `<i class='bx bx-error' ></i>`,
+              position: 'top-right',
+              title: self.$t('g.addWishSuccessTitle'),
+              text: self.$t('g.addWishSuccessDesc'),
+            })
+            self.showWish = false
+          }
+        })
+        .catch((err) => {
+          self.$vs.notification({
+            flat: true,
+            color: 'danger',
+            icon: `<i class='bx bx-error' ></i>`,
+            position: 'top-right',
+            title: self.$t('g.addWishFailTitle'),
+            text: err.errorMessage[0],
+          })
+        })
+    },
     platformsText(platforms) {
       var text = ''
       platforms.forEach((platform, index) => {

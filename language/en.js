@@ -199,6 +199,13 @@ export default {
     medias: 'Medias',
     swaps: 'Swaps',
     wishes: 'Wishes',
+    send: 'Add to Wish List',
+    cancel: 'Cancel',
+    select: 'Please select the platform you want this game',
+    platform: 'Select a platform',
+    addWishFailTitle: 'An Error Occured',
+    addWishSuccessTitle: 'Added Successfully',
+    addWishSuccessDesc: 'Game added to your Wish List successfully.',
   },
   //H
   h: {

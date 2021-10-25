@@ -199,6 +199,13 @@ export default {
     medias: 'Medya',
     swaps: 'Takaslar',
     wishes: 'İstekler',
+    send: 'İstek Listesine ekle',
+    cancel: 'Vazgeç',
+    select: 'Lütfen bu oyunu istediğiniz platformu seçin',
+    platform: 'Bir platform seçin',
+    addWishFailTitle: 'Bir Hata Oluştu',
+    addWishSuccessTitle: 'Başarıyla Eklendi',
+    addWishSuccessDesc: 'Oyun İstek Listenize başarıyla eklenmiştir.',
   },
   //H
   h: {
