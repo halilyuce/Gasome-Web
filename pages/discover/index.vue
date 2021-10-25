@@ -101,7 +101,9 @@ export default {
     },
   },
   async mounted() {
-    await this.getTrends()
+    if (!this.trends) {
+      this.getTrends()
+    }
   },
   watch: {
     loading(newVal, oldVal) {

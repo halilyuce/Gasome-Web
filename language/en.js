@@ -279,6 +279,10 @@ export default {
   notify: {
     notications: 'Notifications',
   },
+  //SWAPS
+  swaps: {
+    title: 'Swaps',
+  },
   //PRIVACY
   privacyP: {
     title: 'GASOME PRIVACY NOTICE',

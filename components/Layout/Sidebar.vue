@@ -29,7 +29,7 @@
         </template>
         {{ $t('sideBar.home') }}
       </vs-sidebar-item>
-      <vs-sidebar-item id="swaps" disabled>
+      <vs-sidebar-item id="swaps" to="/swaps">
         <template #icon>
           <i class="bx bx-shuffle"></i>
         </template>
