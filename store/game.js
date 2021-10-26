@@ -11,6 +11,9 @@ const getDefaultState = () => {
     wishesLoading: false,
     wishesPage: 0,
     wishesEnough: false,
+    wishPlatforms: [],
+    wishPlatformsLoading: false,
+    addWishLoading: false,
   }
 }
 export const state = () => getDefaultState()
@@ -46,6 +49,15 @@ export const mutations = {
   setWishesLoading(state, payload) {
     state.wishesLoading = payload
   },
+  setAddWishLoading(state, payload) {
+    state.addWishLoading = payload
+  },
+  setWishPlatformsLoading(state, payload) {
+    state.wishPlatformsLoading = payload
+  },
+  insertWishPlatforms(state, payload) {
+    state.wishPlatforms = [...state.wishPlatforms, ...payload]
+  },
   insertWishes(state, payload) {
     state.wishes = [...state.wishes, ...payload]
   },
@@ -70,7 +82,7 @@ export const actions = {
       commit('setLoading', false)
     }
   },
-  async getGameComments({ commit }, id, page = 1) {
+  async getGameComments({ dispatch, commit }, id, page = 1) {
     commit('setLoading', true)
     try {
       const response = await this.$axios.get(
@@ -124,6 +136,42 @@ export const actions = {
       })
       commit('setWishesLoading', false)
       throw 'Unable to fetch wishes'
+    }
+  },
+  async getWishPlatforms({ dispatch, commit }, id) {
+    commit('setWishPlatformsLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/getPlatformsByGame?gameId=' + id
+      )
+      commit('insertWishPlatforms', response.data.data)
+      commit('setWishPlatformsLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setWishPlatformsLoading', false)
+      throw 'Unable to fetch wish platforms'
+    }
+  },
+  async addGameWishList({ dispatch, commit }, payload) {
+    commit('setAddWishLoading', true)
+    try {
+      const response = await this.$axios.post(
+        '/api/postWishList?gameId=' +
+          payload.game +
+          '&platform=' +
+          payload.platform
+      )
+      commit('setAddWishLoading', false)
+      return true
+    } catch (error) {
+      await dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setAddWishLoading', false)
+      return error.response.data
     }
   },
   async toggleWishesEnough({ commit }, payload) {
