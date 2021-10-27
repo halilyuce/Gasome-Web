@@ -105,6 +105,11 @@ export default {
       this.getTrends()
     }
   },
+  async asyncData({ route, store }) {
+    if (route.name === 'discover') {
+      await store.dispatch('setTab', 'discover')
+    }
+  },
   watch: {
     loading(newVal, oldVal) {
       if (newVal !== oldVal) {

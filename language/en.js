@@ -289,6 +289,13 @@ export default {
   //SWAPS
   swaps: {
     title: 'Swaps',
+    accept: 'Accept',
+    reject: 'Reject',
+    waiting: 'Waiting',
+    accepted: 'Accepted',
+    declined: 'Declined',
+    incoming: 'Incoming',
+    outgoing: 'Outgoing',
   },
   //PRIVACY
   privacyP: {

@@ -46,7 +46,7 @@
         <ul
           class="
             w-full
-            grid grid-cols-4
+            grid grid-cols-3
             border-b border-gray-200
             dark:border-gray-700
             text-sm

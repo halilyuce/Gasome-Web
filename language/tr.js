@@ -289,6 +289,13 @@ export default {
   //SWAPS
   swaps: {
     title: 'Takaslar',
+    accept: 'Kabul Et',
+    reject: 'Geri Çevir',
+    waiting: 'Bekliyor',
+    accepted: 'Kabul Edildi',
+    declined: 'Red Edildi',
+    incoming: 'Gelenler',
+    outgoing: 'Gidenler',
   },
   //PRIVACY
   privacyP: {
