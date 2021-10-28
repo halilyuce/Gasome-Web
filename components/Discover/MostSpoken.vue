@@ -45,6 +45,11 @@ export default {
       trendsLoading: (state) => state.sidebar.trendsLoading,
     }),
   },
+  data() {
+    return {
+      trendsLoad: null,
+    }
+  },
   watch: {
     trendsLoading(newVal, oldVal) {
       if (newVal !== oldVal) {

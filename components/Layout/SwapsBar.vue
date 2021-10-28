@@ -77,7 +77,6 @@
             ? 'bg-green-50 dark:bg-green-600 dark:bg-opacity-5'
             : ''
         "
-        :disabled="swap.process !== 1"
       >
         <div class="flex justify-between mb-2">
           <div class="flex flex-row">
@@ -160,6 +159,9 @@
           >
             <i class="bx bx-check text-2xl"></i>
             {{ $t('swaps.accepted') }}
+            <vs-button :to="`/messages?room=${swap.user.id}`" icon flat>
+              <i class="bx bx-envelope"></i> <span class="mx-1">DM</span>
+            </vs-button>
           </div>
 
           <div

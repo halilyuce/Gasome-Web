@@ -156,6 +156,8 @@ export default {
       smallAvatar: process.env.AVATAR_SMALL,
       followList: [],
       followedList: [],
+      trendsLoad: null,
+      recommendsLoad: null,
     }
   },
 
