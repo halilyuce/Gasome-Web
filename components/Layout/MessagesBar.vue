@@ -177,6 +177,30 @@ export default {
       smallAvatar: process.env.AVATAR_SMALL,
     }
   },
+  mounted() {
+    const queryUser = parseInt(this.$route.query.room)
+    if (this.selected && queryUser != this.selected.user.id) {
+      const self = this
+      let index = this.contacts.findIndex(
+        (contact) => contact.user.id === queryUser
+      )
+      if (index > -1) {
+        this.selected = this.contacts[index]
+      } else {
+        this.getUser(queryUser).then((user) => {
+          self.selected = {
+            id: +new Date(),
+            from: self.loggedInUser.id,
+            to: queryUser,
+            unread: 0,
+            created_at: new Date(),
+            updated_at: new Date(),
+            user: user,
+          }
+        })
+      }
+    }
+  },
   watch: {
     selected(newVal, oldVal) {
       if (newVal !== oldVal) {
