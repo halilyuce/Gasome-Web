@@ -29,6 +29,9 @@ export const mutations = {
   insertSwaps(state, payload) {
     state.swaps = [...state.swaps, ...payload]
   },
+  setSwaps(state, payload) {
+    state.swaps = payload
+  },
   setSwapDeals(state, payload) {
     state.swapDeals = payload
   },
@@ -70,6 +73,7 @@ export const actions = {
     }
   },
   async getSwaps({ dispatch, state, commit }, payload) {
+    commit('setLoading', true)
     try {
       const response = await this.$axios.get(
         '/api/swapsuggestions?page=' +
@@ -89,6 +93,9 @@ export const actions = {
       commit('setLoading', false)
       throw 'Unable to fetch swaps'
     }
+  },
+  async setSwaps({ commit }, payload) {
+    await commit('setSwaps', payload)
   },
   async setCurrentPage({ commit }, page) {
     await commit('setPage', page)

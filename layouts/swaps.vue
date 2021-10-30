@@ -44,7 +44,7 @@
       <div class="col-span-7 lg:col-span-2 flex relative">
         <Sidebar class="hidden lg:flex" />
         <Menubar class="flex lg:hidden" />
-        <SwapsBar />
+        <SwapsBar class="hidden lg:flex" />
       </div>
       <Nuxt class="col-span-7 lg:col-span-5" />
     </div>

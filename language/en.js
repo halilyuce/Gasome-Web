@@ -296,6 +296,11 @@ export default {
     declined: 'Declined',
     incoming: 'Incoming',
     outgoing: 'Outgoing',
+    keyboardDesc:
+      'You can quickly take action using the keyboard shortcuts mentioned above',
+    swap: 'Swap',
+    dislike: 'Dislike',
+    details: 'Details',
   },
   //PRIVACY
   privacyP: {

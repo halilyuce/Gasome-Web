@@ -296,6 +296,11 @@ export default {
     declined: 'Red Edildi',
     incoming: 'Gelenler',
     outgoing: 'Gidenler',
+    keyboardDesc:
+      'Yukarıdaki klavye kısayollarını kullanarak hızlıca aksiyon alabilirsiniz.',
+    swap: 'Takas Et',
+    dislike: 'Beğenmedim',
+    details: 'Detaylar',
   },
   //PRIVACY
   privacyP: {
