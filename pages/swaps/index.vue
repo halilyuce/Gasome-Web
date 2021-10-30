@@ -108,6 +108,7 @@ export default {
       mediumGameCover: process.env.GAMECOVER_MEDIUM,
       location: null,
       errorStr: null,
+      _keyListener: null,
     }
   },
   mounted() {
@@ -117,27 +118,13 @@ export default {
         this.getSwaps({
           latitude: self.location.coords.latitude,
           longitude: self.location.coords.longitude,
-        }).then((data) => {
-          self._keyListener = function (e) {
-            if (e.key === 'ArrowLeft') {
-              e.preventDefault()
-              self.decide('dislike')
-            } else if (e.key === 'ArrowRight') {
-              e.preventDefault()
-              self.decide('like')
-            } else if (e.key === 'i') {
-              e.preventDefault()
-              console.warn('info key pressed')
-            }
-          }
-
-          document.addEventListener('keydown', this._keyListener.bind(this))
         })
       }
+      document.addEventListener('keydown', self.eventHandler)
     })
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this._keyListener)
+    document.removeEventListener('keydown', this.eventHandler)
   },
   async asyncData({ route, store }) {
     if (route.name === 'swaps') {
@@ -149,6 +136,19 @@ export default {
       getSwaps: 'swaps/getSwaps',
       setSwaps: 'swaps/setSwaps',
     }),
+    eventHandler(e) {
+      const { key } = e
+      if (key === 'ArrowLeft') {
+        e.preventDefault()
+        self.decide('dislike')
+      } else if (key === 'ArrowRight') {
+        e.preventDefault()
+        self.decide('like')
+      } else if (key === 'i') {
+        e.preventDefault()
+        console.warn('info key pressed')
+      }
+    },
     onSubmit() {
       if (this.swaps.length < 1) {
         this.getSwaps({
