@@ -298,6 +298,7 @@ export default {
     outgoing: 'Gidenler',
     keyboardDesc:
       'Yukarıdaki klavye kısayollarını kullanarak hızlıca aksiyon alabilirsiniz.',
+    chooseAGame: 'Lütfen bu takas için vermek istediğiniz oyununuzu seçiniz',
     swap: 'Takas Et',
     dislike: 'Beğenmedim',
     details: 'Detaylar',

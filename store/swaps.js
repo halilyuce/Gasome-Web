@@ -8,6 +8,10 @@ const getDefaultState = () => {
     dealsPage: 1,
     dealsEnough: false,
     dealsLoading: false,
+    userSwapList: [],
+    userSwapListPage: 1,
+    userSwapListEnough: false,
+    userSwapListLoading: false,
     activeTab: 'incoming',
   }
 }
@@ -47,6 +51,21 @@ export const mutations = {
   insertSwapDeals(state, payload) {
     state.swapDeals = [...state.swapDeals, ...payload]
   },
+  setUserSwapList(state, payload) {
+    state.userSwapList = payload
+  },
+  setUserSwapListLoading(state, payload) {
+    state.userSwapListLoading = payload
+  },
+  setUserSwapListPage(state, payload) {
+    state.userSwapListPage = payload
+  },
+  setUserSwapListEnough(state, payload) {
+    state.userSwapListEnough = payload
+  },
+  insertUserSwapList(state, payload) {
+    state.userSwapList = [...state.userSwapList, ...payload]
+  },
   resetState(state) {
     Object.assign(state, getDefaultState())
   },
@@ -55,6 +74,25 @@ export const mutations = {
 export const actions = {
   async resetState({ commit }) {
     commit('resetState')
+  },
+  async getUserSwapList({ dispatch, state, commit }, username) {
+    try {
+      const response = await this.$axios.get(
+        '/api/getUserSwapList?userName=' +
+          username +
+          '&page=' +
+          state.userSwapListPage
+      )
+      commit('setUserSwapListLoading', false)
+      commit('insertUserSwapList', response.data.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setUserSwapListLoading', false)
+      throw 'Unable to fetch user swap list'
+    }
   },
   async getSwapDeals({ dispatch, state, commit }, type) {
     try {
@@ -117,6 +155,18 @@ export const actions = {
   },
   async toggleDealsLoading({ commit }, payload) {
     commit('setDealsLoading', payload)
+  },
+  async setUserSwapListPage({ commit }, page) {
+    await commit('setUserSwapListPage', page)
+  },
+  async setUserSwapList({ commit }, payload) {
+    await commit('setUserSwapList', payload)
+  },
+  async setUserSwapListEnough({ commit }, payload) {
+    await commit('setUserSwapListEnough', payload)
+  },
+  async toggleUserSwapListLoading({ commit }, payload) {
+    commit('setUserSwapListLoading', payload)
   },
   async setActiveTab({ commit }, payload) {
     await commit('setActiveTab', payload)

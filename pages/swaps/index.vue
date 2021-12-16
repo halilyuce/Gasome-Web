@@ -13,6 +13,55 @@
       class="flex flex-col justify-center items-center px-5 space-y-10"
       v-if="location && !loading"
     >
+      <p class="text-gray-400 dark:text-gray-600 text-sm">
+        {{ $t('swaps.chooseAGame') }}
+      </p>
+
+      <div
+        class="relative bg-white dark:bg-black shadow-xl p-5 w-full rounded-lg"
+      >
+        <ul
+          v-if="userSwapList && userSwapList.length > 0"
+          class="flex flex-row items-center justify-center space-x-5"
+        >
+          <li
+            class="cursor-pointer"
+            :class="{
+              'bg-purple-200 dark:bg-purple-300 p-2 rounded-xl':
+                selectedGame === swap.id,
+            }"
+            v-for="swap in userSwapList"
+            :key="swap.id"
+            @click="selectedGame = swap.id"
+          >
+            <div
+              class="flex flex-col w-20 items-center justify-center rounded-xl"
+              :style="'background-color:' + swap.platform.color"
+            >
+              <h6 class="text-white text-2xs truncate text-center w-20 my-1">
+                {{ swap.platform.name }}
+              </h6>
+              <img
+                :src="`${smallGameCover + swap.game.image}.jpg`"
+                :alt="swap.game.name"
+                class="rounded-b-xl w-20 h-24"
+              />
+            </div>
+          </li>
+        </ul>
+        <no-data v-else />
+        <client-only>
+          <InfiniteScrollingHorizontal
+            direction="right"
+            ref="infinite"
+            spinner="spiral"
+            :distance="300"
+            @infinite="infiniteHandler"
+            ><span slot="no-results"></span><span slot="no-more"></span
+          ></InfiniteScrollingHorizontal>
+        </client-only>
+      </div>
+
       <vue-tinder
         ref="swap"
         key-name="distance"
@@ -80,17 +129,22 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 import VueTinder from 'vue-tinder'
 import NoData from '../../components/UI/NoData.vue'
+import InfiniteScrollingHorizontal from '../../helpers/horizontalScroll'
 export default {
   layout: 'swaps',
   components: {
     VueTinder,
     NoData,
+    InfiniteScrollingHorizontal,
   },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({
       swapsState: (state) => state.swaps.swaps,
       loading: (state) => state.swaps.loading,
+      userSwapList: (state) => state.swaps.userSwapList,
+      userSwapListLoading: (state) => state.swaps.userSwapListLoading,
+      pageState: (state) => state.swaps.userSwapListPage,
     }),
     swaps: {
       get() {
@@ -101,12 +155,22 @@ export default {
         this.setSwaps(value)
       },
     },
+    page: {
+      get() {
+        return this.pageState
+      },
+      set(value) {
+        this.setCurrentPage(value)
+      },
+    },
   },
   data() {
     return {
       smallAvatar: process.env.AVATAR_SMALL,
+      smallGameCover: process.env.GAMECOVER_SMALL,
       mediumGameCover: process.env.GAMECOVER_MEDIUM,
       location: null,
+      selectedGame: null,
       errorStr: null,
       _keyListener: null,
     }
@@ -135,7 +199,23 @@ export default {
     ...mapActions({
       getSwaps: 'swaps/getSwaps',
       setSwaps: 'swaps/setSwaps',
+      getUserSwapList: 'swaps/getUserSwapList',
+      toggleUserSwapListLoading: 'swaps/toggleUserSwapListLoading',
+      setCurrentPage: 'swaps/setUserSwapListPage',
     }),
+    infiniteHandler($state) {
+      const self = this
+      this.toggleUserSwapListLoading(true)
+      this.getUserSwapList(this.loggedInUser.username).then(function (res) {
+        if (res.data.length < 10) {
+          $state.complete()
+          self.selectedGame = res.data[0].id
+        } else {
+          self.page += 1
+          $state.loaded()
+        }
+      })
+    },
     eventHandler(e) {
       const { key } = e
       if (key === 'ArrowLeft') {

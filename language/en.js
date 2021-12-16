@@ -298,6 +298,7 @@ export default {
     outgoing: 'Outgoing',
     keyboardDesc:
       'You can quickly take action using the keyboard shortcuts mentioned above',
+    chooseAGame: 'Please select the game you want to give for this swap',
     swap: 'Swap',
     dislike: 'Dislike',
     details: 'Details',

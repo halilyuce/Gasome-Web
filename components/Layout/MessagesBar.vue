@@ -115,13 +115,14 @@
       </div>
 
       <client-only>
-        <infinite-loading
+        <InfiniteScrollingHorizontal
+          :direction="device === 'Mobile' ? 'right' : 'bottom'"
           v-if="filteredList && !enough"
           spinner="spiral"
           :distance="300"
           @infinite="infiniteHandler"
           ><span slot="no-results"></span><span slot="no-more"></span
-        ></infinite-loading>
+        ></InfiniteScrollingHorizontal>
       </client-only>
     </div>
   </div>
@@ -129,10 +130,15 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import InfiniteScrollingHorizontal from '../../helpers/horizontalScroll'
 export default {
+  components: {
+    InfiniteScrollingHorizontal,
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({
+      device: (state) => state.device,
       loading: (state) => state.messages.loading,
       query: (state) => state.messages.query,
       contactsPage: (state) => state.messages.contactsPage,

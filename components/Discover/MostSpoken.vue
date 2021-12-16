@@ -53,7 +53,7 @@ export default {
   watch: {
     trendsLoading(newVal, oldVal) {
       if (newVal !== oldVal) {
-        if (!newVal) {
+        if (!newVal && this.trendsLoad) {
           this.trendsLoad.close()
         } else {
           this.trendsLoad = this.$vs.loading({

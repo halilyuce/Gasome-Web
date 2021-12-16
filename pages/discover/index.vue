@@ -110,6 +110,13 @@ export default {
       await store.dispatch('setTab', 'discover')
     }
   },
+  data() {
+    return {
+      firstLoad: null,
+      secondLoad: null,
+      thirdLoad: null,
+    }
+  },
   watch: {
     loading(newVal, oldVal) {
       if (newVal !== oldVal) {
