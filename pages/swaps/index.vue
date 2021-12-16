@@ -17,15 +17,13 @@
         {{ $t('swaps.chooseAGame') }}
       </p>
 
-      <div
-        class="relative bg-white dark:bg-black shadow-xl p-5 w-full rounded-lg"
-      >
+      <div class="bg-white dark:bg-black shadow-xl max-w-2xl p-5 rounded-lg">
         <ul
           v-if="userSwapList && userSwapList.length > 0"
-          class="flex flex-row items-center justify-center space-x-5"
+          class="flex flex-row items-center w-full overflow-auto space-x-5"
         >
           <li
-            class="cursor-pointer"
+            class="cursor-pointer transition duration-150 ease-in-out"
             :class="{
               'bg-purple-200 dark:bg-purple-300 p-2 rounded-xl':
                 selectedGame === swap.id,
@@ -49,11 +47,15 @@
             </div>
           </li>
         </ul>
-        <no-data v-else />
+        <no-data
+          v-if="
+            !userSwapListLoading && userSwapList && userSwapList.length === 0
+          "
+        />
         <client-only>
           <InfiniteScrollingHorizontal
+            v-if="!enough"
             direction="right"
-            ref="infinite"
             spinner="spiral"
             :distance="300"
             @infinite="infiniteHandler"
@@ -144,6 +146,7 @@ export default {
       loading: (state) => state.swaps.loading,
       userSwapList: (state) => state.swaps.userSwapList,
       userSwapListLoading: (state) => state.swaps.userSwapListLoading,
+      userSwapListEnough: (state) => state.swaps.userSwapListEnough,
       pageState: (state) => state.swaps.userSwapListPage,
     }),
     swaps: {
@@ -161,6 +164,14 @@ export default {
       },
       set(value) {
         this.setCurrentPage(value)
+      },
+    },
+    enough: {
+      get() {
+        return this.userSwapListEnough
+      },
+      set(value) {
+        this.setEnough(value)
       },
     },
   },
@@ -202,19 +213,23 @@ export default {
       getUserSwapList: 'swaps/getUserSwapList',
       toggleUserSwapListLoading: 'swaps/toggleUserSwapListLoading',
       setCurrentPage: 'swaps/setUserSwapListPage',
+      setEnough: 'swaps/setUserSwapListEnough',
     }),
     infiniteHandler($state) {
       const self = this
-      this.toggleUserSwapListLoading(true)
-      this.getUserSwapList(this.loggedInUser.username).then(function (res) {
-        if (res.data.length < 10) {
-          $state.complete()
-          self.selectedGame = res.data[0].id
-        } else {
-          self.page += 1
-          $state.loaded()
-        }
-      })
+      if (!this.enough) {
+        this.toggleUserSwapListLoading(true)
+        this.getUserSwapList(this.loggedInUser.username).then(function (res) {
+          if (res.data.length < 10) {
+            $state.complete()
+            self.setEnough(true)
+            self.selectedGame = res.data[0].id
+          } else {
+            self.page += 1
+            $state.loaded()
+          }
+        })
+      }
     },
     eventHandler(e) {
       const { key } = e
