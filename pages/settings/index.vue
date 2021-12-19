@@ -157,6 +157,11 @@ export default {
       title: this.$t('pageHead.settingsTitle'),
     }
   },
+  async asyncData({ route, store }) {
+    if (route.name === 'settings') {
+      await store.dispatch('setTab', 'settings')
+    }
+  },
   methods: {
     openWindow(link) {
       window && window.open(link, '_blank')

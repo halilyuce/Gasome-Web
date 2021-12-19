@@ -30,6 +30,7 @@
     "vue-gtag": "1.16.1",
     "vue-infinite-loading": "^2.4.5",
     "vue-lottie": "^0.2.1",
+    "vue-tinder": "^2.0.3",
     "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {

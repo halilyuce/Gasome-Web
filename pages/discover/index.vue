@@ -101,7 +101,21 @@ export default {
     },
   },
   async mounted() {
-    await this.getTrends()
+    if (!this.trends) {
+      this.getTrends()
+    }
+  },
+  async asyncData({ route, store }) {
+    if (route.name === 'discover') {
+      await store.dispatch('setTab', 'discover')
+    }
+  },
+  data() {
+    return {
+      firstLoad: null,
+      secondLoad: null,
+      thirdLoad: null,
+    }
   },
   watch: {
     loading(newVal, oldVal) {

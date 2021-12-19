@@ -67,7 +67,7 @@
     left: 0;
   }
 
-  & > li {
+  &>li {
     overflow: hidden;
     width: 100%;
     position: relative;
@@ -81,7 +81,7 @@
       background-color: rgba(149, 140, 180, 0.1);
     }
 
-    & > a {
+    &>a {
       padding: 10px 20px;
       display: flex;
       align-items: center;
@@ -119,7 +119,7 @@
     padding: 8px 20px;
   }
 
-  ~ .vs-button {
+  ~.vs-button {
     margin-left: 10px;
   }
 }
@@ -154,6 +154,10 @@
 
 .-r-64 {
   right: -17.5rem;
+}
+
+.text-2xs {
+  font-size: .5rem;
 }
 
 .vs-sidebar-content {
@@ -191,13 +195,13 @@
   white-space: nowrap;
 }
 
-.strike > span {
+.strike>span {
   position: relative;
   display: inline-block;
 }
 
-.strike > span:before,
-.strike > span:after {
+.strike>span:before,
+.strike>span:after {
   content: '';
   position: absolute;
   top: 50%;
@@ -206,12 +210,12 @@
   background: rgba(133, 133, 133, 0.1);
 }
 
-.strike > span:before {
+.strike>span:before {
   right: 100%;
   margin-right: 10px;
 }
 
-.strike > span:after {
+.strike>span:after {
   left: 100%;
   margin-left: 10px;
 }

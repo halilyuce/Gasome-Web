@@ -142,14 +142,17 @@ export default {
       if (tab === 'home') {
         this.$router && this.$router.push('/')
       }
+      if (tab === 'swaps') {
+        this.$router && this.$router.push('/swaps')
+      }
+      if (tab === 'discover') {
+        this.$router && this.$router.push('/discover')
+      }
       if (tab === 'notifications') {
         this.$router && this.$router.push('/notifications')
       }
       if (tab === 'messages') {
         this.$router && this.$router.push('/messages')
-      }
-      if (tab === 'discover') {
-        this.$router && this.$router.push('discover')
       }
     },
   },

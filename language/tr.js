@@ -199,6 +199,13 @@ export default {
     medias: 'Medya',
     swaps: 'Takaslar',
     wishes: 'İstekler',
+    send: 'İstek Listesine ekle',
+    cancel: 'Vazgeç',
+    select: 'Lütfen bu oyunu istediğiniz platformu seçin',
+    platform: 'Bir platform seçin',
+    addWishFailTitle: 'Bir Hata Oluştu',
+    addWishSuccessTitle: 'Başarıyla Eklendi',
+    addWishSuccessDesc: 'Oyun İstek Listenize başarıyla eklenmiştir.',
   },
   //H
   h: {
@@ -278,6 +285,29 @@ export default {
   //NOTIFICATIONS
   notify: {
     notications: 'Bildirimler',
+  },
+  //SWAPS
+  swaps: {
+    title: 'Takaslar',
+    accept: 'Kabul Et',
+    reject: 'Geri Çevir',
+    waiting: 'Bekliyor',
+    accepted: 'Kabul Edildi',
+    declined: 'Red Edildi',
+    incoming: 'Gelenler',
+    outgoing: 'Gidenler',
+    keyboardDesc:
+      'Yukarıdaki klavye kısayollarını kullanarak hızlıca aksiyon alabilirsiniz.',
+    chooseAGame:
+      'Bu takas için vermek istediğiniz oyununuzu aşağıdaki listeden üzerine tıklayarak seçiniz',
+    swap: 'Takas Et',
+    dislike: 'Beğenmedim',
+    details: 'Detaylar',
+    sentSwapSuccessTitle: 'Takas isteği gönderildi',
+    sentSwapSuccessDesc:
+      'Takas isteğiniz karşı kullanıcıya başarıyla gönderilmiştir.',
+    EnableLocation:
+      'Lütfen tarayıcınızdan Gasome için konumunuza erişimin aktif olduğundan emin olunuz. Eminseniz takasların yüklenmesi biraz sürebilir, panik yok! :)',
   },
   //PRIVACY
   privacyP: {
