@@ -298,10 +298,16 @@ export default {
     outgoing: 'Gidenler',
     keyboardDesc:
       'Yukarıdaki klavye kısayollarını kullanarak hızlıca aksiyon alabilirsiniz.',
-    chooseAGame: 'Lütfen bu takas için vermek istediğiniz oyununuzu seçiniz',
+    chooseAGame:
+      'Bu takas için vermek istediğiniz oyununuzu aşağıdaki listeden üzerine tıklayarak seçiniz',
     swap: 'Takas Et',
     dislike: 'Beğenmedim',
     details: 'Detaylar',
+    sentSwapSuccessTitle: 'Takas isteği gönderildi',
+    sentSwapSuccessDesc:
+      'Takas isteğiniz karşı kullanıcıya başarıyla gönderilmiştir.',
+    EnableLocation:
+      'Lütfen tarayıcınızdan Gasome için konumunuza erişimin aktif olduğundan emin olunuz. Eminseniz takasların yüklenmesi biraz sürebilir, panik yok! :)',
   },
   //PRIVACY
   privacyP: {

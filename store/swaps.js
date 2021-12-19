@@ -132,6 +132,17 @@ export const actions = {
       throw 'Unable to fetch swaps'
     }
   },
+  async createSwap({ dispatch, commit }, payload) {
+    try {
+      const response = await this.$axios.post('/api/createswap', payload)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw 'Unable to create a swap'
+    }
+  },
   async setSwaps({ commit }, payload) {
     await commit('setSwaps', payload)
   },

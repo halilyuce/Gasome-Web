@@ -184,7 +184,7 @@ export default {
             self.$vs.notification({
               flat: true,
               color: 'success',
-              icon: `<i class='bx bx-error' ></i>`,
+              icon: `<i class='bx bx-check-circle' ></i>`,
               position: 'top-right',
               title: self.$t('g.addWishSuccessTitle'),
               text: self.$t('g.addWishSuccessDesc'),

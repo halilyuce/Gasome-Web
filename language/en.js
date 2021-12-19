@@ -298,10 +298,16 @@ export default {
     outgoing: 'Outgoing',
     keyboardDesc:
       'You can quickly take action using the keyboard shortcuts mentioned above',
-    chooseAGame: 'Please select the game you want to give for this swap',
+    chooseAGame:
+      'Select the game you want to give for this swap by clicking on it from the list below.',
     swap: 'Swap',
     dislike: 'Dislike',
     details: 'Details',
+    sentSwapSuccessTitle: 'Swap request sent',
+    sentSwapSuccessDesc:
+      'Your swap request has been successfully sent to the user.',
+    EnableLocation:
+      "Please make sure your browser is enabled to access your location for Gasome. If you're sure it may take a while for the swaps to load, don't panic! :)",
   },
   //PRIVACY
   privacyP: {

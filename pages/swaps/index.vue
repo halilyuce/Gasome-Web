@@ -10,14 +10,16 @@
     "
   >
     <div
-      class="flex flex-col justify-center items-center px-5 space-y-10"
+      class="flex flex-col justify-center items-center px-5 space-y-5"
       v-if="location && !loading"
     >
       <p class="text-gray-400 dark:text-gray-600 text-sm">
         {{ $t('swaps.chooseAGame') }}
       </p>
 
-      <div class="bg-white dark:bg-black shadow-xl max-w-2xl p-5 rounded-lg">
+      <div
+        class="bg-white dark:bg-black shadow-xl max-w-2xl px-5 py-3 rounded-lg"
+      >
         <ul
           v-if="userSwapList && userSwapList.length > 0"
           class="flex flex-row items-center w-full overflow-auto space-x-5"
@@ -64,65 +66,92 @@
         </client-only>
       </div>
 
-      <vue-tinder
-        ref="swap"
-        key-name="distance"
-        :queue.sync="swaps"
-        :offset-y="10"
-        @submit="onSubmit"
+      <div
+        class="bg-white dark:bg-black shadow-xl w-72 p-5 rounded-lg"
+        v-if="swaps.length === 0"
       >
-        <div
-          slot-scope="scope"
-          class="w-full h-full"
-          :style="{
-            'background-image': `url(${mediumGameCover}${scope.data.swapModel.game.image}.jpg`,
-            'background-size': 'contain',
-            'background-position': 'bottom',
-          }"
+        <no-data />
+      </div>
+
+      <div class="flex flex-col items-center space-y-5" v-else>
+        <vue-tinder
+          ref="swap"
+          key-name="distance"
+          :queue.sync="swaps"
+          :offset-y="10"
+          @submit="onSubmit"
         >
           <div
+            slot-scope="scope"
+            class="w-full h-full"
             :style="{
-              'background-color': scope.data.swapModel.platform.color,
+              'background-image': `url(${mediumGameCover}${scope.data.swapModel.game.image}.jpg`,
+              'background-size': 'contain',
+              'background-position': 'bottom',
             }"
-            class="text-center uppercase font-bold text-white py-2"
           >
-            {{ scope.data.swapModel.platform.name }}
+            <div
+              :style="{
+                'background-color': scope.data.swapModel.platform.color,
+              }"
+              class="text-center uppercase font-bold text-white py-2"
+            >
+              {{ scope.data.swapModel.platform.name }}
+            </div>
+          </div>
+          <img
+            class="like-pointer"
+            slot="like"
+            src="~assets/img/swap-like.png"
+          />
+          <img
+            class="nope-pointer"
+            slot="nope"
+            src="~assets/img/swap-nope.png"
+          />
+        </vue-tinder>
+        <div
+          class="
+            flex
+            justify-between
+            items-end
+            w-full
+            space-x-4
+            uppercase
+            text-gray-500
+          "
+        >
+          <div class="flex flex-row items-center">
+            <i class="bx bx-caret-left-square text-2xl mr-1"></i>
+            <span class="text-sm leading-3">{{ $t('swaps.dislike') }}</span>
+          </div>
+          <div class="flex flex-row items-center">
+            <i class="bx bx-info-square text-2xl mr-1"></i>
+            <span class="text-sm leading-3">{{ $t('swaps.details') }}</span>
+          </div>
+          <div class="flex flex-row items-center">
+            <i class="bx bx-caret-right-square text-2xl mr-1"></i>
+            <span class="text-sm leading-3">{{ $t('swaps.swap') }}</span>
           </div>
         </div>
-      </vue-tinder>
-      <div
-        class="
-          flex
-          justify-between
-          items-end
-          w-full
-          space-x-4
-          uppercase
-          text-gray-500
-        "
-      >
-        <div class="flex flex-row items-center">
-          <i class="bx bx-caret-left-square text-2xl mr-1"></i>
-          <span class="text-sm leading-3">{{ $t('swaps.dislike') }}</span>
-        </div>
-        <div class="flex flex-row items-center">
-          <i class="bx bx-info-square text-2xl mr-1"></i>
-          <span class="text-sm leading-3">{{ $t('swaps.details') }}</span>
-        </div>
-        <div class="flex flex-row items-center">
-          <i class="bx bx-caret-right-square text-2xl mr-1"></i>
-          <span class="text-sm leading-3">{{ $t('swaps.swap') }}</span>
-        </div>
+        <p class="text-gray-400 dark:text-gray-600 text-sm">
+          {{ $t('swaps.keyboardDesc') }}
+        </p>
       </div>
-      <p class="text-gray-400 dark:text-gray-600 text-sm">
-        {{ $t('swaps.keyboardDesc') }}
-      </p>
     </div>
-    <div v-if="!location || loading" class="blob">
+    <div v-if="location && loading" class="blob">
       <img :src="`${smallAvatar + loggedInUser.avatar}.jpg`" alt="Avatar" />
     </div>
-    <div v-if="location && !loading && swaps.length === 0">
-      <no-data />
+    <div
+      class="flex flex-col items-center space-y-10 text-center w-96"
+      v-if="!location && !loading"
+    >
+      <div class="blob">
+        <img :src="`${smallAvatar + loggedInUser.avatar}.jpg`" alt="Avatar" />
+      </div>
+      <p class="text-gray-400 dark:text-gray-600 text-sm">
+        {{ $t('swaps.EnableLocation') }}
+      </p>
     </div>
   </div>
 </template>
@@ -212,6 +241,7 @@ export default {
       setSwaps: 'swaps/setSwaps',
       getUserSwapList: 'swaps/getUserSwapList',
       toggleUserSwapListLoading: 'swaps/toggleUserSwapListLoading',
+      createSwap: 'swaps/createSwap',
       setCurrentPage: 'swaps/setUserSwapListPage',
       setEnough: 'swaps/setUserSwapListEnough',
     }),
@@ -235,16 +265,41 @@ export default {
       const { key } = e
       if (key === 'ArrowLeft') {
         e.preventDefault()
-        self.decide('dislike')
+        this.decide('dislike')
       } else if (key === 'ArrowRight') {
         e.preventDefault()
-        self.decide('like')
+        this.decide('like')
       } else if (key === 'i') {
         e.preventDefault()
         console.warn('info key pressed')
       }
     },
-    onSubmit() {
+    onSubmit(e) {
+      const self = this
+      if (e.type === 'like') {
+        this.createSwap({
+          receiverId: e.item.swapModel.user_id,
+          wishId: e.item.swapModel.id,
+          swapId: this.selectedGame,
+          process: 1,
+        }).then((res) => {
+          self.$vs.notification({
+            flat: true,
+            color: 'success',
+            icon: `<i class='bx bx-check-circle' ></i>`,
+            position: 'bottom-right',
+            title: self.$t('swaps.sentSwapSuccessTitle'),
+            text: self.$t('swaps.sentSwapSuccessDesc'),
+          })
+        })
+      } else {
+        this.createSwap({
+          receiverId: e.item.swapModel.user_id,
+          wishId: e.item.swapModel.id,
+          swapId: this.selectedGame,
+          process: 0,
+        })
+      }
       if (this.swaps.length < 1) {
         this.getSwaps({
           latitude: this.location.coords.latitude,
@@ -290,9 +345,29 @@ export default {
   }
 }
 .vue-tinder {
-  width: 310px;
-  height: 450px;
+  width: 30vh;
+  height: 45vh;
+  margin-bottom: 2em;
+  margin-top: 0.5em;
 }
+
+.nope-pointer,
+.like-pointer {
+  position: absolute;
+  z-index: 1;
+  top: calc(22.5vh - 48px);
+  width: 96px;
+  height: 96px;
+}
+
+.nope-pointer {
+  left: calc(15vh - 48px);
+}
+
+.like-pointer {
+  left: calc(15vh - 48px);
+}
+
 .blob {
   border-radius: 50%;
   background: #6e00ff;
