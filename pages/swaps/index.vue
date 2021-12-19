@@ -85,6 +85,7 @@
             slot-scope="scope"
             class="w-full h-full"
             :style="{
+              'background-color': '#000',
               'background-image': `url(${mediumGameCover}${scope.data.swapModel.game.image}.jpg`,
               'background-size': 'contain',
               'background-position': 'bottom',
@@ -97,6 +98,42 @@
               class="text-center uppercase font-bold text-white py-2"
             >
               {{ scope.data.swapModel.platform.name }}
+            </div>
+
+            <div
+              class="
+                flex
+                justify-between
+                absolute
+                bottom-0
+                w-full
+                text-white
+                px-2
+                pt-8
+                pb-2
+                bg-gradient-to-b
+                from-transparent
+                to-gray-900
+                items-center
+              "
+            >
+              <div class="flex flex-row space-x-1">
+                <img
+                  :src="`${smallAvatar + scope.data.swapModel.user.avatar}.jpg`"
+                  :alt="scope.data.swapModel.user.name"
+                  class="rounded-xl w-8 h-8"
+                />
+                <div class="flex flex-col leading-4">
+                  <h5>{{ scope.data.swapModel.user.name }}</h5>
+                  <h6 class="opacity-90">
+                    {{ '@' + scope.data.swapModel.user.username }}
+                  </h6>
+                </div>
+              </div>
+              <div class="flex flex-col items-center justify-center">
+                <i class="bx bx-navigation"></i>
+                <h6>{{ scope.data.distance + 'km' }}</h6>
+              </div>
             </div>
           </div>
           <img
