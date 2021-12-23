@@ -30,27 +30,35 @@
               v-if="same"
               icon
               flat
-              :loading="swapListLoading"
+              :loading="swapListLoading === swap.id"
               @click="
-                addSwapList({ id: swap.game.id, platform: swap.platform.id })
+                addSwapList({
+                  id: swap.game.id,
+                  platform: swap.platform.id,
+                  swapId: swap.id,
+                })
               "
             >
               <i class="bx bx-shuffle"></i>
             </vs-button>
             <vs-button
               v-if="same"
-              :loading="wishListLoading"
+              :loading="wishListLoading === swap.id"
               icon
               flat
               @click="
-                addWishList({ id: swap.game.id, platform: swap.platform.id })
+                addWishList({
+                  id: swap.game.id,
+                  platform: swap.platform.id,
+                  swapId: swap.id,
+                })
               "
             >
               <i class="bx bx-heart"></i>
             </vs-button>
             <vs-button
               v-else
-              :loading="removeLoading"
+              :loading="removeLoading === swap.id"
               danger
               icon
               flat
@@ -175,71 +183,74 @@ export default {
       this.showRemove = true
     },
     removeSwapList(id) {
+      const self = this
       this.showRemove = false
       this.removeFromSwapList(id)
         .then((res) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'success',
             icon: `<i class='bx bx-check' ></i>`,
             position: 'top-center',
-            title: 'Successfully Removed',
-            text: 'Game removed successfully from your Swap List',
+            title: self.$t('g.gameRemovedTitle'),
+            title: self.$t('g.gameRemovedDesc'),
           })
         })
         .catch((err) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'danger',
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
-            title: 'An Error Occured',
+            title: self.$t('login.error'),
             text: err,
           })
         })
     },
     addSwapList(payload) {
+      const self = this
       this.addToSwapList(payload)
         .then((res) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'success',
             icon: `<i class='bx bx-check' ></i>`,
             position: 'top-center',
-            title: 'Successfully Added',
-            text: res.game.name + ' added your Swap List successfully',
+            title: self.$t('g.addWishSuccessTitle'),
+            text: res.game.name + self.$t(g.addSwapListSuccessfully),
           })
         })
         .catch((err) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'danger',
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
-            title: 'An Error Occured',
+            title: self.$t('login.error'),
             text: err,
           })
         })
     },
     addWishList(payload) {
+      const self = this
       this.addToWishList(payload)
         .then((res) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'success',
             icon: `<i class='bx bx-check' ></i>`,
             position: 'top-center',
-            title: 'Successfully Added',
-            text: res.game.name + ' added your Wish List successfully',
+            title: self.$t('g.addWishSuccessTitle'),
+            text: res.game.name + self.$t(g.addSwapListSuccessfully),
           })
         })
         .catch((err) => {
-          this.$vs.notification({
+          self.$vs.notification({
             flat: true,
             color: 'danger',
             icon: `<i class='bx bx-error' ></i>`,
             position: 'top-center',
-            title: 'An Error Occured',
+            title: self.$t('login.error'),
             text: err,
           })
         })

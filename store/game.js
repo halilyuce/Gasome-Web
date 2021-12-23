@@ -18,6 +18,7 @@ const getDefaultState = () => {
     wishPlatforms: [],
     wishPlatformsLoading: false,
     addWishLoading: false,
+    addLibraryLoading: false,
     deleteLoading: null,
   }
 }
@@ -77,6 +78,9 @@ export const mutations = {
   },
   setAddWishLoading(state, payload) {
     state.addWishLoading = payload
+  },
+  setAddLibraryLoading(state, payload) {
+    state.addLibraryLoading = payload
   },
   setWishPlatformsLoading(state, payload) {
     state.wishPlatformsLoading = payload
@@ -211,6 +215,23 @@ export const actions = {
       })
       commit('setAddWishLoading', false)
       return error.response.data
+    }
+  },
+  async addToSwapList({ dispatch, commit }, payload) {
+    commit('setAddLibraryLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postSwapList', {
+        gameId: payload.id,
+        platform: payload.platform,
+      })
+      commit('setAddLibraryLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setAddLibraryLoading', false)
+      throw error.response.data.errorMessage[0]
     }
   },
   async deleteFromSwapList({ dispatch, commit }, id) {

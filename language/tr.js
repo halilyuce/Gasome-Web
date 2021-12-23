@@ -194,6 +194,7 @@ export default {
   },
   //G
   g: {
+    add: 'Kütüphaneye ekle',
     summary: 'Özet',
     ratings: 'Puanlamalar',
     rate: 'Puan Ver',
@@ -208,6 +209,10 @@ export default {
     addWishFailTitle: 'Bir Hata Oluştu',
     addWishSuccessTitle: 'Başarıyla Eklendi',
     addWishSuccessDesc: 'Oyun İstek Listenize başarıyla eklenmiştir.',
+    addLibrarySuccessDesc: 'Oyun dijital kütüphanenize başarıyla eklenmiştir.',
+    addSwapListSuccessfully: ' takas isteğiniz başarıyla gönderilmiştir.',
+    gameRemovedTitle: 'Başarıyla Silindi',
+    gameRemovedDesc: 'Oyun başarıyla listenizden çıkarılmıştır.',
     swap: 'Takas Et',
     wish: 'Listeye Ekle',
     selectSwapGame: 'Lütfen bu takas için teklif edeceğiniz oyunu seçiniz.',
