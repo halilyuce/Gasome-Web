@@ -3,7 +3,7 @@
     class="flex flex-col rounded-xl border-gray-200 dark:border-gray-700 mt-1"
   >
     <ul
-      v-if="followers"
+      v-if="followers && user"
       class="
         divide-y divide-gray-100
         dark:divide-gray-500 dark:divide-opacity-10
@@ -63,8 +63,11 @@
       </li>
       <client-only>
         <infinite-loading
+          v-if="
+            type === 'followers' ? !followersEnoughState : !followingEnoughState
+          "
           spinner="spiral"
-          :identifier="type"
+          :identifier="user.id + '-' + type"
           :distance="300"
           @infinite="infiniteHandler"
           ><span slot="no-results"></span><span slot="no-more"></span
@@ -92,6 +95,8 @@ export default {
     ...mapState({
       user: (state) => state.profile.user,
       followLoading: (state) => state.profile.followersLoading,
+      followersEnoughState: (state) => state.profile.followersEnough,
+      followingEnoughState: (state) => state.profile.followingEnough,
     }),
   },
   methods: {

@@ -79,14 +79,46 @@ export default {
       user: (state) => state.profile.user,
       followers: (state) => state.profile.followers,
       following: (state) => state.profile.following,
+      followersEnoughState: (state) => state.profile.followersEnough,
+      followingEnoughState: (state) => state.profile.followingEnough,
+      followersCurrentPageState: (state) => state.profile.followersCurrentPage,
+      followingCurrentPageState: (state) => state.profile.followingCurrentPage,
     }),
+    followingEnough: {
+      get() {
+        return this.followingEnoughState
+      },
+      set(val) {
+        this.toggleFollowingEnough(val)
+      },
+    },
+    followersEnough: {
+      get() {
+        return this.followersEnoughState
+      },
+      set(val) {
+        this.toggleFollowersEnough(val)
+      },
+    },
+    followersCurrentPage: {
+      get() {
+        return this.followersCurrentPageState
+      },
+      set(val) {
+        this.toggleFollowersPage(val)
+      },
+    },
+    followingCurrentPage: {
+      get() {
+        return this.followingCurrentPageState
+      },
+      set(val) {
+        this.toggleFollowingPage(val)
+      },
+    },
   },
   data() {
     return {
-      followersEnough: false,
-      followingEnough: false,
-      followersCurrentPage: 0,
-      followingCurrentPage: 0,
       tabs: [
         {
           title: this.$t('followerHeader.follow'),
@@ -108,6 +140,10 @@ export default {
   mounted() {
     if (!this.user) {
       this.getUserProfile(this.slug)
+      this.followersCurrentPage = 0
+      this.followingCurrentPage = 0
+      this.followingEnough = false
+      this.followersEnough = false
     }
   },
   beforeDestroy() {
@@ -124,6 +160,10 @@ export default {
       getUserProfile: 'profile/getUserProfile',
       getUserFollowers: 'profile/getUserFollowers',
       getUserFollowing: 'profile/getUserFollowing',
+      toggleFollowingEnough: 'profile/toggleFollowingEnough',
+      toggleFollowersEnough: 'profile/toggleFollowersEnough',
+      toggleFollowersPage: 'profile/toggleFollowersPage',
+      toggleFollowingPage: 'profile/toggleFollowingPage',
     }),
     changeTab(tab) {
       if (this.selected !== tab) {
