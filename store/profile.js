@@ -21,6 +21,10 @@ const getDefaultState = () => {
     following: [],
     followersLoading: null,
     followingLoading: null,
+    followersEnough: false,
+    followingEnough: false,
+    followersCurrentPage: 0,
+    followingCurrentPage: 0,
   }
 }
 export const state = () => getDefaultState()
@@ -52,6 +56,18 @@ export const mutations = {
   },
   setFollowLoading(state, payload) {
     state.followLoading = payload
+  },
+  setFollowersEnough(state, payload) {
+    state.followersEnough = payload
+  },
+  setFollowingEnough(state, payload) {
+    state.followingEnough = payload
+  },
+  setFollowersCurrentPage(state, payload) {
+    state.followersCurrentPage = payload
+  },
+  setFollowingCurrentPage(state, payload) {
+    state.followingCurrentPage = payload
   },
   setPosts(state, payload) {
     state.posts = payload
@@ -467,6 +483,18 @@ export const actions = {
   },
   async toggleFollowersLoading({ commit }, payload) {
     commit('setFollowersLoading', payload)
+  },
+  async toggleFollowersEnough({ commit }, payload) {
+    commit('setFollowersEnough', payload)
+  },
+  async toggleFollowingEnough({ commit }, payload) {
+    commit('setFollowingEnough', payload)
+  },
+  async toggleFollowersPage({ commit }, payload) {
+    commit('setFollowersCurrentPage', payload)
+  },
+  async toggleFollowingPage({ commit }, payload) {
+    commit('setFollowingCurrentPage', payload)
   },
   async setSwapsPage({ commit }, payload) {
     commit('setSwapsPage', payload)
