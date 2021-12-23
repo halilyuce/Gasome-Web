@@ -166,6 +166,7 @@ export default {
     posts: 'Posts',
     medias: 'Medias',
     swaps: 'Swaps',
+    games: 'Games',
     wishes: 'Wishes',
     post: 'Posts',
     followsYou: 'Follows you',
@@ -206,6 +207,11 @@ export default {
     addWishFailTitle: 'An Error Occured',
     addWishSuccessTitle: 'Added Successfully',
     addWishSuccessDesc: 'Game added to your Wish List successfully.',
+    swap: 'Swap',
+    wish: 'Wish',
+    selectSwapGame: 'Please select the game you are offering for this swap.',
+    sendSwap: 'Send swap request',
+    remove: 'Remove',
   },
   //H
   h: {

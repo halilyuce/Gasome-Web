@@ -94,7 +94,7 @@
       />
     </div>
 
-    <div v-if="activeTab === 'swaps'">
+    <div v-if="activeTab === 'games'">
       <SwapsList :id="user.id" :same="user.id != loggedInUser.id" />
     </div>
 
@@ -162,8 +162,8 @@ export default {
           value: 'medias',
         },
         {
-          title: this.$t('userProfileHeader.swaps'),
-          value: 'swaps',
+          title: this.$t('userProfileHeader.games'),
+          value: 'games',
         },
         {
           title: this.$t('userProfileHeader.wishes'),

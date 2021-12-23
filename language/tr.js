@@ -166,6 +166,7 @@ export default {
     posts: 'Gönderiler',
     medias: 'Medyalar',
     swaps: 'Takaslar',
+    games: 'Oyunlar',
     wishes: 'İstekler',
     post: 'Gönderi',
     followsYou: 'Seni Takip Ediyor',
@@ -206,6 +207,11 @@ export default {
     addWishFailTitle: 'Bir Hata Oluştu',
     addWishSuccessTitle: 'Başarıyla Eklendi',
     addWishSuccessDesc: 'Oyun İstek Listenize başarıyla eklenmiştir.',
+    swap: 'Takas Et',
+    wish: 'Listeye Ekle',
+    selectSwapGame: 'Lütfen bu takas için teklif edeceğiniz oyunu seçiniz.',
+    sendSwap: 'Takas isteği gönder',
+    remove: 'Kaldır',
   },
   //H
   h: {
