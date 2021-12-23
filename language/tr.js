@@ -140,6 +140,7 @@ export default {
   },
   //RATING
   startRate: {
+    rates: 'Değerlendirme',
     nobody: 'Henüz kimse bu oyunu değerlendirmedi.',
     beFirst: 'İlk ol !',
   },
@@ -212,6 +213,7 @@ export default {
     selectSwapGame: 'Lütfen bu takas için teklif edeceğiniz oyunu seçiniz.',
     sendSwap: 'Takas isteği gönder',
     remove: 'Kaldır',
+    outOf: '/ 5 üzerinden',
   },
   //H
   h: {

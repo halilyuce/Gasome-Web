@@ -151,18 +151,15 @@ export default {
       if (this.$route.params.id != this.game.id) {
         await this.resetState()
         await this.getGameById(this.$route.params.id)
-        await this.getGameComments(this.$route.params.id)
       }
     } else {
       await this.getGameById(this.$route.params.id)
-      await this.getGameComments(this.$route.params.id)
     }
   },
   methods: {
     ...mapActions({
       resetState: 'game/resetState',
       getGameById: 'game/getGameById',
-      getGameComments: 'game/getGameComments',
       setTab: 'game/setTab',
       clearAlert: 'alert/clear',
     }),
