@@ -194,6 +194,7 @@ export default {
   },
   //G
   g: {
+    add: 'Add to library',
     summary: 'Summary',
     ratings: 'Ratings',
     rate: 'Rate',
@@ -208,6 +209,10 @@ export default {
     addWishFailTitle: 'An Error Occured',
     addWishSuccessTitle: 'Added Successfully',
     addWishSuccessDesc: 'Game added to your Wish List successfully.',
+    addLibrarySuccessDesc: 'Game added to your digital library successfully.',
+    addSwapListSuccessfully: ' swap request sent successfully.',
+    gameRemovedTitle: 'Removed Successfully',
+    gameRemovedDesc: 'Game removed from your list successfully.',
     swap: 'Swap',
     wish: 'Wish',
     selectSwapGame: 'Please select the game you are offering for this swap.',
