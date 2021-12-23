@@ -12,6 +12,7 @@ const getDefaultState = () => {
     userSwapListPage: 1,
     userSwapListEnough: false,
     userSwapListLoading: false,
+    requestLoading: null,
     activeTab: 'incoming',
   }
 }
@@ -21,6 +22,9 @@ export const mutations = {
   setActiveTab(state, payload) {
     state.activeTab = payload
   },
+  setRequestLoading(state, payload) {
+    state.requestLoading = payload
+  },
   setLoading(state, payload) {
     state.loading = payload
   },
@@ -29,6 +33,14 @@ export const mutations = {
   },
   setEnough(state, payload) {
     state.enough = payload
+  },
+  setSwapProcess(state, payload) {
+    const index = state.swapDeals.findIndex(
+      (swap) => swap.id === payload.swapsId
+    )
+    if (index > -1) {
+      state.swapDeals[index].process = payload.process
+    }
   },
   insertSwaps(state, payload) {
     state.swaps = [...state.swaps, ...payload]
@@ -132,7 +144,7 @@ export const actions = {
       throw 'Unable to fetch swaps'
     }
   },
-  async createSwap({ dispatch, commit }, payload) {
+  async createSwap({ dispatch }, payload) {
     try {
       const response = await this.$axios.post('/api/createswap', payload)
       return response.data.data
@@ -141,6 +153,21 @@ export const actions = {
         root: true,
       })
       throw 'Unable to create a swap'
+    }
+  },
+  async postSwapProcess({ dispatch, commit }, payload) {
+    commit('setRequestLoading', payload.swapsId)
+    try {
+      const response = await this.$axios.post('/api/postSwapProcess', payload)
+      commit('setSwapProcess', payload)
+      commit('setRequestLoading', null)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setRequestLoading', null)
+      throw 'Unable to post Swaps Process'
     }
   },
   async setSwaps({ commit }, payload) {

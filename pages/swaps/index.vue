@@ -87,7 +87,7 @@
             :style="{
               'background-color': '#000',
               'background-image': `url(${mediumGameCover}${scope.data.swapModel.game.image}.jpg`,
-              'background-size': 'contain',
+              'background-size': 'cover',
               'background-position': 'bottom',
             }"
           >
@@ -162,13 +162,13 @@
             <i class="bx bx-caret-left-square text-2xl mr-1"></i>
             <span class="text-sm leading-3">{{ $t('swaps.dislike') }}</span>
           </div>
-          <div class="flex flex-row items-center">
+          <!-- <div class="flex flex-row items-center">
             <i class="bx bx-info-square text-2xl mr-1"></i>
             <span class="text-sm leading-3">{{ $t('swaps.details') }}</span>
-          </div>
+          </div> -->
           <div class="flex flex-row items-center">
-            <i class="bx bx-caret-right-square text-2xl mr-1"></i>
             <span class="text-sm leading-3">{{ $t('swaps.swap') }}</span>
+            <i class="bx bx-caret-right-square text-2xl ml-1"></i>
           </div>
         </div>
         <p class="text-gray-400 dark:text-gray-600 text-sm">
