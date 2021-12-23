@@ -7,7 +7,6 @@
       h-24
       dark:bg-black
       w-full
-      2xl:w-1/2 2xl:ml-auto
       lg:h-screen lg:border-l lg:border-r
       border-gray-200 border-b
       lg:border-b-0
@@ -63,6 +62,8 @@
     >
       <div
         v-for="swap in swaps"
+        :ref="'swap-' + swap.id"
+        :disabled="requestLoading === swap.id"
         :key="swap.id"
         class="
           flex flex-col
@@ -124,14 +125,14 @@
             v-if="swap.process === 1 && activeTab === 'incoming'"
             class="flex flex-col justify-between"
           >
-            <vs-button success icon flat>
+            <vs-button @click="acceptSwap(swap)" success icon flat>
               <i class="bx bx-check"></i>
               <span class="mx-1">{{ $t('swaps.accept') }}</span>
             </vs-button>
             <vs-button :to="`/messages?room=${swap.user.id}`" icon flat>
               <i class="bx bx-envelope"></i> <span class="mx-1">DM</span>
             </vs-button>
-            <vs-button danger icon flat>
+            <vs-button @click="rejectSwap(swap)" danger icon flat>
               <i class="bx bx-x"></i>
               <span class="mx-1">{{ $t('swaps.reject') }}</span>
             </vs-button>
@@ -201,6 +202,7 @@ export default {
     ...mapGetters(['loggedInUser']),
     ...mapState({
       loading: (state) => state.swaps.dealsLoading,
+      requestLoading: (state) => state.swaps.requestLoading,
       swapsPage: (state) => state.swaps.dealsPage,
       swapDeals: (state) => state.swaps.swapDeals,
       dealsEnough: (state) => state.swaps.dealsEnough,
@@ -263,6 +265,7 @@ export default {
       setDealsPage: 'swaps/setDealsPage',
       setDealsEnough: 'swaps/setDealsEnough',
       setActiveTab: 'swaps/setActiveTab',
+      postSwapProcess: 'swaps/postSwapProcess',
     }),
     setTab(val) {
       if (val !== this.activeTab) {
@@ -286,6 +289,12 @@ export default {
           }
         })
       }
+    },
+    async acceptSwap(swap) {
+      this.postSwapProcess({ swapsId: swap.id, process: 3 })
+    },
+    async rejectSwap(swap) {
+      this.postSwapProcess({ swapsId: swap.id, process: 2 })
     },
   },
 }
