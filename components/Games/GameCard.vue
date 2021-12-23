@@ -81,11 +81,11 @@
       </div>
 
       <div class="flex flex-row pt-3">
-        <vs-button block border shadow icon>
-          <i class="bx bx-shuffle mr-2"></i> Swap
+        <vs-button @click="activeTab = 'swaps'" block border shadow icon>
+          <i class="bx bx-shuffle mr-2"></i> {{ $t('g.swap') }}
         </vs-button>
         <vs-button block shadow border @click="openWishModal">
-          <i class="bx bx-heart text-lg mr-2"></i> Wish
+          <i class="bx bx-heart text-lg mr-2"></i> {{ $t('g.wish') }}
         </vs-button>
       </div>
     </div>
@@ -151,12 +151,22 @@ export default {
       wishPlatforms: (state) => state.game.wishPlatforms,
       wishLoading: (state) => state.game.wishPlatformsLoading,
       addWishLoading: (state) => state.game.addWishLoading,
+      active: (state) => state.game.activeTab,
     }),
+    activeTab: {
+      get() {
+        return this.active
+      },
+      set(val) {
+        this.setTab(val)
+      },
+    },
   },
   methods: {
     ...mapActions({
       getWishPlatforms: 'game/getWishPlatforms',
       addGameWishList: 'game/addGameWishList',
+      setTab: 'game/setTab',
     }),
     openWishModal() {
       this.showWish = true

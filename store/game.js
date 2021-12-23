@@ -3,6 +3,7 @@ const getDefaultState = () => {
     game: null,
     comments: null,
     loading: false,
+    activeTab: 'info',
     swaps: [],
     swapsLoading: false,
     swapsPage: 0,
@@ -14,13 +15,20 @@ const getDefaultState = () => {
     wishPlatforms: [],
     wishPlatformsLoading: false,
     addWishLoading: false,
+    deleteLoading: null,
   }
 }
 export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
+  setTab(state, payload) {
+    state.activeTab = payload
+  },
   setLoading(state, payload) {
     state.loading = payload
+  },
+  setDeleteLoading(state, payload) {
+    state.deleteLoading = payload
   },
   setGame(state, payload) {
     state.game = payload
@@ -36,6 +44,12 @@ export const mutations = {
   },
   setSwapsLoading(state, payload) {
     state.swapsLoading = payload
+  },
+  deleteSwap(state, payload) {
+    const index = state.swaps.findIndex((swap) => swap.id === payload)
+    if (index > -1) {
+      state.swaps.splice(index, 1)
+    }
   },
   insertSwaps(state, payload) {
     state.swaps = [...state.swaps, ...payload]
@@ -68,6 +82,9 @@ export const mutations = {
 export const actions = {
   async resetState({ commit }) {
     commit('resetState')
+  },
+  async setTab({ commit }, payload) {
+    commit('setTab', payload)
   },
   async getGameById({ commit }, id) {
     commit('setLoading', true)
@@ -172,6 +189,23 @@ export const actions = {
       })
       commit('setAddWishLoading', false)
       return error.response.data
+    }
+  },
+  async deleteFromSwapList({ dispatch, commit }, id) {
+    commit('setDeleteLoading', id)
+    try {
+      const response = await this.$axios.post('/api/postDeleteFromSwapList', {
+        swapId: id,
+      })
+      commit('deleteSwap', id)
+      commit('setDeleteLoading', null)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setDeleteLoading', null)
+      throw 'Unable to delete Swaps Process'
     }
   },
   async toggleWishesEnough({ commit }, payload) {

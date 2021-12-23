@@ -13,6 +13,7 @@ const getDefaultState = () => {
     userSwapListEnough: false,
     userSwapListLoading: false,
     requestLoading: null,
+    createSwapLoading: false,
     activeTab: 'incoming',
   }
 }
@@ -24,6 +25,9 @@ export const mutations = {
   },
   setRequestLoading(state, payload) {
     state.requestLoading = payload
+  },
+  setCreateSwapLoading(state, payload) {
+    state.createSwapLoading = payload
   },
   setLoading(state, payload) {
     state.loading = payload
@@ -144,15 +148,18 @@ export const actions = {
       throw 'Unable to fetch swaps'
     }
   },
-  async createSwap({ dispatch }, payload) {
+  async createSwap({ dispatch, commit }, payload) {
+    commit('setCreateSwapLoading', true)
     try {
       const response = await this.$axios.post('/api/createswap', payload)
+      commit('setCreateSwapLoading', false)
       return response.data.data
     } catch (error) {
+      commit('setCreateSwapLoading', false)
       dispatch('alert/error', error.response, {
         root: true,
       })
-      throw 'Unable to create a swap'
+      throw error.response.data.errorMessage[0]
     }
   },
   async postSwapProcess({ dispatch, commit }, payload) {
