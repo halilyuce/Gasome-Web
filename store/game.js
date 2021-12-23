@@ -2,6 +2,9 @@ const getDefaultState = () => {
   return {
     game: null,
     comments: null,
+    commentsLoading: false,
+    commentsPage: 1,
+    commentsEnough: false,
     loading: false,
     activeTab: 'info',
     swaps: [],
@@ -26,6 +29,15 @@ export const mutations = {
   },
   setLoading(state, payload) {
     state.loading = payload
+  },
+  setCommentsLoading(state, payload) {
+    state.commentsLoading = payload
+  },
+  setCommentsPage(state, payload) {
+    state.commentsPage = payload
+  },
+  setCommentsEnough(state, payload) {
+    state.commentsEnough = payload
   },
   setDeleteLoading(state, payload) {
     state.deleteLoading = payload
@@ -99,19 +111,20 @@ export const actions = {
       commit('setLoading', false)
     }
   },
-  async getGameComments({ dispatch, commit }, id, page = 1) {
-    commit('setLoading', true)
+  async getGameComments({ dispatch, state, commit }, id) {
     try {
       const response = await this.$axios.get(
-        '/api/gamecomment?id=' + id + '&page=' + page
+        '/api/gamecomment?id=' + id + '&page=' + state.commentsPage
       )
       await commit('setComments', response.data.data)
-      commit('setLoading', false)
+      commit('setCommentsLoading', false)
+      return response.data.data
     } catch (error) {
       await dispatch('alert/error', error.response, {
         root: true,
       })
-      commit('setLoading', false, { root: true })
+      commit('setCommentsLoading', false, { root: true })
+      throw 'Unable to load comments'
     }
   },
   async getSwaps({ dispatch, state, commit }, id) {
@@ -138,6 +151,15 @@ export const actions = {
   },
   async toggleSwapsLoading({ commit }, payload) {
     commit('setSwapsLoading', payload)
+  },
+  async toggleCommentsEnough({ commit }, payload) {
+    commit('setCommentsEnough', payload)
+  },
+  async setCommentsPage({ commit }, payload) {
+    commit('setCommentsPage', payload)
+  },
+  async toggleCommentsLoading({ commit }, payload) {
+    commit('setCommentsLoading', payload)
   },
   async getWishes({ dispatch, state, commit }, id) {
     try {

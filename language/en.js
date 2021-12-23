@@ -140,6 +140,7 @@ export default {
   },
   //RATING
   startRate: {
+    rates: 'Rates',
     nobody: 'Nobody rated this game yet.',
     beFirst: 'Be First !',
   },
@@ -212,6 +213,7 @@ export default {
     selectSwapGame: 'Please select the game you are offering for this swap.',
     sendSwap: 'Send swap request',
     remove: 'Remove',
+    outOf: '/ out of 5',
   },
   //H
   h: {

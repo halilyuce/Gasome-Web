@@ -139,7 +139,16 @@ export default {
       user: (state) => state.profile.user,
       posts: (state) => state.profile.posts,
       postsLoading: (state) => state.profile.postLoading,
+      quoteState: (state) => state.posts.quotedPost,
     }),
+    quotedPost: {
+      get() {
+        return this.quoteState
+      },
+      set(val) {
+        this.setQuotedPost(val)
+      },
+    },
   },
   asyncData({ params }) {
     return {
@@ -148,7 +157,6 @@ export default {
   },
   data() {
     return {
-      quotedPost: null,
       currentPage: 0,
       enough: false,
       activeTab: 'posts',
@@ -189,6 +197,7 @@ export default {
       deletePostAPI: 'profile/deletePost',
       toggleComposer: 'posts/toggleComposer',
       togglePostLoading: 'profile/togglePostLoading',
+      setQuotedPost: 'posts/setQuotedPost',
     }),
     infiniteHandler($state) {
       const self = this
