@@ -431,4 +431,14 @@ export default {
     users: 'Users',
     tags: 'Tags',
   },
+  gameReview: {
+    title: 'Write a review',
+    rate: 'Tap to rate',
+    placeHolder: 'Write a review (optional)',
+    rules:
+      'Please make sure to follow the rules when writing comments. Swearing,' +
+      'insulting, offensive and capitalized comments will be deleted.',
+    cancel: 'Cancel',
+    send: 'Send',
+  },
 }
