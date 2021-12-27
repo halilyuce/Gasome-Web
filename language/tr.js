@@ -432,4 +432,14 @@ export default {
     users: 'Kullanıcılar',
     tags: 'Etiketler',
   },
+  gameReview: {
+    title: 'Değerlendirme yazın',
+    rate: 'Puanla',
+    placeHolder: 'Değerlendirme yazın (opsiyonel)',
+    rules:
+      'Lütfen yorum yazarken kurallara uymayı unutmayınız. Küfür, ' +
+      'hakaret içeren, ofansif ve büyük harfle yazılmış yorumlar silinecektir.',
+    cancel: 'İptal',
+    send: 'Gönder',
+  },
 }

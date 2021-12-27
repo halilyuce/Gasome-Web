@@ -20,6 +20,7 @@ const getDefaultState = () => {
     addWishLoading: false,
     addLibraryLoading: false,
     deleteLoading: null,
+    commentComposer: false,
   }
 }
 export const state = () => getDefaultState()
@@ -85,6 +86,9 @@ export const mutations = {
   setWishPlatformsLoading(state, payload) {
     state.wishPlatformsLoading = payload
   },
+  setCommentComposer(state, payload) {
+    state.commentComposer = payload
+  },
   insertWishPlatforms(state, payload) {
     state.wishPlatforms = [...state.wishPlatforms, ...payload]
   },
@@ -101,6 +105,9 @@ export const actions = {
   },
   async setTab({ commit }, payload) {
     commit('setTab', payload)
+  },
+  async toggleCommentComposer({ commit }, payload) {
+    commit('setCommentComposer', payload)
   },
   async getGameById({ commit }, id) {
     commit('setLoading', true)
@@ -249,6 +256,22 @@ export const actions = {
       })
       commit('setDeleteLoading', null)
       throw 'Unable to delete Swaps Process'
+    }
+  },
+  async postGameComment({ dispatch, commit }, payload) {
+    commit('setCommentsLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postgamecomment', payload)
+      dispatch('getGameComments', payload.id)
+      commit('setCommentsLoading', false)
+      commit('setCommentComposer', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setCommentsLoading', false)
+      throw 'Unable to make comment right now, please try again later.'
     }
   },
   async toggleWishesEnough({ commit }, payload) {

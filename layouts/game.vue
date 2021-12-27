@@ -48,7 +48,7 @@
       <Nuxt class="col-span-7 lg:col-span-3" />
       <RightSidebar class="hidden lg:flex col-span-2" />
     </div>
-    <PostComposer />
+    <GameCommentModal />
   </div>
 </template>
 
@@ -57,12 +57,19 @@ import Sidebar from '~/components/Layout/Sidebar'
 import RightSidebar from '~/components/Layout/RightSidebar.vue'
 import Menubar from '@/components/Layout/Menubar'
 import Logo from '@/components/Logo.vue'
-import PostComposer from '@/components/Posts/PostComposer.vue'
 import GameCard from '~/components/Games/GameCard'
+import GameCommentModal from '@/components/Games/GameCommentModal'
 import { mapGetters, mapState, mapActions } from 'vuex'
 export default {
   name: 'Game',
-  components: { Sidebar, RightSidebar, Menubar, Logo, PostComposer, GameCard },
+  components: {
+    Sidebar,
+    RightSidebar,
+    Menubar,
+    Logo,
+    GameCommentModal,
+    GameCard,
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({

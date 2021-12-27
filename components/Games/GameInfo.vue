@@ -8,7 +8,7 @@
     <div class="px-8 pt-3">
       <div class="flex justify-between mb-3">
         <h2>{{ $t('g.ratings') }}</h2>
-        <vs-button animation-type="vertical">
+        <vs-button animation-type="vertical" @click="openComposer">
           <b>{{ $t('g.rate') }}</b>
           <template #animate>
             <i class="bx bxs-star"></i>
@@ -30,14 +30,23 @@
 import StarRate from '~/components/Rating/StarRate'
 import GameComments from '~/components/Games/GameComments'
 import GameCard from '~/components/Games/GameCard'
+import { mapActions } from 'vuex'
 export default {
+  components: { StarRate, GameComments, GameCard },
   props: {
     game: {
       type: Object,
       default: null,
     },
   },
-  components: { StarRate, GameComments, GameCard },
+  methods: {
+    ...mapActions({
+      toggleCommentComposer: 'game/toggleCommentComposer',
+    }),
+    openComposer() {
+      this.toggleCommentComposer(true)
+    },
+  },
 }
 </script>
 
