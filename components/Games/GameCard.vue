@@ -80,12 +80,17 @@
         </div>
       </div>
 
-      <div class="flex flex-row pt-3">
-        <vs-button block border shadow icon>
-          <i class="bx bx-shuffle mr-2"></i> Swap
-        </vs-button>
-        <vs-button block shadow border @click="openWishModal">
-          <i class="bx bx-heart text-lg mr-2"></i> Wish
+      <div class="flex flex-col pt-3">
+        <div class="flex flex-row">
+          <vs-button @click="activeTab = 'swaps'" block border shadow icon>
+            <i class="bx bx-shuffle mr-2"></i> {{ $t('g.swap') }}
+          </vs-button>
+          <vs-button block shadow border @click="openWishModal">
+            <i class="bx bx-heart text-lg mr-2"></i> {{ $t('g.wish') }}
+          </vs-button>
+        </div>
+        <vs-button @click="openLibraryModal" border shadow icon>
+          <i class="bx bx-plus mr-2"></i> {{ $t('g.add') }}
         </vs-button>
       </div>
     </div>
@@ -124,6 +129,41 @@
         </div>
       </template>
     </vs-dialog>
+    <vs-dialog v-model="showLibrary">
+      <template #header>
+        <h4 class="not-margin">
+          {{ $t('g.select') }}
+        </h4>
+      </template>
+
+      <vs-select
+        filter
+        block
+        :placeholder="$t('g.platform')"
+        v-model="gamePlatform"
+        :loading="wishLoading"
+      >
+        <vs-option
+          v-for="p in wishPlatforms"
+          :key="p.platform.id"
+          :label="p.platform.name"
+          :value="p.platform.id"
+        >
+          {{ p.platform.name }}
+        </vs-option>
+      </vs-select>
+
+      <template #footer>
+        <div class="flex flex-col">
+          <vs-button :loading="addLibraryLoading" @click="addLibraryList" block>
+            {{ $t('g.add') }}
+          </vs-button>
+          <vs-button transparent danger block @click="showLibrary = false">
+            {{ $t('g.cancel') }}
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 <script>
@@ -139,7 +179,9 @@ export default {
   data() {
     return {
       showWish: false,
+      showLibrary: false,
       wishPlatform: '',
+      gamePlatform: '',
       smallImagePath: process.env.GAMECOVER_SMALL,
       mediumImagePath: process.env.GAMECOVER_MEDIUM,
       companyImagePath: process.env.COMPANYIMAGE_SMALL,
@@ -151,12 +193,24 @@ export default {
       wishPlatforms: (state) => state.game.wishPlatforms,
       wishLoading: (state) => state.game.wishPlatformsLoading,
       addWishLoading: (state) => state.game.addWishLoading,
+      addLibraryLoading: (state) => state.game.addLibraryLoading,
+      active: (state) => state.game.activeTab,
     }),
+    activeTab: {
+      get() {
+        return this.active
+      },
+      set(val) {
+        this.setTab(val)
+      },
+    },
   },
   methods: {
     ...mapActions({
       getWishPlatforms: 'game/getWishPlatforms',
       addGameWishList: 'game/addGameWishList',
+      addToSwapList: 'game/addToSwapList',
+      setTab: 'game/setTab',
     }),
     openWishModal() {
       this.showWish = true
@@ -166,6 +220,51 @@ export default {
       ) {
         this.getWishPlatforms(this.game.id)
       }
+    },
+    openLibraryModal() {
+      this.showLibrary = true
+      if (
+        this.wishPlatforms.length === 0 ||
+        (this.wishPlatforms && this.wishPlatforms[0].game != this.game.id)
+      ) {
+        this.getWishPlatforms(this.game.id)
+      }
+    },
+    async addLibraryList() {
+      const self = this
+      this.addToSwapList({ id: this.game.id, platform: this.gamePlatform })
+        .then((res) => {
+          if (res.errorMessage) {
+            self.$vs.notification({
+              flat: true,
+              color: 'danger',
+              icon: `<i class='bx bx-error' ></i>`,
+              position: 'top-right',
+              title: self.$t('login.error'),
+              text: res.errorMessage[0],
+            })
+          } else {
+            self.$vs.notification({
+              flat: true,
+              color: 'success',
+              icon: `<i class='bx bx-check-circle' ></i>`,
+              position: 'top-right',
+              title: self.$t('g.addWishSuccessTitle'),
+              text: self.$t('g.addLibrarySuccessDesc'),
+            })
+            self.showLibrary = false
+          }
+        })
+        .catch((err) => {
+          self.$vs.notification({
+            flat: true,
+            color: 'danger',
+            icon: `<i class='bx bx-error' ></i>`,
+            position: 'top-right',
+            title: self.$t('login.error'),
+            text: err,
+          })
+        })
     },
     async addWishList() {
       const self = this
@@ -184,7 +283,7 @@ export default {
             self.$vs.notification({
               flat: true,
               color: 'success',
-              icon: `<i class='bx bx-error' ></i>`,
+              icon: `<i class='bx bx-check-circle' ></i>`,
               position: 'top-right',
               title: self.$t('g.addWishSuccessTitle'),
               text: self.$t('g.addWishSuccessDesc'),

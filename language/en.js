@@ -140,6 +140,7 @@ export default {
   },
   //RATING
   startRate: {
+    rates: 'Rates',
     nobody: 'Nobody rated this game yet.',
     beFirst: 'Be First !',
   },
@@ -166,6 +167,7 @@ export default {
     posts: 'Posts',
     medias: 'Medias',
     swaps: 'Swaps',
+    games: 'Games',
     wishes: 'Wishes',
     post: 'Posts',
     followsYou: 'Follows you',
@@ -192,6 +194,7 @@ export default {
   },
   //G
   g: {
+    add: 'Add to library',
     summary: 'Summary',
     ratings: 'Ratings',
     rate: 'Rate',
@@ -206,6 +209,16 @@ export default {
     addWishFailTitle: 'An Error Occured',
     addWishSuccessTitle: 'Added Successfully',
     addWishSuccessDesc: 'Game added to your Wish List successfully.',
+    addLibrarySuccessDesc: 'Game added to your digital library successfully.',
+    addSwapListSuccessfully: ' swap request sent successfully.',
+    gameRemovedTitle: 'Removed Successfully',
+    gameRemovedDesc: 'Game removed from your list successfully.',
+    swap: 'Swap',
+    wish: 'Wish',
+    selectSwapGame: 'Please select the game you are offering for this swap.',
+    sendSwap: 'Send swap request',
+    remove: 'Remove',
+    outOf: '/ out of 5',
   },
   //H
   h: {
@@ -289,6 +302,25 @@ export default {
   //SWAPS
   swaps: {
     title: 'Swaps',
+    accept: 'Accept',
+    reject: 'Reject',
+    waiting: 'Waiting',
+    accepted: 'Accepted',
+    declined: 'Declined',
+    incoming: 'Incoming',
+    outgoing: 'Outgoing',
+    keyboardDesc:
+      'You can quickly take action using the keyboard shortcuts mentioned above',
+    chooseAGame:
+      'Select the game you want to give for this swap by clicking on it from the list below.',
+    swap: 'Swap',
+    dislike: 'Dislike',
+    details: 'Details',
+    sentSwapSuccessTitle: 'Swap request sent',
+    sentSwapSuccessDesc:
+      'Your swap request has been successfully sent to the user.',
+    EnableLocation:
+      "Please make sure your browser is enabled to access your location for Gasome. If you're sure it may take a while for the swaps to load, don't panic! :)",
   },
   //PRIVACY
   privacyP: {

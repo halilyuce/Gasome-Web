@@ -115,13 +115,14 @@
       </div>
 
       <client-only>
-        <infinite-loading
+        <InfiniteScrollingHorizontal
+          :direction="device === 'Mobile' ? 'right' : 'bottom'"
           v-if="filteredList && !enough"
           spinner="spiral"
           :distance="300"
           @infinite="infiniteHandler"
           ><span slot="no-results"></span><span slot="no-more"></span
-        ></infinite-loading>
+        ></InfiniteScrollingHorizontal>
       </client-only>
     </div>
   </div>
@@ -129,10 +130,15 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import InfiniteScrollingHorizontal from '../../helpers/horizontalScroll'
 export default {
+  components: {
+    InfiniteScrollingHorizontal,
+  },
   computed: {
     ...mapGetters(['loggedInUser']),
     ...mapState({
+      device: (state) => state.device,
       loading: (state) => state.messages.loading,
       query: (state) => state.messages.query,
       contactsPage: (state) => state.messages.contactsPage,
@@ -175,6 +181,30 @@ export default {
     return {
       search: '',
       smallAvatar: process.env.AVATAR_SMALL,
+    }
+  },
+  mounted() {
+    const queryUser = parseInt(this.$route.query.room)
+    if (this.selected && queryUser != this.selected.user.id) {
+      const self = this
+      let index = this.contacts.findIndex(
+        (contact) => contact.user.id === queryUser
+      )
+      if (index > -1) {
+        this.selected = this.contacts[index]
+      } else {
+        this.getUser(queryUser).then((user) => {
+          self.selected = {
+            id: +new Date(),
+            from: self.loggedInUser.id,
+            to: queryUser,
+            unread: 0,
+            created_at: new Date(),
+            updated_at: new Date(),
+            user: user,
+          }
+        })
+      }
     }
   },
   watch: {

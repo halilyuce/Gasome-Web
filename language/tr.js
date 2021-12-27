@@ -140,6 +140,7 @@ export default {
   },
   //RATING
   startRate: {
+    rates: 'Değerlendirme',
     nobody: 'Henüz kimse bu oyunu değerlendirmedi.',
     beFirst: 'İlk ol !',
   },
@@ -166,6 +167,7 @@ export default {
     posts: 'Gönderiler',
     medias: 'Medyalar',
     swaps: 'Takaslar',
+    games: 'Oyunlar',
     wishes: 'İstekler',
     post: 'Gönderi',
     followsYou: 'Seni Takip Ediyor',
@@ -192,6 +194,7 @@ export default {
   },
   //G
   g: {
+    add: 'Kütüphaneye ekle',
     summary: 'Özet',
     ratings: 'Puanlamalar',
     rate: 'Puan Ver',
@@ -206,6 +209,16 @@ export default {
     addWishFailTitle: 'Bir Hata Oluştu',
     addWishSuccessTitle: 'Başarıyla Eklendi',
     addWishSuccessDesc: 'Oyun İstek Listenize başarıyla eklenmiştir.',
+    addLibrarySuccessDesc: 'Oyun dijital kütüphanenize başarıyla eklenmiştir.',
+    addSwapListSuccessfully: ' takas isteğiniz başarıyla gönderilmiştir.',
+    gameRemovedTitle: 'Başarıyla Silindi',
+    gameRemovedDesc: 'Oyun başarıyla listenizden çıkarılmıştır.',
+    swap: 'Takas Et',
+    wish: 'Listeye Ekle',
+    selectSwapGame: 'Lütfen bu takas için teklif edeceğiniz oyunu seçiniz.',
+    sendSwap: 'Takas isteği gönder',
+    remove: 'Kaldır',
+    outOf: '/ 5 üzerinden',
   },
   //H
   h: {
@@ -289,6 +302,25 @@ export default {
   //SWAPS
   swaps: {
     title: 'Takaslar',
+    accept: 'Kabul Et',
+    reject: 'Geri Çevir',
+    waiting: 'Bekliyor',
+    accepted: 'Kabul Edildi',
+    declined: 'Red Edildi',
+    incoming: 'Gelenler',
+    outgoing: 'Gidenler',
+    keyboardDesc:
+      'Yukarıdaki klavye kısayollarını kullanarak hızlıca aksiyon alabilirsiniz.',
+    chooseAGame:
+      'Bu takas için vermek istediğiniz oyununuzu aşağıdaki listeden üzerine tıklayarak seçiniz',
+    swap: 'Takas Et',
+    dislike: 'Beğenmedim',
+    details: 'Detaylar',
+    sentSwapSuccessTitle: 'Takas isteği gönderildi',
+    sentSwapSuccessDesc:
+      'Takas isteğiniz karşı kullanıcıya başarıyla gönderilmiştir.',
+    EnableLocation:
+      'Lütfen tarayıcınızdan Gasome için konumunuza erişimin aktif olduğundan emin olunuz. Eminseniz takasların yüklenmesi biraz sürebilir, panik yok! :)',
   },
   //PRIVACY
   privacyP: {

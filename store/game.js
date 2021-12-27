@@ -2,7 +2,11 @@ const getDefaultState = () => {
   return {
     game: null,
     comments: null,
+    commentsLoading: false,
+    commentsPage: 1,
+    commentsEnough: false,
     loading: false,
+    activeTab: 'info',
     swaps: [],
     swapsLoading: false,
     swapsPage: 0,
@@ -14,13 +18,30 @@ const getDefaultState = () => {
     wishPlatforms: [],
     wishPlatformsLoading: false,
     addWishLoading: false,
+    addLibraryLoading: false,
+    deleteLoading: null,
   }
 }
 export const state = () => getDefaultState()
 export const getters = {}
 export const mutations = {
+  setTab(state, payload) {
+    state.activeTab = payload
+  },
   setLoading(state, payload) {
     state.loading = payload
+  },
+  setCommentsLoading(state, payload) {
+    state.commentsLoading = payload
+  },
+  setCommentsPage(state, payload) {
+    state.commentsPage = payload
+  },
+  setCommentsEnough(state, payload) {
+    state.commentsEnough = payload
+  },
+  setDeleteLoading(state, payload) {
+    state.deleteLoading = payload
   },
   setGame(state, payload) {
     state.game = payload
@@ -37,6 +58,12 @@ export const mutations = {
   setSwapsLoading(state, payload) {
     state.swapsLoading = payload
   },
+  deleteSwap(state, payload) {
+    const index = state.swaps.findIndex((swap) => swap.id === payload)
+    if (index > -1) {
+      state.swaps.splice(index, 1)
+    }
+  },
   insertSwaps(state, payload) {
     state.swaps = [...state.swaps, ...payload]
   },
@@ -51,6 +78,9 @@ export const mutations = {
   },
   setAddWishLoading(state, payload) {
     state.addWishLoading = payload
+  },
+  setAddLibraryLoading(state, payload) {
+    state.addLibraryLoading = payload
   },
   setWishPlatformsLoading(state, payload) {
     state.wishPlatformsLoading = payload
@@ -69,6 +99,9 @@ export const actions = {
   async resetState({ commit }) {
     commit('resetState')
   },
+  async setTab({ commit }, payload) {
+    commit('setTab', payload)
+  },
   async getGameById({ commit }, id) {
     commit('setLoading', true)
     try {
@@ -82,19 +115,20 @@ export const actions = {
       commit('setLoading', false)
     }
   },
-  async getGameComments({ dispatch, commit }, id, page = 1) {
-    commit('setLoading', true)
+  async getGameComments({ dispatch, state, commit }, id) {
     try {
       const response = await this.$axios.get(
-        '/api/gamecomment?id=' + id + '&page=' + page
+        '/api/gamecomment?id=' + id + '&page=' + state.commentsPage
       )
       await commit('setComments', response.data.data)
-      commit('setLoading', false)
+      commit('setCommentsLoading', false)
+      return response.data.data
     } catch (error) {
       await dispatch('alert/error', error.response, {
         root: true,
       })
-      commit('setLoading', false, { root: true })
+      commit('setCommentsLoading', false, { root: true })
+      throw 'Unable to load comments'
     }
   },
   async getSwaps({ dispatch, state, commit }, id) {
@@ -121,6 +155,15 @@ export const actions = {
   },
   async toggleSwapsLoading({ commit }, payload) {
     commit('setSwapsLoading', payload)
+  },
+  async toggleCommentsEnough({ commit }, payload) {
+    commit('setCommentsEnough', payload)
+  },
+  async setCommentsPage({ commit }, payload) {
+    commit('setCommentsPage', payload)
+  },
+  async toggleCommentsLoading({ commit }, payload) {
+    commit('setCommentsLoading', payload)
   },
   async getWishes({ dispatch, state, commit }, id) {
     try {
@@ -172,6 +215,40 @@ export const actions = {
       })
       commit('setAddWishLoading', false)
       return error.response.data
+    }
+  },
+  async addToSwapList({ dispatch, commit }, payload) {
+    commit('setAddLibraryLoading', true)
+    try {
+      const response = await this.$axios.post('/api/postSwapList', {
+        gameId: payload.id,
+        platform: payload.platform,
+      })
+      commit('setAddLibraryLoading', false)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response.data.errorMessage[0], {
+        root: true,
+      })
+      commit('setAddLibraryLoading', false)
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async deleteFromSwapList({ dispatch, commit }, id) {
+    commit('setDeleteLoading', id)
+    try {
+      const response = await this.$axios.post('/api/postDeleteFromSwapList', {
+        swapId: id,
+      })
+      commit('deleteSwap', id)
+      commit('setDeleteLoading', null)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setDeleteLoading', null)
+      throw 'Unable to delete Swaps Process'
     }
   },
   async toggleWishesEnough({ commit }, payload) {

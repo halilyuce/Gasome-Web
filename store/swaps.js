@@ -4,25 +4,83 @@ const getDefaultState = () => {
     page: 0,
     enough: false,
     loading: false,
+    swapDeals: [],
+    dealsPage: 1,
+    dealsEnough: false,
+    dealsLoading: false,
+    userSwapList: [],
+    userSwapListPage: 1,
+    userSwapListEnough: false,
+    userSwapListLoading: false,
+    requestLoading: null,
+    createSwapLoading: false,
+    activeTab: 'incoming',
   }
 }
 export const state = () => getDefaultState()
 
 export const mutations = {
+  setActiveTab(state, payload) {
+    state.activeTab = payload
+  },
+  setRequestLoading(state, payload) {
+    state.requestLoading = payload
+  },
+  setCreateSwapLoading(state, payload) {
+    state.createSwapLoading = payload
+  },
   setLoading(state, payload) {
     state.loading = payload
   },
   setPage(state, payload) {
     state.page = payload
   },
-  setSwaps(state, payload) {
-    state.swaps = payload
-  },
   setEnough(state, payload) {
     state.enough = payload
   },
+  setSwapProcess(state, payload) {
+    const index = state.swapDeals.findIndex(
+      (swap) => swap.id === payload.swapsId
+    )
+    if (index > -1) {
+      state.swapDeals[index].process = payload.process
+    }
+  },
   insertSwaps(state, payload) {
     state.swaps = [...state.swaps, ...payload]
+  },
+  setSwaps(state, payload) {
+    state.swaps = payload
+  },
+  setSwapDeals(state, payload) {
+    state.swapDeals = payload
+  },
+  setDealsLoading(state, payload) {
+    state.dealsLoading = payload
+  },
+  setDealsPage(state, payload) {
+    state.dealsPage = payload
+  },
+  setDealsEnough(state, payload) {
+    state.dealsEnough = payload
+  },
+  insertSwapDeals(state, payload) {
+    state.swapDeals = [...state.swapDeals, ...payload]
+  },
+  setUserSwapList(state, payload) {
+    state.userSwapList = payload
+  },
+  setUserSwapListLoading(state, payload) {
+    state.userSwapListLoading = payload
+  },
+  setUserSwapListPage(state, payload) {
+    state.userSwapListPage = payload
+  },
+  setUserSwapListEnough(state, payload) {
+    state.userSwapListEnough = payload
+  },
+  insertUserSwapList(state, payload) {
+    state.userSwapList = [...state.userSwapList, ...payload]
   },
   resetState(state) {
     Object.assign(state, getDefaultState())
@@ -33,21 +91,94 @@ export const actions = {
   async resetState({ commit }) {
     commit('resetState')
   },
-  async getSwaps({ dispatch, state, commit }, type) {
+  async getUserSwapList({ dispatch, state, commit }, username) {
     try {
       const response = await this.$axios.get(
-        '/api/getSwapsDeals?page=' + state.page + '&swapType=' + type
+        '/api/getUserSwapList?userName=' +
+          username +
+          '&page=' +
+          state.userSwapListPage
+      )
+      commit('setUserSwapListLoading', false)
+      commit('insertUserSwapList', response.data.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setUserSwapListLoading', false)
+      throw 'Unable to fetch user swap list'
+    }
+  },
+  async getSwapDeals({ dispatch, state, commit }, type) {
+    try {
+      const response = await this.$axios.get(
+        '/api/getSwapsDeals?page=' + state.dealsPage + '&swapType=' + type
+      )
+      commit('setDealsLoading', false)
+      commit('insertSwapDeals', response.data.data.data)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setDealsLoading', false)
+      throw 'Unable to fetch swap deals'
+    }
+  },
+  async getSwaps({ dispatch, state, commit }, payload) {
+    commit('setLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/swapsuggestions?page=' +
+          state.page +
+          '&latitude=' +
+          payload.latitude +
+          '&longitude=' +
+          payload.longitude
       )
       commit('setLoading', false)
-      commit('insertSwaps', response.data.data.data)
+      commit('insertSwaps', response.data.data)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
       commit('setLoading', false)
-      throw 'Unable to fetch notifications'
+      throw 'Unable to fetch swaps'
     }
+  },
+  async createSwap({ dispatch, commit }, payload) {
+    commit('setCreateSwapLoading', true)
+    try {
+      const response = await this.$axios.post('/api/createswap', payload)
+      commit('setCreateSwapLoading', false)
+      return response.data.data
+    } catch (error) {
+      commit('setCreateSwapLoading', false)
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      throw error.response.data.errorMessage[0]
+    }
+  },
+  async postSwapProcess({ dispatch, commit }, payload) {
+    commit('setRequestLoading', payload.swapsId)
+    try {
+      const response = await this.$axios.post('/api/postSwapProcess', payload)
+      commit('setSwapProcess', payload)
+      commit('setRequestLoading', null)
+      return response.data.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setRequestLoading', null)
+      throw 'Unable to post Swaps Process'
+    }
+  },
+  async setSwaps({ commit }, payload) {
+    await commit('setSwaps', payload)
   },
   async setCurrentPage({ commit }, page) {
     await commit('setPage', page)
@@ -57,5 +188,32 @@ export const actions = {
   },
   async toggleLoading({ commit }, payload) {
     commit('setLoading', payload)
+  },
+  async setDealsPage({ commit }, page) {
+    await commit('setDealsPage', page)
+  },
+  async setSwapDeals({ commit }, payload) {
+    await commit('setSwapDeals', payload)
+  },
+  async setDealsEnough({ commit }, payload) {
+    await commit('setDealsEnough', payload)
+  },
+  async toggleDealsLoading({ commit }, payload) {
+    commit('setDealsLoading', payload)
+  },
+  async setUserSwapListPage({ commit }, page) {
+    await commit('setUserSwapListPage', page)
+  },
+  async setUserSwapList({ commit }, payload) {
+    await commit('setUserSwapList', payload)
+  },
+  async setUserSwapListEnough({ commit }, payload) {
+    await commit('setUserSwapListEnough', payload)
+  },
+  async toggleUserSwapListLoading({ commit }, payload) {
+    commit('setUserSwapListLoading', payload)
+  },
+  async setActiveTab({ commit }, payload) {
+    await commit('setActiveTab', payload)
   },
 }

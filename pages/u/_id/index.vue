@@ -94,7 +94,7 @@
       />
     </div>
 
-    <div v-if="activeTab === 'swaps'">
+    <div v-if="activeTab === 'games'">
       <SwapsList :id="user.id" :same="user.id != loggedInUser.id" />
     </div>
 
@@ -139,7 +139,16 @@ export default {
       user: (state) => state.profile.user,
       posts: (state) => state.profile.posts,
       postsLoading: (state) => state.profile.postLoading,
+      quoteState: (state) => state.posts.quotedPost,
     }),
+    quotedPost: {
+      get() {
+        return this.quoteState
+      },
+      set(val) {
+        this.setQuotedPost(val)
+      },
+    },
   },
   asyncData({ params }) {
     return {
@@ -148,7 +157,6 @@ export default {
   },
   data() {
     return {
-      quotedPost: null,
       currentPage: 0,
       enough: false,
       activeTab: 'posts',
@@ -162,8 +170,8 @@ export default {
           value: 'medias',
         },
         {
-          title: this.$t('userProfileHeader.swaps'),
-          value: 'swaps',
+          title: this.$t('userProfileHeader.games'),
+          value: 'games',
         },
         {
           title: this.$t('userProfileHeader.wishes'),
@@ -189,6 +197,7 @@ export default {
       deletePostAPI: 'profile/deletePost',
       toggleComposer: 'posts/toggleComposer',
       togglePostLoading: 'profile/togglePostLoading',
+      setQuotedPost: 'posts/setQuotedPost',
     }),
     infiniteHandler($state) {
       const self = this

@@ -10,9 +10,9 @@ const getDefaultState = () => {
     followLoading: false,
     swapsLoading: false,
     wishesLoading: false,
-    swapListLoading: false,
-    wishListLoading: false,
-    removeLoading: false,
+    swapListLoading: null,
+    wishListLoading: null,
+    removeLoading: null,
     swapsPage: 0,
     swapsEnough: false,
     wishesPage: 0,
@@ -21,6 +21,10 @@ const getDefaultState = () => {
     following: [],
     followersLoading: null,
     followingLoading: null,
+    followersEnough: false,
+    followingEnough: false,
+    followersCurrentPage: 0,
+    followingCurrentPage: 0,
   }
 }
 export const state = () => getDefaultState()
@@ -52,6 +56,18 @@ export const mutations = {
   },
   setFollowLoading(state, payload) {
     state.followLoading = payload
+  },
+  setFollowersEnough(state, payload) {
+    state.followersEnough = payload
+  },
+  setFollowingEnough(state, payload) {
+    state.followingEnough = payload
+  },
+  setFollowersCurrentPage(state, payload) {
+    state.followersCurrentPage = payload
+  },
+  setFollowingCurrentPage(state, payload) {
+    state.followingCurrentPage = payload
   },
   setPosts(state, payload) {
     state.posts = payload
@@ -303,70 +319,70 @@ export const actions = {
     }
   },
   async removeFromSwapList({ dispatch, commit }, id) {
-    commit('setRemoveLoading', true)
+    commit('setRemoveLoading', id)
     try {
       const response = await this.$axios.post('/api/postDeleteFromSwapList', {
         swapId: id,
       })
-      commit('setRemoveLoading', false)
+      commit('setRemoveLoading', null)
       commit('removeFromSwapList', id)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response.data.errorMessage[0], {
         root: true,
       })
-      commit('setRemoveLoading', false)
+      commit('setRemoveLoading', null)
       throw error.response.data.errorMessage[0]
     }
   },
   async removeFromWishList({ dispatch, commit }, id) {
-    commit('setRemoveLoading', true)
+    commit('setRemoveLoading', id)
     try {
       const response = await this.$axios.post('/api/postDeleteFromWishList', {
         wishId: id,
       })
-      commit('setRemoveLoading', false)
+      commit('setRemoveLoading', null)
       commit('removeFromWishList', id)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response.data.errorMessage[0], {
         root: true,
       })
-      commit('setRemoveLoading', false)
+      commit('setRemoveLoading', null)
       throw error.response.data.errorMessage[0]
     }
   },
   async addToSwapList({ dispatch, commit }, payload) {
-    commit('setSwapListLoading', true)
+    commit('setSwapListLoading', payload.swapId)
     try {
       const response = await this.$axios.post('/api/postSwapList', {
         gameId: payload.id,
         platform: payload.platform,
       })
-      commit('setSwapListLoading', false)
+      commit('setSwapListLoading', null)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response.data.errorMessage[0], {
         root: true,
       })
-      commit('setSwapListLoading', false)
+      commit('setSwapListLoading', null)
       throw error.response.data.errorMessage[0]
     }
   },
   async addToWishList({ dispatch, commit }, payload) {
-    commit('setWishListLoading', true)
+    commit('setWishListLoading', payload.swapId)
     try {
       const response = await this.$axios.post('/api/postWishList', {
         gameId: payload.id,
         platform: payload.platform,
       })
-      commit('setWishListLoading', false)
+      commit('setWishListLoading', null)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response.data.errorMessage[0], {
         root: true,
       })
-      commit('setWishListLoading', false)
+      commit('setWishListLoading', null)
       throw error.response.data.errorMessage[0]
     }
   },
@@ -467,6 +483,18 @@ export const actions = {
   },
   async toggleFollowersLoading({ commit }, payload) {
     commit('setFollowersLoading', payload)
+  },
+  async toggleFollowersEnough({ commit }, payload) {
+    commit('setFollowersEnough', payload)
+  },
+  async toggleFollowingEnough({ commit }, payload) {
+    commit('setFollowingEnough', payload)
+  },
+  async toggleFollowersPage({ commit }, payload) {
+    commit('setFollowersCurrentPage', payload)
+  },
+  async toggleFollowingPage({ commit }, payload) {
+    commit('setFollowingCurrentPage', payload)
   },
   async setSwapsPage({ commit }, payload) {
     commit('setSwapsPage', payload)

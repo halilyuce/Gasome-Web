@@ -98,13 +98,21 @@ export default {
       alert: (state) => state.alert,
       game: (state) => state.game.game,
       loading: (state) => state.game.loading,
+      active: (state) => state.game.activeTab,
     }),
+    activeTab: {
+      get() {
+        return this.active
+      },
+      set(val) {
+        this.setTab(val)
+      },
+    },
   },
   data() {
     return {
       gameLoading: null,
       commentPage: 1,
-      activeTab: 'info',
       tabs: [
         {
           title: this.$t('g.information'),
@@ -143,18 +151,16 @@ export default {
       if (this.$route.params.id != this.game.id) {
         await this.resetState()
         await this.getGameById(this.$route.params.id)
-        await this.getGameComments(this.$route.params.id)
       }
     } else {
       await this.getGameById(this.$route.params.id)
-      await this.getGameComments(this.$route.params.id)
     }
   },
   methods: {
     ...mapActions({
       resetState: 'game/resetState',
       getGameById: 'game/getGameById',
-      getGameComments: 'game/getGameComments',
+      setTab: 'game/setTab',
       clearAlert: 'alert/clear',
     }),
   },

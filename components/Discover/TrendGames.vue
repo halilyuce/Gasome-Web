@@ -23,17 +23,16 @@
               p-2
             "
           >
-            <vs-avatar size="60">
-              <img
-                :src="smallImagePath + game.image + '.jpg'"
-                :alt="game.name + ' avatar'"
-              />
-            </vs-avatar>
+            <img
+              :src="smallImagePath + game.image + '.jpg'"
+              :alt="game.name + ' avatar'"
+              class="object-cover w-12 h-12 rounded-lg"
+            />
             <h4 class="w-2/3 ml-3">{{ game.name }}</h4>
           </n-link>
         </div>
       </div>
-      <div v-else class="w-full flex overflow-x-auto py-4">
+      <div v-else class="w-full flex overflow-x-auto disable-scrollbars py-4">
         <n-link
           v-for="game in swapData.list"
           :key="game.id"
@@ -42,22 +41,19 @@
         >
           <vs-card type="4">
             <template #title>
-              <div
-                class="min-w-full flex flex-row justify-between items-center"
-              >
-                <vs-avatar size="70">
-                  <img
-                    :src="smallImagePath + game.image + '.jpg'"
-                    :alt="game.name + ' avatar'"
-                  />
-                </vs-avatar>
-                <span class="pl-2 font-bold text-lg">{{ game.name }}</span>
+              <div class="flex flex-row items-center">
+                <img
+                  :src="smallImagePath + game.image + '.jpg'"
+                  :alt="game.name + ' avatar'"
+                  class="object-cover w-12 h-12 rounded-xl mr-3"
+                />
+                <h6>{{ game.name }}</h6>
               </div>
             </template>
             <template #img>
-              <div class="h-52 w-80">
+              <div class="h-48 w-72">
                 <img
-                  class="h-full w-full"
+                  class="h-full w-full object-cover"
                   :src="gameSSPath + game.screenshots[0] + '.jpg'"
                   :alt="game.name + ' screen shot'"
                 />

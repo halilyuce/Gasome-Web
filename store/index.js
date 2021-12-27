@@ -1,5 +1,6 @@
 const getDefaultState = () => {
   return {
+    device: {},
     emailLoading: false,
     passwordLoading: false,
     mode: 'dark',
@@ -20,6 +21,9 @@ export const getters = {
   },
 }
 export const mutations = {
+  setDevice(state, payload) {
+    state.device = payload
+  },
   setEmailLoading(state, payload) {
     state.emailLoading = payload
   },
@@ -52,6 +56,9 @@ export const mutations = {
 export const actions = {
   async resetState({ commit }) {
     commit('resetState')
+  },
+  async setDevice({ commit }, payload) {
+    commit('setDevice', payload)
   },
   async getSettings({ commit }) {
     const mode = localStorage.getItem('mode') || null

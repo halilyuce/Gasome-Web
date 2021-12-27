@@ -250,6 +250,7 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   layout: 'messages',
+  middleware: 'agent',
   head() {
     return {
       title: this.$t('pageHead.messagesTitle'),
