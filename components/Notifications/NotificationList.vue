@@ -15,10 +15,12 @@
               <template #badge>
                 <div class="py-1 px-0.5 flex">
                   <i
+                    v-if="badge()[1] !== '@'"
                     class="text-white"
                     :class="badge()[1]"
                     style="font-size: 0.8rem"
                   ></i>
+                  <span v-else class="text-white text-lg">@</span>
                 </div>
               </template>
             </vs-avatar>
@@ -256,7 +258,7 @@ export default {
       } else if (notfType === 7) {
         return ['primary', 'bx bx-plus-medical']
       } else if (notfType === 11) {
-        return ['primary', 'bx bxs-message-square-add']
+        return ['primary', '@']
       }
     },
   },
