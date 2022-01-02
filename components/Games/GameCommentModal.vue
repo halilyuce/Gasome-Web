@@ -124,12 +124,7 @@
 
     <template #footer>
       <div class="flex justify-end space-x-4">
-        <vs-button
-          danger
-          transparent
-          :loading="commentsLoading"
-          @click.stop="close"
-        >
+        <vs-button danger transparent @click.stop="close">
           {{ $t('gameReview.cancel') }}
         </vs-button>
         <vs-button
@@ -197,7 +192,21 @@ export default {
         comment: this.text,
         star: this.rate,
       }
-      await this.postGameComment(payload)
+      const response = await this.postGameComment(payload)
+      this.$vs.notification({
+        flat: true,
+        color: response.hasError ? 'danger' : 'success',
+        icon: response.hasError
+          ? `<i class='bx bx-error' ></i>`
+          : `<i class='bx bx-check-circle' ></i>`,
+        position: 'top-center',
+        title: response.hasError
+          ? this.$t('gameReview.titleError')
+          : this.$t('gameReview.titleSuccess'),
+        text: response.hasError
+          ? this.$t('gameReview.error')
+          : this.$t('gameReview.success'),
+      })
     },
   },
   directives: {
