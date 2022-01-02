@@ -255,6 +255,8 @@ export default {
         return ['secondary', 'bx bxs-user']
       } else if (notfType === 7) {
         return ['primary', 'bx bx-plus-medical']
+      } else if (notfType === 11) {
+        return ['primary', 'bx bxs-message-square-add']
       }
     },
   },
