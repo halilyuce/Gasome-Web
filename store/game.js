@@ -265,7 +265,7 @@ export const actions = {
       dispatch('getGameComments', payload.id)
       commit('setCommentsLoading', false)
       commit('setCommentComposer', false)
-      return response.data.data
+      return response.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
