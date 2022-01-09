@@ -17,7 +17,7 @@
         dark:border-gray-600 dark:border-opacity-20
       "
     >
-      <n-link :to="`/u/${loggedInUser.username}`">
+      <n-link v-if="loggedInUser" :to="`/u/${loggedInUser.username}`">
         <vs-avatar size="34">
           <img
             v-if="loggedInUser"
@@ -46,7 +46,7 @@
         <UserBar class="hidden lg:flex" />
       </div>
       <Nuxt class="col-span-7 lg:col-span-3" />
-      <RightSidebar class="hidden lg:flex col-span-2" />
+      <RightSidebar v-if="loggedInUser" class="hidden lg:flex col-span-2" />
     </div>
     <PostComposer />
   </div>
@@ -90,25 +90,28 @@ export default {
     } else {
       this.$vs.setTheme('dark')
     }
-    this.getBadges()
-    this.$echo
-      .private(`messages.${this.loggedInUser.id}`)
-      .listen('NewMessage', (e) => {
-        if (this.$route.name !== 'messages') {
-          this.setMessageBadge(1)
-          const noti = this.$vs.notification({
-            duration: 10000,
-            progress: 'auto',
-            icon: `<img class='rounded-lg h-8 w-8' src='${
-              this.smallAvatar + e.message.user.avatar
-            }.jpg' />`,
-            title: e.message.image
-              ? e.message.user.name + ' sent a photo'
-              : e.message.user.name + ' sent a message',
-            text: e.message.text,
-          })
-        }
-      })
+    if (this.loggedInUser) {
+      this.getBadges()
+      this.$echo
+        .private(`messages.${this.loggedInUser.id}`)
+        .listen('NewMessage', (e) => {
+          if (this.$route.name !== 'messages') {
+            this.setMessageBadge(1)
+            const noti = this.$vs.notification({
+              duration: 10000,
+              progress: 'auto',
+              icon: `<img class='rounded-lg h-8 w-8' src='${
+                this.smallAvatar + e.message.user.avatar
+              }.jpg' />`,
+              title: e.message.image
+                ? e.message.user.name + ' sent a photo'
+                : e.message.user.name + ' sent a message',
+              text: e.message.text,
+            })
+          }
+        })
+    }
+
     if (this.$route.name !== 'notifications') {
       this.setNotificationBadge(0)
     }

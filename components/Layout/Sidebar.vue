@@ -132,7 +132,7 @@
             </vs-button>
           </div>
 
-          <vs-button danger flat icon @click="logOut">
+          <vs-button v-if="loggedInUser" danger flat icon @click="logOut">
             <i class="bx bx-power-off"></i>
           </vs-button>
         </div>
@@ -141,11 +141,12 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import Logo from '../Logo.vue'
 export default {
   components: { Logo },
   computed: {
+    ...mapGetters(['loggedInUser']),
     ...mapState({
       tab: (state) => state.tab,
       notificationBadge: (state) => state.notificationBadge,

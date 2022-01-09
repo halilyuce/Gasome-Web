@@ -2,7 +2,7 @@
   <div
     class="flex flex-col items-center xl:w-3/4 2xl:w-2/3 xl:ml-auto w-full my-5"
   >
-    <div class="flex flex-col mx-7 h-full">
+    <div v-if="loggedInUser" class="flex flex-col mx-7 h-full">
       <div class="flex flex-col bg-white dark:bg-black py-4 px-4 rounded-xl">
         <div class="flex flex-row mb-3 items-center">
           <n-link :to="`/u/${loggedInUser.username}`">

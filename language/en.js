@@ -376,13 +376,13 @@ export default {
     thirdInformationHeader: '3. Purposes of processing Personal Data',
     purposes: 'A. Purposes ',
     purposesA: 'Parties process Personal Data for the following purposes:',
-    purposeB: 'To enable you to use the service,',
-    purposeC: 'To keep information about our service up to date,',
-    purposeD: 'For the improvement and / or customization of the service,',
-    purposeE: 'To identify you and / or customize the Service,',
-    purposeF: 'To know you and prevent fraud,',
-    purposeG: 'To provide support,',
-    purposeH:
+    purposesB: 'To enable you to use the service,',
+    purposesC: 'To keep information about our service up to date,',
+    purposesD: 'For the improvement and / or customization of the service,',
+    purposesE: 'To identify you and / or customize the Service,',
+    purposesF: 'To know you and prevent fraud,',
+    purposesG: 'To provide support,',
+    purposesH:
       'To transmit your Personal Data to third parties if you request this from us or where we are legally obliged.',
     fourthHeader: 'B. Transmission of Personal Data to third parties',
     securityThingA:

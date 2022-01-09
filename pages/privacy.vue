@@ -75,7 +75,7 @@
         <li class="li1">{{ $t('privacyP.nameThing') }}</li>
         <li class="li1">{{ $t('privacyP.mailThing') }}</li>
         <li class="li1">
-          {{ $t('privacyP.socialThig') }}
+          {{ $t('privacyP.socialThing') }}
         </li>
       </ul>
       <p class="my-3">
@@ -139,7 +139,7 @@
         {{ $t('privacyP.sixthHeader') }}
       </h3>
       <p class="my-3">
-        {{ $t('privacyP.abouthSixthHeader') }}
+        {{ $t('privacyP.aboutSixthHeader') }}
       </p>
       <h3 class="my-3">{{ $t('privacyP.seventhHeader') }}</h3>
       <p class="my-3">
@@ -181,6 +181,7 @@
 <script>
 export default {
   layout: 'sidebars',
+  auth: 'guest',
   head() {
     return {
       title: this.$t('pageHead.privacyTitle'),
