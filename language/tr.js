@@ -376,13 +376,13 @@ export default {
     thirdInformationHeader: '3. Kişisel Verilerin İşlenme Amaçları',
     purposes: 'A. Amaçlar',
     purposesA: 'Taraflar, Kişisel Verileri aşağıdaki amaçlarla işler:',
-    purposeB: 'Hizmeti kullanabilmeniz için,',
-    purposeC: 'Hizmetimizle ilgili bilgileri güncel tutmak,',
-    purposeD: 'Hizmetin iyileştirilmesi ve/veya özelleştirilmesi için,',
-    purposeE: 'Sizi tanımlamak ve/veya Hizmeti özelleştirmek için,',
-    purposeF: 'Sizi tanımak ve dolandırıcılığı önlemek için,',
-    purposeG: 'Destek sağlamak,',
-    purposeH:
+    purposesB: 'Hizmeti kullanabilmeniz için,',
+    purposesC: 'Hizmetimizle ilgili bilgileri güncel tutmak,',
+    purposesD: 'Hizmetin iyileştirilmesi ve/veya özelleştirilmesi için,',
+    purposesE: 'Sizi tanımlamak ve/veya Hizmeti özelleştirmek için,',
+    purposesF: 'Sizi tanımak ve dolandırıcılığı önlemek için,',
+    purposesG: 'Destek sağlamak,',
+    purposesH:
       'Bizden talep etmeniz halinde veya yasal olarak yükümlü olduğumuz durumlarda Kişisel Verilerinizi üçüncü şahıslara iletmek.',
     fourthHeader: 'B. Kişisel Verilerin üçüncü taraflara iletilmesi',
     securityThingA:
