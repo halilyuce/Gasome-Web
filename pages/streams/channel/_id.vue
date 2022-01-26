@@ -29,6 +29,7 @@ export default {
   auth: false,
   layout: 'blank',
   head: {
+    title: 'Live Streaming',
     meta: [
       {
         name: 'viewport',
