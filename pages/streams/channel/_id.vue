@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  auth: 'guest',
+  auth: false,
   layout: 'blank',
   head: {
     meta: [
