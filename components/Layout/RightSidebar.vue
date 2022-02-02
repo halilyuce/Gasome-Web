@@ -32,7 +32,7 @@
           >
             {{ '#' + trend.tag }}
             <vs-button transparent size="small"
-              ><span class="text-gray-500">{{ trend.topic_weekly_count }}</span>
+              ><span class="text-gray-500">{{ trend.topic_monthly_count }}</span>
             </vs-button>
           </n-link>
         </li>
