@@ -181,7 +181,7 @@
 <script>
 export default {
   layout: 'sidebars',
-  auth: 'guest',
+  auth: false,
   head() {
     return {
       title: this.$t('pageHead.privacyTitle'),
