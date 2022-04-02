@@ -29,12 +29,6 @@
         </template>
         {{ $t('sideBar.home') }}
       </vs-sidebar-item>
-      <vs-sidebar-item id="swaps" to="/swaps">
-        <template #icon>
-          <i class="bx bx-shuffle"></i>
-        </template>
-        {{ $t('sideBar.swaps') }}
-      </vs-sidebar-item>
       <vs-sidebar-item id="discover" to="/discover">
         <template #icon>
           <i class="bx bx-game"></i>

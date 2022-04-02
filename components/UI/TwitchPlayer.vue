@@ -5,16 +5,7 @@
 <script>
 let player
 export default {
-  name: 'twitch-player',
-  head() {
-    return {
-      script: [
-        {
-          src: 'https://embed.twitch.tv/embed/v1.js',
-        },
-      ],
-    }
-  },
+  name: 'TwitchPlayer',
   props: {
     width: {
       type: String,
@@ -40,6 +31,34 @@ export default {
     channel: String,
     collection: String,
     video: String,
+  },
+  head() {
+    return {
+      script: [
+        {
+          src: 'https://embed.twitch.tv/embed/v1.js',
+        },
+      ],
+    }
+  },
+  watch: {
+    channel(newChannel) {
+      player.setChannel(newChannel)
+    },
+    collection(newCollection) {
+      player.setCollection(newCollection)
+    },
+    video(newVideo) {
+      player.setVideo(newVideo)
+    },
+    volume(newVolume) {
+      player.setVolume(newVolume)
+    },
+    quality(newQuality) {
+      if (player.getQualities().indexOf(newQuality) !== -1) {
+        player.setQuality(newQuality)
+      }
+    },
   },
   mounted() {
     const options = {
@@ -133,26 +152,7 @@ export default {
       return this.channel === player.getChannel()
     },
     checkVideo() {
-      return (this.video = player.getVideo())
-    },
-  },
-  watch: {
-    channel(newChannel) {
-      player.setChannel(newChannel)
-    },
-    collection(newCollection) {
-      player.setCollection(newCollection)
-    },
-    video(newVideo) {
-      player.setVideo(newVideo)
-    },
-    volume(newVolume) {
-      player.setVolume(newVolume)
-    },
-    quality(newQuality) {
-      if (player.getQualities().indexOf(newQuality) !== -1) {
-        player.setQuality(newQuality)
-      }
+      return this.video = player.getVideo();
     },
   },
 }
