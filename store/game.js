@@ -224,12 +224,12 @@ export const actions = {
       return error.response.data
     }
   },
-  async addToSwapList({ dispatch, commit }, payload) {
+  async addToPlayedList({ dispatch, commit }, payload) {
     commit('setAddLibraryLoading', true)
     try {
-      const response = await this.$axios.post('/api/postSwapList', {
+      const response = await this.$axios.post('/api/postAddGameToPlayed', {
         gameId: payload.id,
-        platform: payload.platform,
+        platformId: payload.platform,
       })
       commit('setAddLibraryLoading', false)
       return response.data.data

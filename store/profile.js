@@ -3,18 +3,20 @@ const getDefaultState = () => {
     user: null,
     posts: [],
     wishes: [],
-    swaps: [],
+    played: [],
+    streams: [],
     loading: false,
+    streamsLoading: false,
     editLoading: false,
     postLoading: false,
     followLoading: false,
-    swapsLoading: false,
+    playedLoading: false,
     wishesLoading: false,
-    swapListLoading: null,
+    playedListLoading: null,
     wishListLoading: null,
     removeLoading: null,
-    swapsPage: 0,
-    swapsEnough: false,
+    playedPage: 0,
+    playedEnough: false,
     wishesPage: 0,
     wishesEnough: false,
     followers: [],
@@ -39,8 +41,14 @@ export const mutations = {
   setRemoveLoading(state, payload) {
     state.removeLoading = payload
   },
-  setSwapListLoading(state, payload) {
-    state.swapListLoading = payload
+  setPlayedListLoading(state, payload) {
+    state.playedListLoading = payload
+  },
+  setStreamsLoading(state, payload) {
+    state.streamsLoading = payload
+  },
+  setStreams(state, payload) {
+    state.streams = payload
   },
   setWishListLoading(state, payload) {
     state.wishListLoading = payload
@@ -48,8 +56,8 @@ export const mutations = {
   setPostLoading(state, payload) {
     state.postLoading = payload
   },
-  setSwapsLoading(state, payload) {
-    state.swapsLoading = payload
+  setPlayedLoading(state, payload) {
+    state.playedLoading = payload
   },
   setWishesLoading(state, payload) {
     state.wishesLoading = payload
@@ -72,11 +80,11 @@ export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
   },
-  setSwapsPage(state, payload) {
-    state.swapsPage = payload
+  setPlayedPage(state, payload) {
+    state.playedPage = payload
   },
-  setSwapsEnough(state, payload) {
-    state.swapsEnough = payload
+  setPlayedEnough(state, payload) {
+    state.playedEnough = payload
   },
   setWishesPage(state, payload) {
     state.wishesPage = payload
@@ -87,8 +95,8 @@ export const mutations = {
   insertPosts(state, payload) {
     state.posts = [...state.posts, ...payload]
   },
-  insertSwaps(state, payload) {
-    state.swaps = [...state.swaps, ...payload]
+  insertPlayed(state, payload) {
+    state.played = [...state.played, ...payload]
   },
   insertWishes(state, payload) {
     state.wishes = [...state.wishes, ...payload]
@@ -127,17 +135,18 @@ export const mutations = {
     state.user = null
     state.posts = []
     state.wishes = []
-    state.swaps = []
-    state.swapsPage = 0
-    state.swapsEnough = false
+    state.played = []
+    state.streams = []
+    state.playedPage = 0
+    state.playedEnough = false
     state.wishesPage = 0
     state.wishesEnough = false
     state.followers = []
     state.following = []
   },
-  removeFromSwapList(state, payload) {
-    const index = state.swaps.findIndex((swap) => swap.id === payload)
-    state.swaps.splice(index, 1)
+  removeFromPlayedList(state, payload) {
+    const index = state.played.findIndex((item) => item.id === payload)
+    state.played.splice(index, 1)
   },
   removeFromWishList(state, payload) {
     const index = state.wishes.findIndex((wish) => wish.id === payload)
@@ -209,6 +218,7 @@ export const actions = {
       const response = await this.$axios.get('/api/info', {
         params: { selected_user: username },
       })
+      console.log(response.data.data)
       commit('setUserInfo', response.data.data)
       commit('setLoading', false)
     } catch (error) {
@@ -237,20 +247,20 @@ export const actions = {
       throw 'Unable to fetch posts'
     }
   },
-  async getSwaps({ dispatch, state, commit }, id) {
+  async getPlayed({ dispatch, state, commit }, id) {
     try {
       const response = await this.$axios.get(
-        '/api/getUserSwapList?userId=' + id + '&page=' + state.swapsPage
+        '/api/played?userId=' + id + '&page=' + state.playedPage
       )
-      commit('insertSwaps', response.data.data.data)
-      commit('setSwapsLoading', false)
+      commit('insertPlayed', response.data.data.data)
+      commit('setPlayedLoading', false)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response, {
         root: true,
       })
-      commit('setSwapsLoading', false)
-      throw 'Unable to fetch swaps'
+      commit('setPlayedLoading', false)
+      throw 'Unable to fetch played games'
     }
   },
   async getWishes({ dispatch, state, commit }, id) {
@@ -318,14 +328,14 @@ export const actions = {
       throw 'Unable to follow/unfollow'
     }
   },
-  async removeFromSwapList({ dispatch, commit }, id) {
+  async removeFromPlayedList({ dispatch, commit }, id) {
     commit('setRemoveLoading', id)
     try {
-      const response = await this.$axios.post('/api/postDeleteFromSwapList', {
-        swapId: id,
+      const response = await this.$axios.post('/api/postDeleteGameFromPlayed', {
+        playedId: id,
       })
       commit('setRemoveLoading', null)
-      commit('removeFromSwapList', id)
+      commit('removeFromPlayedList', id)
       return response.data.data
     } catch (error) {
       dispatch('alert/error', error.response.data.errorMessage[0], {
@@ -472,14 +482,14 @@ export const actions = {
   async togglePostLoading({ commit }, payload) {
     commit('setPostLoading', payload)
   },
-  async toggleSwapsLoading({ commit }, payload) {
-    commit('setSwapsLoading', payload)
+  async togglePlayedLoading({ commit }, payload) {
+    commit('setPlayedLoading', payload)
   },
   async toggleWishesLoading({ commit }, payload) {
     commit('setWishesLoading', payload)
   },
-  async toggleSwapsEnough({ commit }, payload) {
-    commit('setSwapsEnough', payload)
+  async togglePlayedEnough({ commit }, payload) {
+    commit('setPlayedEnough', payload)
   },
   async toggleFollowersLoading({ commit }, payload) {
     commit('setFollowersLoading', payload)
@@ -496,8 +506,8 @@ export const actions = {
   async toggleFollowingPage({ commit }, payload) {
     commit('setFollowingCurrentPage', payload)
   },
-  async setSwapsPage({ commit }, payload) {
-    commit('setSwapsPage', payload)
+  async setPlayedPage({ commit }, payload) {
+    commit('setPlayedPage', payload)
   },
   async toggleWishesEnough({ commit }, payload) {
     commit('setWishesEnough', payload)
@@ -544,6 +554,22 @@ export const actions = {
         root: true,
       })
       commit('setLoading', false)
+    }
+  },
+  async getStreams({ commit, dispatch }, payload) {
+    commit('setStreamsLoading', true)
+    try {
+      const response = await this.$axios.get(
+        '/api/oldStreams?userId=' + payload
+      )
+      commit('setStreams', response.data.data)
+      commit('setStreamsLoading', false)
+      return response.data
+    } catch (error) {
+      dispatch('alert/error', error.response, {
+        root: true,
+      })
+      commit('setStreamsLoading', false)
     }
   },
 }

@@ -73,12 +73,6 @@
       <div v-if="activeTab === 'medias'" class="px-8">
         <MediasTab :game="game" />
       </div>
-      <div v-if="activeTab === 'swaps'">
-        <GameSwapList :id="game.id" />
-      </div>
-      <div v-if="activeTab === 'wishes'">
-        <GameWishList :id="game.id" />
-      </div>
     </div>
   </div>
 </template>
@@ -87,11 +81,9 @@
 import { mapActions, mapState } from 'vuex'
 import MediasTab from '~/components/Games/MediasTab.vue'
 import GameInfo from '~/components/Games/GameInfo.vue'
-import GameSwapList from '~/components/Games/GameSwapList.vue'
-import GameWishList from '~/components/Games/GameWishList.vue'
 export default {
   name: 'GameDetail',
-  components: { MediasTab, GameInfo, GameSwapList, GameWishList },
+  components: { MediasTab, GameInfo },
   layout: 'game',
   computed: {
     ...mapState({
@@ -121,14 +113,6 @@ export default {
         {
           title: this.$t('g.medias'),
           value: 'medias',
-        },
-        {
-          title: this.$t('g.swaps'),
-          value: 'swaps',
-        },
-        {
-          title: this.$t('g.wishes'),
-          value: 'wishes',
         },
       ],
     }

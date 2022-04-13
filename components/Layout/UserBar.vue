@@ -84,11 +84,13 @@
           class="col-span-6"
         >
           <div class="flex flex-col items-center">
-            <h2>{{ loggedInUser ? loggedInUser.swapsCount : '' }}</h2>
-            <span class="text-gray-400 text-xs">{{ $t('userBar.swaps') }}</span>
+            <h2>{{ loggedInUser ? loggedInUser.playedCount : '' }}</h2>
+            <span class="text-gray-400 text-xs">
+              {{ $t('userBar.playedGame') }}
+            </span>
           </div>
           <template #animate>
-            <i class="bx bx-shuffle text-3xl"></i>
+            <i class="bx bx-library text-3xl"></i>
           </template>
         </vs-button>
       </div>

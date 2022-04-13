@@ -98,8 +98,15 @@
       <SwapsList :id="user.id" :same="user.id != loggedInUser.id" />
     </div>
 
-    <div v-if="activeTab === 'wishes'">
-      <WishList :id="user.id" :same="user.id != loggedInUser.id" />
+    <div v-if="activeTab === 'streams'">
+      <StreamsList
+        :user-id="
+          user.social_connections && user.social_connections.twitch_id
+            ? user.social_connections.twitch_id
+            : ''
+        "
+        :same="user.id === loggedInUser.id"
+      />
     </div>
 
     <PostComposer :quote="quotedPost" />
@@ -112,7 +119,7 @@ import UserHeader from '~/components/UserProfile/UserProfileHeader.vue'
 import PostsBody from '~/components/Posts/PostsBody.vue'
 import PostComposer from '~/components/Posts/PostComposer.vue'
 import SwapsList from '~/components/UserProfile/SwapsList.vue'
-import WishList from '~/components/UserProfile/WishList.vue'
+import StreamsList from '@/components/UserProfile/StreamsList'
 import NoData from '~/components/UI/NoData.vue'
 export default {
   components: {
@@ -120,8 +127,8 @@ export default {
     PostsBody,
     PostComposer,
     SwapsList,
-    WishList,
     NoData,
+    StreamsList,
   },
   layout: 'sidebars',
   head() {
@@ -174,8 +181,8 @@ export default {
           value: 'games',
         },
         {
-          title: this.$t('userProfileHeader.wishes'),
-          value: 'wishes',
+          title: this.$t('userProfileHeader.streams'),
+          value: 'streams',
         },
       ],
     }

@@ -82,7 +82,7 @@ export default {
     statistics: 'Statistics',
     follows: 'Follows',
     followers: 'Followers',
-    swaps: 'Swaps',
+    playedGame: 'Games',
     feedback: 'Give Feedback !',
     textPart: 'We are in #Beta and we are waiting for your feedbacks :)',
     sendPhase: 'Send Feedback',
@@ -148,6 +148,12 @@ export default {
   noData: {
     message: 'Nothing to show :(',
   },
+  //SocialConnections
+  socialCon: {
+    message:
+      'In order to see this area, you need to connect your social account.',
+    twitch: 'Connect with Twitch',
+  },
   //USERPROFILE
   followerHeader: {
     follower: 'Followers',
@@ -168,6 +174,7 @@ export default {
     medias: 'Medias',
     swaps: 'Swaps',
     games: 'Games',
+    streams: 'Streams',
     wishes: 'Wishes',
     post: 'Posts',
     followsYou: 'Follows you',
@@ -430,6 +437,7 @@ export default {
     games: 'Games',
     users: 'Users',
     tags: 'Tags',
+    watch: 'Watch',
   },
   gameReview: {
     title: 'Write a review',

@@ -46,43 +46,43 @@
           rounded-xl
         "
       ></div>
-      <TrendGames
-        v-if="trends"
-        v-show="!search"
-        :swap-data="trends.gameList[0]"
-        list-type="card"
-        class="col-span-12"
-      />
-      <TrendUsers
-        v-if="trends"
-        v-show="!search"
-        :user-data="trends.userList[0]"
-        class="col-span-12 md:col-span-6 lg:col-span-12"
-      />
-      <TrendGames
-        v-if="trends"
-        v-show="!search"
-        :swap-data="trends.gameList[1]"
-        class="col-span-12"
-      />
-      <MostSpoken
-        v-if="trends"
-        v-show="!search"
-        class="col-span-12 md:col-span-6 lg:hidden"
-      />
+      <div v-for="(item, index) in trends" :key="index" class="col-span-12">
+        <PopularGames
+          v-if="item.type === 'game_list_large'"
+          :game-data="item"
+          list-type="large"
+        />
+        <PopularUsers v-if="item.type === 'user_list'" :user-data="item" />
+        <MostSpoken
+          v-if="item.type === 'trend_list'"
+          :user-data="item"
+          class="lg:hidden"
+        />
+        <PopularStreams
+          v-if="item.type === 'stream_list'"
+          :streams-data="item"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import TrendGames from '@/components/Discover/TrendGames'
-import TrendUsers from '@/components/Discover/TrendUsers'
+import PopularGames from '@/components/Discover/PopularGames'
+import PopularUsers from '@/components/Discover/PopularUsers'
 import MostSpoken from '@/components/Discover/MostSpoken'
 import SearchBox from '@/components/Discover/SearchBox'
+import PopularStreams from '@/components/Discover/PopularStreams'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Index',
-  components: { TrendGames, TrendUsers, MostSpoken, SearchBox },
+  components: {
+    PopularGames,
+    PopularUsers,
+    MostSpoken,
+    SearchBox,
+    PopularStreams,
+  },
   layout: 'discover',
   computed: {
     ...mapState({
@@ -99,23 +99,6 @@ export default {
         this.setSearch(val)
       },
     },
-  },
-  async mounted() {
-    if (!this.trends) {
-      this.getTrends()
-    }
-  },
-  async asyncData({ route, store }) {
-    if (route.name === 'discover') {
-      await store.dispatch('setTab', 'discover')
-    }
-  },
-  data() {
-    return {
-      firstLoad: null,
-      secondLoad: null,
-      thirdLoad: null,
-    }
   },
   watch: {
     loading(newVal, oldVal) {
@@ -137,6 +120,23 @@ export default {
         }
       }
     },
+  },
+  async mounted() {
+    if (!this.trends) {
+      this.getTrends()
+    }
+  },
+  async asyncData({ route, store }) {
+    if (route.name === 'discover') {
+      await store.dispatch('setTab', 'discover')
+    }
+  },
+  data() {
+    return {
+      firstLoad: null,
+      secondLoad: null,
+      thirdLoad: null,
+    }
   },
   methods: {
     ...mapActions({
