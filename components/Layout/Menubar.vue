@@ -11,7 +11,7 @@
       w-full
     "
   >
-    <div class="grid grid-cols-5 w-full">
+    <div class="grid grid-cols-4 w-full">
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
         :class="active === 'home' ? 'text-purple-600' : 'text-gray-400'"
@@ -19,14 +19,6 @@
       >
         <i class="bx bx-home text-2xl"></i>
         <span class="menu-text-xxs md:text-sm">{{ $t('menuBar.home') }}</span>
-      </div>
-      <div
-        class="flex flex-col items-center justify-between p-2 cursor-pointer"
-        :class="active === 'swaps' ? 'text-purple-600' : 'text-gray-400'"
-        @click="changeTab('swaps')"
-      >
-        <i class="bx bx-shuffle text-2xl"></i>
-        <span class="menu-text-xxs md:text-sm">{{ $t('menuBar.swaps') }}</span>
       </div>
       <div
         class="flex flex-col items-center justify-between p-2 cursor-pointer"
@@ -141,9 +133,6 @@ export default {
       this.active = tab
       if (tab === 'home') {
         this.$router && this.$router.push('/')
-      }
-      if (tab === 'swaps') {
-        this.$router && this.$router.push('/swaps')
       }
       if (tab === 'discover') {
         this.$router && this.$router.push('/discover')

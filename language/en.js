@@ -82,7 +82,7 @@ export default {
     statistics: 'Statistics',
     follows: 'Follows',
     followers: 'Followers',
-    swaps: 'Swaps',
+    playedGame: 'Games',
     feedback: 'Give Feedback !',
     textPart: 'We are in #Beta and we are waiting for your feedbacks :)',
     sendPhase: 'Send Feedback',

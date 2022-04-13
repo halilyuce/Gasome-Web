@@ -81,7 +81,7 @@ export default {
     statistics: 'İstatistikler',
     follows: 'Takip Edilen',
     followers: 'Takipçiler',
-    swaps: 'Takaslar',
+    playedGame: 'Oyun',
     feedback: 'Geri Bildirim Sağla!',
     textPart: 'Henüz Beta sürümündeyiz, geri dönüşlerinizi bekliyoruz :)',
     sendPhase: 'Geri Bildirim Gönder',
