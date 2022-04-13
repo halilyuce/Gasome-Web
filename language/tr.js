@@ -81,7 +81,7 @@ export default {
     statistics: 'İstatistikler',
     follows: 'Takip Edilen',
     followers: 'Takipçiler',
-    swaps: 'Takaslar',
+    playedGame: 'Oyun',
     feedback: 'Geri Bildirim Sağla!',
     textPart: 'Henüz Beta sürümündeyiz, geri dönüşlerinizi bekliyoruz :)',
     sendPhase: 'Geri Bildirim Gönder',
@@ -148,6 +148,12 @@ export default {
   noData: {
     message: 'Gösterilecek bir şey yok :(',
   },
+  //SocialConnections
+  socialCon: {
+    message:
+      'Bu alanı görebilmek için sosyal hesabınızı bağlamanız gerekmektedir.',
+    twitch: 'Twitch ile bağlan',
+  },
   //USERPROFILE
   followerHeader: {
     follower: 'Takipçiler',
@@ -168,6 +174,7 @@ export default {
     medias: 'Medyalar',
     swaps: 'Takaslar',
     games: 'Oyunlar',
+    streams: 'Yayınlar',
     wishes: 'İstekler',
     post: 'Gönderi',
     followsYou: 'Seni Takip Ediyor',
@@ -431,6 +438,7 @@ export default {
     games: 'Oyunlar',
     users: 'Kullanıcılar',
     tags: 'Etiketler',
+    watch: 'İzle',
   },
   gameReview: {
     title: 'Değerlendirme yazın',

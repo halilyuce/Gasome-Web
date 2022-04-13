@@ -8,20 +8,23 @@
         divide-solid
       "
     >
-      <li v-for="swap in swaps" :key="swap.id">
+      <li v-for="played in playedList" :key="played.id">
         <div class="flex flex-row justify-between items-center px-5 py-3">
-          <n-link class="flex flex-row items-center" :to="'/g/' + swap.game.id">
+          <n-link
+            class="flex flex-row items-center"
+            :to="'/g/' + played.game.id"
+          >
             <img
               class="cursor-pointer h-16 w-12 rounded object-cover"
-              :src="`${smallCover + swap.game.image}.jpg`"
+              :src="`${smallCover + played.game.image}.jpg`"
               alt="Game Cover"
             />
             <div class="flex flex-col ml-3">
               <h4>
-                {{ swap.game.name }}
+                {{ played.game.name }}
               </h4>
               <span class="text-xs text-gray-700 dark:text-gray-400">
-                {{ swap.platform.name }}
+                {{ played.platform.name }}
               </span>
             </div>
           </n-link>
@@ -30,39 +33,18 @@
               v-if="same"
               icon
               flat
-              :loading="swapListLoading === swap.id"
-              @click="
-                addSwapList({
-                  id: swap.game.id,
-                  platform: swap.platform.id,
-                  swapId: swap.id,
-                })
-              "
+              :loading="playedListLoading === played.id"
+              @click="openLibraryModal(played.game)"
             >
-              <i class="bx bx-shuffle"></i>
-            </vs-button>
-            <vs-button
-              v-if="same"
-              :loading="wishListLoading === swap.id"
-              icon
-              flat
-              @click="
-                addWishList({
-                  id: swap.game.id,
-                  platform: swap.platform.id,
-                  swapId: swap.id,
-                })
-              "
-            >
-              <i class="bx bx-heart"></i>
+              <i class="bx bx-plus"></i>
             </vs-button>
             <vs-button
               v-else
-              :loading="removeLoading === swap.id"
+              :loading="removeLoading === played.id"
               danger
               icon
               flat
-              @click="openModal(swap)"
+              @click="openModal(played)"
             >
               <i class="bx bx-trash"></i>
             </vs-button>
@@ -80,7 +62,7 @@
         ></infinite-loading>
       </client-only>
     </ul>
-    <NoData v-if="!loading && swaps.length === 0" class="m-6" />
+    <NoData v-if="!loading && playedList.length === 0" class="m-6" />
     <vs-dialog v-model="showRemove">
       <template #header>
         <h4 class="not-margin">
@@ -104,11 +86,51 @@
 
       <template #footer>
         <div class="flex flex-col">
-          <vs-button danger block @click="removeSwapList(removedSwap.id)">
+          <vs-button danger block @click="removePlayedList(removedSwap.id)">
             {{ $t('swapList.yes') }}
           </vs-button>
           <vs-button transparent danger block @click="showRemove = false">
             {{ $t('swapList.cancel') }}
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
+    <vs-dialog v-model="showLibrary">
+      <template #header>
+        <h4 class="not-margin">
+          {{ $t('g.select') }}
+        </h4>
+      </template>
+
+      <vs-select
+        v-model="gamePlatform"
+        filter
+        block
+        :placeholder="$t('g.platform')"
+        :loading="platformsLoading"
+      >
+        <vs-option
+          v-for="p in playedPlatforms"
+          :key="p.platform.id"
+          :label="p.platform.name"
+          :value="p.platform.id"
+        >
+          {{ p.platform.name }}
+        </vs-option>
+      </vs-select>
+
+      <template #footer>
+        <div class="flex flex-col">
+          <vs-button
+            :disabled="gamePlatform === ''"
+            :loading="addLibraryLoading"
+            block
+            @click="addLibraryList"
+          >
+            {{ $t('g.add') }}
+          </vs-button>
+          <vs-button transparent danger block @click="showLibrary = false">
+            {{ $t('g.cancel') }}
           </vs-button>
         </div>
       </template>
@@ -122,26 +144,13 @@ import NoData from '~/components/UI/NoData.vue'
 export default {
   components: { NoData },
   props: {
-    id: null,
-    same: false,
-  },
-  computed: {
-    ...mapState({
-      swaps: (state) => state.profile.swaps,
-      loading: (state) => state.profile.swapsLoading,
-      swapListLoading: (state) => state.profile.swapListLoading,
-      wishListLoading: (state) => state.profile.wishListLoading,
-      removeLoading: (state) => state.profile.removeLoading,
-      pageState: (state) => state.profile.swapsPage,
-      enough: (state) => state.profile.swapsEnough,
-    }),
-    page: {
-      get() {
-        return this.pageState
-      },
-      set(value) {
-        this.setSwapsPage(value)
-      },
+    id: {
+      type: Number,
+      required: true,
+    },
+    same: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -149,51 +158,76 @@ export default {
       smallCover: process.env.GAMECOVER_SMALL,
       showRemove: false,
       removedSwap: null,
+      gamePlatform: '',
+      showLibrary: false,
+      libraryGame: null,
     }
+  },
+  computed: {
+    ...mapState({
+      playedList: (state) => state.profile.played,
+      loading: (state) => state.profile.playedLoading,
+      playedListLoading: (state) => state.profile.playedListLoading,
+      platformsLoading: (state) => state.profile.wishPlatformsLoading,
+      playedPlatforms: (state) => state.game.wishPlatforms,
+      addLibraryLoading: (state) => state.game.addLibraryLoading,
+      removeLoading: (state) => state.profile.removeLoading,
+      pageState: (state) => state.profile.playedPage,
+      enough: (state) => state.profile.playedEnough,
+    }),
+    page: {
+      get() {
+        return this.pageState
+      },
+      set(value) {
+        this.setPlayedPage(value)
+      },
+    },
   },
   methods: {
     ...mapActions({
-      getSwaps: 'profile/getSwaps',
-      toggleSwapsLoading: 'profile/toggleSwapsLoading',
-      addToSwapList: 'profile/addToSwapList',
-      addToWishList: 'profile/addToWishList',
-      removeFromSwapList: 'profile/removeFromSwapList',
-      setSwapsPage: 'profile/setSwapsPage',
-      toggleSwapsEnough: 'profile/toggleSwapsEnough',
+      getPlayeds: 'profile/getPlayed',
+      toggleSwapsLoading: 'profile/togglePlayedLoading',
+      addToPlayedList: 'game/addToPlayedList',
+      removeFromPlayedList: 'profile/removeFromPlayedList',
+      setPlayedPage: 'profile/setPlayedPage',
+      togglePlayedEnough: 'profile/togglePlayedEnough',
+      togglePlayedLoading: 'profile/togglePlayedLoading',
+      getplayedPlatforms: 'game/getWishPlatforms',
     }),
     infiniteHandler($state) {
       const self = this
       if (this.page === 0) {
-        this.toggleSwapsLoading(true)
+        this.togglePlayedLoading(true)
       }
       if (!this.enough) {
         this.page += 1
-        this.getSwaps(this.id).then(function (res) {
+        this.getPlayeds(this.id).then(function (res) {
           if (res.data.length < 10) {
             $state.complete()
-            self.toggleSwapsEnough(true)
+            self.togglePlayedEnough(true)
           } else {
             $state.loaded()
           }
         })
       }
     },
-    openModal(swap) {
-      this.removedSwap = swap
+    openModal(played) {
+      this.removedSwap = played
       this.showRemove = true
     },
-    removeSwapList(id) {
+    removePlayedList(id) {
       const self = this
       this.showRemove = false
-      this.removeFromSwapList(id)
-        .then((res) => {
+      this.removeFromPlayedList(id)
+        .then(() => {
           self.$vs.notification({
             flat: true,
             color: 'success',
             icon: `<i class='bx bx-check' ></i>`,
             position: 'top-center',
             title: self.$t('g.gameRemovedTitle'),
-            title: self.$t('g.gameRemovedDesc'),
+            text: self.$t('g.gameRemovedDesc'),
           })
         })
         .catch((err) => {
@@ -207,49 +241,45 @@ export default {
           })
         })
     },
-    addSwapList(payload) {
-      const self = this
-      this.addToSwapList(payload)
-        .then((res) => {
-          self.$vs.notification({
-            flat: true,
-            color: 'success',
-            icon: `<i class='bx bx-check' ></i>`,
-            position: 'top-center',
-            title: self.$t('g.addWishSuccessTitle'),
-            text: res.game.name + self.$t(g.addSwapListSuccessfully),
-          })
-        })
-        .catch((err) => {
-          self.$vs.notification({
-            flat: true,
-            color: 'danger',
-            icon: `<i class='bx bx-error' ></i>`,
-            position: 'top-center',
-            title: self.$t('login.error'),
-            text: err,
-          })
-        })
+    openLibraryModal(game) {
+      this.getplayedPlatforms(game.id)
+      this.showLibrary = true
+      this.libraryGame = game
     },
-    addWishList(payload) {
+    async addLibraryList() {
       const self = this
-      this.addToWishList(payload)
+      this.addToPlayedList({
+        id: this.libraryGame.id,
+        platform: this.gamePlatform,
+      })
         .then((res) => {
-          self.$vs.notification({
-            flat: true,
-            color: 'success',
-            icon: `<i class='bx bx-check' ></i>`,
-            position: 'top-center',
-            title: self.$t('g.addWishSuccessTitle'),
-            text: res.game.name + self.$t(g.addSwapListSuccessfully),
-          })
+          if (res.errorMessage) {
+            self.$vs.notification({
+              flat: true,
+              color: 'danger',
+              icon: `<i class='bx bx-error' ></i>`,
+              position: 'top-right',
+              title: self.$t('login.error'),
+              text: res.errorMessage[0],
+            })
+          } else {
+            self.$vs.notification({
+              flat: true,
+              color: 'success',
+              icon: `<i class='bx bx-check-circle' ></i>`,
+              position: 'top-right',
+              title: self.$t('g.addWishSuccessTitle'),
+              text: self.$t('g.addLibrarySuccessDesc'),
+            })
+            self.showLibrary = false
+          }
         })
         .catch((err) => {
           self.$vs.notification({
             flat: true,
             color: 'danger',
             icon: `<i class='bx bx-error' ></i>`,
-            position: 'top-center',
+            position: 'top-right',
             title: self.$t('login.error'),
             text: err,
           })

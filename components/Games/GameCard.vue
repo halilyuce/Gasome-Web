@@ -80,55 +80,12 @@
         </div>
       </div>
 
-      <div class="flex flex-col pt-3">
-        <div class="flex flex-row">
-          <vs-button @click="activeTab = 'swaps'" block border shadow icon>
-            <i class="bx bx-shuffle mr-2"></i> {{ $t('g.swap') }}
-          </vs-button>
-          <vs-button block shadow border @click="openWishModal">
-            <i class="bx bx-heart text-lg mr-2"></i> {{ $t('g.wish') }}
-          </vs-button>
-        </div>
-        <vs-button @click="openLibraryModal" border shadow icon>
+      <div class="flex pt-3">
+        <vs-button @click="openLibraryModal" border shadow icon class="w-full">
           <i class="bx bx-plus mr-2"></i> {{ $t('g.add') }}
         </vs-button>
       </div>
     </div>
-    <vs-dialog v-model="showWish">
-      <template #header>
-        <h4 class="not-margin">
-          {{ $t('g.select') }}
-        </h4>
-      </template>
-
-      <vs-select
-        filter
-        block
-        :placeholder="$t('g.platform')"
-        v-model="wishPlatform"
-        :loading="wishLoading"
-      >
-        <vs-option
-          v-for="p in wishPlatforms"
-          :key="p.platform.id"
-          :label="p.platform.name"
-          :value="p.platform.id"
-        >
-          {{ p.platform.name }}
-        </vs-option>
-      </vs-select>
-
-      <template #footer>
-        <div class="flex flex-col">
-          <vs-button :loading="addWishLoading" @click="addWishList" block>
-            {{ $t('g.send') }}
-          </vs-button>
-          <vs-button transparent danger block @click="showWish = false">
-            {{ $t('g.cancel') }}
-          </vs-button>
-        </div>
-      </template>
-    </vs-dialog>
     <vs-dialog v-model="showLibrary">
       <template #header>
         <h4 class="not-margin">
@@ -209,7 +166,7 @@ export default {
     ...mapActions({
       getWishPlatforms: 'game/getWishPlatforms',
       addGameWishList: 'game/addGameWishList',
-      addToSwapList: 'game/addToSwapList',
+      addToPlayedList: 'game/addToPlayedList',
       setTab: 'game/setTab',
     }),
     openWishModal() {
@@ -232,7 +189,7 @@ export default {
     },
     async addLibraryList() {
       const self = this
-      this.addToSwapList({ id: this.game.id, platform: this.gamePlatform })
+      this.addToPlayedList({ id: this.game.id, platform: this.gamePlatform })
         .then((res) => {
           if (res.errorMessage) {
             self.$vs.notification({
